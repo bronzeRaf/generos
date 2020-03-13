@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<metamodel:ROSSystem xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel="http://www.example.org/metamodel" name="My_first_ROS_system" xmi:version="2.0">
+  <hasGraphs nodes="//@hasPackages.0/@hasNodes.0 //@hasPackages.0/@hasNodes.1 //@hasPackages.0/@hasNodes.2"/>
+  <topology/>
+  <hasPackages name="pack1" packagePath="path to pack1">
+    <hasNodes name="Nodes_name">
+      <hasPublishers publishRate="0.5" name="publy1" topicPath="topic/path" pmsg="//@hasPackages.0/@hasTopicMessages.0"/>
+    </hasNodes>
+    <hasNodes name="Node_2">
+      <hasServers servicemessage="//@hasPackages.0/@hasServiceMessages.0" servicePath="ser/vice/path" name="Server-1"/>
+      <hasSubscribers topicPath="topic/path" smsg="//@hasPackages.0/@hasTopicMessages.0" name="suby1"/>
+    </hasNodes>
+    <hasNodes name="Node_3">
+      <hasPublishers publishRate="0.8" name="publy3" topicPath="topic/path2" pmsg="//@hasPackages.0/@hasTopicMessages.1"/>
+    </hasNodes>
+    <hasServiceMessages name="serviceMess1"/>
+    <hasTopicMessages property="String" name="topicm1"/>
+    <hasTopicMessages property="Int" name="topicm2"/>
+    <hasDocumentation/>
+  </hasPackages>
+</metamodel:ROSSystem>
