@@ -1,5 +1,7 @@
-# This File reads the metamodel, reads the model and implements all 
-# the behavior of the Classes to introduce ROS code in every component
+# This File reads the metamodel, reads the model and renders the code
+# to be generated to for the ROS2 package. Actually implements the 
+# MDE transformation part, for model to code.
+#
 # Written in 14/2/2020
 # Written by Rafael Brouzos
 
@@ -30,18 +32,56 @@ rset.metamodel_registry[root.nsURI] = root
 # We obtain the model from an XMI
 model_root = rset.get_resource(URI('/home/raf/Desktop/Thesis Project/ecoreWork/test.xmi')).contents[0]
 
-#Jinja2 Code
-file_loader = FileSystemLoader('templates')
-env = Environment(loader=file_loader)
+# Jinja2 Code
+# Build the packages
+for package in model_root.hasPackages:
+	# Create the package directory
+	os.system('mkdir '+package.name)
+	
+	# Generate Setup.py 
+	# ___________________________________________
+	# Load the Template of the Setup.py
+	file_loader = FileSystemLoader('./templates')
+	env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
+	temp_setup = env.get_template('temp_setup.py')
 
-os.system('pwd')
-os.system('ls')
+	# Build the data to pass to the Template
+	setup = {}
+	setup['packageName'] = package.name
+	setup['maintainer'] = 'raf'
+	setup['email'] = 'rnm1816@gmail.com'
+	setup['description'] = 'The description is ....'
+	setup['license'] = 'The license is ...'
+	entry = []
+	entry.append('talker = py_pubsub.publisher_member_function:main'),
+	entry.append('listener = py_pubsub.subscriber_member_function:main'),
 
-template = env.get_template('packageTemplate.py')
-package = {}
-package['name'] = model_root.hasPackages[0].name
-package['animal'] = 'dog'
- 
-output = template.render(data=package)
+	# Fire up the rendering proccess
+	output = temp_setup.render(data=setup, entry_points=entry)
 
-#add some code here
+	# Write the generated file
+	dest=package.name+'/setup.py'
+	with open(dest, 'w') as f:
+		f.write(output)
+
+	# Give execution permissions to the generated python file
+	os.chmod(dest, 509)
+
+	# Generate package.xml 
+	# ___________________________________________
+	# Load the Template of the Setup.py
+	file_loader = FileSystemLoader('./templates')
+	env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
+	temp_setup = env.get_template('temp_package.xml')
+	
+	# Fire up the rendering proccess
+	output = temp_setup.render(data=setup)
+	
+	# Write the generated file
+	dest=package.name+'/package.xml'
+	with open(dest, 'w') as f:
+		f.write(output)
+
+	# Give execution permissions to the generated python file
+	os.chmod(dest, 509)
+
