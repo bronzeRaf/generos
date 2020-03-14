@@ -1,18 +1,13 @@
-{# 
-#This is a jinja2 template of the package.xml of ROS2 packages
-#
-# Written in 13/3/2020
-# Written by Rafael Brouzos
-#}
+# This is a generated file 
 
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>{{data.packageName}}</name>
+  <name>pack1</name>
   <version>0.0.0</version>
-  <description>{{data.description}}</description>
-  <maintainer email="{{data.email}}">{{data.maintainer}}</maintainer>
-  <license>{{data.license}}</license>
+  <description>The description is ....</description>
+  <maintainer email="rnm1816@gmail.com">raf</maintainer>
+  <license>The license is ...</license>
 
   <buildtool_depend>ament_python</buildtool_depend>
   <exec_depend>rclpy</exec_depend>

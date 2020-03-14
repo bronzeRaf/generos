@@ -40,24 +40,24 @@ for package in model_root.hasPackages:
 	
 	# Generate Setup.py 
 	# ___________________________________________
-	# Load the Template of the Setup.py
+	# Load the Template of the setup.py
 	file_loader = FileSystemLoader('./templates')
 	env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
-	temp_setup = env.get_template('temp_setup.py')
+	template = env.get_template('temp_setup.py')
 
 	# Build the data to pass to the Template
-	setup = {}
-	setup['packageName'] = package.name
-	setup['maintainer'] = 'raf'
-	setup['email'] = 'rnm1816@gmail.com'
-	setup['description'] = 'The description is ....'
-	setup['license'] = 'The license is ...'
-	entry = []
-	entry.append('talker = py_pubsub.publisher_member_function:main'),
-	entry.append('listener = py_pubsub.subscriber_member_function:main'),
+	pack_data = {}
+	pack_data['packageName'] = package.name
+	pack_data['maintainer'] = 'raf'
+	pack_data['email'] = 'rnm1816@gmail.com'
+	pack_data['description'] = 'The description is ....'
+	pack_data['license'] = 'The license is ...'
+	entry_data = []
+	entry_data.append('talker = py_pubsub.publisher_member_function:main'),
+	entry_data.append('listener = py_pubsub.subscriber_member_function:main'),
 
 	# Fire up the rendering proccess
-	output = temp_setup.render(data=setup, entry_points=entry)
+	output = template.render(data=pack_data, entry_points=entry_data)
 
 	# Write the generated file
 	dest=package.name+'/setup.py'
@@ -69,16 +69,34 @@ for package in model_root.hasPackages:
 
 	# Generate package.xml 
 	# ___________________________________________
-	# Load the Template of the Setup.py
+	# Load the Template of the package.xml
 	file_loader = FileSystemLoader('./templates')
 	env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
-	temp_setup = env.get_template('temp_package.xml')
+	template = env.get_template('temp_package.xml')
 	
 	# Fire up the rendering proccess
-	output = temp_setup.render(data=setup)
+	output = template.render(data=pack_data)
 	
 	# Write the generated file
 	dest=package.name+'/package.xml'
+	with open(dest, 'w') as f:
+		f.write(output)
+
+	# Give execution permissions to the generated python file
+	os.chmod(dest, 509)
+	
+	# Generate setup.cfg
+	# ___________________________________________
+	# Load the Template of the setup.cfg
+	file_loader = FileSystemLoader('./templates')
+	env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
+	template = env.get_template('temp_setup.cfg')
+	
+	# Fire up the rendering proccess
+	output = template.render(data=pack_data)
+	
+	# Write the generated file
+	dest=package.name+'/setup.cfg'
 	with open(dest, 'w') as f:
 		f.write(output)
 

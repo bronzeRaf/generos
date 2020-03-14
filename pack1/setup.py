@@ -1,14 +1,8 @@
-{# 
-#This is a jinja2 template of the setup.py of ROS2 packages
-#
-# Written in 13/3/2020
-# Written by Rafael Brouzos
-#}
-
+# This is a generated file 
 
 from setuptools import setup
 
-package_name = '{{data.packageName}}'
+package_name = 'pack1'
 
 setup(
     name = package_name,
@@ -21,16 +15,15 @@ setup(
     ],
     install_requires = ['setuptools'],
     zip_safe = True,
-    maintainer = '{{data.maintainer}}',
-    maintainer_email = '{{data.email}}',
-    description = '{{data.description}}',
-    license = '{{data.license}}',
+    maintainer = 'raf',
+    maintainer_email = 'rnm1816@gmail.com',
+    description = 'The description is ....',
+    license = 'The license is ...',
     tests_require = ['pytest'],
     entry_points = {
         'console_scripts': [
-		{% for en in entry_points %}
-		{{en}}
-		{% endfor %}
+		talker = py_pubsub.publisher_member_function:main
+		listener = py_pubsub.subscriber_member_function:main
         ],
     },
 )
