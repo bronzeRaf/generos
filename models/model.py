@@ -8,7 +8,7 @@ from pyecore.utils import DynamicEPackage
  
 global_registry[Ecore.nsURI] = Ecore  # We load the Ecore metamodel first
 rset = ResourceSet()
-resource = rset.get_resource(URI('/home/raf/Desktop/Thesis Project/ecoreWork/metamodel.ecore'))
+resource = rset.get_resource(URI('../metamodel.ecore'))
 # ~ rset.resource_factory['json'] = lambda uri: JsonResource(uri)
 root = resource.contents[0]  # We get the root (an EPackage here)
 rset.metamodel_registry[root.nsURI] = root
@@ -31,7 +31,6 @@ Server = root.getEClassifier('Server')
 #set system
 rosystem1 = ROSSystem()
 rosystem1.name = "My_first_ROS_system"
-rosystem1.metamodel = URI('/home/raf/Desktop/Thesis Project/ecoreWork/metamodel.ecore')
 
 #set package
 package1 = Package()
@@ -106,7 +105,7 @@ server1.servicemessage = servicesessage1				#1..1	server-servicemessage
 # ~ behavior.run(root)
 
 #save the model resource
-model_res = rset.create_resource(URI('/home/raf/Desktop/Thesis Project/ecoreWork/test.xmi'))
+model_res = rset.create_resource(URI('../models/test.xmi'))
 # ~ model_res = XMIResource(URI('/home/raf/Desktop/Thesis Project/ecoreWork/test.xmi'))
 
 model_res.append(rosystem1)
@@ -119,6 +118,5 @@ model_res.save()
 
 #generate code
 # ~ rset.metamodel_registry[root.nsURI] = root
-generator = EcoreGenerator()
-generator.generate(rosystem1, 'oa23')
-print((URI('/home/raf/Desktop/Thesis Project/ecoreWork/metamodel.ecore')._URI__stream))
+# ~ generator = EcoreGenerator()
+# ~ generator.generate(rosystem1, 'oa23')
