@@ -57,7 +57,7 @@ for package in model_root.hasPackages:
 	entry_data.append('listener = py_pubsub.subscriber_member_function:main'),
 
 	# Fire up the rendering proccess
-	output = template.render(data=pack_data, entry_points=entry_data)
+	output = template.render(pack=pack_data, entry_points=entry_data)
 
 	# Write the generated file
 	dest=package.name+'/setup.py'
@@ -75,7 +75,7 @@ for package in model_root.hasPackages:
 	template = env.get_template('temp_package.xml')
 	
 	# Fire up the rendering proccess
-	output = template.render(data=pack_data)
+	output = template.render(pack=pack_data)
 	
 	# Write the generated file
 	dest=package.name+'/package.xml'
@@ -93,7 +93,7 @@ for package in model_root.hasPackages:
 	template = env.get_template('temp_setup.cfg')
 	
 	# Fire up the rendering proccess
-	output = template.render(data=pack_data)
+	output = template.render(pack=pack_data)
 	
 	# Write the generated file
 	dest=package.name+'/setup.cfg'
@@ -103,3 +103,36 @@ for package in model_root.hasPackages:
 	# Give execution permissions to the generated python file
 	os.chmod(dest, 509)
 
+	# Generate nodes
+	# ___________________________________________
+	for node in package.hasNodes:
+		# Load the Template of a node
+		file_loader = FileSystemLoader('./templates')
+		env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
+		template = env.get_template('temp_node.py')
+		node_data = {}
+		node_data['name'] = node.name
+		
+		sub = {}
+		pub = {}
+		subscribers = []
+		publishers = []
+		for s in node.hasSubscribers:
+			sub['name'] = s.name
+			sub['topicPath'] = s.topicPath
+			subscribers.append(sub)
+		for p in node.hasPublishers:
+			pub['name'] = p.name
+			pub['topicPath'] = p.topicPath
+			publishers.append(pub)
+		
+		# Fire up the rendering proccess
+		output = template.render(pack = pack_data, node = node_data, publishers = publishers, subscribers = subscribers)
+		
+		# Write the generated file
+		dest=package.name+'/'+node.name+'.py'
+		with open(dest, 'w') as f:
+			f.write(output)
+
+		# Give execution permissions to the generated python file
+		os.chmod(dest, 509)
