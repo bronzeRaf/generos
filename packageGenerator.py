@@ -54,8 +54,7 @@ for package in model_root.hasPackages:
 	pack_data['license'] = 'The license is ...'
 	entry_data = []
 	for n in package.hasNodes:
-		entry_data.append(n.name+'_exec = '+package.name+'.'+n.name+':main'),
-		# ~ entry_data.append('listener = py_pubsub.subscriber_member_function:main'),
+		entry_data.append(n.name+'_exec = '+package.name+'.'+n.name+'_node:main'),
 
 	# Fire up the rendering proccess
 	output = template.render(pack=pack_data, entry_points=entry_data)
@@ -121,6 +120,7 @@ for package in model_root.hasPackages:
 		for s in node.hasSubscribers:
 			sub['name'] = s.name
 			sub['topicPath'] = s.topicPath
+			sub['qos'] = 10
 			subscribers.append(sub)
 		for p in node.hasPublishers:
 			pub['name'] = p.name
@@ -133,7 +133,7 @@ for package in model_root.hasPackages:
 		output = template.render(pack = pack_data, node = node_data, publishers = publishers, subscribers = subscribers)
 		
 		# Write the generated file
-		dest=package.name+'/'+node.name+'.py'
+		dest=package.name+'/'+node.name+'_node.py'
 		with open(dest, 'w') as f:
 			f.write(output)
 
