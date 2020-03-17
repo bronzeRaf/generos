@@ -22,8 +22,9 @@ setup(
     tests_require = ['pytest'],
     entry_points = {
         'console_scripts': [
-		talker = py_pubsub.publisher_member_function:main
-		listener = py_pubsub.subscriber_member_function:main
+		'Nodes_name_exec = pack1.Nodes_name:main',
+		'Node_2_exec = pack1.Node_2:main',
+		'Node_3_exec = pack1.Node_3:main',
         ],
     },
 )

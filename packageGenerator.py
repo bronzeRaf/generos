@@ -53,8 +53,9 @@ for package in model_root.hasPackages:
 	pack_data['description'] = 'The description is ....'
 	pack_data['license'] = 'The license is ...'
 	entry_data = []
-	entry_data.append('talker = py_pubsub.publisher_member_function:main'),
-	entry_data.append('listener = py_pubsub.subscriber_member_function:main'),
+	for n in package.hasNodes:
+		entry_data.append(n.name+'_exec = '+package.name+'.'+n.name+':main'),
+		# ~ entry_data.append('listener = py_pubsub.subscriber_member_function:main'),
 
 	# Fire up the rendering proccess
 	output = template.render(pack=pack_data, entry_points=entry_data)
@@ -124,6 +125,8 @@ for package in model_root.hasPackages:
 		for p in node.hasPublishers:
 			pub['name'] = p.name
 			pub['topicPath'] = p.topicPath
+			pub['publishRate'] = p.publishRate
+			pub['qos'] = 10
 			publishers.append(pub)
 		
 		# Fire up the rendering proccess

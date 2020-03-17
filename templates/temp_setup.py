@@ -29,7 +29,7 @@ setup(
     entry_points = {
         'console_scripts': [
 		{% for en in entry_points %}
-		{{en}}
+		'{{en}}',
 		{% endfor %}
         ],
     },

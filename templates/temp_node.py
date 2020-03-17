@@ -28,11 +28,11 @@ class {{node.name}}(Node):
         # Publishers
         #____________________________________________
         {%for p in publishers %}
-        self.{{p.name}}= self.create_publisher(String, {{p.topicPath}}, 10)
+        self.{{p.name}}= self.create_publisher(String, '{{p.topicPath}}', {{p.qos}})
 		
-        timer_period = 0.5  # seconds
+        timer_period{{loop.index}} = {{p.publishRate}}  # seconds
         
-        self.timer{{loop.index}} = self.create_timer(timer_period, self.timer_callback{{loop.index}})
+        self.timer{{loop.index}} = self.create_timer(timer_period{{loop.index}}, self.timer_callback{{loop.index}})
         self.i = 0
 		
 		

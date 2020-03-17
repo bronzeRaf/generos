@@ -19,11 +19,11 @@ class Nodes_name(Node):
         super().__init__(Nodes_name)
         # Publishers
         #____________________________________________
-        self.publy1= self.create_publisher(String, topic/path, 10)
+        self.publy1= self.create_publisher(String, 'topic/path', 10)
 		
-        timer_period = 0.5  # seconds
+        timer_period1 = 0.5  # seconds
         
-        self.timer1 = self.create_timer(timer_period, self.timer_callback1)
+        self.timer1 = self.create_timer(timer_period1, self.timer_callback1)
         self.i = 0
 		
 		
