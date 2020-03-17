@@ -4,6 +4,13 @@
 #
 # Written in 14/2/2020
 # Written by Rafael Brouzos
+#
+# After generating the code from the model go to the workspace root 
+# (folder named "workspace") in terminal and run the comands:
+# $ colcon build
+# $ . install/setup.bash
+# $ ros2 run <package_name> <node_name>_exec
+
 
 from pyecore.resources import ResourceSet, URI, global_registry
 from pyecore.resources.json import JsonResource
@@ -36,13 +43,28 @@ model_root = rset.get_resource(URI('/home/raf/Desktop/Thesis Project/ecoreWork/t
 # Build the packages
 for package in model_root.hasPackages:
 	# Create the package directory
+	os.system('mkdir workspace')
+	os.chdir('workspace')
+	os.system('mkdir src')
+	os.chdir('src')
 	os.system('mkdir '+package.name)
+	os.chdir(package.name)
+	os.system('mkdir '+package.name)
+	os.system('mkdir resource')
+	os.chdir(package.name)
+	os.system('touch __init__.py')
+	os.chdir('../resource')
+	os.system('touch '+package.name)
+	os.chdir('..')
+	
+	# Load the templates
+	file_loader = FileSystemLoader('../../../templates')
+	env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
+	
 	
 	# Generate Setup.py 
 	# ___________________________________________
 	# Load the Template of the setup.py
-	file_loader = FileSystemLoader('./templates')
-	env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
 	template = env.get_template('temp_setup.py')
 
 	# Build the data to pass to the Template
@@ -60,7 +82,7 @@ for package in model_root.hasPackages:
 	output = template.render(pack=pack_data, entry_points=entry_data)
 
 	# Write the generated file
-	dest=package.name+'/setup.py'
+	dest='setup.py'
 	with open(dest, 'w') as f:
 		f.write(output)
 
@@ -70,15 +92,13 @@ for package in model_root.hasPackages:
 	# Generate package.xml 
 	# ___________________________________________
 	# Load the Template of the package.xml
-	file_loader = FileSystemLoader('./templates')
-	env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
 	template = env.get_template('temp_package.xml')
 	
 	# Fire up the rendering proccess
 	output = template.render(pack=pack_data)
 	
 	# Write the generated file
-	dest=package.name+'/package.xml'
+	dest='package.xml'
 	with open(dest, 'w') as f:
 		f.write(output)
 
@@ -88,15 +108,13 @@ for package in model_root.hasPackages:
 	# Generate setup.cfg
 	# ___________________________________________
 	# Load the Template of the setup.cfg
-	file_loader = FileSystemLoader('./templates')
-	env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
 	template = env.get_template('temp_setup.cfg')
 	
 	# Fire up the rendering proccess
 	output = template.render(pack=pack_data)
 	
 	# Write the generated file
-	dest=package.name+'/setup.cfg'
+	dest='setup.cfg'
 	with open(dest, 'w') as f:
 		f.write(output)
 
@@ -107,8 +125,6 @@ for package in model_root.hasPackages:
 	# ___________________________________________
 	for node in package.hasNodes:
 		# Load the Template of a node
-		file_loader = FileSystemLoader('./templates')
-		env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
 		template = env.get_template('temp_node.py')
 		node_data = {}
 		node_data['name'] = node.name
