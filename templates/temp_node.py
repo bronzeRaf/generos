@@ -19,6 +19,7 @@ import rclpy
 from rclpy.node import Node
 
 from std_msgs.msg import String
+from example_interfaces.srv import AddTwoInts
 
 
 class {{node.name}}_class(Node):
@@ -58,11 +59,46 @@ class {{node.name}}_class(Node):
 
 		{%endfor%}
 		
+		# Servers
+		#____________________________________________
+		{%for s in servers %}
+		self.{{s.name}}= self.create_service({{s.type}}, '{{s.name}}', self.{{s.name}}_call)
+		
+	def {{s.name}}_call(self, request, response):
+		response.sum = request.a + request.b
+        self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
+
+        return response
+
+		{%endfor%}
+		
+		# Clients
+		#____________________________________________
+		{%for c in clients %}
+		self.{{c.name}}= self.create_client({{c.type}}, '{{c.name}}')
+		
+		 while not self.{{c.name}}.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('service not available, waiting again...')
+        self.req_{{c.name}} = {{c.type}}.Request()
+		
+		
+    def send_request_{{c.name}}(self):
+        self.req_{{c.name}}.a = int(sys.argv[1])
+        self.req_{{c.name}}.b = int(sys.argv[2])
+        self.future_{{c.name}} = self.{{c.name}}.call_async(self.req_{{c.name}})
+
+		{%endfor%}
 
 def main(args=None):
 	rclpy.init(args=args)
 	
 	{{node.name}} = {{node.name}}_class()
+	
+	{%for c in clients %}
+	{{node.name}}.send_request_{{c.name}}()
+	
+	
+	#TODO add client code here
 	
 	rclpy.spin({{node.name}})
 	# Destroy the node explicitly

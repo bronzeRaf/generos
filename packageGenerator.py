@@ -39,8 +39,6 @@ rset.metamodel_registry[root.nsURI] = root
 # We obtain the model from an XMI
 model_root = rset.get_resource(URI('/home/raf/Desktop/Thesis Project/ecoreWork/test.xmi')).contents[0]
 
-# Jinja2 Code
-
 # Create the workspace directory tree
 os.system('mkdir workspace')
 os.chdir('workspace')
@@ -57,25 +55,34 @@ for package in model_root.hasPackages:
 	os.system('touch __init__.py')
 	os.chdir('../resource')
 	os.system('touch '+package.name)
-	os.chdir('..')
+	os.chdir('../..')
+	os.system('mkdir interfaces')
+	os.chdir('interfaces')
+	os.system('mkdir srv')
+	os.system('mkdir msg')
+	# Now the working directory is workspace/src/interfaces
+	os.chdir('../'+package.name)
+	# Now the working directory is workspace/src/package_name
 	
 	# Load the templates
 	file_loader = FileSystemLoader('../../../templates')
 	env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
 	
 	
+	# Jinja2 Code
 	# Generate Setup.py 
 	# ___________________________________________
 	# Load the Template of the setup.py
 	template = env.get_template('temp_setup.py')
 
-	# Build the data to pass to the Template
+	# Build the package data to pass to the Template
 	pack_data = {}
 	pack_data['packageName'] = package.name
 	pack_data['maintainer'] = 'raf'
 	pack_data['email'] = 'rnm1816@gmail.com'
 	pack_data['description'] = 'The description is ....'
 	pack_data['license'] = 'The license is ...'
+	# Build the entry points data to pass to the Template
 	entry_data = []
 	for n in package.hasNodes:
 		entry_data.append(n.name+'_exec = '+package.name+'.'+n.name+'_node:main'),
@@ -128,9 +135,10 @@ for package in model_root.hasPackages:
 	for node in package.hasNodes:
 		# Load the Template of a node
 		template = env.get_template('temp_node.py')
+		# Build the node data to pass to the Template
 		node_data = {}
 		node_data['name'] = node.name
-		
+		# Build the publisher/subscriber data to pass to the Template
 		sub = {}
 		pub = {}
 		subscribers = []
@@ -147,6 +155,23 @@ for package in model_root.hasPackages:
 			pub['qos'] = 10
 			publishers.append(pub)
 		
+		# Build the servers/clients data to pass to the Template
+		ser = {}
+		cli = {}
+		servers = []
+		clients = []
+		for s in node.hasServers:
+			ser['name'] = s.name
+			ser['servicePath'] = s.servicePath
+			ser['type'] = 'theType'
+			servers.append(ser)
+		for c in node.hasClients:
+			cli['name'] = c.name
+			cli['servicePath'] = c.servicePath
+			cli['publishRate'] = c.publishRate
+			cli['qos'] = 10
+			clients.append(cli)
+			
 		# Fire up the rendering proccess
 		output = template.render(pack = pack_data, node = node_data, publishers = publishers, subscribers = subscribers)
 		
