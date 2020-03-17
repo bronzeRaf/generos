@@ -40,13 +40,15 @@ rset.metamodel_registry[root.nsURI] = root
 model_root = rset.get_resource(URI('/home/raf/Desktop/Thesis Project/ecoreWork/test.xmi')).contents[0]
 
 # Jinja2 Code
+
+# Create the workspace directory tree
+os.system('mkdir workspace')
+os.chdir('workspace')
+os.system('mkdir src')
+os.chdir('src')
 # Build the packages
 for package in model_root.hasPackages:
-	# Create the package directory
-	os.system('mkdir workspace')
-	os.chdir('workspace')
-	os.system('mkdir src')
-	os.chdir('src')
+	# Create the package directory tree
 	os.system('mkdir '+package.name)
 	os.chdir(package.name)
 	os.system('mkdir '+package.name)
@@ -155,3 +157,6 @@ for package in model_root.hasPackages:
 
 		# Give execution permissions to the generated python file
 		os.chmod(dest, 509)
+		
+	# Go to the workspace/src for the next package
+	os.chdir('..')
