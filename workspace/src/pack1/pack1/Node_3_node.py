@@ -11,6 +11,7 @@ import rclpy
 from rclpy.node import Node
 
 from std_msgs.msg import String
+from example_interfaces.srv import AddTwoInts
 
 
 class Node_3_class(Node):
@@ -38,11 +39,19 @@ class Node_3_class(Node):
 		# Subscribers
 		#____________________________________________
 		
+		# Servers
+		#____________________________________________
+		
+		# Clients
+		#____________________________________________
 
 def main(args=None):
 	rclpy.init(args=args)
 	
 	Node_3 = Node_3_class()
+	
+	
+	#TODO add client code here
 	
 	rclpy.spin(Node_3)
 	# Destroy the node explicitly
@@ -50,7 +59,7 @@ def main(args=None):
 	# when the garbage collector destroys the node object)
 	Node_3.destroy_node()
 	rclpy.shutdown()
-
+	
 
 if __name__ == '__main__':
 	main()

@@ -105,12 +105,12 @@
         eType="#//Response" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Request">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="property" upperBound="-1"
-        eType="#//Property"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasCommunicationObjects"
+        upperBound="-1" eType="#//CommunicationObject" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Response">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="property" upperBound="-1"
-        eType="#//Property"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasCommunicationObjects"
+        upperBound="-1" eType="#//CommunicationObject" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Property">
     <eLiterals name="Float"/>
@@ -118,8 +118,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TopicMessage">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="property" lowerBound="1"
-        eType="#//DataTypes"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasCommunicationObjects"
+        upperBound="-1" eType="#//CommunicationObject" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ROSSystem">
     <eStructuralFeatures xsi:type="ecore:EReference" name="topology" lowerBound="1"
@@ -187,5 +187,10 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ip" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Object" instanceTypeName="object"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CommunicationObject">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//DataTypes"/>
   </eClassifiers>
 </ecore:EPackage>

@@ -96,7 +96,7 @@ def main(args=None):
 	
 	{%for c in clients %}
 	{{node.name}}.send_request_{{c.name}}()
-	
+	{%endfor%}
 	
 	#TODO add client code here
 	
@@ -106,7 +106,7 @@ def main(args=None):
 	# when the garbage collector destroys the node object)
 	{{node.name}}.destroy_node()
 	rclpy.shutdown()
-
+	
 
 if __name__ == '__main__':
 	main()

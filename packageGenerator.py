@@ -21,14 +21,13 @@ import pyecore.behavior as behavior
 from pyecore.utils import DynamicEPackage
 import subprocess
 import os
-import rclpy
 from jinja2 import Environment, FileSystemLoader
 
 
 # We load the Ecore metamodel first
 global_registry[Ecore.nsURI] = Ecore  
 rset = ResourceSet()
-resource = rset.get_resource(URI('/home/raf/Desktop/Thesis Project/ecoreWork/metamodel.ecore'))
+resource = rset.get_resource(URI('metamodel.ecore'))
 # ~ rset.resource_factory['json'] = lambda uri: JsonResource(uri)
 root = resource.contents[0]  # We get the root (an EPackage here)
 # Register the metamodel (in case we open an XMI model later)
@@ -37,7 +36,7 @@ rset.metamodel_registry[root.nsURI] = root
 
 
 # We obtain the model from an XMI
-model_root = rset.get_resource(URI('/home/raf/Desktop/Thesis Project/ecoreWork/test.xmi')).contents[0]
+model_root = rset.get_resource(URI('models/test.xmi')).contents[0]
 
 # Create the workspace directory tree
 os.system('mkdir workspace')
@@ -130,6 +129,56 @@ for package in model_root.hasPackages:
 	# Give execution permissions to the generated python file
 	os.chmod(dest, 509)
 
+	# Generate interfaces*************************
+	# ___________________________________________
+	# Load the Template of the msg
+	template = env.get_template('temp_msg.msg')
+	
+	
+	# Build the msg data to pass to the Template
+	for t in package.hasTopicMessages:
+		objects = []
+		obj = {}
+		for o in t.hasCommunicationObjects:
+			obj['name'] = o.name
+			obj['type'] = o.type
+			objects.append(obj)
+	
+		# Fire up the rendering proccess
+		output = template.render(objects = objects)
+		
+		# Write the generated file
+		dest='../interfaces/msg/'+t.name+'.msg'
+		with open(dest, 'w') as f:
+			f.write(output)
+			
+	# ___________________________________________
+	# Load the Template of the srv
+	template = env.get_template('temp_srv.srv')
+	# Build the srv data to pass to the Template
+	for t in package.hasServiceMessages:
+		request = []
+		for o in t.hasRequest.hasCommunicationObjects:
+			req = {}
+			req['name'] = o.name
+			req['type'] = o.type
+			request.append(req)
+		
+		response = []
+		for o in t.hasResponse.hasCommunicationObjects:
+			res = {}
+			res['name'] = o.name
+			res['type'] = o.type
+			response.append(res)
+	
+		# Fire up the rendering proccess
+		output = template.render(request = request, response = response)
+		
+		# Write the generated file
+		dest='../interfaces/srv/'+t.name+'.srv'
+		with open(dest, 'w') as f:
+			f.write(output)
+
 	# Generate nodes
 	# ___________________________________________
 	for node in package.hasNodes:
@@ -139,16 +188,16 @@ for package in model_root.hasPackages:
 		node_data = {}
 		node_data['name'] = node.name
 		# Build the publisher/subscriber data to pass to the Template
-		sub = {}
-		pub = {}
 		subscribers = []
 		publishers = []
 		for s in node.hasSubscribers:
+			sub = {}
 			sub['name'] = s.name
 			sub['topicPath'] = s.topicPath
 			sub['qos'] = 10
 			subscribers.append(sub)
 		for p in node.hasPublishers:
+			pub = {}
 			pub['name'] = p.name
 			pub['topicPath'] = p.topicPath
 			pub['publishRate'] = p.publishRate

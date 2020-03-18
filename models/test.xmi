@@ -1,9 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <metamodel:ROSSystem xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel="http://www.example.org/metamodel" name="My_first_ROS_system" xmi:version="2.0">
-  <topology/>
   <hasPackages packagePath="path to pack1" name="pack1">
-    <hasTopicMessages name="topicm1" property="String"/>
-    <hasTopicMessages name="topicm2" property="Int"/>
     <hasDocumentation/>
     <hasNodes name="Nodes_name">
       <hasPublishers name="publy1" publishRate="0.5" pmsg="//@hasPackages.0/@hasTopicMessages.0" topicPath="topic/path"/>
@@ -15,7 +12,31 @@
     <hasNodes name="Node_3">
       <hasPublishers name="publy3" publishRate="0.8" pmsg="//@hasPackages.0/@hasTopicMessages.1" topicPath="topic/path2"/>
     </hasNodes>
-    <hasServiceMessages name="serviceMess1"/>
+    <hasServiceMessages name="srIntInt_Int">
+      <hasResponse>
+        <hasCommunicationObjects type="Int" name="c"/>
+      </hasResponse>
+      <hasRequest>
+        <hasCommunicationObjects type="Int" name="a"/>
+        <hasCommunicationObjects type="Int" name="b"/>
+      </hasRequest>
+    </hasServiceMessages>
+    <hasServiceMessages name="srFloatFloat_String">
+      <hasResponse>
+        <hasCommunicationObjects type="String" name="z"/>
+      </hasResponse>
+      <hasRequest>
+        <hasCommunicationObjects name="x"/>
+        <hasCommunicationObjects name="y"/>
+      </hasRequest>
+    </hasServiceMessages>
+    <hasTopicMessages name="valueInt">
+      <hasCommunicationObjects type="Int" name="x"/>
+    </hasTopicMessages>
+    <hasTopicMessages name="valueString">
+      <hasCommunicationObjects type="String" name="s"/>
+    </hasTopicMessages>
   </hasPackages>
   <hasGraphs nodes="//@hasPackages.0/@hasNodes.0 //@hasPackages.0/@hasNodes.1 //@hasPackages.0/@hasNodes.2"/>
+  <topology/>
 </metamodel:ROSSystem>
