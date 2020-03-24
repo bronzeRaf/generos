@@ -1,14 +1,13 @@
 
 # ~ node: Nodes_name
 
-# ~ # ~ publisher name publy1
-# ~ publisher path topic/path
 # ~ 
 
 # TODO messages
 
 import rclpy
 from rclpy.node import Node
+import sys
 
 from interfaces.msg import ValueInt
 from interfaces.msg import ValueString
@@ -24,29 +23,19 @@ class Nodes_name_class(Node):
 		super().__init__('Nodes_name')
 		# Publishers
 		#____________________________________________
-		self.publy1= self.create_publisher(ValueInt, 'topic/path', 10)
-		
-		timer_period1 = 0.5  # seconds
-		
-		self.timer1 = self.create_timer(timer_period1, self.timer_callback1)
-		self.i = 0
-		
-		
-	def timer_callback1(self):
-		msg = ValueInt()
-		
-		msg.x = self.i
-		
-		self.publy1.publish(msg)
-		self.get_logger().info('Publishing: "%s"' % msg.x)
-		self.i += 1
-
 		
 		# Subscribers
 		#____________________________________________
 		
 		# Servers
 		#____________________________________________
+		self.Server1= self.create_service(Addtwo, 'Addtwo_n', self.Server1_call)
+		
+	def Server1_call(self, request, response):
+		response.c = request.a + request.b
+		self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
+		return response
+
 		
 		# Clients
 		#____________________________________________

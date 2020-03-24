@@ -9,6 +9,7 @@
 
 import rclpy
 from rclpy.node import Node
+import sys
 
 from interfaces.msg import ValueInt
 from interfaces.msg import ValueString

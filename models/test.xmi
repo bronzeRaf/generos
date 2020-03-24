@@ -1,42 +1,41 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <metamodel:ROSSystem xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel="http://www.example.org/metamodel" name="My_first_ROS_system" xmi:version="2.0">
-  <hasPackages packagePath="path to pack1" name="pack1">
-    <hasDocumentation/>
-    <hasNodes name="Nodes_name">
-      <hasPublishers pmsg="//@hasPackages.0/@hasTopicMessages.0" topicPath="topic/path" name="publy1" publishRate="0.5"/>
-    </hasNodes>
-    <hasNodes name="Node_2">
-      <hasServers servicePath="ser/vice/path" name="Server-1" servicemessage="//@hasPackages.0/@hasServiceMessages.0"/>
-      <hasSubscribers name="suby1" topicPath="topic/path" smsg="//@hasPackages.0/@hasTopicMessages.0"/>
-    </hasNodes>
-    <hasNodes name="Node_3">
-      <hasPublishers pmsg="//@hasPackages.0/@hasTopicMessages.1" topicPath="topic/path2" name="publy3" publishRate="0.8"/>
-    </hasNodes>
-    <hasServiceMessages name="Addtwo">
-      <hasResponse>
-        <hasCommunicationObjects name="c" type="int32"/>
-      </hasResponse>
-      <hasRequest>
-        <hasCommunicationObjects name="a" type="int32"/>
-        <hasCommunicationObjects name="b" type="int32"/>
-      </hasRequest>
-    </hasServiceMessages>
-    <hasServiceMessages name="SrFloatFloatString">
-      <hasResponse>
-        <hasCommunicationObjects name="z" type="string"/>
-      </hasResponse>
-      <hasRequest>
-        <hasCommunicationObjects name="x"/>
-        <hasCommunicationObjects name="y"/>
-      </hasRequest>
-    </hasServiceMessages>
-    <hasTopicMessages name="ValueInt">
-      <hasCommunicationObjects name="x" type="int32"/>
-    </hasTopicMessages>
-    <hasTopicMessages name="ValueString">
-      <hasCommunicationObjects name="x" type="string"/>
-    </hasTopicMessages>
-  </hasPackages>
+  <hasTopicMessages name="ValueInt">
+    <hasCommunicationObjects name="x" type="int32"/>
+  </hasTopicMessages>
+  <hasTopicMessages name="ValueString">
+    <hasCommunicationObjects name="x" type="string"/>
+  </hasTopicMessages>
   <topology/>
   <hasGraphs nodes="//@hasPackages.0/@hasNodes.0 //@hasPackages.0/@hasNodes.1 //@hasPackages.0/@hasNodes.2"/>
+  <hasPackages name="pack1" packagePath="path to pack1">
+    <hasDocumentation/>
+    <hasNodes name="Nodes_name">
+      <hasServers servicePath="ser/vice/path" name="Server1" servicemessage="//@hasServiceMessages.0"/>
+    </hasNodes>
+    <hasNodes name="Node_2">
+      <hasClients servicePath="ser/vice/path" servicemessage="//@hasServiceMessages.0" name="Client1"/>
+    </hasNodes>
+    <hasNodes name="Node_3">
+      <hasPublishers name="publy3" publishRate="0.8" pmsg="//@hasTopicMessages.1" topicPath="topic/path2"/>
+    </hasNodes>
+  </hasPackages>
+  <hasServiceMessages name="Addtwo">
+    <hasRequest>
+      <hasCommunicationObjects name="a" type="int32"/>
+      <hasCommunicationObjects name="b" type="int32"/>
+    </hasRequest>
+    <hasResponse>
+      <hasCommunicationObjects name="c" type="int32"/>
+    </hasResponse>
+  </hasServiceMessages>
+  <hasServiceMessages name="SrFloatFloatString">
+    <hasRequest>
+      <hasCommunicationObjects name="x"/>
+      <hasCommunicationObjects name="y"/>
+    </hasRequest>
+    <hasResponse>
+      <hasCommunicationObjects name="z" type="string"/>
+    </hasResponse>
+  </hasServiceMessages>
 </metamodel:ROSSystem>

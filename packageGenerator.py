@@ -42,6 +42,99 @@ os.system('mkdir workspace')
 os.chdir('workspace')
 os.system('mkdir src')
 os.chdir('src')
+os.system('mkdir interfaces')
+os.chdir('interfaces')
+os.system('mkdir srv')
+os.system('mkdir msg')
+# Now the working directory is workspace/src/interfaces
+os.chdir('..')
+# Now the working directory is workspace/src
+
+# Load the templates
+file_loader = FileSystemLoader('../../templates')
+env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
+
+# Generate the custom interfaces
+# Jinja2 Code
+# Generate Topic Messages
+# ___________________________________________
+# Load the Template of the msg
+template = env.get_template('temp_msg.msg')
+
+# Build the msg data to pass to the Template
+for t in model_root.hasTopicMessages:
+	objects = []
+	for o in t.hasCommunicationObjects:
+		obj = {}
+		obj['name'] = o.name
+		obj['type'] = o.type
+		objects.append(obj)
+	
+	# Fire up the rendering proccess
+	output = template.render(objects = objects)
+	
+	# Write the generated file
+	dest='interfaces/msg/'+t.name+'.msg'
+	with open(dest, 'w') as f:
+		f.write(output)
+
+# Generate Service Messages	
+# ___________________________________________
+# Load the Template of the srv
+template = env.get_template('temp_srv.srv')
+# Build the srv data to pass to the Template
+for t in model_root.hasServiceMessages:
+	request = []
+	for o in t.hasRequest.hasCommunicationObjects:
+		req = {}
+		req['name'] = o.name
+		req['type'] = o.type
+		request.append(req)
+	
+	response = []
+	for o in t.hasResponse.hasCommunicationObjects:
+		res = {}
+		res['name'] = o.name
+		res['type'] = o.type
+		response.append(res)
+	
+	# Fire up the rendering proccess
+	output = template.render(request = request, response = response)
+	
+	# Write the generated file
+	dest='interfaces/srv/'+t.name+'.srv'
+	with open(dest, 'w') as f:
+		f.write(output)
+	
+# Generate interface package CMkakeLists.txt
+# ___________________________________________
+# Load the Template of the CMakeLists.txt
+template = env.get_template('temp_CMakeLists.txt')
+# Build the msg data to pass to the Template
+tmessages = []
+smessages = []
+for t in model_root.hasTopicMessages:
+	tmessages.append(t.name)
+for t in model_root.hasServiceMessages:
+	smessages.append(t.name)
+# Fire up the rendering proccess
+output = template.render(smessages=smessages, tmessages=tmessages)
+# Write the generated file
+dest='interfaces/'+'CMakeLists.txt'
+with open(dest, 'w') as f:
+	f.write(output)
+
+# Generate interface package package.xml
+# ___________________________________________
+# Load the Template of the package.xml
+template = env.get_template('temp_cpppackage.xml')
+# Fire up the rendering proccess
+output = template.render()
+# Write the generated file
+dest='interfaces/'+'package.xml'
+with open(dest, 'w') as f:
+	f.write(output)
+
 # Build the packages
 for package in model_root.hasPackages:
 	# Create the package directory tree
@@ -53,20 +146,13 @@ for package in model_root.hasPackages:
 	os.system('touch __init__.py')
 	os.chdir('../resource')
 	os.system('touch '+package.name)
-	os.chdir('../..')
-	os.system('mkdir interfaces')
-	os.chdir('interfaces')
-	os.system('mkdir srv')
-	os.system('mkdir msg')
-	# Now the working directory is workspace/src/interfaces
-	os.chdir('../'+package.name)
-	# Now the working directory is workspace/src/package_name
+	os.chdir('..')
+	# Now the working directory is workspace/src/package_name	
 	
 	# Load the templates
 	file_loader = FileSystemLoader('../../../templates')
 	env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
-	
-	
+
 	# Jinja2 Code
 	# Generate Setup.py 
 	# ___________________________________________
@@ -124,90 +210,10 @@ for package in model_root.hasPackages:
 	dest='setup.cfg'
 	with open(dest, 'w') as f:
 		f.write(output)
-
+	
 	# Give execution permissions to the generated python file
 	os.chmod(dest, 509)
-
-	# Generate interfaces*************************
-	# ___________________________________________
-	# Load the Template of the msg
-	template = env.get_template('temp_msg.msg')
 	
-	
-	# Build the msg data to pass to the Template
-	for t in package.hasTopicMessages:
-		objects = []
-		obj = {}
-		for o in t.hasCommunicationObjects:
-			obj['name'] = o.name
-			obj['type'] = o.type
-			objects.append(obj)
-	
-		# Fire up the rendering proccess
-		output = template.render(objects = objects)
-		
-		# Write the generated file
-		dest='../interfaces/msg/'+t.name+'.msg'
-		with open(dest, 'w') as f:
-			f.write(output)
-			
-	# ___________________________________________
-	# Load the Template of the srv
-	template = env.get_template('temp_srv.srv')
-	# Build the srv data to pass to the Template
-	for t in package.hasServiceMessages:
-		request = []
-		for o in t.hasRequest.hasCommunicationObjects:
-			req = {}
-			req['name'] = o.name
-			req['type'] = o.type
-			request.append(req)
-		
-		response = []
-		for o in t.hasResponse.hasCommunicationObjects:
-			res = {}
-			res['name'] = o.name
-			res['type'] = o.type
-			response.append(res)
-	
-		# Fire up the rendering proccess
-		output = template.render(request = request, response = response)
-		
-		# Write the generated file
-		dest='../interfaces/srv/'+t.name+'.srv'
-		with open(dest, 'w') as f:
-			f.write(output)
-			
-	# Generate interface package
-	# ___________________________________________
-	# Load the Template of the CMakeLists.txt
-	template = env.get_template('temp_CMakeLists.txt')
-	# Build the msg data to pass to the Template
-	tmessages = []
-	smessages = []
-	for t in package.hasTopicMessages:
-		tmessages.append(t.name)
-	for t in package.hasServiceMessages:
-		smessages.append(t.name)
-	# Fire up the rendering proccess
-	output = template.render(smessages=smessages, tmessages=tmessages)
-	# Write the generated file
-	dest='../interfaces/'+'CMakeLists.txt'
-	with open(dest, 'w') as f:
-		f.write(output)
-			
-	
-	# Load the Template of the CMakeLists.txt
-	template = env.get_template('temp_cpppackage.xml')
-	# Fire up the rendering proccess
-	output = template.render()
-	# Write the generated file
-	dest='../interfaces/'+'package.xml'
-	with open(dest, 'w') as f:
-		f.write(output)
-	
-			
-			
 	# Generate nodes
 	# ___________________________________________
 	for node in package.hasNodes:
@@ -236,25 +242,23 @@ for package in model_root.hasPackages:
 			publishers.append(pub)
 		
 		# Build the servers/clients data to pass to the Template
-		ser = {}
-		cli = {}
 		servers = []
 		clients = []
 		for s in node.hasServers:
+			ser = {}
 			ser['name'] = s.name
 			ser['servicePath'] = s.servicePath
 			ser['type'] = s.servicemessage.name
 			servers.append(ser)
 		for c in node.hasClients:
+			cli = {}
 			cli['name'] = c.name
 			cli['servicePath'] = c.servicePath
-			cli['publishRate'] = c.publishRate
-			cli['qos'] = 10
 			cli['type'] = c.servicemessage.name
 			clients.append(cli)
 			
 		# Fire up the rendering proccess
-		output = template.render(pack = pack_data, node = node_data, publishers = publishers, subscribers = subscribers, objects = objects, smessages=smessages, tmessages=tmessages)
+		output = template.render(pack = pack_data, node = node_data, publishers = publishers, subscribers = subscribers, objects = objects, smessages=smessages, tmessages=tmessages, servers = servers, clients=clients)
 		
 		# Write the generated file
 		dest=package.name+'/'+node.name+'_node.py'

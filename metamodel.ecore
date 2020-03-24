@@ -62,10 +62,6 @@
         upperBound="-1" eType="#//ROSVersion"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="packagePath" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="hasTopicMessages" upperBound="-1"
-        eType="#//TopicMessage" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="hasServiceMessages" upperBound="-1"
-        eType="#//ServiceMessage" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Dependency"/>
   <eClassifiers xsi:type="ecore:EClass" name="Documentation"/>
@@ -125,6 +121,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasGraphs" lowerBound="1"
         eType="#//Graph" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasTopicMessages" upperBound="-1"
+        eType="#//TopicMessage" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasServiceMessages" upperBound="-1"
+        eType="#//ServiceMessage" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Topology">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasPlatforms" upperBound="-1"

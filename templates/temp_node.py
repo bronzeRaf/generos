@@ -17,6 +17,7 @@
 
 import rclpy
 from rclpy.node import Node
+import sys
 
 {%for t in tmessages %}
 from interfaces.msg import {{t}}
@@ -74,30 +75,29 @@ class {{node.name}}_class(Node):
 		# Servers
 		#____________________________________________
 		{%for s in servers %}
-		self.{{s.name}}= self.create_service({{s.type}}, '{{s.name}}', self.{{s.name}}_call)
+		self.{{s.name}}= self.create_service({{s.type}}, '{{s.type}}_n', self.{{s.name}}_call)
 		
 	def {{s.name}}_call(self, request, response):
-		response.sum = request.a + request.b
-        self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
-
-        return response
+		response.c = request.a + request.b
+		self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
+		return response
 
 		{%endfor%}
 		
 		# Clients
 		#____________________________________________
 		{%for c in clients %}
-		self.{{c.name}}= self.create_client({{c.type}}, '{{c.name}}')
+		self.{{c.name}}= self.create_client({{c.type}}, '{{c.type}}_n')
 		
-		 while not self.{{c.name}}.wait_for_service(timeout_sec=1.0):
-            self.get_logger().info('service not available, waiting again...')
-        self.req_{{c.name}} = {{c.type}}.Request()
+		while not self.{{c.name}}.wait_for_service(timeout_sec=1.0):
+			self.get_logger().info('service not available, waiting again...')
+		self.req_{{c.name}} = {{c.type}}.Request()
 		
 		
-    def send_request_{{c.name}}(self):
-        self.req_{{c.name}}.a = int(sys.argv[1])
-        self.req_{{c.name}}.b = int(sys.argv[2])
-        self.future_{{c.name}} = self.{{c.name}}.call_async(self.req_{{c.name}})
+	def send_request_{{c.name}}(self):
+		self.req_{{c.name}}.a = int(sys.argv[1])
+		self.req_{{c.name}}.b = int(sys.argv[2])
+		self.future_{{c.name}} = self.{{c.name}}.call_async(self.req_{{c.name}})
 
 		{%endfor%}
 
@@ -108,6 +108,19 @@ def main(args=None):
 	
 	{%for c in clients %}
 	{{node.name}}.send_request_{{c.name}}()
+	while rclpy.ok():
+		rclpy.spin_once({{node.name}})
+		if {{node.name}}.future_{{c.name}}.done():
+			try:
+				response = {{node.name}}.future_{{c.name}}.result()
+			except Exception as e:
+				{{node.name}}.get_logger().info('Service call failed %r' % (e,))
+			else:
+				{{node.name}}.get_logger().info(
+				'Result of add_three_ints: for %d + %d = %d' %
+				({{node.name}}.req_{{c.name}}.a, {{node.name}}.req_{{c.name}}.b, response.c))
+			break
+	
 	{%endfor%}
 	
 	#TODO add client code here
