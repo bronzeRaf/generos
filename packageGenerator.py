@@ -11,7 +11,6 @@
 # $ . install/setup.bash
 # $ ros2 run <package_name> <node_name>_exec
 
-
 from pyecore.resources import ResourceSet, URI, global_registry
 from pyecore.resources.json import JsonResource
 from pyecore.ecore import EClass, EAttribute
@@ -178,7 +177,37 @@ for package in model_root.hasPackages:
 		dest='../interfaces/srv/'+t.name+'.srv'
 		with open(dest, 'w') as f:
 			f.write(output)
-
+			
+	# Generate interface package
+	# ___________________________________________
+	# Load the Template of the CMakeLists.txt
+	template = env.get_template('temp_CMakeLists.txt')
+	# Build the msg data to pass to the Template
+	tmessages = []
+	smessages = []
+	for t in package.hasTopicMessages:
+		tmessages.append(t.name)
+	for t in package.hasServiceMessages:
+		smessages.append(t.name)
+	# Fire up the rendering proccess
+	output = template.render(smessages=smessages, tmessages=tmessages)
+	# Write the generated file
+	dest='../interfaces/'+'CMakeLists.txt'
+	with open(dest, 'w') as f:
+		f.write(output)
+			
+	
+	# Load the Template of the CMakeLists.txt
+	template = env.get_template('temp_cpppackage.xml')
+	# Fire up the rendering proccess
+	output = template.render()
+	# Write the generated file
+	dest='../interfaces/'+'package.xml'
+	with open(dest, 'w') as f:
+		f.write(output)
+	
+			
+			
 	# Generate nodes
 	# ___________________________________________
 	for node in package.hasNodes:
@@ -195,6 +224,7 @@ for package in model_root.hasPackages:
 			sub['name'] = s.name
 			sub['topicPath'] = s.topicPath
 			sub['qos'] = 10
+			sub['type'] = s.smsg.name
 			subscribers.append(sub)
 		for p in node.hasPublishers:
 			pub = {}
@@ -202,6 +232,7 @@ for package in model_root.hasPackages:
 			pub['topicPath'] = p.topicPath
 			pub['publishRate'] = p.publishRate
 			pub['qos'] = 10
+			pub['type'] = p.pmsg.name
 			publishers.append(pub)
 		
 		# Build the servers/clients data to pass to the Template
@@ -212,17 +243,18 @@ for package in model_root.hasPackages:
 		for s in node.hasServers:
 			ser['name'] = s.name
 			ser['servicePath'] = s.servicePath
-			ser['type'] = 'theType'
+			ser['type'] = s.servicemessage.name
 			servers.append(ser)
 		for c in node.hasClients:
 			cli['name'] = c.name
 			cli['servicePath'] = c.servicePath
 			cli['publishRate'] = c.publishRate
 			cli['qos'] = 10
+			cli['type'] = c.servicemessage.name
 			clients.append(cli)
 			
 		# Fire up the rendering proccess
-		output = template.render(pack = pack_data, node = node_data, publishers = publishers, subscribers = subscribers)
+		output = template.render(pack = pack_data, node = node_data, publishers = publishers, subscribers = subscribers, objects = objects, smessages=smessages, tmessages=tmessages)
 		
 		# Write the generated file
 		dest=package.name+'/'+node.name+'_node.py'

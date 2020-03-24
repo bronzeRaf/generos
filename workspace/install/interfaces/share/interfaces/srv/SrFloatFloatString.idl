@@ -1,0 +1,17 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from interfaces/srv/SrFloatFloatString.srv
+// generated code does not contain a copyright notice
+
+
+module interfaces {
+  module srv {
+    struct SrFloatFloatString_Request {
+      float x;
+
+      float y;
+    };
+    struct SrFloatFloatString_Response {
+      string z;
+    };
+  };
+};

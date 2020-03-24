@@ -3,40 +3,40 @@
   <hasPackages packagePath="path to pack1" name="pack1">
     <hasDocumentation/>
     <hasNodes name="Nodes_name">
-      <hasPublishers name="publy1" publishRate="0.5" pmsg="//@hasPackages.0/@hasTopicMessages.0" topicPath="topic/path"/>
+      <hasPublishers pmsg="//@hasPackages.0/@hasTopicMessages.0" topicPath="topic/path" name="publy1" publishRate="0.5"/>
     </hasNodes>
     <hasNodes name="Node_2">
       <hasServers servicePath="ser/vice/path" name="Server-1" servicemessage="//@hasPackages.0/@hasServiceMessages.0"/>
-      <hasSubscribers smsg="//@hasPackages.0/@hasTopicMessages.0" name="suby1" topicPath="topic/path"/>
+      <hasSubscribers name="suby1" topicPath="topic/path" smsg="//@hasPackages.0/@hasTopicMessages.0"/>
     </hasNodes>
     <hasNodes name="Node_3">
-      <hasPublishers name="publy3" publishRate="0.8" pmsg="//@hasPackages.0/@hasTopicMessages.1" topicPath="topic/path2"/>
+      <hasPublishers pmsg="//@hasPackages.0/@hasTopicMessages.1" topicPath="topic/path2" name="publy3" publishRate="0.8"/>
     </hasNodes>
-    <hasServiceMessages name="srIntInt_Int">
+    <hasServiceMessages name="Addtwo">
       <hasResponse>
-        <hasCommunicationObjects type="Int" name="c"/>
+        <hasCommunicationObjects name="c" type="int32"/>
       </hasResponse>
       <hasRequest>
-        <hasCommunicationObjects type="Int" name="a"/>
-        <hasCommunicationObjects type="Int" name="b"/>
+        <hasCommunicationObjects name="a" type="int32"/>
+        <hasCommunicationObjects name="b" type="int32"/>
       </hasRequest>
     </hasServiceMessages>
-    <hasServiceMessages name="srFloatFloat_String">
+    <hasServiceMessages name="SrFloatFloatString">
       <hasResponse>
-        <hasCommunicationObjects type="String" name="z"/>
+        <hasCommunicationObjects name="z" type="string"/>
       </hasResponse>
       <hasRequest>
         <hasCommunicationObjects name="x"/>
         <hasCommunicationObjects name="y"/>
       </hasRequest>
     </hasServiceMessages>
-    <hasTopicMessages name="valueInt">
-      <hasCommunicationObjects type="Int" name="x"/>
+    <hasTopicMessages name="ValueInt">
+      <hasCommunicationObjects name="x" type="int32"/>
     </hasTopicMessages>
-    <hasTopicMessages name="valueString">
-      <hasCommunicationObjects type="String" name="s"/>
+    <hasTopicMessages name="ValueString">
+      <hasCommunicationObjects name="x" type="string"/>
     </hasTopicMessages>
   </hasPackages>
-  <hasGraphs nodes="//@hasPackages.0/@hasNodes.0 //@hasPackages.0/@hasNodes.1 //@hasPackages.0/@hasNodes.2"/>
   <topology/>
+  <hasGraphs nodes="//@hasPackages.0/@hasNodes.0 //@hasPackages.0/@hasNodes.1 //@hasPackages.0/@hasNodes.2"/>
 </metamodel:ROSSystem>

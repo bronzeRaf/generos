@@ -10,8 +10,12 @@
 import rclpy
 from rclpy.node import Node
 
-from std_msgs.msg import String
-from example_interfaces.srv import AddTwoInts
+from interfaces.msg import ValueInt
+from interfaces.msg import ValueString
+from interfaces.srv import Addtwo
+from interfaces.srv import SrFloatFloatString
+# ~ from std_msgs.msg import 
+# ~ from example_interfaces.srv import AddTwoInts
 
 
 class Nodes_name_class(Node):
@@ -20,7 +24,7 @@ class Nodes_name_class(Node):
 		super().__init__('Nodes_name')
 		# Publishers
 		#____________________________________________
-		self.publy1= self.create_publisher(String, 'topic/path', 10)
+		self.publy1= self.create_publisher(ValueInt, 'topic/path', 10)
 		
 		timer_period1 = 0.5  # seconds
 		
@@ -29,10 +33,12 @@ class Nodes_name_class(Node):
 		
 		
 	def timer_callback1(self):
-		msg = String()
-		msg.data = 'Hello World: %d' % self.i
+		msg = ValueInt()
+		
+		msg.x = self.i
+		
 		self.publy1.publish(msg)
-		self.get_logger().info('Publishing: "%s"' % msg.data)
+		self.get_logger().info('Publishing: "%s"' % msg.x)
 		self.i += 1
 
 		

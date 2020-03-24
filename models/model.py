@@ -62,21 +62,21 @@ subscriber1.name = "suby1"
 subscriber1.topicPath = "topic/path"
 #set the topic messages
 topicmessage1 = TopicMessage()
-topicmessage1.name = "valueInt"
+topicmessage1.name = "ValueInt"
 topicmessage2 = TopicMessage()
-topicmessage2.name = "valueString"
+topicmessage2.name = "ValueString"
 #set the service messages
 servicemessage1 = ServiceMessage()
-servicemessage1.name = "srIntInt_Int"
+servicemessage1.name = "Addtwo"
 servicemessage2 = ServiceMessage()
-servicemessage2.name = "srFloatFloat_String"
+servicemessage2.name = "SrFloatFloatString"
 #set the communication objects for the topics
 tobject1 = CommunicationObject()
 tobject1.name = "x"
-tobject1.type = DataType.Int
+tobject1.type = DataType.int32
 tobject2 = CommunicationObject()
-tobject2.name = "s"
-tobject2.type = DataType.String
+tobject2.name = "x"
+tobject2.type = DataType.string
 #set the request for the services
 req1 = Request()
 req2 = Request()
@@ -86,22 +86,22 @@ res2 = Response()
 #set the communication objects for the services
 sobject1 = CommunicationObject()
 sobject1.name = "a"
-sobject1.type = DataType.Int
+sobject1.type = DataType.int32
 sobject2 = CommunicationObject()
 sobject2.name = "b"
-sobject2.type = DataType.Int
+sobject2.type = DataType.int32
 sobject3 = CommunicationObject()
 sobject3.name = "c"
-sobject3.type = DataType.Int
+sobject3.type = DataType.int32
 sobject4 = CommunicationObject()
 sobject4.name = "x"
-sobject4.type = DataType.Float
+sobject4.type = DataType.float32
 sobject5 = CommunicationObject()
 sobject5.name = "y"
-sobject5.type = DataType.Float
+sobject5.type = DataType.float32
 sobject6 = CommunicationObject()
 sobject6.name = "z"
-sobject6.type = DataType.String
+sobject6.type = DataType.string
 #set documentation
 documentation1 = Documentation()
 #set graph

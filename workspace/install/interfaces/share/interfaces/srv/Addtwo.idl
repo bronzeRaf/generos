@@ -1,0 +1,17 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from interfaces/srv/Addtwo.srv
+// generated code does not contain a copyright notice
+
+
+module interfaces {
+  module srv {
+    struct Addtwo_Request {
+      int32 a;
+
+      int32 b;
+    };
+    struct Addtwo_Response {
+      int32 c;
+    };
+  };
+};

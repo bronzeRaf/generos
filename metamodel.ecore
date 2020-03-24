@@ -70,9 +70,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="Dependency"/>
   <eClassifiers xsi:type="ecore:EClass" name="Documentation"/>
   <eClassifiers xsi:type="ecore:EEnum" name="DataTypes">
-    <eLiterals name="Float"/>
-    <eLiterals name="Int" value="1"/>
-    <eLiterals name="String" value="2"/>
+    <eLiterals name="float32" literal="float32"/>
+    <eLiterals name="int32" value="1" literal="int32"/>
+    <eLiterals name="string" value="2" literal="string"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Graph">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasTopics" upperBound="-1"
@@ -111,10 +111,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="Response">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasCommunicationObjects"
         upperBound="-1" eType="#//CommunicationObject" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="Property">
-    <eLiterals name="Float"/>
-    <eLiterals name="Int" value="1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TopicMessage">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -188,7 +184,6 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ip" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="Object" instanceTypeName="object"/>
   <eClassifiers xsi:type="ecore:EClass" name="CommunicationObject">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//DataTypes"/>

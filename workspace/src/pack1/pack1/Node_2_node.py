@@ -8,8 +8,12 @@
 import rclpy
 from rclpy.node import Node
 
-from std_msgs.msg import String
-from example_interfaces.srv import AddTwoInts
+from interfaces.msg import ValueInt
+from interfaces.msg import ValueString
+from interfaces.srv import Addtwo
+from interfaces.srv import SrFloatFloatString
+# ~ from std_msgs.msg import 
+# ~ from example_interfaces.srv import AddTwoInts
 
 
 class Node_2_class(Node):
@@ -21,14 +25,13 @@ class Node_2_class(Node):
 		
 		# Subscribers
 		#____________________________________________
-		self.suby1= self.create_subscription(String, 'topic/path', self.listener1, 10)
+		self.suby1= self.create_subscription(ValueInt, 'topic/path', self.listener1, 10)
 		self.suby1 
 		
 		timer_period = 0.5  # seconds
         
 	def listener1(self, msg):
-		self.get_logger().info('I heard: "%s"' % msg.data)
-
+		self.get_logger().info('I heard: '+str(msg.x))
 		
 		# Servers
 		#____________________________________________

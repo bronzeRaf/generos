@@ -18,8 +18,14 @@
 import rclpy
 from rclpy.node import Node
 
-from std_msgs.msg import String
-from example_interfaces.srv import AddTwoInts
+{%for t in tmessages %}
+from interfaces.msg import {{t}}
+{%endfor%}
+{%for s in smessages %}
+from interfaces.srv import {{s}}
+{%endfor%}
+# ~ from std_msgs.msg import {{objects.type}}
+# ~ from example_interfaces.srv import AddTwoInts
 
 
 class {{node.name}}_class(Node):
@@ -29,7 +35,7 @@ class {{node.name}}_class(Node):
 		# Publishers
 		#____________________________________________
 		{%for p in publishers %}
-		self.{{p.name}}= self.create_publisher(String, '{{p.topicPath}}', {{p.qos}})
+		self.{{p.name}}= self.create_publisher({{p.type}}, '{{p.topicPath}}', {{p.qos}})
 		
 		timer_period{{loop.index}} = {{p.publishRate}}  # seconds
 		
@@ -38,10 +44,17 @@ class {{node.name}}_class(Node):
 		
 		
 	def timer_callback{{loop.index}}(self):
-		msg = String()
-		msg.data = 'Hello World: %d' % self.i
+		msg = {{p.type}}()
+		{% if p.type == "ValueString" %}
+		msg.x = 'Hello World: %d' % self.i
+		{% endif %}
+		
+		{% if p.type == "ValueInt" %}
+		msg.x = self.i
+		{% endif %}
+		
 		self.{{p.name}}.publish(msg)
-		self.get_logger().info('Publishing: "%s"' % msg.data)
+		self.get_logger().info('Publishing: "%s"' % msg.x)
 		self.i += 1
 
 		{%endfor%}
@@ -49,14 +62,13 @@ class {{node.name}}_class(Node):
 		# Subscribers
 		#____________________________________________
 		{%for s in subscribers %}
-		self.{{s.name}}= self.create_subscription(String, '{{s.topicPath}}', self.listener{{loop.index}}, {{s.qos}})
+		self.{{s.name}}= self.create_subscription({{s.type}}, '{{s.topicPath}}', self.listener{{loop.index}}, {{s.qos}})
 		self.{{s.name}} 
 		
 		timer_period = 0.5  # seconds
         
 	def listener{{loop.index}}(self, msg):
-		self.get_logger().info('I heard: "%s"' % msg.data)
-
+		self.get_logger().info('I heard: '+str(msg.x))
 		{%endfor%}
 		
 		# Servers
