@@ -106,7 +106,22 @@ def main(args=None):
 	
 	{{node.name}} = {{node.name}}_class()
 	
-	{%for c in clients %}
+	
+	
+	#TODO add client code here
+	
+	rclpy.spin({{node.name}})
+	# Destroy the node explicitly
+	# (optional - otherwise it will be done automatically
+	# when the garbage collector destroys the node object)
+	{{node.name}}.destroy_node()
+	rclpy.shutdown()
+	
+{%for c in clients %}
+def {{c.name}}(args=None):
+	rclpy.init(args=args)
+	
+	{{node.name}} = {{node.name}}_class()
 	{{node.name}}.send_request_{{c.name}}()
 	while rclpy.ok():
 		rclpy.spin_once({{node.name}})
@@ -121,17 +136,7 @@ def main(args=None):
 				({{node.name}}.req_{{c.name}}.a, {{node.name}}.req_{{c.name}}.b, response.c))
 			break
 	
-	{%endfor%}
+{%endfor%}
 	
-	#TODO add client code here
-	
-	rclpy.spin({{node.name}})
-	# Destroy the node explicitly
-	# (optional - otherwise it will be done automatically
-	# when the garbage collector destroys the node object)
-	{{node.name}}.destroy_node()
-	rclpy.shutdown()
-	
-
 if __name__ == '__main__':
 	main()

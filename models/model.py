@@ -48,7 +48,7 @@ node2 = Node()
 node2.name = "Node_2"
 node3 = Node()
 node3.name = "Node_3"
-#set publisher
+#set publishers
 publisher1 = Publisher()
 publisher1.name = "publy1"
 publisher1.topicPath = "topic/path"
@@ -57,10 +57,13 @@ publisher3 = Publisher()
 publisher3.name = "publy3"
 publisher3.topicPath = "topic/path2"
 publisher3.publishRate = 0.8
-#set subscriber
+#set subscribers
 subscriber1 = Subscriber()
 subscriber1.name = "suby1"
 subscriber1.topicPath = "topic/path"
+subscriber2 = Subscriber()
+subscriber2.name = "suby2"
+subscriber2.topicPath = "topic/path2"
 #set the topic messages
 topicmessage1 = TopicMessage()
 topicmessage1.name = "ValueInt"
@@ -132,9 +135,10 @@ package1.hasNodes.extend([node2])						#0..*	package-node
 package1.hasNodes.extend([node3])						#0..*	package-node
 
 
-# ~ node1.hasPublishers.extend([publisher1])				#0..*	node-publisher
-node3.hasPublishers.extend([publisher3])				#0..*	node-publisher
-# ~ node2.hasSubscribers.extend([subscriber1])				#0..*	node-subscriber
+node1.hasPublishers.extend([publisher1])				#0..*	node-publisher
+node1.hasPublishers.extend([publisher3])				#0..*	node-publisher
+node2.hasSubscribers.extend([subscriber1])				#0..*	node-subscriber
+node2.hasSubscribers.extend([subscriber2])				#0..*	node-subscriber
 node1.hasServers.extend([server1])						#0..*	node-server
 node2.hasClients.extend([client1])						#0..*	node-client
 
@@ -157,6 +161,7 @@ res2.hasCommunicationObjects.extend([sobject6])			#0..*	response-CommunicationOb
 publisher1.pmsg = topicmessage1							#1..1	publisher-topicmessage
 publisher3.pmsg = topicmessage2							#1..1	publisher-topicmessage
 subscriber1.smsg = topicmessage1						#1..1	subscriber-topicmessage
+subscriber2.smsg = topicmessage2						#1..1	subscriber-topicmessage
 graph1.nodes.extend([node1, node2, node3])				#0..*	graph-nodes
 server1.servicemessage = servicemessage1				#1..1	server-servicemessage
 client1.servicemessage = servicemessage1				#1..1	client-servicemessage

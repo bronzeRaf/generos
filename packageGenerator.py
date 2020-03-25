@@ -170,6 +170,8 @@ for package in model_root.hasPackages:
 	entry_data = []
 	for n in package.hasNodes:
 		entry_data.append(n.name+'_exec = '+package.name+'.'+n.name+'_node:main'),
+		for c in n.hasClients:
+			entry_data.append(n.name+'_'+c.name+' = '+package.name+'.'+n.name+'_node:'+c.name),
 
 	# Fire up the rendering proccess
 	output = template.render(pack=pack_data, entry_points=entry_data)

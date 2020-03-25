@@ -24,6 +24,7 @@ setup(
         'console_scripts': [
 		'Nodes_name_exec = pack1.Nodes_name_node:main',
 		'Node_2_exec = pack1.Node_2_node:main',
+		'Node_2_Client1 = pack1.Node_2_node:Client1',
 		'Node_3_exec = pack1.Node_3_node:main',
         ],
     },

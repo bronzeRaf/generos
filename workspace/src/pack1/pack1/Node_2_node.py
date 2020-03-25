@@ -26,6 +26,20 @@ class Node_2_class(Node):
 		
 		# Subscribers
 		#____________________________________________
+		self.suby1= self.create_subscription(ValueInt, 'topic/path', self.listener1, 10)
+		self.suby1 
+		
+		timer_period = 0.5  # seconds
+        
+	def listener1(self, msg):
+		self.get_logger().info('I heard: '+str(msg.x))
+		self.suby2= self.create_subscription(ValueString, 'topic/path2', self.listener2, 10)
+		self.suby2 
+		
+		timer_period = 0.5  # seconds
+        
+	def listener2(self, msg):
+		self.get_logger().info('I heard: '+str(msg.x))
 		
 		# Servers
 		#____________________________________________
@@ -50,6 +64,21 @@ def main(args=None):
 	
 	Node_2 = Node_2_class()
 	
+	
+	
+	#TODO add client code here
+	
+	rclpy.spin(Node_2)
+	# Destroy the node explicitly
+	# (optional - otherwise it will be done automatically
+	# when the garbage collector destroys the node object)
+	Node_2.destroy_node()
+	rclpy.shutdown()
+	
+def Client1(args=None):
+	rclpy.init(args=args)
+	
+	Node_2 = Node_2_class()
 	Node_2.send_request_Client1()
 	while rclpy.ok():
 		rclpy.spin_once(Node_2)
@@ -65,15 +94,5 @@ def main(args=None):
 			break
 	
 	
-	#TODO add client code here
-	
-	
-	# Destroy the node explicitly
-	# (optional - otherwise it will be done automatically
-	# when the garbage collector destroys the node object)
-	Node_2.destroy_node()
-	rclpy.shutdown()
-	
-
 if __name__ == '__main__':
 	main()

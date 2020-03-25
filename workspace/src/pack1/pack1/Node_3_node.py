@@ -1,8 +1,6 @@
 
 # ~ node: Node_3
 
-# ~ # ~ publisher name publy3
-# ~ publisher path topic/path2
 # ~ 
 
 # TODO messages
@@ -25,23 +23,6 @@ class Node_3_class(Node):
 		super().__init__('Node_3')
 		# Publishers
 		#____________________________________________
-		self.publy3= self.create_publisher(ValueString, 'topic/path2', 10)
-		
-		timer_period1 = 0.8  # seconds
-		
-		self.timer1 = self.create_timer(timer_period1, self.timer_callback1)
-		self.i = 0
-		
-		
-	def timer_callback1(self):
-		msg = ValueString()
-		msg.x = 'Hello World: %d' % self.i
-		
-		
-		self.publy3.publish(msg)
-		self.get_logger().info('Publishing: "%s"' % msg.x)
-		self.i += 1
-
 		
 		# Subscribers
 		#____________________________________________
@@ -58,6 +39,7 @@ def main(args=None):
 	Node_3 = Node_3_class()
 	
 	
+	
 	#TODO add client code here
 	
 	rclpy.spin(Node_3)
@@ -67,6 +49,6 @@ def main(args=None):
 	Node_3.destroy_node()
 	rclpy.shutdown()
 	
-
+	
 if __name__ == '__main__':
 	main()
