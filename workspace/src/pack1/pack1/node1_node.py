@@ -1,10 +1,10 @@
 
-# ~ node: Nodes_name
+# ~ node: node1
 
 # ~ # ~ publisher name publy1
-# ~ publisher path topic/path
+# ~ publisher path topic/path1
 # ~ # ~ publisher name publy3
-# ~ publisher path topic/path2
+# ~ publisher path topic/path3
 # ~ 
 
 # TODO messages
@@ -21,13 +21,13 @@ from interfaces.srv import SrFloatFloatString
 # ~ from example_interfaces.srv import AddTwoInts
 
 
-class Nodes_name_class(Node):
+class node1_class(Node):
 
 	def __init__(self):
-		super().__init__('Nodes_name')
+		super().__init__('node1')
 		# Publishers
 		#____________________________________________
-		self.publy1= self.create_publisher(ValueInt, 'topic/path', 10)
+		self.publy1= self.create_publisher(ValueInt, 'topic/path1', 10)
 		
 		timer_period1 = 0.5  # seconds
 		
@@ -44,9 +44,9 @@ class Nodes_name_class(Node):
 		self.get_logger().info('Publishing: "%s"' % msg.x)
 		self.i += 1
 
-		self.publy3= self.create_publisher(ValueString, 'topic/path2', 10)
+		self.publy3= self.create_publisher(ValueString, 'topic/path3', 10)
 		
-		timer_period2 = 0.8  # seconds
+		timer_period2 = 0.3  # seconds
 		
 		self.timer2 = self.create_timer(timer_period2, self.timer_callback2)
 		self.i = 0
@@ -81,17 +81,17 @@ class Nodes_name_class(Node):
 def main(args=None):
 	rclpy.init(args=args)
 	
-	Nodes_name = Nodes_name_class()
+	node1 = node1_class()
 	
 	
 	
 	#TODO add client code here
 	
-	rclpy.spin(Nodes_name)
+	rclpy.spin(node1)
 	# Destroy the node explicitly
 	# (optional - otherwise it will be done automatically
 	# when the garbage collector destroys the node object)
-	Nodes_name.destroy_node()
+	node1.destroy_node()
 	rclpy.shutdown()
 	
 	

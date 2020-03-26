@@ -153,7 +153,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="hardDisk" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="memory" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//Float"/>
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rosVersion" lowerBound="1"
         eType="#//ROSVersion"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasNetworkInterfaces" upperBound="-1"

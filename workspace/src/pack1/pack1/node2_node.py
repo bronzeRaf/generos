@@ -1,5 +1,5 @@
 
-# ~ node: Node_2
+# ~ node: node2
 
 # ~ 
 
@@ -17,10 +17,10 @@ from interfaces.srv import SrFloatFloatString
 # ~ from example_interfaces.srv import AddTwoInts
 
 
-class Node_2_class(Node):
+class node2_class(Node):
 
 	def __init__(self):
-		super().__init__('Node_2')
+		super().__init__('node2')
 		# Publishers
 		#____________________________________________
 		
@@ -55,35 +55,35 @@ class Node_2_class(Node):
 def main(args=None):
 	rclpy.init(args=args)
 	
-	Node_2 = Node_2_class()
+	node2 = node2_class()
 	
 	
 	
 	#TODO add client code here
 	
-	rclpy.spin(Node_2)
+	rclpy.spin(node2)
 	# Destroy the node explicitly
 	# (optional - otherwise it will be done automatically
 	# when the garbage collector destroys the node object)
-	Node_2.destroy_node()
+	node2.destroy_node()
 	rclpy.shutdown()
 	
 def Client1(args=None):
 	rclpy.init(args=args)
 	
-	Node_2 = Node_2_class()
-	Node_2.send_request_Client1()
+	node2 = node2_class()
+	node2.send_request_Client1()
 	while rclpy.ok():
-		rclpy.spin_once(Node_2)
-		if Node_2.future_Client1.done():
+		rclpy.spin_once(node2)
+		if node2.future_Client1.done():
 			try:
-				response = Node_2.future_Client1.result()
+				response = node2.future_Client1.result()
 			except Exception as e:
-				Node_2.get_logger().info('Service call failed %r' % (e,))
+				node2.get_logger().info('Service call failed %r' % (e,))
 			else:
-				Node_2.get_logger().info(
+				node2.get_logger().info(
 				'Result of add_three_ints: for %d + %d = %d' %
-				(Node_2.req_Client1.a, Node_2.req_Client1.b, response.c))
+				(node2.req_Client1.a, node2.req_Client1.b, response.c))
 			break
 	
 	

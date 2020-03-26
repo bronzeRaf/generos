@@ -5,10 +5,10 @@ import pyecore.ecore as Ecore  # We get a reference to the Ecore metamodle imple
 from pyecoregen.ecore import EcoreGenerator 
 import pyecore.behavior as behavior
 from pyecore.utils import DynamicEPackage
- 
+
 global_registry[Ecore.nsURI] = Ecore  # We load the Ecore metamodel first
 rset = ResourceSet()
-resource = rset.get_resource(URI('../metamodel.ecore'))
+resource = rset.get_resource(URI('../metamodelLib/metamodel.ecore'))
 # ~ rset.resource_factory['json'] = lambda uri: JsonResource(uri)
 root = resource.contents[0]  # We get the root (an EPackage here)
 rset.metamodel_registry[root.nsURI] = root
@@ -140,16 +140,12 @@ package2.hasDocumentation = documentation2				#1..1	package-documentation
 package1.hasNodes.extend([node1])						#0..*	package-node
 package1.hasNodes.extend([node2])						#0..*	package-node
 package2.hasNodes.extend([node3])						#0..*	package-node
-
-
 node1.hasPublishers.extend([publisher1])				#0..*	node-publisher
 node1.hasPublishers.extend([publisher3])				#0..*	node-publisher
 node3.hasSubscribers.extend([subscriber1])				#0..*	node-subscriber
 node2.hasSubscribers.extend([subscriber2])				#0..*	node-subscriber
 node1.hasServers.extend([server1])						#0..*	node-server
 node2.hasClients.extend([client1])						#0..*	node-client
-
-
 topicmessage1.hasCommunicationObjects.extend([tobject1])#0..*	topicmessage-CommunicationObject
 topicmessage2.hasCommunicationObjects.extend([tobject2])#0..*	topicmessage-CommunicationObject
 servicemessage1.hasRequest = req1						#0..*	servicemessage-request

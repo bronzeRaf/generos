@@ -22,9 +22,9 @@ setup(
     tests_require = ['pytest'],
     entry_points = {
         'console_scripts': [
-		'Nodes_name_exec = pack1.Nodes_name_node:main',
-		'Node_2_exec = pack1.Node_2_node:main',
-		'Node_2_Client1 = pack1.Node_2_node:Client1',
+		'node1_exec = pack1.node1_node:main',
+		'node2_exec = pack1.node2_node:main',
+		'node2_Client1 = pack1.node2_node:Client1',
         ],
     },
 )

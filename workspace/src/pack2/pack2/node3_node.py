@@ -1,5 +1,5 @@
 
-# ~ node: Node_3
+# ~ node: node3
 
 # ~ 
 
@@ -17,16 +17,16 @@ from interfaces.srv import SrFloatFloatString
 # ~ from example_interfaces.srv import AddTwoInts
 
 
-class Node_3_class(Node):
+class node3_class(Node):
 
 	def __init__(self):
-		super().__init__('Node_3')
+		super().__init__('node3')
 		# Publishers
 		#____________________________________________
 		
 		# Subscribers
 		#____________________________________________
-		self.suby1= self.create_subscription(ValueInt, 'topic/path', self.listener1, 10)
+		self.suby1= self.create_subscription(ValueInt, 'topic/path1', self.listener1, 10)
 		self.suby1 
 		
 		timer_period = 0.5  # seconds
@@ -43,17 +43,17 @@ class Node_3_class(Node):
 def main(args=None):
 	rclpy.init(args=args)
 	
-	Node_3 = Node_3_class()
+	node3 = node3_class()
 	
 	
 	
 	#TODO add client code here
 	
-	rclpy.spin(Node_3)
+	rclpy.spin(node3)
 	# Destroy the node explicitly
 	# (optional - otherwise it will be done automatically
 	# when the garbage collector destroys the node object)
-	Node_3.destroy_node()
+	node3.destroy_node()
 	rclpy.shutdown()
 	
 	
