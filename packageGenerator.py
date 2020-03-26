@@ -137,6 +137,7 @@ with open(dest, 'w') as f:
 
 # Build the packages
 for package in model_root.hasPackages:
+	# Now the working directory is workspace/src
 	# Create the package directory tree
 	os.system('mkdir '+package.name)
 	os.chdir(package.name)

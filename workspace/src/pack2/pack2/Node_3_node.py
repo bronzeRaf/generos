@@ -26,6 +26,13 @@ class Node_3_class(Node):
 		
 		# Subscribers
 		#____________________________________________
+		self.suby1= self.create_subscription(ValueInt, 'topic/path', self.listener1, 10)
+		self.suby1 
+		
+		timer_period = 0.5  # seconds
+        
+	def listener1(self, msg):
+		self.get_logger().info('I heard: '+str(msg.x))
 		
 		# Servers
 		#____________________________________________

@@ -41,6 +41,10 @@ package1 = Package()
 package1.name = "pack1"
 package1.ROSVersion = 'eloquent'
 package1.packagePath = "path to pack1"
+package2 = Package()
+package2.name = "pack2"
+package2.ROSVersion = 'eloquent'
+package2.packagePath = "path to pack2"
 #set node
 node1 = Node()
 node1.name = "Nodes_name"
@@ -108,6 +112,7 @@ sobject6.name = "z"
 sobject6.type = DataType.string
 #set documentation
 documentation1 = Documentation()
+documentation2 = Documentation()
 #set graph
 graph1 = Graph()
 #set topology
@@ -123,6 +128,7 @@ client1.servicePath = "ser/vice/path"
 
 #apply compositions
 rosystem1.hasPackages.extend([package1])				#0..*	system-package
+rosystem1.hasPackages.extend([package2])				#0..*	system-package
 rosystem1.hasGraphs = graph1							#1..1	system-graph
 rosystem1.topology = topology1							#1..1	system-topology
 rosystem1.hasTopicMessages.extend([topicmessage1])		#0..*	system-topicmessage
@@ -130,18 +136,18 @@ rosystem1.hasTopicMessages.extend([topicmessage2])		#0..*	system-topicmessage
 rosystem1.hasServiceMessages.extend([servicemessage1])	#0..*	system-servicemessage
 rosystem1.hasServiceMessages.extend([servicemessage2])	#0..*	system-servicemessage
 package1.hasDocumentation = documentation1				#1..1	package-documentation
+package2.hasDocumentation = documentation2				#1..1	package-documentation
 package1.hasNodes.extend([node1])						#0..*	package-node
 package1.hasNodes.extend([node2])						#0..*	package-node
-package1.hasNodes.extend([node3])						#0..*	package-node
+package2.hasNodes.extend([node3])						#0..*	package-node
 
 
 node1.hasPublishers.extend([publisher1])				#0..*	node-publisher
 node1.hasPublishers.extend([publisher3])				#0..*	node-publisher
-node2.hasSubscribers.extend([subscriber1])				#0..*	node-subscriber
+node3.hasSubscribers.extend([subscriber1])				#0..*	node-subscriber
 node2.hasSubscribers.extend([subscriber2])				#0..*	node-subscriber
 node1.hasServers.extend([server1])						#0..*	node-server
 node2.hasClients.extend([client1])						#0..*	node-client
-
 
 
 topicmessage1.hasCommunicationObjects.extend([tobject1])#0..*	topicmessage-CommunicationObject

@@ -2,7 +2,7 @@
 
 from setuptools import setup
 
-package_name = 'pack1'
+package_name = 'pack2'
 
 setup(
     name = package_name,
@@ -22,9 +22,7 @@ setup(
     tests_require = ['pytest'],
     entry_points = {
         'console_scripts': [
-		'Nodes_name_exec = pack1.Nodes_name_node:main',
-		'Node_2_exec = pack1.Node_2_node:main',
-		'Node_2_Client1 = pack1.Node_2_node:Client1',
+		'Node_3_exec = pack2.Node_3_node:main',
         ],
     },
 )
