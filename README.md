@@ -2,16 +2,18 @@
 A Domain Specific Language to generate easilly ROS2 packages.
 
 ## metamodelLib:
-This folder contains python module called "metamodel" implementing the metamodel of the ROS2 world. The module also contains all the EClasses and the behavior, to build powerfull models. The folder contains also the ecore implementation of the metamodel in the file "metamodel.ecore". Anyone can import the python module or the ecore implementation to build models almost the same way. Finally, the file named "metamodelGenerator.py" reeds the ecore implementation of the "metamodel.ecore" and generates the python module "metamodel", using pyecoregen. The "metamodel.jpg" is the image of the metamodel diagram from the Eclipse Modeling Framework. You can see the diagram below
+This folder contains python module called "metamodel" implementing the metamodel of the [ROS2](https://index.ros.org/doc/ros2/Tutorials/) world. The module also contains all the EClasses and the behavior, to build powerfull models. The folder contains also the ecore implementation of the metamodel in the file "metamodel.ecore". Anyone can import the python module or the ecore implementation to build models almost the same way. Finally, the file named "metamodelGenerator.py" reeds the ecore implementation of the "metamodel.ecore" and generates the python module "metamodel", using [pyecoregen](https://github.com/pyecore/pyecoregen). The "metamodel.jpg" is the image of the metamodel diagram from the Eclipse Modeling Framework. You can see the diagram below.
+
 ![Metamodel](/metamodelLib/metamodel.jpg)
+
 ______________________________________________________________________________
 
 ## models:
-This folder demenstrates some kind of model that could be generated into ROS2 package from the system. The "model.py" receives the ecore metamodel to validate and builds the "test.xmi" file using pyecore. The "model2.py" model receives the metamodel python module to validate and builds the "test2.xmi" file using pyecore. The "modelj.json" is an example json model. Any of the xmi or json file with this format (created or generated) could work as an input in the ROS2 package generator mechanism.
+This folder demenstrates some kind of model that could be generated into ROS2 package from the system. The "model.py" receives the ecore metamodel to validate and builds the "test.xmi" file using [pyecore](https://buildmedia.readthedocs.org/media/pdf/pyecore/latest/pyecore.pdf). The "model2.py" model receives the metamodel python module to validate and builds the "test2.xmi" file using [pyecore](https://buildmedia.readthedocs.org/media/pdf/pyecore/latest/pyecore.pdf). The "modelj.json" is an example json model. Any of the xmi or json file with this format (created or generated) could work as an input in the ROS2 package generator mechanism.
 ______________________________________________________________________________
 
 ## templates:
-This folder contains all the jinja2 templates that the ROS2 package generator mechanism loads to build the ROS2 package. 
+This folder contains all the [jinja2](https://buildmedia.readthedocs.org/media/pdf/jinja/latest/jinja.pdf) templates that the ROS2 package generator mechanism loads to build the ROS2 package. 
 
 - The temp_CMakeLists.txt is a template of the CMakeLists.txt file, needed to build a ROS2 package called "interfaces" implementing all the interfaces (custom Srv and Msg) created by the user.
 
