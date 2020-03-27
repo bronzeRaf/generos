@@ -32,4 +32,4 @@ rset.metamodel_registry[root.nsURI] = root
 	# ~ print(x) # display 2 instances 
 # ~ os.chdir('/home/raf/Desktop/Thesis Project/ecoreWork')
 generator = EcoreGenerator()
-generator.generate(root, 'metamodelLib')
+generator.generate(root,'')

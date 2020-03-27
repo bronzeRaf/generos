@@ -20,22 +20,25 @@ import pyecore.behavior as behavior
 from pyecore.utils import DynamicEPackage
 import subprocess
 import os
+import sys
 from jinja2 import Environment, FileSystemLoader
+sys.path.append('metamodelLib')
+import metamodel
 
 
-# We load the Ecore metamodel first
+# Create rset and load Metamodel
 global_registry[Ecore.nsURI] = Ecore  
 rset = ResourceSet()
+# If you work with python package metamodel uncomment following line
+# ~ rset.metamodel_registry[metamodel.nsURI] = metamodel
+# if you with .ecore file metamodel ncomment following 3 lines
 resource = rset.get_resource(URI('metamodelLib/metamodel.ecore'))
-# ~ rset.resource_factory['json'] = lambda uri: JsonResource(uri)
-root = resource.contents[0]  # We get the root (an EPackage here)
-# Register the metamodel (in case we open an XMI model later)
+root = resource.contents[0]
 rset.metamodel_registry[root.nsURI] = root
-
-
 
 # We obtain the model from an XMI
 model_root = rset.get_resource(URI('models/test2.xmi')).contents[0]
+
 
 # Create the workspace directory tree
 os.system('mkdir workspace')
