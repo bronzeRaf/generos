@@ -1,8 +1,8 @@
-# genRos2
+# generos
 A Domain Specific Language to generate easilly ROS2 packages.
 
 ## metamodelLib:
-This folder contains python module called "metamodel" implementing the metamodel of the [ROS2](https://index.ros.org/doc/ros2/Tutorials/) world. The module also contains all the EClasses and the behavior, to build powerfull models. The folder contains also the ecore implementation of the metamodel in the file "metamodel.ecore". Anyone can import the python module or the ecore implementation to build models almost the same way. Finally, the file named "metamodelGenerator.py" reeds the ecore implementation of the "metamodel.ecore" and generates the python module "metamodel", using [pyecoregen](https://github.com/pyecore/pyecoregen). The "metamodel.jpg" is the image of the metamodel diagram from the Eclipse Modeling Framework. You can see the diagram below.
+This folder contains python module called "metamodel" implementing the metamodel of the [ROS2](https://index.ros.org/doc/ros2/Tutorials/) world. The module also contains all the EClasses and the behavior, to build powerfull models. The folder contains also the ecore implementation of the metamodel in the file "metamodel.ecore". Anyone can import the python module or the ecore implcolcon buildementation to build models almost the same way. Finally, the file named "metamodelGenerator.py" reeds the ecore implementation of the "metamodel.ecore" and generates the python module "metamodel", using [pyecoregen](https://github.com/pyecore/pyecoregen). The "metamodel.jpg" is the image of the metamodel diagram from the Eclipse Modeling Framework. You can see the diagram below.
 
 ![Metamodel](/metamodelLib/metamodel.jpg)
 

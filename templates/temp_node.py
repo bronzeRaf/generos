@@ -5,16 +5,6 @@
 # Written by Rafael Brouzos
 #}
 
-# ~ node: {{node.name}}
-
-# ~ {%for p in publishers %}
-# ~ publisher name {{ p.name }}
-# ~ publisher path {{p.topicPath}}
-# ~ {%endfor%}
-
-
-# TODO messages
-
 import rclpy
 from rclpy.node import Node
 import sys
@@ -37,13 +27,37 @@ class {{node.name}}_class(Node):
 		#____________________________________________
 		{%for p in publishers %}
 		self.{{p.name}}= self.create_publisher({{p.type}}, '{{p.topicPath}}', {{p.qos}})
-		
 		timer_period{{loop.index}} = {{p.publishRate}}  # seconds
-		
 		self.timer{{loop.index}} = self.create_timer(timer_period{{loop.index}}, self.timer_callback{{loop.index}})
 		self.i = 0
+		{%endfor%}
+		
+		# Subscribers
+		#____________________________________________
+		{%for s in subscribers %}
+		self.{{s.name}}= self.create_subscription({{s.type}}, '{{s.topicPath}}', self.listener{{loop.index}}, {{s.qos}})
+		self.{{s.name}} 
+		{%endfor%}
+		
+		# Servers
+		#____________________________________________
+		{%for s in servers %}
+		self.{{s.name}}= self.create_service({{s.type}}, '{{s.type}}_n', self.{{s.name}}_call)
+		{%endfor%}
+		
+		# Clients
+		#____________________________________________
+		{%for c in clients %}
+		self.{{c.name}}= self.create_client({{c.type}}, '{{c.type}}_n')
+		while not self.{{c.name}}.wait_for_service(timeout_sec=1.0):
+			self.get_logger().info('service not available, waiting again...')
+		{%endfor%}
 		
 		
+	# Calls
+	#____________________________________________
+	# Publishers
+	{%for p in publishers %}
 	def timer_callback{{loop.index}}(self):
 		msg = {{p.type}}()
 		{% if p.type == "ValueString" %}
@@ -57,59 +71,40 @@ class {{node.name}}_class(Node):
 		self.{{p.name}}.publish(msg)
 		self.get_logger().info('Publishing: "%s"' % msg.x)
 		self.i += 1
-
-		{%endfor%}
-		
-		# Subscribers
-		#____________________________________________
-		{%for s in subscribers %}
-		self.{{s.name}}= self.create_subscription({{s.type}}, '{{s.topicPath}}', self.listener{{loop.index}}, {{s.qos}})
-		self.{{s.name}} 
-		
-		timer_period = 0.5  # seconds
-        
+	{%endfor%}
+	
+	# Subscribers
+	{%for s in subscribers %}
 	def listener{{loop.index}}(self, msg):
+		#TODO variables set here
 		self.get_logger().info('I heard: '+str(msg.x))
-		{%endfor%}
-		
-		# Servers
-		#____________________________________________
-		{%for s in servers %}
-		self.{{s.name}}= self.create_service({{s.type}}, '{{s.type}}_n', self.{{s.name}}_call)
-		
+	{%endfor%}
+	
+	#Servers
+	{%for s in servers %}
 	def {{s.name}}_call(self, request, response):
+		#TODO variables set here
 		response.c = request.a + request.b
 		self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
 		return response
-
-		{%endfor%}
+	{%endfor%}
 		
-		# Clients
-		#____________________________________________
-		{%for c in clients %}
-		self.{{c.name}}= self.create_client({{c.type}}, '{{c.type}}_n')
-		
-		while not self.{{c.name}}.wait_for_service(timeout_sec=1.0):
-			self.get_logger().info('service not available, waiting again...')
-		self.req_{{c.name}} = {{c.type}}.Request()
-		
-		
+	# Clients
+	{%for c in clients %}
 	def send_request_{{c.name}}(self):
 		self.req_{{c.name}}.a = int(sys.argv[1])
 		self.req_{{c.name}}.b = int(sys.argv[2])
 		self.future_{{c.name}} = self.{{c.name}}.call_async(self.req_{{c.name}})
-
-		{%endfor%}
-
+	{%endfor%}
+		
+		
+		
+		
 def main(args=None):
 	rclpy.init(args=args)
 	
 	{{node.name}} = {{node.name}}_class()
-	
-	
-	
-	#TODO add client code here
-	
+		
 	rclpy.spin({{node.name}})
 	# Destroy the node explicitly
 	# (optional - otherwise it will be done automatically
