@@ -20,8 +20,8 @@ extern "C"
 // Struct defined in srv/Addtwo in the package interfaces.
 typedef struct interfaces__srv__Addtwo_Request
 {
-  int32_t a;
-  int32_t b;
+  int8_t a;
+  int8_t b;
 } interfaces__srv__Addtwo_Request;
 
 // Struct for a sequence of interfaces__srv__Addtwo_Request.
@@ -40,7 +40,7 @@ typedef struct interfaces__srv__Addtwo_Request__Sequence
 // Struct defined in srv/Addtwo in the package interfaces.
 typedef struct interfaces__srv__Addtwo_Response
 {
-  int32_t c;
+  int8_t c;
 } interfaces__srv__Addtwo_Response;
 
 // Struct for a sequence of interfaces__srv__Addtwo_Response.

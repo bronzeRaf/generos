@@ -6,12 +6,18 @@
 module interfaces {
   module srv {
     struct Addtwo_Request {
-      int32 a;
+      @verbatim (language="comment", text=
+        " a value for integer service Addtwo request 1")
+      int8 a;
 
-      int32 b;
+      @verbatim (language="comment", text=
+        " b value for integer service Addtwo request 2")
+      int8 b;
     };
     struct Addtwo_Response {
-      int32 c;
+      @verbatim (language="comment", text=
+        " c value for integer service Addtwo response")
+      int8 c;
     };
   };
 };

@@ -121,10 +121,12 @@ topology1 = Topology()
 server1 = Server()
 server1.name = "Server1"
 server1.servicePath = "ser/vice/path"
+server1.serviceName = "add_two"
 #set client
 client1 = Client()
 client1.name = "Client1"
 client1.servicePath = "ser/vice/path"
+client1.serviceName = "add_two"
 
 #apply compositions
 rosystem1.hasPackages.extend([package1])				#0..*	system-package

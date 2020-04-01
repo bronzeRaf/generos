@@ -20,14 +20,27 @@ AritectureTypes = EEnum('AritectureTypes', literals=['x86', 'x64'])
 
 OSType = EEnum('OSType', literals=['Ubuntu_14', 'Ubuntu_16', 'Ubuntu_18'])
 
+UIntType = EEnum('UIntType', literals=['uint8', 'uint16', 'uint32', 'uint64'])
+
+IntType = EEnum('IntType', literals=['int8', 'int16', 'int32', 'int64'])
+
+FloatType = EEnum('FloatType', literals=['float32', 'float64'])
+
+IntArrayType = EEnum('IntArrayType', literals=['int8[]', 'int16[]', 'int32[]', 'int64[]'])
+
+UIntArrayType = EEnum('UIntArrayType', literals=['uint8[]', 'uint16[]', 'uint32[]', 'uint64[]'])
+
+FloatArrayType = EEnum('FloatArrayType', literals=['float32[]', 'float64[]'])
+
 
 class Client(EObject, metaclass=MetaEClass):
 
     name = EAttribute(eType=EString, derived=False, changeable=True)
     servicePath = EAttribute(eType=EString, derived=False, changeable=True)
+    serviceName = EAttribute(eType=EString, derived=False, changeable=True)
     servicemessage = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, name=None, servicemessage=None, servicePath=None, **kwargs):
+    def __init__(self, *, name=None, servicemessage=None, servicePath=None, serviceName=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -39,6 +52,9 @@ class Client(EObject, metaclass=MetaEClass):
         if servicePath is not None:
             self.servicePath = servicePath
 
+        if serviceName is not None:
+            self.serviceName = serviceName
+
         if servicemessage is not None:
             self.servicemessage = servicemessage
 
@@ -46,6 +62,7 @@ class Client(EObject, metaclass=MetaEClass):
 class Node(EObject, metaclass=MetaEClass):
 
     name = EAttribute(eType=EString, derived=False, changeable=True)
+    namespace = EAttribute(eType=EString, derived=False, changeable=True)
     hasSubscribers = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasPublishers = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasClients = EReference(ordered=True, unique=True, containment=True, upper=-1)
@@ -53,7 +70,7 @@ class Node(EObject, metaclass=MetaEClass):
     hasParameters = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasActions = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, hasSubscribers=None, hasPublishers=None, hasClients=None, hasServers=None, hasParameters=None, name=None, hasActions=None, **kwargs):
+    def __init__(self, *, hasSubscribers=None, hasPublishers=None, hasClients=None, hasServers=None, hasParameters=None, name=None, hasActions=None, namespace=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -61,6 +78,9 @@ class Node(EObject, metaclass=MetaEClass):
 
         if name is not None:
             self.name = name
+
+        if namespace is not None:
+            self.namespace = namespace
 
         if hasSubscribers:
             self.hasSubscribers.extend(hasSubscribers)
@@ -133,9 +153,10 @@ class Server(EObject, metaclass=MetaEClass):
 
     name = EAttribute(eType=EString, derived=False, changeable=True)
     servicePath = EAttribute(eType=EString, derived=False, changeable=True)
+    serviceName = EAttribute(eType=EString, derived=False, changeable=True)
     servicemessage = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, name=None, servicemessage=None, servicePath=None, **kwargs):
+    def __init__(self, *, name=None, servicemessage=None, servicePath=None, serviceName=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -146,6 +167,9 @@ class Server(EObject, metaclass=MetaEClass):
 
         if servicePath is not None:
             self.servicePath = servicePath
+
+        if serviceName is not None:
+            self.serviceName = serviceName
 
         if servicemessage is not None:
             self.servicemessage = servicemessage
@@ -315,38 +339,38 @@ class ServiceMessage(EObject, metaclass=MetaEClass):
 
 class Request(EObject, metaclass=MetaEClass):
 
-    hasCommunicationObjects = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    hasObjectProperties = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, hasCommunicationObjects=None, **kwargs):
+    def __init__(self, *, hasObjectProperties=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
         super().__init__()
 
-        if hasCommunicationObjects:
-            self.hasCommunicationObjects.extend(hasCommunicationObjects)
+        if hasObjectProperties:
+            self.hasObjectProperties.extend(hasObjectProperties)
 
 
 class Response(EObject, metaclass=MetaEClass):
 
-    hasCommunicationObjects = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    hasObjectProperties = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, hasCommunicationObjects=None, **kwargs):
+    def __init__(self, *, hasObjectProperties=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
         super().__init__()
 
-        if hasCommunicationObjects:
-            self.hasCommunicationObjects.extend(hasCommunicationObjects)
+        if hasObjectProperties:
+            self.hasObjectProperties.extend(hasObjectProperties)
 
 
 class TopicMessage(EObject, metaclass=MetaEClass):
 
     name = EAttribute(eType=EString, derived=False, changeable=True)
-    hasCommunicationObjects = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    hasObjectProperties = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, name=None, hasCommunicationObjects=None, **kwargs):
+    def __init__(self, *, name=None, hasObjectProperties=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -355,8 +379,8 @@ class TopicMessage(EObject, metaclass=MetaEClass):
         if name is not None:
             self.name = name
 
-        if hasCommunicationObjects:
-            self.hasCommunicationObjects.extend(hasCommunicationObjects)
+        if hasObjectProperties:
+            self.hasObjectProperties.extend(hasObjectProperties)
 
 
 class ROSSystem(EObject, metaclass=MetaEClass):
@@ -534,12 +558,14 @@ class NetworkInterface(EObject, metaclass=MetaEClass):
             self.ip = ip
 
 
-class CommunicationObject(EObject, metaclass=MetaEClass):
+class ObjectProperty(EObject, metaclass=MetaEClass):
 
     name = EAttribute(eType=EString, derived=False, changeable=True)
-    type = EAttribute(eType=DataTypes, derived=False, changeable=True)
+    default = EAttribute(eType=EString, derived=False, changeable=True)
+    description = EAttribute(eType=EString, derived=False, changeable=True)
+    datatype = EReference(ordered=True, unique=True, containment=True)
 
-    def __init__(self, *, name=None, type=None, **kwargs):
+    def __init__(self, *, name=None, default=None, description=None, datatype=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -548,8 +574,38 @@ class CommunicationObject(EObject, metaclass=MetaEClass):
         if name is not None:
             self.name = name
 
-        if type is not None:
-            self.type = type
+        if default is not None:
+            self.default = default
+
+        if description is not None:
+            self.description = description
+
+        if datatype is not None:
+            self.datatype = datatype
+
+
+@abstract
+class Datatype(EObject, metaclass=MetaEClass):
+
+    def __init__(self, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+
+class Element(EObject, metaclass=MetaEClass):
+
+    name = EAttribute(eType=EString, derived=False, changeable=True)
+
+    def __init__(self, *, name=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if name is not None:
+            self.name = name
 
 
 class ActionServer(Action):
@@ -564,3 +620,139 @@ class ActionClient(Action):
     def __init__(self, **kwargs):
 
         super().__init__(**kwargs)
+
+
+class Bool(Datatype):
+
+    type = EAttribute(eType=EString, derived=False, changeable=True, default_value='"bool"')
+
+    def __init__(self, *, type=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if type is not None:
+            self.type = type
+
+
+class String(Datatype):
+
+    type = EAttribute(eType=EString, derived=False, changeable=True, default_value='"string"')
+
+    def __init__(self, *, type=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if type is not None:
+            self.type = type
+
+
+@abstract
+class Number(Datatype):
+
+    def __init__(self, **kwargs):
+
+        super().__init__(**kwargs)
+
+
+class ROSData(Datatype):
+
+    def __init__(self, **kwargs):
+
+        super().__init__(**kwargs)
+
+
+@abstract
+class Array(Datatype):
+
+    def __init__(self, **kwargs):
+
+        super().__init__(**kwargs)
+
+
+class Enumeration(Datatype):
+
+    name = EAttribute(eType=EString, derived=False, changeable=True)
+    hasElements = EReference(ordered=True, unique=True, containment=True, upper=-1)
+
+    def __init__(self, *, name=None, hasElements=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if name is not None:
+            self.name = name
+
+        if hasElements:
+            self.hasElements.extend(hasElements)
+
+
+class Int(Number):
+
+    type = EAttribute(eType=IntType, derived=False, changeable=True, default_value=IntType.int32)
+
+    def __init__(self, *, type=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if type is not None:
+            self.type = type
+
+
+class Uint(Number):
+
+    type = EAttribute(eType=UIntType, derived=False, changeable=True, default_value=UIntType.uint32)
+
+    def __init__(self, *, type=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if type is not None:
+            self.type = type
+
+
+class Float(Number):
+
+    type = EAttribute(eType=FloatType, derived=False, changeable=True,
+                      default_value=FloatType.float32)
+
+    def __init__(self, *, type=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if type is not None:
+            self.type = type
+
+
+class UintArray(Array):
+
+    type = EAttribute(eType=UIntArrayType, derived=False, changeable=True, default_value=None)
+
+    def __init__(self, *, type=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if type is not None:
+            self.type = type
+
+
+class FloatArray(Array):
+
+    type = EAttribute(eType=FloatArrayType, derived=False, changeable=True, default_value=None)
+
+    def __init__(self, *, type=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if type is not None:
+            self.type = type
+
+
+class IntArray(Array):
+
+    type = EAttribute(eType=IntArrayType, derived=False, changeable=True, default_value=None)
+
+    def __init__(self, *, type=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if type is not None:
+            self.type = type

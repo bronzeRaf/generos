@@ -7,6 +7,8 @@
         eType="#//ServiceMessage"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="servicePath" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="serviceName" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Node">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasSubscribers" upperBound="-1"
@@ -22,6 +24,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasActions" upperBound="-1"
         eType="#//Action" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="namespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Subscriber">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -42,6 +45,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="servicemessage" lowerBound="1"
         eType="#//ServiceMessage"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="servicePath" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="serviceName" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Parameter">
@@ -101,17 +106,17 @@
         eType="#//Response" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Request">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="hasCommunicationObjects"
-        upperBound="-1" eType="#//CommunicationObject" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasObjectProperties" upperBound="-1"
+        eType="#//ObjectProperty" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Response">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="hasCommunicationObjects"
-        upperBound="-1" eType="#//CommunicationObject" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasObjectProperties" upperBound="-1"
+        eType="#//ObjectProperty" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TopicMessage">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="hasCommunicationObjects"
-        upperBound="-1" eType="#//CommunicationObject" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasObjectProperties" upperBound="-1"
+        eType="#//ObjectProperty" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ROSSystem">
     <eStructuralFeatures xsi:type="ecore:EReference" name="topology" lowerBound="1"
@@ -184,8 +189,87 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ip" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CommunicationObject">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//DataTypes"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectProperty">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="default" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="datatype" lowerBound="1"
+        eType="#//Datatype" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Datatype" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Bool" eSuperTypes="#//Datatype">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="&quot;bool&quot;"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="String" eSuperTypes="#//Datatype">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="&quot;string&quot;"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Number" abstract="true" eSuperTypes="#//Datatype"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Int" eSuperTypes="#//Number">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//IntType"
+        defaultValueLiteral="int32"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Uint" eSuperTypes="#//Number">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//UIntType"
+        defaultValueLiteral="uint32"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Float" eSuperTypes="#//Number">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//FloatType"
+        defaultValueLiteral="float32"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="UIntType">
+    <eLiterals name="uint8"/>
+    <eLiterals name="uint16" value="1"/>
+    <eLiterals name="uint32" value="2"/>
+    <eLiterals name="uint64" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="IntType">
+    <eLiterals name="int8"/>
+    <eLiterals name="int16" value="1"/>
+    <eLiterals name="int32" value="2"/>
+    <eLiterals name="int64" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FloatType">
+    <eLiterals name="float32"/>
+    <eLiterals name="float64" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ROSData" eSuperTypes="#//Datatype"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Array" abstract="true" eSuperTypes="#//Datatype"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UintArray" eSuperTypes="#//Array">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//UIntArrayType"
+        defaultValueLiteral="uint32"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FloatArray" eSuperTypes="#//Array">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//FloatArrayType"
+        defaultValueLiteral="float32"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntArray" eSuperTypes="#//Array">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//IntArrayType"
+        defaultValueLiteral="int32"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="IntArrayType">
+    <eLiterals name="int8[]"/>
+    <eLiterals name="int16[]" value="1"/>
+    <eLiterals name="int32[]" value="2"/>
+    <eLiterals name="int64[]" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="UIntArrayType">
+    <eLiterals name="uint8[]"/>
+    <eLiterals name="uint16[]" value="1"/>
+    <eLiterals name="uint32[]" value="2"/>
+    <eLiterals name="uint64[]" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FloatArrayType">
+    <eLiterals name="float32[]"/>
+    <eLiterals name="float64[]" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Enumeration" eSuperTypes="#//Datatype">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasElements" lowerBound="1"
+        upperBound="-1" eType="#//Element" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Element">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>

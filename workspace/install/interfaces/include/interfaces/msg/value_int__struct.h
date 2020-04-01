@@ -20,7 +20,7 @@ extern "C"
 // Struct defined in msg/ValueInt in the package interfaces.
 typedef struct interfaces__msg__ValueInt
 {
-  int32_t x;
+  int8_t x;
 } interfaces__msg__ValueInt;
 
 // Struct for a sequence of interfaces__msg__ValueInt.

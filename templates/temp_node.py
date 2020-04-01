@@ -26,40 +26,47 @@ class {{node.name}}_class(Node):
 		# Publishers
 		#____________________________________________
 		{%for p in publishers %}
-		self.{{p.name}}= self.create_publisher({{p.type}}, '{{p.topicPath}}', {{p.qos}})
-		timer_period{{loop.index}} = {{p.publishRate}}  # seconds
-		self.timer{{loop.index}} = self.create_timer(timer_period{{loop.index}}, self.timer_callback{{loop.index}})
+		self.publisher_{{p.name}}= self.create_publisher({{p.type}}, '{{p.topicPath}}', {{p.qos}})
+		self.timer_{{p.name}} = self.create_timer({{p.publishRate}}, self.publisher_call_{{p.name}})
 		self.i = 0
+		#____________________________________________
 		{%endfor%}
 		
 		# Subscribers
 		#____________________________________________
 		{%for s in subscribers %}
-		self.{{s.name}}= self.create_subscription({{s.type}}, '{{s.topicPath}}', self.listener{{loop.index}}, {{s.qos}})
-		self.{{s.name}} 
+		self.subscriber_{{s.name}}= self.create_subscription({{s.type}}, '{{s.topicPath}}', self.subscriber_call_{{s.name}}, {{s.qos}})
+		self.subscriber_{{s.name}}
+		#____________________________________________
 		{%endfor%}
 		
 		# Servers
 		#____________________________________________
 		{%for s in servers %}
-		self.{{s.name}}= self.create_service({{s.type}}, '{{s.type}}_n', self.{{s.name}}_call)
+		self.server_{{s.name}}= self.create_service({{s.type}}, '{{s.serviceName}}', self.server_call_{{s.name}})
+		#____________________________________________
 		{%endfor%}
 		
 		# Clients
 		#____________________________________________
 		{%for c in clients %}
-		self.{{c.name}}= self.create_client({{c.type}}, '{{c.type}}_n')
-		while not self.{{c.name}}.wait_for_service(timeout_sec=1.0):
-			self.get_logger().info('service not available, waiting again...')
+		self.client_{{c.name}}= self.create_client({{c.type}}, '{{c.serviceName}}')
+		#____________________________________________
 		{%endfor%}
 		
 		
-	# Calls
-	#____________________________________________
+	# ************Calls************
 	# Publishers
+	#____________________________________________
 	{%for p in publishers %}
-	def timer_callback{{loop.index}}(self):
+	def publisher_call_{{p.name}}(self):
 		msg = {{p.type}}()
+		
+		# Message after calculactions should be stored in
+		{%for r in p.msg %}
+		# msg.{{r}} 
+		{%endfor%}
+		
 		{% if p.type == "ValueString" %}
 		msg.x = 'Hello World: %d' % self.i
 		{% endif %}
@@ -68,38 +75,64 @@ class {{node.name}}_class(Node):
 		msg.x = self.i
 		{% endif %}
 		
-		self.{{p.name}}.publish(msg)
+		self.publisher_{{p.name}}.publish(msg)
 		self.get_logger().info('Publishing: "%s"' % msg.x)
 		self.i += 1
+	#____________________________________________
 	{%endfor%}
 	
 	# Subscribers
+	#____________________________________________
 	{%for s in subscribers %}
-	def listener{{loop.index}}(self, msg):
-		#TODO variables set here
+	def subscriber_call_{{s.name}}(self, msg):
+		# Store the variables of the msg
+		{%for r in s.msg %}
+		{{r}} = msg.{{r}}
+		{%endfor%}
 		self.get_logger().info('I heard: '+str(msg.x))
+	#____________________________________________
 	{%endfor%}
 	
 	#Servers
+	#____________________________________________
 	{%for s in servers %}
-	def {{s.name}}_call(self, request, response):
-		#TODO variables set here
+	def server_call_{{s.name}}(self, request, response):
+		# Store the variables of the request
+		{%for r in s.requests %}
+		{{r}} = request.{{r}}
+		{%endfor%}
+		# Service result after calculactions should be stored in
+		{%for r in s.responses %}
+		# response.{{r}} 
+		{%endfor%}
 		response.c = request.a + request.b
 		self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
 		return response
+	#____________________________________________
 	{%endfor%}
 		
 	# Clients
+	#____________________________________________
 	{%for c in clients %}
-	def send_request_{{c.name}}(self):
-		self.req_{{c.name}}.a = int(sys.argv[1])
-		self.req_{{c.name}}.b = int(sys.argv[2])
-		self.future_{{c.name}} = self.{{c.name}}.call_async(self.req_{{c.name}})
+	def client_call_{{c.name}}(self{%for r in c.requests %}, {{r }} {%endfor%}):
+		while not self.client_{{c.name}}.wait_for_service(timeout_sec=1.0):
+			self.get_logger().info('service not available, waiting again...')
+		self.request_{{c.name}} = {{c.type}}.Request()
+		{%for r in c.requests %}
+		self.request_{{c.name}}.{{r}} = {{r}}
+		{%endfor%}
+		self.future_{{c.name}} = self.client_{{c.name}}.call_async(self.request_{{c.name}})
+		# Result after server's response is stored in 
+		{%for r in c.responses %}
+		# self.future_{{c.name}}.result().{{r}} 
+		{%endfor%}
+	#____________________________________________
 	{%endfor%}
 		
 		
 		
-		
+# Main executable
+#____________________________________________
 def main(args=None):
 	rclpy.init(args=args)
 	
@@ -111,13 +144,15 @@ def main(args=None):
 	# when the garbage collector destroys the node object)
 	{{node.name}}.destroy_node()
 	rclpy.shutdown()
-	
+
+# Clients executables
+#____________________________________________
 {%for c in clients %}
 def {{c.name}}(args=None):
 	rclpy.init(args=args)
 	
 	{{node.name}} = {{node.name}}_class()
-	{{node.name}}.send_request_{{c.name}}()
+	{{node.name}}.client_call_{{c.name}}(int(sys.argv[1]),int(sys.argv[2]))
 	while rclpy.ok():
 		rclpy.spin_once({{node.name}})
 		if {{node.name}}.future_{{c.name}}.done():
@@ -128,7 +163,7 @@ def {{c.name}}(args=None):
 			else:
 				{{node.name}}.get_logger().info(
 				'Result of add_three_ints: for %d + %d = %d' %
-				({{node.name}}.req_{{c.name}}.a, {{node.name}}.req_{{c.name}}.b, response.c))
+				({{node.name}}.request_{{c.name}}.a, {{node.name}}.request_{{c.name}}.b, response.c))
 			break
 	
 {%endfor%}

@@ -6,6 +6,8 @@
 module interfaces {
   module msg {
     struct ValueString {
+      @verbatim (language="comment", text=
+        " x value for string message")
       string x;
     };
   };

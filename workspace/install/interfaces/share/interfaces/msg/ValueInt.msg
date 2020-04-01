@@ -1,1 +1,1 @@
-int32 x
+int8 x		# x value for integer message

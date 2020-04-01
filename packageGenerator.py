@@ -67,10 +67,12 @@ template = env.get_template('temp_msg.msg')
 # Build the msg data to pass to the Template
 for t in model_root.hasTopicMessages:
 	objects = []
-	for o in t.hasCommunicationObjects:
+	for o in t.hasObjectProperties:
 		obj = {}
 		obj['name'] = o.name
-		obj['type'] = o.type
+		obj['type'] = o.datatype.type
+		obj['default'] = o.default
+		obj['description'] = o.description
 		objects.append(obj)
 	
 	# Fire up the rendering proccess
@@ -88,17 +90,21 @@ template = env.get_template('temp_srv.srv')
 # Build the srv data to pass to the Template
 for t in model_root.hasServiceMessages:
 	request = []
-	for o in t.hasRequest.hasCommunicationObjects:
+	for o in t.hasRequest.hasObjectProperties:
 		req = {}
 		req['name'] = o.name
-		req['type'] = o.type
+		req['type'] = o.datatype.type
+		req['default'] = o.default
+		req['description'] = o.description
 		request.append(req)
 	
 	response = []
-	for o in t.hasResponse.hasCommunicationObjects:
+	for o in t.hasResponse.hasObjectProperties:
 		res = {}
 		res['name'] = o.name
-		res['type'] = o.type
+		res['type'] = o.datatype.type
+		res['default'] = o.default
+		res['description'] = o.description
 		response.append(res)
 	
 	# Fire up the rendering proccess
@@ -232,39 +238,68 @@ for package in model_root.hasPackages:
 		subscribers = []
 		publishers = []
 		for s in node.hasSubscribers:
+			smsgObj = []
 			sub = {}
 			sub['name'] = s.name
 			sub['topicPath'] = s.topicPath
 			sub['qos'] = 10
 			sub['type'] = s.smsg.name
+			for r in s.smsg.hasObjectProperties:
+				smsgObj.append(r.name)
+			sub['msg'] = smsgObj
 			subscribers.append(sub)
 		for p in node.hasPublishers:
+			pmsgObj = []
 			pub = {}
 			pub['name'] = p.name
 			pub['topicPath'] = p.topicPath
 			pub['publishRate'] = p.publishRate
 			pub['qos'] = 10
 			pub['type'] = p.pmsg.name
+			for r in p.pmsg.hasObjectProperties:
+				pmsgObj.append(r.name)
+			pub['msg'] = pmsgObj
 			publishers.append(pub)
 		
 		# Build the servers/clients data to pass to the Template
 		servers = []
 		clients = []
 		for s in node.hasServers:
+			srequestObj = []
+			sresponseObj = []
 			ser = {}
 			ser['name'] = s.name
 			ser['servicePath'] = s.servicePath
+			ser['serviceName'] = s.serviceName
 			ser['type'] = s.servicemessage.name
+			for r in s.servicemessage.hasRequest.hasObjectProperties:
+				srequestObj.append(r.name)
+			for r in s.servicemessage.hasResponse.hasObjectProperties:
+				sresponseObj.append(r.name)
+			ser['requests'] = srequestObj
+			ser['responses'] = sresponseObj
 			servers.append(ser)
+		
 		for c in node.hasClients:
+			crequestObj = []
+			cresponseObj = []
 			cli = {}
 			cli['name'] = c.name
 			cli['servicePath'] = c.servicePath
+			cli['serviceName'] = c.serviceName
 			cli['type'] = c.servicemessage.name
+			for r in c.servicemessage.hasRequest.hasObjectProperties:
+				crequestObj.append(r.name)
+			for r in c.servicemessage.hasResponse.hasObjectProperties:
+				cresponseObj.append(r.name)
+			cli['requests'] = crequestObj
+			cli['responses'] = cresponseObj
 			clients.append(cli)
 			
 		# Fire up the rendering proccess
-		output = template.render(pack = pack_data, node = node_data, publishers = publishers, subscribers = subscribers, objects = objects, smessages=smessages, tmessages=tmessages, servers = servers, clients=clients)
+		output = template.render(pack = pack_data, node = node_data, publishers = publishers, 
+		subscribers = subscribers, objects = objects, smessages=smessages, tmessages=tmessages, 
+		servers = servers, clients=clients)
 		
 		# Write the generated file
 		dest=package.name+'/'+node.name+'_node.py'

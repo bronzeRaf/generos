@@ -1,1 +1,1 @@
-string x
+string x		# x value for string message

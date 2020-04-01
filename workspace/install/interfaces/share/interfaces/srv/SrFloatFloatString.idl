@@ -6,11 +6,17 @@
 module interfaces {
   module srv {
     struct SrFloatFloatString_Request {
+      @verbatim (language="comment", text=
+        " x value for float service SrFloatFloatString request 1")
       float x;
 
+      @verbatim (language="comment", text=
+        " y value for float service SrFloatFloatString request 2")
       float y;
     };
     struct SrFloatFloatString_Response {
+      @verbatim (language="comment", text=
+        " z value for string service SrFloatFloatString response")
       string z;
     };
   };

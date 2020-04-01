@@ -47,8 +47,8 @@ struct Addtwo_Request_
     if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
       rosidl_generator_cpp::MessageInitialization::ZERO == _init)
     {
-      this->a = 0l;
-      this->b = 0l;
+      this->a = 0;
+      this->b = 0;
     }
   }
 
@@ -58,28 +58,28 @@ struct Addtwo_Request_
     if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
       rosidl_generator_cpp::MessageInitialization::ZERO == _init)
     {
-      this->a = 0l;
-      this->b = 0l;
+      this->a = 0;
+      this->b = 0;
     }
   }
 
   // field types and members
   using _a_type =
-    int32_t;
+    int8_t;
   _a_type a;
   using _b_type =
-    int32_t;
+    int8_t;
   _b_type b;
 
   // setters for named parameter idiom
   Type & set__a(
-    const int32_t & _arg)
+    const int8_t & _arg)
   {
     this->a = _arg;
     return *this;
   }
   Type & set__b(
-    const int32_t & _arg)
+    const int8_t & _arg)
   {
     this->b = _arg;
     return *this;
@@ -185,7 +185,7 @@ struct Addtwo_Response_
     if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
       rosidl_generator_cpp::MessageInitialization::ZERO == _init)
     {
-      this->c = 0l;
+      this->c = 0;
     }
   }
 
@@ -195,18 +195,18 @@ struct Addtwo_Response_
     if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
       rosidl_generator_cpp::MessageInitialization::ZERO == _init)
     {
-      this->c = 0l;
+      this->c = 0;
     }
   }
 
   // field types and members
   using _c_type =
-    int32_t;
+    int8_t;
   _c_type c;
 
   // setters for named parameter idiom
   Type & set__c(
-    const int32_t & _arg)
+    const int8_t & _arg)
   {
     this->c = _arg;
     return *this;

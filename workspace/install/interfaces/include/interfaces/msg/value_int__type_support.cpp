@@ -28,7 +28,7 @@ namespace rosidl_typesupport_introspection_cpp
 static const ::rosidl_typesupport_introspection_cpp::MessageMember ValueInt_message_member_array[1] = {
   {
     "x",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT32,  // type
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT8,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array

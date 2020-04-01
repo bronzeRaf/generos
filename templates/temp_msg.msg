@@ -5,5 +5,5 @@
 # Written by Rafael Brouzos
 #}
 {%for o in objects %}
-{{o.type}} {{o.name}}
+{{o.type}} {{o.name}}		# {{o.description}}
 {%endfor%}

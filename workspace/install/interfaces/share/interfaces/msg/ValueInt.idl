@@ -6,7 +6,9 @@
 module interfaces {
   module msg {
     struct ValueInt {
-      int32 x;
+      @verbatim (language="comment", text=
+        " x value for integer message")
+      int8 x;
     };
   };
 };

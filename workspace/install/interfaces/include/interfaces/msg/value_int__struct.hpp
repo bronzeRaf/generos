@@ -47,7 +47,7 @@ struct ValueInt_
     if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
       rosidl_generator_cpp::MessageInitialization::ZERO == _init)
     {
-      this->x = 0l;
+      this->x = 0;
     }
   }
 
@@ -57,18 +57,18 @@ struct ValueInt_
     if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
       rosidl_generator_cpp::MessageInitialization::ZERO == _init)
     {
-      this->x = 0l;
+      this->x = 0;
     }
   }
 
   // field types and members
   using _x_type =
-    int32_t;
+    int8_t;
   _x_type x;
 
   // setters for named parameter idiom
   Type & set__x(
-    const int32_t & _arg)
+    const int8_t & _arg)
   {
     this->x = _arg;
     return *this;
