@@ -1,13 +1,13 @@
 
 from .metamodel import getEClassifier, eClassifiers
 from .metamodel import name, nsURI, nsPrefix, eClass
-from .metamodel import Client, Node, Subscriber, Publisher, Server, Parameter, Package, Dependency, Documentation, DataTypes, Graph, Topic, ServiceLink, ServiceMessage, Request, Response, TopicMessage, ROSSystem, Topology, Platform, LocalNetwork, Host, Action, ActionServer, ActionClient, ROSVersion, AritectureTypes, OSType, NetworkInterface, ObjectProperty, Datatype, Bool, String, Number, Int, Uint, Float, UIntType, IntType, FloatType, ROSData, Array, UintArray, FloatArray, IntArray, IntArrayType, UIntArrayType, FloatArrayType, Enumeration, Element
+from .metamodel import Client, Node, Subscriber, Publisher, Server, Parameter, Package, Dependency, Documentation, DataTypes, Graph, Topic, ServiceLink, ServiceMessage, Request, Response, CustomMessage, ROSSystem, Topology, Platform, LocalNetwork, Host, Action, ActionServer, ActionClient, ROSVersion, AritectureTypes, OSType, NetworkInterface, ObjectProperty, Datatype, Bool, String, Number, Int, Uint, Float, UIntType, IntType, FloatType, ROSData, Array, UintArray, FloatArray, IntArray, IntArrayType, UIntArrayType, FloatArrayType, Enumeration, Element, TopicMessage, RosMessage
 
 
 from . import metamodel
 
-__all__ = ['Client', 'Node', 'Subscriber', 'Publisher', 'Server', 'Parameter', 'Package', 'Dependency', 'Documentation', 'DataTypes', 'Graph', 'Topic', 'ServiceLink', 'ServiceMessage', 'Request', 'Response', 'TopicMessage', 'ROSSystem', 'Topology', 'Platform', 'LocalNetwork', 'Host', 'Action', 'ActionServer', 'ActionClient',
-           'ROSVersion', 'AritectureTypes', 'OSType', 'NetworkInterface', 'ObjectProperty', 'Datatype', 'Bool', 'String', 'Number', 'Int', 'Uint', 'Float', 'UIntType', 'IntType', 'FloatType', 'ROSData', 'Array', 'UintArray', 'FloatArray', 'IntArray', 'IntArrayType', 'UIntArrayType', 'FloatArrayType', 'Enumeration', 'Element']
+__all__ = ['Client', 'Node', 'Subscriber', 'Publisher', 'Server', 'Parameter', 'Package', 'Dependency', 'Documentation', 'DataTypes', 'Graph', 'Topic', 'ServiceLink', 'ServiceMessage', 'Request', 'Response', 'CustomMessage', 'ROSSystem', 'Topology', 'Platform', 'LocalNetwork', 'Host', 'Action', 'ActionServer', 'ActionClient', 'ROSVersion',
+           'AritectureTypes', 'OSType', 'NetworkInterface', 'ObjectProperty', 'Datatype', 'Bool', 'String', 'Number', 'Int', 'Uint', 'Float', 'UIntType', 'IntType', 'FloatType', 'ROSData', 'Array', 'UintArray', 'FloatArray', 'IntArray', 'IntArrayType', 'UIntArrayType', 'FloatArrayType', 'Enumeration', 'Element', 'TopicMessage', 'RosMessage']
 
 eSubpackages = []
 eSuperPackage = None
@@ -27,6 +27,7 @@ Server.servicemessage.eType = ServiceMessage
 Package.hasDependencies.eType = Dependency
 Package.hasNodes.eType = Node
 Package.hasDocumentation.eType = Documentation
+Package.hasRosMessages.eType = RosMessage
 Graph.hasTopics.eType = Topic
 Graph.hasServiceLinks.eType = ServiceLink
 Graph.nodes.eType = Node
@@ -38,11 +39,11 @@ ServiceMessage.hasRequest.eType = Request
 ServiceMessage.hasResponse.eType = Response
 Request.hasObjectProperties.eType = ObjectProperty
 Response.hasObjectProperties.eType = ObjectProperty
-TopicMessage.hasObjectProperties.eType = ObjectProperty
+CustomMessage.hasObjectProperties.eType = ObjectProperty
 ROSSystem.topology.eType = Topology
 ROSSystem.hasPackages.eType = Package
 ROSSystem.hasGraphs.eType = Graph
-ROSSystem.hasTopicMessages.eType = TopicMessage
+ROSSystem.hasCustomMessages.eType = CustomMessage
 ROSSystem.hasServiceMessages.eType = ServiceMessage
 Topology.hasPlatforms.eType = Platform
 Topology.network.eType = LocalNetwork

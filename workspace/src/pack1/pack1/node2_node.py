@@ -3,6 +3,10 @@ import rclpy
 from rclpy.node import Node
 import sys
 
+
+from std_msgs.msg import Int32
+
+#*********
 from interfaces.msg import ValueInt
 from interfaces.msg import ValueString
 from interfaces.srv import Addtwo
@@ -20,7 +24,7 @@ class node2_class(Node):
 		
 		# Subscribers
 		#____________________________________________
-		self.subscriber_suby2= self.create_subscription(ValueInt, 'topic/path2', self.subscriber_call_suby2, 10)
+		self.subscriber_suby2= self.create_subscription(Int32, 'topic/path2', self.subscriber_call_suby2, 10)
 		self.subscriber_suby2
 		#____________________________________________
 		
@@ -41,8 +45,7 @@ class node2_class(Node):
 	#____________________________________________
 	def subscriber_call_suby2(self, msg):
 		# Store the variables of the msg
-		x = msg.x
-		self.get_logger().info('I heard: '+str(msg.x))
+		self.get_logger().info('I heard: '+str(msg.data))
 	#____________________________________________
 	
 	#Servers
@@ -83,7 +86,8 @@ def Client1(args=None):
 	rclpy.init(args=args)
 	
 	node2 = node2_class()
-	node2.client_call_Client1(int(sys.argv[1]),int(sys.argv[2]))
+	#TODO create typecast from command line to client call type (change int to custom type)
+	node2.client_call_Client1(int(sys.argv[1]), int(sys.argv[2]))
 	while rclpy.ok():
 		rclpy.spin_once(node2)
 		if node2.future_Client1.done():

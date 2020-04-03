@@ -9,6 +9,15 @@ import rclpy
 from rclpy.node import Node
 import sys
 
+{%for p in publishers %}
+from {{p.package}}.msg import {{p.type}}
+{%endfor%}
+
+{%for s in subscribers %}
+from {{s.package}}.msg import {{s.type}}
+{%endfor%}
+
+#*********
 {%for t in tmessages %}
 from interfaces.msg import {{t}}
 {%endfor%}
@@ -152,7 +161,8 @@ def {{c.name}}(args=None):
 	rclpy.init(args=args)
 	
 	{{node.name}} = {{node.name}}_class()
-	{{node.name}}.client_call_{{c.name}}(int(sys.argv[1]),int(sys.argv[2]))
+	#TODO create typecast from command line to client call type (change int to custom type)
+	{{node.name}}.client_call_{{c.name}}({%for r in c.requests %}int(sys.argv[{{loop.index}}]){% if not loop.last %}, {%endif%} {%endfor%})
 	while rclpy.ok():
 		rclpy.spin_once({{node.name}})
 		if {{node.name}}.future_{{c.name}}.done():

@@ -3,6 +3,11 @@ import rclpy
 from rclpy.node import Node
 import sys
 
+from interfaces.msg import ValueString
+from std_msgs.msg import Int32
+
+
+#*********
 from interfaces.msg import ValueInt
 from interfaces.msg import ValueString
 from interfaces.srv import Addtwo
@@ -21,7 +26,7 @@ class node1_class(Node):
 		self.timer_publy3 = self.create_timer(12.0, self.publisher_call_publy3)
 		self.i = 0
 		#____________________________________________
-		self.publisher_publy2= self.create_publisher(ValueInt, 'topic/path2', 10)
+		self.publisher_publy2= self.create_publisher(Int32, 'topic/path2', 10)
 		self.timer_publy2 = self.create_timer(8.0, self.publisher_call_publy2)
 		self.i = 0
 		#____________________________________________
@@ -55,16 +60,14 @@ class node1_class(Node):
 		self.i += 1
 	#____________________________________________
 	def publisher_call_publy2(self):
-		msg = ValueInt()
+		msg = Int32()
 		
 		# Message after calculactions should be stored in
-		# msg.x 
 		
 		
-		msg.x = self.i
 		
 		self.publisher_publy2.publish(msg)
-		self.get_logger().info('Publishing: "%s"' % msg.x)
+		self.get_logger().info('Publishing: "%s"' % msg.data)
 		self.i += 1
 	#____________________________________________
 	

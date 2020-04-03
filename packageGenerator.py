@@ -65,7 +65,7 @@ env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
 template = env.get_template('temp_msg.msg')
 
 # Build the msg data to pass to the Template
-for t in model_root.hasTopicMessages:
+for t in model_root.hasCustomMessages:
 	objects = []
 	for o in t.hasObjectProperties:
 		obj = {}
@@ -122,7 +122,7 @@ template = env.get_template('temp_CMakeLists.txt')
 # Build the msg data to pass to the Template
 tmessages = []
 smessages = []
-for t in model_root.hasTopicMessages:
+for t in model_root.hasCustomMessages:
 	tmessages.append(t.name)
 for t in model_root.hasServiceMessages:
 	smessages.append(t.name)
@@ -244,8 +244,13 @@ for package in model_root.hasPackages:
 			sub['topicPath'] = s.topicPath
 			sub['qos'] = 10
 			sub['type'] = s.smsg.name
-			for r in s.smsg.hasObjectProperties:
-				smsgObj.append(r.name)
+			if s.smsg.__class__.__name__=="CustomMessage":
+				sub['package'] = 'interfaces'
+				for r in s.smsg.hasObjectProperties:
+					smsgObj.append(r.name)
+			else:
+				sub['package'] = s.smsg.package
+			
 			sub['msg'] = smsgObj
 			subscribers.append(sub)
 		for p in node.hasPublishers:
@@ -256,8 +261,13 @@ for package in model_root.hasPackages:
 			pub['publishRate'] = p.publishRate
 			pub['qos'] = 10
 			pub['type'] = p.pmsg.name
-			for r in p.pmsg.hasObjectProperties:
-				pmsgObj.append(r.name)
+			if p.pmsg.__class__.__name__=="CustomMessage":
+				pub['package'] = 'interfaces'
+				for r in p.pmsg.hasObjectProperties:
+					pmsgObj.append(r.name)
+			else:
+				pub['package'] = p.pmsg.package
+			
 			pub['msg'] = pmsgObj
 			publishers.append(pub)
 		

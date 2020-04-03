@@ -107,7 +107,7 @@ class Subscriber(EObject, metaclass=MetaEClass):
     topicPath = EAttribute(eType=EString, derived=False, changeable=True)
     smsg = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, name=None, smsg=None, topicPath=None, **kwargs):
+    def __init__(self, *, name=None, topicPath=None, smsg=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -130,7 +130,7 @@ class Publisher(EObject, metaclass=MetaEClass):
     publishRate = EAttribute(eType=EFloat, derived=False, changeable=True)
     pmsg = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, name=None, pmsg=None, topicPath=None, publishRate=None, **kwargs):
+    def __init__(self, *, name=None, topicPath=None, publishRate=None, pmsg=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -205,8 +205,9 @@ class Package(EObject, metaclass=MetaEClass):
     hasDependencies = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasNodes = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasDocumentation = EReference(ordered=True, unique=True, containment=True)
+    hasRosMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, hasDependencies=None, hasNodes=None, hasDocumentation=None, name=None, rosVersion=None, packagePath=None, **kwargs):
+    def __init__(self, *, hasDependencies=None, hasNodes=None, hasDocumentation=None, name=None, rosVersion=None, packagePath=None, hasRosMessages=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -229,6 +230,9 @@ class Package(EObject, metaclass=MetaEClass):
 
         if hasDocumentation is not None:
             self.hasDocumentation = hasDocumentation
+
+        if hasRosMessages:
+            self.hasRosMessages.extend(hasRosMessages)
 
 
 class Dependency(EObject, metaclass=MetaEClass):
@@ -365,34 +369,16 @@ class Response(EObject, metaclass=MetaEClass):
             self.hasObjectProperties.extend(hasObjectProperties)
 
 
-class TopicMessage(EObject, metaclass=MetaEClass):
-
-    name = EAttribute(eType=EString, derived=False, changeable=True)
-    hasObjectProperties = EReference(ordered=True, unique=True, containment=True, upper=-1)
-
-    def __init__(self, *, name=None, hasObjectProperties=None, **kwargs):
-        if kwargs:
-            raise AttributeError('unexpected arguments: {}'.format(kwargs))
-
-        super().__init__()
-
-        if name is not None:
-            self.name = name
-
-        if hasObjectProperties:
-            self.hasObjectProperties.extend(hasObjectProperties)
-
-
 class ROSSystem(EObject, metaclass=MetaEClass):
 
     name = EAttribute(eType=EString, derived=False, changeable=True)
     topology = EReference(ordered=True, unique=True, containment=True)
     hasPackages = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasGraphs = EReference(ordered=True, unique=True, containment=True)
-    hasTopicMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    hasCustomMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasServiceMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, topology=None, hasPackages=None, hasGraphs=None, name=None, hasTopicMessages=None, hasServiceMessages=None, **kwargs):
+    def __init__(self, *, topology=None, hasPackages=None, hasGraphs=None, name=None, hasCustomMessages=None, hasServiceMessages=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -410,8 +396,8 @@ class ROSSystem(EObject, metaclass=MetaEClass):
         if hasGraphs is not None:
             self.hasGraphs = hasGraphs
 
-        if hasTopicMessages:
-            self.hasTopicMessages.extend(hasTopicMessages)
+        if hasCustomMessages:
+            self.hasCustomMessages.extend(hasCustomMessages)
 
         if hasServiceMessages:
             self.hasServiceMessages.extend(hasServiceMessages)
@@ -608,6 +594,33 @@ class Element(EObject, metaclass=MetaEClass):
             self.name = name
 
 
+@abstract
+class TopicMessage(EObject, metaclass=MetaEClass):
+
+    name = EAttribute(eType=EString, derived=False, changeable=True)
+
+    def __init__(self, *, name=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if name is not None:
+            self.name = name
+
+
+class CustomMessage(TopicMessage):
+
+    hasObjectProperties = EReference(ordered=True, unique=True, containment=True, upper=-1)
+
+    def __init__(self, *, hasObjectProperties=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if hasObjectProperties:
+            self.hasObjectProperties.extend(hasObjectProperties)
+
+
 class ActionServer(Action):
 
     def __init__(self, **kwargs):
@@ -683,6 +696,18 @@ class Enumeration(Datatype):
 
         if hasElements:
             self.hasElements.extend(hasElements)
+
+
+class RosMessage(TopicMessage):
+
+    package = EAttribute(eType=EString, derived=False, changeable=True)
+
+    def __init__(self, *, package=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if package is not None:
+            self.package = package
 
 
 class Int(Number):

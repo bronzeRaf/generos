@@ -3,6 +3,10 @@ import rclpy
 from rclpy.node import Node
 import sys
 
+
+from interfaces.msg import ValueString
+
+#*********
 from interfaces.msg import ValueInt
 from interfaces.msg import ValueString
 from interfaces.srv import Addtwo
@@ -83,7 +87,8 @@ def Client2(args=None):
 	rclpy.init(args=args)
 	
 	node3 = node3_class()
-	node3.client_call_Client2(int(sys.argv[1]),int(sys.argv[2]))
+	#TODO create typecast from command line to client call type (change int to custom type)
+	node3.client_call_Client2(int(sys.argv[1]), int(sys.argv[2]))
 	while rclpy.ok():
 		rclpy.spin_once(node3)
 		if node3.future_Client2.done():
