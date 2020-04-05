@@ -4,15 +4,18 @@ from rclpy.node import Node
 import sys
 
 from interfaces.msg import ValueString
-from std_msgs.msg import Int32
+from interfaces.msg import ValueInt
 
+
+from interfaces.srv import Addtwo
+from std_srvs.srv import SetBool
 
 #*********
-from interfaces.msg import ValueInt
-from interfaces.msg import ValueString
-from interfaces.srv import Addtwo
-from interfaces.srv import SrFloatFloatString
-# ~ from std_msgs.msg import 
+# ~ # ~ from interfaces.msg import ValueInt
+# ~ # ~ from interfaces.msg import ValueString
+# ~ # ~ # ~ from interfaces.srv import Addtwo
+# ~ # ~ from interfaces.srv import SrFloatFloatString
+# ~ # ~ from std_msgs.msg import 
 # ~ from example_interfaces.srv import AddTwoInts
 
 
@@ -26,7 +29,7 @@ class node1_class(Node):
 		self.timer_publy3 = self.create_timer(12.0, self.publisher_call_publy3)
 		self.i = 0
 		#____________________________________________
-		self.publisher_publy2= self.create_publisher(Int32, 'topic/path2', 10)
+		self.publisher_publy2= self.create_publisher(ValueInt, 'topic/path2', 10)
 		self.timer_publy2 = self.create_timer(8.0, self.publisher_call_publy2)
 		self.i = 0
 		#____________________________________________
@@ -37,6 +40,8 @@ class node1_class(Node):
 		# Servers
 		#____________________________________________
 		self.server_Server1= self.create_service(Addtwo, 'add_two', self.server_call_Server1)
+		#____________________________________________
+		self.server_Server3= self.create_service(SetBool, 'set_bool', self.server_call_Server3)
 		#____________________________________________
 		
 		# Clients
@@ -60,14 +65,16 @@ class node1_class(Node):
 		self.i += 1
 	#____________________________________________
 	def publisher_call_publy2(self):
-		msg = Int32()
+		msg = ValueInt()
 		
 		# Message after calculactions should be stored in
+		# msg.x 
 		
 		
+		msg.x = self.i
 		
 		self.publisher_publy2.publish(msg)
-		self.get_logger().info('Publishing: "%s"' % msg.data)
+		self.get_logger().info('Publishing: "%s"' % msg.x)
 		self.i += 1
 	#____________________________________________
 	
@@ -84,6 +91,14 @@ class node1_class(Node):
 		# response.c 
 		response.c = request.a + request.b
 		self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
+		return response
+	#____________________________________________
+	def server_call_Server3(self, request, response):
+		# Store the variables of the request
+		# Service result after calculactions should be stored in
+		response.success = True
+		response.message = "Hello from setBool Server"
+		self.get_logger().info('Incoming request\n %r ' % (request.data))
 		return response
 	#____________________________________________
 		

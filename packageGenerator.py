@@ -88,7 +88,7 @@ for t in model_root.hasCustomMessages:
 # Load the Template of the srv
 template = env.get_template('temp_srv.srv')
 # Build the srv data to pass to the Template
-for t in model_root.hasServiceMessages:
+for t in model_root.hasCustomServices:
 	request = []
 	for o in t.hasRequest.hasObjectProperties:
 		req = {}
@@ -124,7 +124,7 @@ tmessages = []
 smessages = []
 for t in model_root.hasCustomMessages:
 	tmessages.append(t.name)
-for t in model_root.hasServiceMessages:
+for t in model_root.hasCustomServices:
 	smessages.append(t.name)
 # Fire up the rendering proccess
 output = template.render(smessages=smessages, tmessages=tmessages)
@@ -176,6 +176,14 @@ for package in model_root.hasPackages:
 	pack_data['email'] = 'rnm1816@gmail.com'
 	pack_data['description'] = 'The description is ....'
 	pack_data['license'] = 'The license is ...'
+	rosservices = []
+	rosmessages = []
+	for i in package.hasRosServices:
+		rosservices.append(i.package)
+	for i in package.hasRosMessages:
+		rosmessages.append(i.package)
+	pack_data['msg'] = rosmessages
+	pack_data['srv'] = rosservices
 	# Build the entry points data to pass to the Template
 	entry_data = []
 	for n in package.hasNodes:
@@ -237,22 +245,30 @@ for package in model_root.hasPackages:
 		# Build the publisher/subscriber data to pass to the Template
 		subscribers = []
 		publishers = []
+		types = []
 		for s in node.hasSubscribers:
 			smsgObj = []
 			sub = {}
 			sub['name'] = s.name
 			sub['topicPath'] = s.topicPath
 			sub['qos'] = 10
+			if s.smsg.name in types:
+				sub['unique'] = 0
+			else:
+				sub['unique'] = 1
 			sub['type'] = s.smsg.name
+			types.append(s.smsg.name)
 			if s.smsg.__class__.__name__=="CustomMessage":
 				sub['package'] = 'interfaces'
 				for r in s.smsg.hasObjectProperties:
 					smsgObj.append(r.name)
 			else:
 				sub['package'] = s.smsg.package
+				#TODO append the Ros subscriber parameters
 			
 			sub['msg'] = smsgObj
 			subscribers.append(sub)
+		
 		for p in node.hasPublishers:
 			pmsgObj = []
 			pub = {}
@@ -260,13 +276,19 @@ for package in model_root.hasPackages:
 			pub['topicPath'] = p.topicPath
 			pub['publishRate'] = p.publishRate
 			pub['qos'] = 10
+			if p.pmsg.name in types:
+				pub['unique'] = 0
+			else:
+				pub['unique'] = 1
 			pub['type'] = p.pmsg.name
+			types.append(p.pmsg.name)
 			if p.pmsg.__class__.__name__=="CustomMessage":
 				pub['package'] = 'interfaces'
 				for r in p.pmsg.hasObjectProperties:
 					pmsgObj.append(r.name)
 			else:
 				pub['package'] = p.pmsg.package
+				#TODO append the Ros publisher parameters
 			
 			pub['msg'] = pmsgObj
 			publishers.append(pub)
@@ -281,11 +303,21 @@ for package in model_root.hasPackages:
 			ser['name'] = s.name
 			ser['servicePath'] = s.servicePath
 			ser['serviceName'] = s.serviceName
+			if s.servicemessage.name in types:
+				ser['unique'] = 0
+			else:
+				ser['unique'] = 1
 			ser['type'] = s.servicemessage.name
-			for r in s.servicemessage.hasRequest.hasObjectProperties:
-				srequestObj.append(r.name)
-			for r in s.servicemessage.hasResponse.hasObjectProperties:
-				sresponseObj.append(r.name)
+			types.append(s.servicemessage.name)
+			if s.servicemessage.__class__.__name__=="CustomService":
+				ser['package'] = 'interfaces'
+				for r in s.servicemessage.hasRequest.hasObjectProperties:
+					srequestObj.append(r.name)
+				for r in s.servicemessage.hasResponse.hasObjectProperties:
+					sresponseObj.append(r.name)
+			else:
+				ser['package'] = s.servicemessage.package
+				#TODO append the Ros service parameters
 			ser['requests'] = srequestObj
 			ser['responses'] = sresponseObj
 			servers.append(ser)
@@ -297,11 +329,24 @@ for package in model_root.hasPackages:
 			cli['name'] = c.name
 			cli['servicePath'] = c.servicePath
 			cli['serviceName'] = c.serviceName
+			
+			if c.servicemessage.name in types:
+				cli['unique'] = 0
+			else:
+				cli['unique'] = 1
+			
 			cli['type'] = c.servicemessage.name
-			for r in c.servicemessage.hasRequest.hasObjectProperties:
-				crequestObj.append(r.name)
-			for r in c.servicemessage.hasResponse.hasObjectProperties:
-				cresponseObj.append(r.name)
+			types.append(c.servicemessage.name)
+			if c.servicemessage.__class__.__name__=="CustomService":
+				cli['package'] = 'interfaces'
+				for r in c.servicemessage.hasRequest.hasObjectProperties:
+					crequestObj.append(r.name)
+				for r in c.servicemessage.hasResponse.hasObjectProperties:
+					cresponseObj.append(r.name)
+			else:
+				cli['package'] = c.servicemessage.package
+				#TODO append the Ros client parameters
+			
 			cli['requests'] = crequestObj
 			cli['responses'] = cresponseObj
 			clients.append(cli)

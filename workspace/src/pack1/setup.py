@@ -25,6 +25,7 @@ setup(
 		'node1_exec = pack1.node1_node:main',
 		'node2_exec = pack1.node2_node:main',
 		'node2_Client1 = pack1.node2_node:Client1',
+		'node2_Client3 = pack1.node2_node:Client3',
         ],
     },
 )

@@ -10,20 +10,35 @@ from rclpy.node import Node
 import sys
 
 {%for p in publishers %}
+{%if p.unique == 1 %}
 from {{p.package}}.msg import {{p.type}}
+{%endif%}
 {%endfor%}
 
 {%for s in subscribers %}
+{%if s.unique == 1 %}
 from {{s.package}}.msg import {{s.type}}
+{%endif%}
 {%endfor%}
 
+{%for s in servers %}
+{%if s.unique == 1 %}
+from {{s.package}}.srv import {{s.type}}
+{%endif%}
+{%endfor%}
+
+{%for c in clients %}
+{%if c.unique == 1 %}
+from {{c.package}}.srv import {{c.type}}
+{%endif%}
+{%endfor%}
 #*********
-{%for t in tmessages %}
-from interfaces.msg import {{t}}
-{%endfor%}
-{%for s in smessages %}
-from interfaces.srv import {{s}}
-{%endfor%}
+# ~ {%for t in tmessages %}
+# ~ from interfaces.msg import {{t}}
+# ~ {%endfor%}
+# ~ {%for s in smessages %}
+# ~ from interfaces.srv import {{s}}
+# ~ {%endfor%}
 # ~ from std_msgs.msg import {{objects.type}}
 # ~ from example_interfaces.srv import AddTwoInts
 

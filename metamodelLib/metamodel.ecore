@@ -3,12 +3,12 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="metamodel" nsURI="http://www.example.org/metamodel" nsPrefix="metamodel">
   <eClassifiers xsi:type="ecore:EClass" name="Client">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="servicemessage" lowerBound="1"
-        eType="#//ServiceMessage"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="servicePath" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="serviceName" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="servicemessage" lowerBound="1"
+        eType="#//ServiceMessage"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Node">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasSubscribers" upperBound="-1"
@@ -42,12 +42,12 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Server">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="servicemessage" lowerBound="1"
-        eType="#//ServiceMessage"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="servicePath" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="serviceName" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="servicemessage" lowerBound="1"
+        eType="#//ServiceMessage"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Parameter">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -69,6 +69,8 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasRosMessages" upperBound="-1"
         eType="#//RosMessage" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasRosServices" upperBound="-1"
+        eType="#//RosService" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Dependency"/>
   <eClassifiers xsi:type="ecore:EClass" name="Documentation"/>
@@ -100,8 +102,7 @@
         eType="#//Client"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ServiceMessage">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CustomService" eSuperTypes="#//ServiceMessage">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasRequest" lowerBound="1"
         eType="#//Request" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasResponse" lowerBound="1"
@@ -129,8 +130,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasCustomMessages" upperBound="-1"
         eType="#//CustomMessage" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="hasServiceMessages" upperBound="-1"
-        eType="#//ServiceMessage" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasCustomServices" upperBound="-1"
+        eType="#//CustomService" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Topology">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasPlatforms" upperBound="-1"
@@ -277,6 +278,13 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RosMessage" eSuperTypes="#//TopicMessage">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="package" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServiceMessage" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RosService" eSuperTypes="#//ServiceMessage">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="package" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>

@@ -2,12 +2,7 @@
 <metamodel:ROSSystem xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel="http://www.example.org/metamodel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="My_first_ROS_system2" xmi:version="2.0">
   <topology xsi:type="metamodel:Topology"/>
   <hasGraphs xsi:type="metamodel:Graph" nodes="//@hasPackages.0/@hasNodes.0 //@hasPackages.0/@hasNodes.1 //@hasPackages.1/@hasNodes.0"/>
-  <hasServiceMessages xsi:type="metamodel:ServiceMessage" name="Addtwo">
-    <hasResponse xsi:type="metamodel:Response">
-      <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="c" description="c value for integer service Addtwo response">
-        <datatype xsi:type="metamodel:Int"/>
-      </hasObjectProperties>
-    </hasResponse>
+  <hasCustomServices xsi:type="metamodel:CustomService" name="Addtwo">
     <hasRequest xsi:type="metamodel:Request">
       <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="a" description="a value for integer service Addtwo request 1">
         <datatype xsi:type="metamodel:Int"/>
@@ -16,13 +11,13 @@
         <datatype xsi:type="metamodel:Int"/>
       </hasObjectProperties>
     </hasRequest>
-  </hasServiceMessages>
-  <hasServiceMessages xsi:type="metamodel:ServiceMessage" name="SrFloatFloatString">
     <hasResponse xsi:type="metamodel:Response">
-      <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="z" description="z value for string service SrFloatFloatString response">
-        <datatype xsi:type="metamodel:String" type="string"/>
+      <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="c" description="c value for integer service Addtwo response">
+        <datatype xsi:type="metamodel:Int"/>
       </hasObjectProperties>
     </hasResponse>
+  </hasCustomServices>
+  <hasCustomServices xsi:type="metamodel:CustomService" name="SrFloatFloatString">
     <hasRequest xsi:type="metamodel:Request">
       <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="x" description="x value for float service SrFloatFloatString request 1">
         <datatype xsi:type="metamodel:Float"/>
@@ -31,24 +26,32 @@
         <datatype xsi:type="metamodel:Float"/>
       </hasObjectProperties>
     </hasRequest>
-  </hasServiceMessages>
+    <hasResponse xsi:type="metamodel:Response">
+      <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="z" description="z value for string service SrFloatFloatString response">
+        <datatype xsi:type="metamodel:String" type="string"/>
+      </hasObjectProperties>
+    </hasResponse>
+  </hasCustomServices>
   <hasPackages xsi:type="metamodel:Package" name="pack1" packagePath="path to pack1">
-    <hasDocumentation xsi:type="metamodel:Documentation"/>
     <hasNodes xsi:type="metamodel:Node" name="node1">
-      <hasServers xsi:type="metamodel:Server" serviceName="add_two" name="Server1" servicePath="ser/vice/path1" servicemessage="//@hasServiceMessages.0"/>
-      <hasPublishers xsi:type="metamodel:Publisher" publishRate="12.0" pmsg="//@hasCustomMessages.1" topicPath="topic/path3" name="publy3"/>
-      <hasPublishers xsi:type="metamodel:Publisher" publishRate="8.0" pmsg="//@hasPackages.0/@hasRosMessages.0" topicPath="topic/path2" name="publy2"/>
+      <hasPublishers xsi:type="metamodel:Publisher" name="publy3" topicPath="topic/path3" publishRate="12.0" pmsg="//@hasCustomMessages.1"/>
+      <hasPublishers xsi:type="metamodel:Publisher" name="publy2" topicPath="topic/path2" publishRate="8.0" pmsg="//@hasCustomMessages.0"/>
+      <hasServers xsi:type="metamodel:Server" servicePath="ser/vice/path1" serviceName="add_two" name="Server1" servicemessage="//@hasCustomServices.0"/>
+      <hasServers xsi:type="metamodel:Server" servicePath="ser/vice/path3" serviceName="set_bool" name="Server3" servicemessage="//@hasPackages.0/@hasRosServices.0"/>
     </hasNodes>
     <hasNodes xsi:type="metamodel:Node" name="node2">
-      <hasClients xsi:type="metamodel:Client" servicePath="ser/vice/path1" serviceName="add_two" servicemessage="//@hasServiceMessages.0" name="Client1"/>
-      <hasSubscribers xsi:type="metamodel:Subscriber" topicPath="topic/path2" smsg="//@hasPackages.0/@hasRosMessages.0" name="suby2"/>
+      <hasSubscribers xsi:type="metamodel:Subscriber" name="suby2" topicPath="topic/path2" smsg="//@hasCustomMessages.0"/>
+      <hasClients xsi:type="metamodel:Client" servicemessage="//@hasCustomServices.0" name="Client1" servicePath="ser/vice/path1" serviceName="add_two"/>
+      <hasClients xsi:type="metamodel:Client" servicemessage="//@hasPackages.0/@hasRosServices.0" name="Client3" servicePath="ser/vice/path3" serviceName="set_bool"/>
     </hasNodes>
-    <hasRosMessages xsi:type="metamodel:RosMessage" package="std_msgs" name="Int32"/>
+    <hasRosMessages xsi:type="metamodel:RosMessage" name="Int32" package="std_msgs"/>
+    <hasDocumentation xsi:type="metamodel:Documentation"/>
+    <hasRosServices xsi:type="metamodel:RosService" package="std_srvs" name="SetBool"/>
   </hasPackages>
-  <hasPackages xsi:type="metamodel:Package" name="pack2" packagePath="path to pack2">
+  <hasPackages xsi:type="metamodel:Package" packagePath="path to pack2" name="pack2">
     <hasNodes xsi:type="metamodel:Node" name="node3">
-      <hasClients xsi:type="metamodel:Client" servicePath="ser/vice/path2" serviceName="str" servicemessage="//@hasServiceMessages.1" name="Client2"/>
-      <hasSubscribers xsi:type="metamodel:Subscriber" topicPath="topic/path3" smsg="//@hasCustomMessages.1" name="suby3"/>
+      <hasSubscribers xsi:type="metamodel:Subscriber" name="suby3" topicPath="topic/path3" smsg="//@hasCustomMessages.1"/>
+      <hasClients xsi:type="metamodel:Client" servicemessage="//@hasCustomServices.1" name="Client2" servicePath="ser/vice/path2" serviceName="str"/>
     </hasNodes>
     <hasDocumentation xsi:type="metamodel:Documentation"/>
   </hasPackages>

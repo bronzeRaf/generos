@@ -38,8 +38,9 @@ custommessage2 = metamodel.CustomMessage(name="ValueString")
 rosmessage1 = metamodel.RosMessage(name="String", package = "std_msgs")
 rosmessage2 = metamodel.RosMessage(name="Int32", package = "std_msgs")
 #set the service messages
-servicemessage1 = metamodel.ServiceMessage(name = "Addtwo")
-servicemessage2 = metamodel.ServiceMessage(name = "SrFloatFloatString")
+servicemessage1 = metamodel.CustomService(name = "Addtwo")
+servicemessage2 = metamodel.CustomService(name = "SrFloatFloatString")
+servicemessage3 = metamodel.RosService(name="SetBool", package = "std_srvs")
 #set the communication objects for the topics
 tobject1 = metamodel.ObjectProperty(name="x", description = "x value for integer message")
 dt1 = metamodel.Int(type = metamodel.IntType.int32)
@@ -87,9 +88,11 @@ graph1 = metamodel.Graph()
 topology1 = metamodel.Topology()
 #set server
 server1 = metamodel.Server(name = "Server1", servicePath = "ser/vice/path1", serviceName = "add_two")
+server3 = metamodel.Server(name = "Server3", servicePath = "ser/vice/path3", serviceName = "set_bool")
 #set client
 client1 = metamodel.Client(name = "Client1", servicePath = "ser/vice/path1", serviceName = "add_two")
 client2 = metamodel.Client(name = "Client2", servicePath = "ser/vice/path2", serviceName = "str")
+client3 = metamodel.Client(name = "Client3", servicePath = "ser/vice/path3", serviceName = "set_bool")
 
 #apply compositions
 rosystem1.hasPackages.extend([package1])				#0..*	system-package
@@ -98,29 +101,35 @@ rosystem1.hasGraphs = graph1							#1..1	system-graph
 rosystem1.topology = topology1							#1..1	system-topology
 rosystem1.hasCustomMessages.extend([custommessage1])		#0..*	system-custommessage
 rosystem1.hasCustomMessages.extend([custommessage2])		#0..*	system-custommessage
-rosystem1.hasServiceMessages.extend([servicemessage1])	#0..*	system-servicemessage
-rosystem1.hasServiceMessages.extend([servicemessage2])	#0..*	system-servicemessage
+rosystem1.hasCustomServices.extend([servicemessage1])	#0..*	system-customservice
+rosystem1.hasCustomServices.extend([servicemessage2])	#0..*	system-customservice
 package1.hasDocumentation = documentation1				#1..1	package-documentation
 package2.hasDocumentation = documentation2				#1..1	package-documentation
+
 package1.hasNodes.extend([node1])						#0..*	package-node
 package1.hasNodes.extend([node2])						#0..*	package-node
 package2.hasNodes.extend([node3])						#0..*	package-node
 
 package1.hasRosMessages.extend([rosmessage2])						#0..*	package-node
+package1.hasRosServices.extend([servicemessage3])						#0..*	package-node
 
 node1.hasPublishers.extend([publisher3])				#0..*	node-publisher
 node1.hasPublishers.extend([publisher2])				#0..*	node-publisher
 node3.hasSubscribers.extend([subscriber3])				#0..*	node-subscriber
 node2.hasSubscribers.extend([subscriber2])				#0..*	node-subscriber
+
 node1.hasServers.extend([server1])						#0..*	node-server
+node1.hasServers.extend([server3])						#0..*	node-server
 node2.hasClients.extend([client1])						#0..*	node-client
+node2.hasClients.extend([client3])						#0..*	node-client
 node3.hasClients.extend([client2])						#0..*	node-client
+
 custommessage1.hasObjectProperties.extend([tobject1])	#0..*	custommessage-objectproperty
 custommessage2.hasObjectProperties.extend([tobject2])	#0..*	custommessage-objectproperty
-servicemessage1.hasRequest = req1						#0..*	servicemessage-request
-servicemessage2.hasRequest = req2						#0..*	servicemessage-request
-servicemessage1.hasResponse = res1						#0..*	servicemessage-response
-servicemessage2.hasResponse = res2						#0..*	servicemessage-response
+servicemessage1.hasRequest = req1						#0..*	customservice-request
+servicemessage2.hasRequest = req2						#0..*	customservice-request
+servicemessage1.hasResponse = res1						#0..*	customservice-response
+servicemessage2.hasResponse = res2						#0..*	customservice-response
 req1.hasObjectProperties.extend([sobject1])				#0..*	request-CommunicationObject
 req1.hasObjectProperties.extend([sobject2])				#0..*	request-CommunicationObject
 req2.hasObjectProperties.extend([sobject4])				#0..*	request-CommunicationObject
@@ -130,14 +139,16 @@ res2.hasObjectProperties.extend([sobject6])				#0..*	response-CommunicationObjec
 
 #apply references
 publisher3.pmsg = custommessage2							#1..1	publisher-custommessage
-publisher2.pmsg = rosmessage2							#1..1	publisher-custommessage
+publisher2.pmsg = custommessage1							#1..1	publisher-custommessage
 subscriber3.smsg = custommessage2						#1..1	subscriber-custommessage
-subscriber2.smsg = rosmessage2						#1..1	subscriber-custommessage
+subscriber2.smsg = custommessage1						#1..1	subscriber-custommessage
 
 graph1.nodes.extend([node1, node2, node3])				#0..*	graph-nodes
 server1.servicemessage = servicemessage1				#1..1	server-servicemessage
+server3.servicemessage = servicemessage3				#1..1	server-servicemessage
 client1.servicemessage = servicemessage1				#1..1	client-servicemessage
 client2.servicemessage = servicemessage2				#1..1	client-servicemessage
+client3.servicemessage = servicemessage3				#1..1	client-servicemessage
 
 # ~ rset = ResourceSet()
 model_res = rset.create_resource(URI('../models/test2.xmi'))

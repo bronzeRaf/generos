@@ -6,12 +6,14 @@ import sys
 
 from interfaces.msg import ValueString
 
-#*********
-from interfaces.msg import ValueInt
-from interfaces.msg import ValueString
-from interfaces.srv import Addtwo
+
 from interfaces.srv import SrFloatFloatString
-# ~ from std_msgs.msg import 
+#*********
+# ~ # ~ from interfaces.msg import ValueInt
+# ~ # ~ from interfaces.msg import ValueString
+# ~ # ~ # ~ from interfaces.srv import Addtwo
+# ~ # ~ from interfaces.srv import SrFloatFloatString
+# ~ # ~ from std_msgs.msg import 
 # ~ from example_interfaces.srv import AddTwoInts
 
 

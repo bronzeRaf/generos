@@ -40,7 +40,7 @@ class Client(EObject, metaclass=MetaEClass):
     serviceName = EAttribute(eType=EString, derived=False, changeable=True)
     servicemessage = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, name=None, servicemessage=None, servicePath=None, serviceName=None, **kwargs):
+    def __init__(self, *, name=None, servicePath=None, serviceName=None, servicemessage=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -156,7 +156,7 @@ class Server(EObject, metaclass=MetaEClass):
     serviceName = EAttribute(eType=EString, derived=False, changeable=True)
     servicemessage = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, name=None, servicemessage=None, servicePath=None, serviceName=None, **kwargs):
+    def __init__(self, *, name=None, servicePath=None, serviceName=None, servicemessage=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -206,8 +206,9 @@ class Package(EObject, metaclass=MetaEClass):
     hasNodes = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasDocumentation = EReference(ordered=True, unique=True, containment=True)
     hasRosMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    hasRosServices = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, hasDependencies=None, hasNodes=None, hasDocumentation=None, name=None, rosVersion=None, packagePath=None, hasRosMessages=None, **kwargs):
+    def __init__(self, *, hasDependencies=None, hasNodes=None, hasDocumentation=None, name=None, rosVersion=None, packagePath=None, hasRosMessages=None, hasRosServices=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -233,6 +234,9 @@ class Package(EObject, metaclass=MetaEClass):
 
         if hasRosMessages:
             self.hasRosMessages.extend(hasRosMessages)
+
+        if hasRosServices:
+            self.hasRosServices.extend(hasRosServices)
 
 
 class Dependency(EObject, metaclass=MetaEClass):
@@ -319,28 +323,6 @@ class ServiceLink(EObject, metaclass=MetaEClass):
             self.client = client
 
 
-class ServiceMessage(EObject, metaclass=MetaEClass):
-
-    name = EAttribute(eType=EString, derived=False, changeable=True)
-    hasRequest = EReference(ordered=True, unique=True, containment=True)
-    hasResponse = EReference(ordered=True, unique=True, containment=True)
-
-    def __init__(self, *, name=None, hasRequest=None, hasResponse=None, **kwargs):
-        if kwargs:
-            raise AttributeError('unexpected arguments: {}'.format(kwargs))
-
-        super().__init__()
-
-        if name is not None:
-            self.name = name
-
-        if hasRequest is not None:
-            self.hasRequest = hasRequest
-
-        if hasResponse is not None:
-            self.hasResponse = hasResponse
-
-
 class Request(EObject, metaclass=MetaEClass):
 
     hasObjectProperties = EReference(ordered=True, unique=True, containment=True, upper=-1)
@@ -376,9 +358,9 @@ class ROSSystem(EObject, metaclass=MetaEClass):
     hasPackages = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasGraphs = EReference(ordered=True, unique=True, containment=True)
     hasCustomMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
-    hasServiceMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    hasCustomServices = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, topology=None, hasPackages=None, hasGraphs=None, name=None, hasCustomMessages=None, hasServiceMessages=None, **kwargs):
+    def __init__(self, *, topology=None, hasPackages=None, hasGraphs=None, name=None, hasCustomMessages=None, hasCustomServices=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -399,8 +381,8 @@ class ROSSystem(EObject, metaclass=MetaEClass):
         if hasCustomMessages:
             self.hasCustomMessages.extend(hasCustomMessages)
 
-        if hasServiceMessages:
-            self.hasServiceMessages.extend(hasServiceMessages)
+        if hasCustomServices:
+            self.hasCustomServices.extend(hasCustomServices)
 
 
 class Topology(EObject, metaclass=MetaEClass):
@@ -609,6 +591,37 @@ class TopicMessage(EObject, metaclass=MetaEClass):
             self.name = name
 
 
+@abstract
+class ServiceMessage(EObject, metaclass=MetaEClass):
+
+    name = EAttribute(eType=EString, derived=False, changeable=True)
+
+    def __init__(self, *, name=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if name is not None:
+            self.name = name
+
+
+class CustomService(ServiceMessage):
+
+    hasRequest = EReference(ordered=True, unique=True, containment=True)
+    hasResponse = EReference(ordered=True, unique=True, containment=True)
+
+    def __init__(self, *, hasRequest=None, hasResponse=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if hasRequest is not None:
+            self.hasRequest = hasRequest
+
+        if hasResponse is not None:
+            self.hasResponse = hasResponse
+
+
 class CustomMessage(TopicMessage):
 
     hasObjectProperties = EReference(ordered=True, unique=True, containment=True, upper=-1)
@@ -699,6 +712,18 @@ class Enumeration(Datatype):
 
 
 class RosMessage(TopicMessage):
+
+    package = EAttribute(eType=EString, derived=False, changeable=True)
+
+    def __init__(self, *, package=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if package is not None:
+            self.package = package
+
+
+class RosService(ServiceMessage):
 
     package = EAttribute(eType=EString, derived=False, changeable=True)
 
