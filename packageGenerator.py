@@ -189,7 +189,7 @@ for package in model_root.hasPackages:
 	for n in package.hasNodes:
 		entry_data.append(n.name+'_exec = '+package.name+'.'+n.name+'_node:main'),
 		for c in n.hasClients:
-			entry_data.append(n.name+'_'+c.name+' = '+package.name+'.'+n.name+'_node:'+c.name),
+			entry_data.append(n.name+'_'+c.name+' = '+package.name+'.'+n.name+'_node:'+'run_'+c.name),
 
 	# Fire up the rendering proccess
 	output = template.render(pack=pack_data, entry_points=entry_data)
@@ -242,6 +242,22 @@ for package in model_root.hasPackages:
 		# Build the node data to pass to the Template
 		node_data = {}
 		node_data['name'] = node.name
+		
+		
+		
+		# ***********************************************************************************************************************************************************
+		# Build the parameter data to pass to the Template
+		params = []
+		for p in node.hasParameters:
+			param = {}
+			param['name'] = p.name
+			param['value'] = p.value
+			param['type'] = p.type
+			params.append(param)
+		# ***********************************************************************************************************************************************************
+		
+		
+		
 		# Build the publisher/subscriber data to pass to the Template
 		subscribers = []
 		publishers = []
@@ -354,7 +370,7 @@ for package in model_root.hasPackages:
 		# Fire up the rendering proccess
 		output = template.render(pack = pack_data, node = node_data, publishers = publishers, 
 		subscribers = subscribers, objects = objects, smessages=smessages, tmessages=tmessages, 
-		servers = servers, clients=clients)
+		servers = servers, clients=clients, params = params)
 		
 		# Write the generated file
 		dest=package.name+'/'+node.name+'_node.py'

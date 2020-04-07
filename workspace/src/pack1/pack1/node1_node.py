@@ -18,42 +18,53 @@ from std_srvs.srv import SetBool
 # ~ # ~ from std_msgs.msg import 
 # ~ from example_interfaces.srv import AddTwoInts
 
-
+# Class for the node node1 
 class node1_class(Node):
-
+	
+	# Constructor function of the node
 	def __init__(self):
 		super().__init__('node1')
 		# Publishers
 		#____________________________________________
+		# publy3
 		self.publisher_publy3= self.create_publisher(ValueString, 'topic/path3', 10)
 		self.timer_publy3 = self.create_timer(12.0, self.publisher_call_publy3)
 		self.i = 0
-		#____________________________________________
+		#_____
+		# publy2
 		self.publisher_publy2= self.create_publisher(ValueInt, 'topic/path2', 10)
 		self.timer_publy2 = self.create_timer(8.0, self.publisher_call_publy2)
 		self.i = 0
-		#____________________________________________
+		#_____
 		
 		# Subscribers
 		#____________________________________________
 		
 		# Servers
 		#____________________________________________
+		# Server1
 		self.server_Server1= self.create_service(Addtwo, 'add_two', self.server_call_Server1)
-		#____________________________________________
+		#_____
+		# Server3
 		self.server_Server3= self.create_service(SetBool, 'set_bool', self.server_call_Server3)
-		#____________________________________________
+		#_____
 		
 		# Clients
 		#____________________________________________
 		
 		
-	# ************Calls************
+	# ************Callbacks************
 	# Publishers
 	#____________________________________________
+	# This is the callback of the publisher publy3. 
+	# You can store the message in the msg object attributes, according 
+	# to the instructions in the comments below. This function will be 
+	# called automatically with the chosen publish rate, to publish your 
+	# messages. This function is the template of the publisher callback 
+	# and you should put your own functionality.
 	def publisher_call_publy3(self):
 		msg = ValueString()
-		
+		# Please create the message of the publisher in this callback
 		# Message after calculactions should be stored in
 		# msg.x 
 		
@@ -63,10 +74,16 @@ class node1_class(Node):
 		self.publisher_publy3.publish(msg)
 		self.get_logger().info('Publishing: "%s"' % msg.x)
 		self.i += 1
-	#____________________________________________
+	#_____
+	# This is the callback of the publisher publy2. 
+	# You can store the message in the msg object attributes, according 
+	# to the instructions in the comments below. This function will be 
+	# called automatically with the chosen publish rate, to publish your 
+	# messages. This function is the template of the publisher callback 
+	# and you should put your own functionality.
 	def publisher_call_publy2(self):
 		msg = ValueInt()
-		
+		# Please create the message of the publisher in this callback
 		# Message after calculactions should be stored in
 		# msg.x 
 		
@@ -76,14 +93,21 @@ class node1_class(Node):
 		self.publisher_publy2.publish(msg)
 		self.get_logger().info('Publishing: "%s"' % msg.x)
 		self.i += 1
-	#____________________________________________
+	#_____
 	
 	# Subscribers
 	#____________________________________________
 	
 	#Servers
 	#____________________________________________
+	# This is the callback of the server Server1. 
+	# You can obtain the request to the server from the variables set in 
+	# this function, according to the instructions in the comments 
+	# below. This function will be called automatically every time a 
+	# request is received. This function is the template of the server 
+	# callback and you should put your own functionality.
 	def server_call_Server1(self, request, response):
+		# Please add the server's functionality in this callback
 		# Store the variables of the request
 		a = request.a
 		b = request.b
@@ -92,15 +116,21 @@ class node1_class(Node):
 		response.c = request.a + request.b
 		self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
 		return response
-	#____________________________________________
+	#_____
+	# This is the callback of the server Server3. 
+	# You can obtain the request to the server from the variables set in 
+	# this function, according to the instructions in the comments 
+	# below. This function will be called automatically every time a 
+	# request is received. This function is the template of the server 
+	# callback and you should put your own functionality.
 	def server_call_Server3(self, request, response):
+		# Please add the server's functionality in this callback
 		# Store the variables of the request
 		# Service result after calculactions should be stored in
-		response.success = True
-		response.message = "Hello from setBool Server"
-		self.get_logger().info('Incoming request\n %r ' % (request.data))
+		response.c = request.a + request.b
+		self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
 		return response
-	#____________________________________________
+	#_____
 		
 	# Clients
 	#____________________________________________
@@ -109,6 +139,12 @@ class node1_class(Node):
 		
 # Main executable
 #____________________________________________
+# This is the main executable for the node node1.
+# Run this executable from the root of the workspace using the command:
+# $ ros2 run  node1_exec
+#
+# This executable creates a node with all its features and spins it to
+# wait for its callbacks.
 def main(args=None):
 	rclpy.init(args=args)
 	

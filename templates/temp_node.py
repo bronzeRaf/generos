@@ -42,50 +42,72 @@ from {{c.package}}.srv import {{c.type}}
 # ~ from std_msgs.msg import {{objects.type}}
 # ~ from example_interfaces.srv import AddTwoInts
 
-
+# Class for the node {{node.name}} 
 class {{node.name}}_class(Node):
-
+	
+	# Constructor function of the node
 	def __init__(self):
 		super().__init__('{{node.name}}')
+		# Params
+		#____________________________________________
+		{%for p in params %}
+		# {{p.name}}
+		
+		# TODO make the descriptor and call the declaration properlly
+		self.param_{{p.name}} = self.declare_parameter({{p.name}}, {{p.value}})
+		#_____
+		{%endfor%}
+		
+		
 		# Publishers
 		#____________________________________________
 		{%for p in publishers %}
-		self.publisher_{{p.name}}= self.create_publisher({{p.type}}, '{{p.topicPath}}', {{p.qos}})
+		# {{p.name}}
+		self.publisher_{{p.name}} = self.create_publisher({{p.type}}, '{{p.topicPath}}', {{p.qos}})
 		self.timer_{{p.name}} = self.create_timer({{p.publishRate}}, self.publisher_call_{{p.name}})
 		self.i = 0
-		#____________________________________________
+		#_____
 		{%endfor%}
 		
 		# Subscribers
 		#____________________________________________
 		{%for s in subscribers %}
-		self.subscriber_{{s.name}}= self.create_subscription({{s.type}}, '{{s.topicPath}}', self.subscriber_call_{{s.name}}, {{s.qos}})
+		# {{s.name}}
+		self.subscriber_{{s.name}} = self.create_subscription({{s.type}}, '{{s.topicPath}}', self.subscriber_call_{{s.name}}, {{s.qos}})
 		self.subscriber_{{s.name}}
-		#____________________________________________
+		#_____
 		{%endfor%}
 		
 		# Servers
 		#____________________________________________
 		{%for s in servers %}
-		self.server_{{s.name}}= self.create_service({{s.type}}, '{{s.serviceName}}', self.server_call_{{s.name}})
-		#____________________________________________
+		# {{s.name}}
+		self.server_{{s.name}} = self.create_service({{s.type}}, '{{s.serviceName}}', self.server_call_{{s.name}})
+		#_____
 		{%endfor%}
 		
 		# Clients
 		#____________________________________________
 		{%for c in clients %}
-		self.client_{{c.name}}= self.create_client({{c.type}}, '{{c.serviceName}}')
-		#____________________________________________
+		# {{c.name}}
+		self.client_{{c.name}} = self.create_client({{c.type}}, '{{c.serviceName}}')
+		#_____
 		{%endfor%}
 		
 		
-	# ************Calls************
+	# ************Callbacks************
 	# Publishers
 	#____________________________________________
 	{%for p in publishers %}
+	# This is the callback of the publisher {{p.name}}. 
+	# You can store the message in the msg object attributes, according 
+	# to the instructions in the comments below. This function will be 
+	# called automatically with the chosen publish rate, to publish your 
+	# messages. This function is the template of the publisher callback 
+	# and you should put your own functionality.
 	def publisher_call_{{p.name}}(self):
 		msg = {{p.type}}()
-		
+		# Please create the message of the publisher in this callback
 		# Message after calculactions should be stored in
 		{%for r in p.msg %}
 		# msg.{{r}} 
@@ -102,25 +124,40 @@ class {{node.name}}_class(Node):
 		self.publisher_{{p.name}}.publish(msg)
 		self.get_logger().info('Publishing: "%s"' % msg.x)
 		self.i += 1
-	#____________________________________________
+	#_____
 	{%endfor%}
 	
 	# Subscribers
 	#____________________________________________
 	{%for s in subscribers %}
+	# This is the callback of the subscriber {{s.name}}. 
+	# You can obtain the message from the variables set in this 
+	# function, according to the instructions in the comments below. 
+	# This function will be called automatically every time a message is
+	# received. This function is the template of the subscriber callback 
+	# and you should put your own functionality.
 	def subscriber_call_{{s.name}}(self, msg):
+		# Please obtain the message from the subscriber in this callback
 		# Store the variables of the msg
 		{%for r in s.msg %}
 		{{r}} = msg.{{r}}
 		{%endfor%}
+		# Now you can use the received variables
 		self.get_logger().info('I heard: '+str(msg.x))
-	#____________________________________________
+	#_____
 	{%endfor%}
 	
 	#Servers
 	#____________________________________________
 	{%for s in servers %}
+	# This is the callback of the server {{s.name}}. 
+	# You can obtain the request to the server from the variables set in 
+	# this function, according to the instructions in the comments 
+	# below. This function will be called automatically every time a 
+	# request is received. This function is the template of the server 
+	# callback and you should put your own functionality.
 	def server_call_{{s.name}}(self, request, response):
+		# Please add the server's functionality in this callback
 		# Store the variables of the request
 		{%for r in s.requests %}
 		{{r}} = request.{{r}}
@@ -132,15 +169,25 @@ class {{node.name}}_class(Node):
 		response.c = request.a + request.b
 		self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
 		return response
-	#____________________________________________
+	#_____
 	{%endfor%}
 		
 	# Clients
 	#____________________________________________
 	{%for c in clients %}
+	# This is the call function of the client {{c.name}}. 
+	# You can call this function, passing all the arguments of the 
+	# service request declaration. This function will not be called 
+	# automatically as you should call it to make a request. The 
+	# function waits for the service to be available before going on and
+	# the server's response is stored in a future object once the server
+	# return the response. This function is the template of the client 
+	# call and you should call it for applying requests.
 	def client_call_{{c.name}}(self{%for r in c.requests %}, {{r }} {%endfor%}):
+		# Wait for service
 		while not self.client_{{c.name}}.wait_for_service(timeout_sec=1.0):
 			self.get_logger().info('service not available, waiting again...')
+		# Create request and fill it with data
 		self.request_{{c.name}} = {{c.type}}.Request()
 		{%for r in c.requests %}
 		self.request_{{c.name}}.{{r}} = {{r}}
@@ -150,13 +197,19 @@ class {{node.name}}_class(Node):
 		{%for r in c.responses %}
 		# self.future_{{c.name}}.result().{{r}} 
 		{%endfor%}
-	#____________________________________________
+	#_____
 	{%endfor%}
 		
 		
 		
 # Main executable
 #____________________________________________
+# This is the main executable for the node {{node.name}}.
+# Run this executable from the root of the workspace using the command:
+# $ ros2 run {{pack.name}} {{node.name}}_exec
+#
+# This executable creates a node with all its features and spins it to
+# wait for its callbacks.
 def main(args=None):
 	rclpy.init(args=args)
 	
@@ -172,7 +225,13 @@ def main(args=None):
 # Clients executables
 #____________________________________________
 {%for c in clients %}
-def {{c.name}}(args=None):
+# This is the executable for the client {{c.name}}.
+# Run this executable from the root of the workspace using the command:
+# $ ros2 run {{pack.name}} {{node.name}}_{{c.name}} arg1 arg2 ...
+#
+# This executable creates a node and call its client's call. It spins 
+# the node until the response from the server is received.
+def run_{{c.name}}(args=None):
 	rclpy.init(args=args)
 	
 	{{node.name}} = {{node.name}}_class()
@@ -190,7 +249,7 @@ def {{c.name}}(args=None):
 				'Result of add_three_ints: for %d + %d = %d' %
 				({{node.name}}.request_{{c.name}}.a, {{node.name}}.request_{{c.name}}.b, response.c))
 			break
-	
+#_____
 {%endfor%}
 	
 if __name__ == '__main__':
