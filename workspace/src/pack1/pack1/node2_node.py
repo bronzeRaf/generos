@@ -23,13 +23,17 @@ class node2_class(Node):
 	# Constructor function of the node
 	def __init__(self):
 		super().__init__('node2')
+		# Params
+		#____________________________________________
+		
+		
 		# Publishers
 		#____________________________________________
 		
 		# Subscribers
 		#____________________________________________
 		# suby2
-		self.subscriber_suby2= self.create_subscription(ValueInt, 'topic/path2', self.subscriber_call_suby2, 10)
+		self.subscriber_suby2 = self.create_subscription(ValueInt, 'name/space/topic/path2', self.subscriber_call_suby2, 10)
 		self.subscriber_suby2
 		#_____
 		
@@ -39,10 +43,10 @@ class node2_class(Node):
 		# Clients
 		#____________________________________________
 		# Client1
-		self.client_Client1= self.create_client(Addtwo, 'add_two')
+		self.client_Client1 = self.create_client(Addtwo, 'add_two')
 		#_____
 		# Client3
-		self.client_Client3= self.create_client(SetBool, 'set_bool')
+		self.client_Client3 = self.create_client(SetBool, 'set_bool')
 		#_____
 		
 		

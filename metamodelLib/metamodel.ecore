@@ -52,8 +52,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Parameter">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//DataTypes"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" upperBound="-1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Package">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasDependencies" upperBound="-1"
@@ -75,9 +74,19 @@
   <eClassifiers xsi:type="ecore:EClass" name="Dependency"/>
   <eClassifiers xsi:type="ecore:EClass" name="Documentation"/>
   <eClassifiers xsi:type="ecore:EEnum" name="DataTypes">
-    <eLiterals name="float32" literal="float32"/>
-    <eLiterals name="int32" value="1" literal="int32"/>
-    <eLiterals name="string" value="2" literal="string"/>
+    <eLiterals name="int32" value="2"/>
+    <eLiterals name="int8"/>
+    <eLiterals name="int16" value="1"/>
+    <eLiterals name="int64" value="3"/>
+    <eLiterals name="uint8" value="4"/>
+    <eLiterals name="uint32" value="6"/>
+    <eLiterals name="uint16" value="5"/>
+    <eLiterals name="uint64" value="7"/>
+    <eLiterals name="float32" value="8"/>
+    <eLiterals name="float64" value="9"/>
+    <eLiterals name="string" value="10"/>
+    <eLiterals name="bool" value="11"/>
+    <eLiterals name="enumeration" value="12"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Graph">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasTopics" upperBound="-1"
@@ -127,7 +136,7 @@
         eType="#//Package" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasGraphs" lowerBound="1"
         eType="#//Graph" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasCustomMessages" upperBound="-1"
         eType="#//CustomMessage" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasCustomServices" upperBound="-1"

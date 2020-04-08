@@ -22,13 +22,17 @@ class node3_class(Node):
 	# Constructor function of the node
 	def __init__(self):
 		super().__init__('node3')
+		# Params
+		#____________________________________________
+		
+		
 		# Publishers
 		#____________________________________________
 		
 		# Subscribers
 		#____________________________________________
 		# suby3
-		self.subscriber_suby3= self.create_subscription(ValueString, 'topic/path3', self.subscriber_call_suby3, 10)
+		self.subscriber_suby3 = self.create_subscription(ValueString, 'topic/path3', self.subscriber_call_suby3, 10)
 		self.subscriber_suby3
 		#_____
 		
@@ -38,7 +42,7 @@ class node3_class(Node):
 		# Clients
 		#____________________________________________
 		# Client2
-		self.client_Client2= self.create_client(SrFloatFloatString, 'str')
+		self.client_Client2 = self.create_client(SrFloatFloatString, 'str')
 		#_____
 		
 		

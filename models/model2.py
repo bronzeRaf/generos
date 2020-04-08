@@ -21,7 +21,7 @@ rosystem1.name = "My_first_ROS_system2"
 package1 = metamodel.Package(name = "pack1", rosVersion = 0, packagePath = "path to pack1")
 package2 = metamodel.Package(name = "pack2", rosVersion = 0, packagePath = "path to pack2")
 #set nodes
-node1 = metamodel.Node(name="node1")
+node1 = metamodel.Node(name="node1", namespace = "name/space")
 node2 = metamodel.Node(name="node2")
 node3 = metamodel.Node(name="node3")
 #set publishers
@@ -94,6 +94,9 @@ client1 = metamodel.Client(name = "Client1", servicePath = "ser/vice/path1", ser
 client2 = metamodel.Client(name = "Client2", servicePath = "ser/vice/path2", serviceName = "str")
 client3 = metamodel.Client(name = "Client3", servicePath = "ser/vice/path3", serviceName = "set_bool")
 
+#set parameters
+param1 = metamodel.Parameter(name = "p1", type = metamodel.DataTypes.int32, value = "32")
+
 #apply compositions
 rosystem1.hasPackages.extend([package1])				#0..*	system-package
 rosystem1.hasPackages.extend([package2])				#0..*	system-package
@@ -123,6 +126,8 @@ node1.hasServers.extend([server3])						#0..*	node-server
 node2.hasClients.extend([client1])						#0..*	node-client
 node2.hasClients.extend([client3])						#0..*	node-client
 node3.hasClients.extend([client2])						#0..*	node-client
+
+node1.hasParameters.extend([param1])					#0..*	node-parameter
 
 custommessage1.hasObjectProperties.extend([tobject1])	#0..*	custommessage-objectproperty
 custommessage2.hasObjectProperties.extend([tobject2])	#0..*	custommessage-objectproperty

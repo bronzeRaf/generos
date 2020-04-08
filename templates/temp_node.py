@@ -47,14 +47,16 @@ class {{node.name}}_class(Node):
 	
 	# Constructor function of the node
 	def __init__(self):
-		super().__init__('{{node.name}}')
+		super().__init__('{{node.name}}'{%if not node.namespace == None%}, namespace = '{{node.namespace}}'{%endif%})
 		# Params
 		#____________________________________________
 		{%for p in params %}
 		# {{p.name}}
-		
-		# TODO make the descriptor and call the declaration properlly
-		self.param_{{p.name}} = self.declare_parameter({{p.name}}, {{p.value}})
+		self.param_{{p.name}} = self.declare_parameter('{{p.name}}', {{p.value}})
+		# You can use your parameter {{p.name}} with type {{p.type}}
+		# with 		self.get_parameter('{{p.name}}')._value
+		# or 		self.param_{{p.name}}._value
+		# You can also use your parameter from terminal or yaml file. 
 		#_____
 		{%endfor%}
 		

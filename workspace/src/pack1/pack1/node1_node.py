@@ -23,16 +23,27 @@ class node1_class(Node):
 	
 	# Constructor function of the node
 	def __init__(self):
-		super().__init__('node1')
+		super().__init__('node1', namespace = 'name/space')
+		# Params
+		#____________________________________________
+		# p1
+		self.param_p1 = self.declare_parameter('p1', 32)
+		# You can use your parameter p1 with type int32
+		# with 		self.get_parameter('p1')._value
+		# or 		self.param_p1._value
+		# You can also use your parameter from terminal or yaml file. 
+		#_____
+		
+		
 		# Publishers
 		#____________________________________________
 		# publy3
-		self.publisher_publy3= self.create_publisher(ValueString, 'topic/path3', 10)
+		self.publisher_publy3 = self.create_publisher(ValueString, 'topic/path3', 10)
 		self.timer_publy3 = self.create_timer(12.0, self.publisher_call_publy3)
 		self.i = 0
 		#_____
 		# publy2
-		self.publisher_publy2= self.create_publisher(ValueInt, 'topic/path2', 10)
+		self.publisher_publy2 = self.create_publisher(ValueInt, 'topic/path2', 10)
 		self.timer_publy2 = self.create_timer(8.0, self.publisher_call_publy2)
 		self.i = 0
 		#_____
@@ -43,10 +54,10 @@ class node1_class(Node):
 		# Servers
 		#____________________________________________
 		# Server1
-		self.server_Server1= self.create_service(Addtwo, 'add_two', self.server_call_Server1)
+		self.server_Server1 = self.create_service(Addtwo, 'add_two', self.server_call_Server1)
 		#_____
 		# Server3
-		self.server_Server3= self.create_service(SetBool, 'set_bool', self.server_call_Server3)
+		self.server_Server3 = self.create_service(SetBool, 'set_bool', self.server_call_Server3)
 		#_____
 		
 		# Clients

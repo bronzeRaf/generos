@@ -12,7 +12,8 @@ eClass = EPackage(name=name, nsURI=nsURI, nsPrefix=nsPrefix)
 
 eClassifiers = {}
 getEClassifier = partial(Ecore.getEClassifier, searchspace=eClassifiers)
-DataTypes = EEnum('DataTypes', literals=['float32', 'int32', 'string'])
+DataTypes = EEnum('DataTypes', literals=['int32', 'int8', 'int16', 'int64', 'uint8',
+                                         'uint32', 'uint16', 'uint64', 'float32', 'float64', 'string', 'bool', 'enumeration'])
 
 ROSVersion = EEnum('ROSVersion', literals=['Eloquent'])
 
@@ -179,7 +180,7 @@ class Parameter(EObject, metaclass=MetaEClass):
 
     name = EAttribute(eType=EString, derived=False, changeable=True)
     type = EAttribute(eType=DataTypes, derived=False, changeable=True)
-    value = EAttribute(eType=EString, derived=False, changeable=True, upper=-1)
+    value = EAttribute(eType=EString, derived=False, changeable=True)
 
     def __init__(self, *, name=None, type=None, value=None, **kwargs):
         if kwargs:
@@ -193,8 +194,8 @@ class Parameter(EObject, metaclass=MetaEClass):
         if type is not None:
             self.type = type
 
-        if value:
-            self.value.extend(value)
+        if value is not None:
+            self.value = value
 
 
 class Package(EObject, metaclass=MetaEClass):

@@ -242,6 +242,7 @@ for package in model_root.hasPackages:
 		# Build the node data to pass to the Template
 		node_data = {}
 		node_data['name'] = node.name
+		node_data['namespace'] = node.namespace
 		
 		
 		
