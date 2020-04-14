@@ -11,12 +11,33 @@
 #include "interfaces/msg/value_int__struct.h"
 
 
+// Include directives for member types
+// Member `header`
+#include "std_msgs/msg/header.h"
+// Member `header`
+#include "std_msgs/msg/header__rosidl_typesupport_introspection_c.h"
+
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-static rosidl_typesupport_introspection_c__MessageMember ValueInt__rosidl_typesupport_introspection_c__ValueInt_message_member_array[1] = {
+static rosidl_typesupport_introspection_c__MessageMember ValueInt__rosidl_typesupport_introspection_c__ValueInt_message_member_array[2] = {
+  {
+    "header",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_MESSAGE,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message (initialized later)
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces__msg__ValueInt, header),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL  // resize(index) function pointer
+  },
   {
     "x",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_INT8,  // type
@@ -37,7 +58,7 @@ static rosidl_typesupport_introspection_c__MessageMember ValueInt__rosidl_typesu
 static const rosidl_typesupport_introspection_c__MessageMembers ValueInt__rosidl_typesupport_introspection_c__ValueInt_message_members = {
   "interfaces__msg",  // message namespace
   "ValueInt",  // message name
-  1,  // number of fields
+  2,  // number of fields
   sizeof(interfaces__msg__ValueInt),
   ValueInt__rosidl_typesupport_introspection_c__ValueInt_message_member_array  // message members
 };
@@ -53,6 +74,8 @@ static rosidl_message_type_support_t ValueInt__rosidl_typesupport_introspection_
 ROSIDL_TYPESUPPORT_INTROSPECTION_C_EXPORT_interfaces
 const rosidl_message_type_support_t *
 ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, interfaces, msg, ValueInt)() {
+  ValueInt__rosidl_typesupport_introspection_c__ValueInt_message_member_array[0].members_ =
+    ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, std_msgs, msg, Header)();
   if (!ValueInt__rosidl_typesupport_introspection_c__ValueInt_message_type_support_handle.typesupport_identifier) {
     ValueInt__rosidl_typesupport_introspection_c__ValueInt_message_type_support_handle.typesupport_identifier =
       rosidl_typesupport_introspection_c__identifier;

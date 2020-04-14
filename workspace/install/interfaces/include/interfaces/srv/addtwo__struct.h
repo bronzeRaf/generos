@@ -17,10 +17,14 @@ extern "C"
 
 // Constants defined in the message
 
+// Include directives for member types
+// Member 'a'
+#include "std_msgs/msg/int32__struct.h"
+
 // Struct defined in srv/Addtwo in the package interfaces.
 typedef struct interfaces__srv__Addtwo_Request
 {
-  int8_t a;
+  std_msgs__msg__Int32 a;
   int8_t b;
 } interfaces__srv__Addtwo_Request;
 

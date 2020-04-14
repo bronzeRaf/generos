@@ -24,6 +24,10 @@
   #endif
 #endif
 
+// Include directives for member types
+// Member 'a'
+#include "std_msgs/msg/int32__struct.hpp"
+
 #ifndef _WIN32
 # define DEPRECATED__interfaces__srv__Addtwo_Request __attribute__((deprecated))
 #else
@@ -43,29 +47,28 @@ struct Addtwo_Request_
   using Type = Addtwo_Request_<ContainerAllocator>;
 
   explicit Addtwo_Request_(rosidl_generator_cpp::MessageInitialization _init = rosidl_generator_cpp::MessageInitialization::ALL)
+  : a(_init)
   {
     if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
       rosidl_generator_cpp::MessageInitialization::ZERO == _init)
     {
-      this->a = 0;
       this->b = 0;
     }
   }
 
   explicit Addtwo_Request_(const ContainerAllocator & _alloc, rosidl_generator_cpp::MessageInitialization _init = rosidl_generator_cpp::MessageInitialization::ALL)
+  : a(_alloc, _init)
   {
-    (void)_alloc;
     if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
       rosidl_generator_cpp::MessageInitialization::ZERO == _init)
     {
-      this->a = 0;
       this->b = 0;
     }
   }
 
   // field types and members
   using _a_type =
-    int8_t;
+    std_msgs::msg::Int32_<ContainerAllocator>;
   _a_type a;
   using _b_type =
     int8_t;
@@ -73,7 +76,7 @@ struct Addtwo_Request_
 
   // setters for named parameter idiom
   Type & set__a(
-    const int8_t & _arg)
+    const std_msgs::msg::Int32_<ContainerAllocator> & _arg)
   {
     this->a = _arg;
     return *this;

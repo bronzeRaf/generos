@@ -10,6 +10,10 @@
 #include <stdint.h>
 #include <type_traits>
 
+// Include directives for member types
+// Member 'header'
+#include "std_msgs/msg/header__traits.hpp"
+
 namespace rosidl_generator_traits
 {
 
@@ -21,11 +25,11 @@ inline const char * data_type<interfaces::msg::ValueInt>()
 
 template<>
 struct has_fixed_size<interfaces::msg::ValueInt>
-  : std::integral_constant<bool, true> {};
+  : std::integral_constant<bool, has_fixed_size<std_msgs::msg::Header>::value> {};
 
 template<>
 struct has_bounded_size<interfaces::msg::ValueInt>
-  : std::integral_constant<bool, true> {};
+  : std::integral_constant<bool, has_bounded_size<std_msgs::msg::Header>::value> {};
 
 }  // namespace rosidl_generator_traits
 

@@ -1,13 +1,13 @@
 
 from .metamodel import getEClassifier, eClassifiers
 from .metamodel import name, nsURI, nsPrefix, eClass
-from .metamodel import Client, Node, Subscriber, Publisher, Server, Parameter, Package, Dependency, Documentation, DataTypes, Graph, Topic, ServiceLink, CustomService, Request, Response, CustomMessage, ROSSystem, Topology, Platform, LocalNetwork, Host, Action, ActionServer, ActionClient, ROSVersion, AritectureTypes, OSType, NetworkInterface, ObjectProperty, Datatype, Bool, String, Number, Int, Uint, Float, UIntType, IntType, FloatType, ROSData, Array, UintArray, FloatArray, IntArray, IntArrayType, UIntArrayType, FloatArrayType, Enumeration, Element, TopicMessage, RosMessage, ServiceMessage, RosService
+from .metamodel import Client, Node, Subscriber, Publisher, Server, Parameter, Package, Dependency, Documentation, DataTypes, Graph, Topic, ServiceLink, CustomService, Request, Response, CustomMessage, ROSSystem, Topology, Platform, LocalNetwork, Host, Action, ActionServer, ActionClient, ROSVersion, AritectureTypes, OSType, NetworkInterface, ObjectProperty, Datatype, Bool, String, Number, Int, Uint, Float, UIntType, IntType, FloatType, ROSData, Array, UintArray, FloatArray, IntArray, IntArrayType, UIntArrayType, FloatArrayType, Enumeration, Element, TopicMessage, RosMessage, ServiceMessage, RosService, RosInterface
 
 
 from . import metamodel
 
 __all__ = ['Client', 'Node', 'Subscriber', 'Publisher', 'Server', 'Parameter', 'Package', 'Dependency', 'Documentation', 'DataTypes', 'Graph', 'Topic', 'ServiceLink', 'CustomService', 'Request', 'Response', 'CustomMessage', 'ROSSystem', 'Topology', 'Platform', 'LocalNetwork', 'Host', 'Action', 'ActionServer', 'ActionClient', 'ROSVersion', 'AritectureTypes',
-           'OSType', 'NetworkInterface', 'ObjectProperty', 'Datatype', 'Bool', 'String', 'Number', 'Int', 'Uint', 'Float', 'UIntType', 'IntType', 'FloatType', 'ROSData', 'Array', 'UintArray', 'FloatArray', 'IntArray', 'IntArrayType', 'UIntArrayType', 'FloatArrayType', 'Enumeration', 'Element', 'TopicMessage', 'RosMessage', 'ServiceMessage', 'RosService']
+           'OSType', 'NetworkInterface', 'ObjectProperty', 'Datatype', 'Bool', 'String', 'Number', 'Int', 'Uint', 'Float', 'UIntType', 'IntType', 'FloatType', 'ROSData', 'Array', 'UintArray', 'FloatArray', 'IntArray', 'IntArrayType', 'UIntArrayType', 'FloatArrayType', 'Enumeration', 'Element', 'TopicMessage', 'RosMessage', 'ServiceMessage', 'RosService', 'RosInterface']
 
 eSubpackages = []
 eSuperPackage = None
@@ -54,7 +54,7 @@ ObjectProperty.datatype.eType = Datatype
 Enumeration.hasElements.eType = Element
 
 otherClassifiers = [DataTypes, ROSVersion, AritectureTypes, OSType, UIntType,
-                    IntType, FloatType, IntArrayType, UIntArrayType, FloatArrayType]
+                    IntType, FloatType, IntArrayType, UIntArrayType, FloatArrayType, RosInterface]
 
 for classif in otherClassifiers:
     eClassifiers[classif.name] = classif

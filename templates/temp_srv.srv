@@ -4,11 +4,24 @@
 # Written in 13/3/2020
 # Written by Rafael Brouzos
 #}
+# Service {{service_data.name}} definition
+
+# {{service_data.description}}
+
+
 {%for o in request %}
-{{o.type}} {{o.name}}		# {{o.description}}
+# {{o.name}} -- {{o.description}}
+{%if not o.package == "no"%}{{o.package}}/{%endif%}{{o.type}} {{o.name}}
+
+
 {%endfor%}
+
 ---
+
 {%for o in response %}
-{{o.type}} {{o.name}}		# {{o.description}}
+# {{o.name}} -- {{o.description}}
+{%if not o.package == "no"%}{{o.package}}/{%endif%}{{o.type}} {{o.name}}
+
+
 {%endfor%}
 

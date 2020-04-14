@@ -66,6 +66,9 @@ template = env.get_template('temp_msg.msg')
 
 # Build the msg data to pass to the Template
 for t in model_root.hasCustomMessages:
+	message_data = {}
+	message_data['name'] = t.name
+	message_data['description'] = t.description
 	objects = []
 	for o in t.hasObjectProperties:
 		obj = {}
@@ -73,10 +76,14 @@ for t in model_root.hasCustomMessages:
 		obj['type'] = o.datatype.type
 		obj['default'] = o.default
 		obj['description'] = o.description
+		if o.datatype.__class__.__name__=="ROSData":
+			obj['package'] = o.datatype.package
+		else:
+			obj['package'] = "no"
 		objects.append(obj)
 	
 	# Fire up the rendering proccess
-	output = template.render(objects = objects)
+	output = template.render(objects = objects, message_data=message_data)
 	
 	# Write the generated file
 	dest='interfaces/msg/'+t.name+'.msg'
@@ -89,6 +96,9 @@ for t in model_root.hasCustomMessages:
 template = env.get_template('temp_srv.srv')
 # Build the srv data to pass to the Template
 for t in model_root.hasCustomServices:
+	service_data = {}
+	service_data['name'] = t.name
+	service_data['description'] = t.description
 	request = []
 	for o in t.hasRequest.hasObjectProperties:
 		req = {}
@@ -96,6 +106,10 @@ for t in model_root.hasCustomServices:
 		req['type'] = o.datatype.type
 		req['default'] = o.default
 		req['description'] = o.description
+		if o.datatype.__class__.__name__=="ROSData":
+			req['package'] = o.datatype.package
+		else:
+			req['package'] = "no"
 		request.append(req)
 	
 	response = []
@@ -105,10 +119,14 @@ for t in model_root.hasCustomServices:
 		res['type'] = o.datatype.type
 		res['default'] = o.default
 		res['description'] = o.description
+		if o.datatype.__class__.__name__=="ROSData":
+			res['package'] = o.datatype.package
+		else:
+			res['package'] = "no"
 		response.append(res)
 	
 	# Fire up the rendering proccess
-	output = template.render(request = request, response = response)
+	output = template.render(request = request, response = response, service_data=service_data)
 	
 	# Write the generated file
 	dest='interfaces/srv/'+t.name+'.srv'
@@ -122,12 +140,28 @@ template = env.get_template('temp_CMakeLists.txt')
 # Build the msg data to pass to the Template
 tmessages = []
 smessages = []
+depend = []
 for t in model_root.hasCustomMessages:
 	tmessages.append(t.name)
+	for tt in t.hasObjectProperties:
+		# Find packages and add dependencies from ros datatypes
+		if tt.datatype.__class__.__name__=="ROSData":
+			if tt.datatype.package not in depend:
+				depend.append(tt.datatype.package)
 for t in model_root.hasCustomServices:
 	smessages.append(t.name)
+	for tt in t.hasResponse.hasObjectProperties:
+		# Find packages and add dependencies from ros datatypes
+		if tt.datatype.__class__.__name__=="ROSData":
+			if tt.datatype.package not in depend:
+				depend.append(t.datatype.package)
+	for tt in t.hasRequest.hasObjectProperties:
+		# Find packages and add dependencies from ros datatypes
+		if tt.datatype.__class__.__name__=="ROSData":
+			if tt.datatype.package not in depend:
+				depend.append(t.datatype.package)
 # Fire up the rendering proccess
-output = template.render(smessages=smessages, tmessages=tmessages)
+output = template.render(smessages=smessages, tmessages=tmessages, depend=depend)
 # Write the generated file
 dest='interfaces/'+'CMakeLists.txt'
 with open(dest, 'w') as f:
@@ -176,14 +210,55 @@ for package in model_root.hasPackages:
 	pack_data['email'] = 'rnm1816@gmail.com'
 	pack_data['description'] = 'The description is ....'
 	pack_data['license'] = 'The license is ...'
-	rosservices = []
-	rosmessages = []
+	
+	# Build the package dependencies data to pass to the Template
+	pack_depend = []
+	# In Ros Services
 	for i in package.hasRosServices:
-		rosservices.append(i.package)
+		pack_depend.append(i.package)
+	# In Ros Messages
 	for i in package.hasRosMessages:
-		rosmessages.append(i.package)
-	pack_data['msg'] = rosmessages
-	pack_data['srv'] = rosservices
+		pack_depend.append(i.package)
+	
+	# Dependencies for every node in the package
+	for n in package.hasNodes:
+		# In Subscribers using Ros Messages
+		for s in n.hasSubscribers:
+			if s.smsg.__class__.__name__=="CustomMessage":
+				for o in s.smsg.hasObjectProperties:
+					if o.datatype.__class__.__name__=="ROSData":
+						if o.datatype.package not in pack_depend:
+							pack_depend.append(o.datatype.package)
+		# In Publushers using Ros Messages
+		for p in n.hasPublishers:
+			if p.pmsg.__class__.__name__=="CustomMessage":
+				for o in p.pmsg.hasObjectProperties:
+					if o.datatype.__class__.__name__=="ROSData":
+						if o.datatype.package not in pack_depend:
+							pack_depend.append(o.datatype.package)
+		# In Servers using Ros Messages
+		for s in n.hasServers:
+			if s.servicemessage.__class__.__name__=="CustomService":
+				for o in s.servicemessage.hasRequest.hasObjectProperties:
+					if o.datatype.__class__.__name__=="ROSData":
+						if o.datatype.package not in pack_depend:
+							pack_depend.append(o.datatype.package)
+				for o in s.servicemessage.hasResponse.hasObjectProperties:
+					if o.datatype.__class__.__name__=="ROSData":
+						if o.datatype.package not in pack_depend:
+							pack_depend.append(o.datatype.package)
+		# In Clients using Ros Messages
+		for c in n.hasClients:
+			if c.servicemessage.__class__.__name__=="CustomService":
+				for o in c.servicemessage.hasRequest.hasObjectProperties:
+					if o.datatype.__class__.__name__=="ROSData":
+						if o.datatype.package not in pack_depend:
+							pack_depend.append(o.datatype.package)
+				for o in c.servicemessage.hasResponse.hasObjectProperties:
+					if o.datatype.__class__.__name__=="ROSData":
+						if o.datatype.package not in pack_depend:
+							pack_depend.append(o.datatype.package)
+		
 	# Build the entry points data to pass to the Template
 	entry_data = []
 	for n in package.hasNodes:
@@ -208,7 +283,7 @@ for package in model_root.hasPackages:
 	template = env.get_template('temp_package.xml')
 	
 	# Fire up the rendering proccess
-	output = template.render(pack=pack_data)
+	output = template.render(pack=pack_data, pack_depend=pack_depend)
 	
 	# Write the generated file
 	dest='package.xml'
@@ -244,9 +319,6 @@ for package in model_root.hasPackages:
 		node_data['name'] = node.name
 		node_data['namespace'] = node.namespace
 		
-		
-		
-		# ***********************************************************************************************************************************************************
 		# Build the parameter data to pass to the Template
 		params = []
 		for p in node.hasParameters:
@@ -255,14 +327,12 @@ for package in model_root.hasPackages:
 			param['value'] = p.value
 			param['type'] = p.type
 			params.append(param)
-		# ***********************************************************************************************************************************************************
-		
-		
 		
 		# Build the publisher/subscriber data to pass to the Template
 		subscribers = []
 		publishers = []
 		types = []
+		extra_imports = []
 		for s in node.hasSubscribers:
 			smsgObj = []
 			sub = {}
@@ -279,6 +349,13 @@ for package in model_root.hasPackages:
 				sub['package'] = 'interfaces'
 				for r in s.smsg.hasObjectProperties:
 					smsgObj.append(r.name)
+					if r.datatype.__class__.__name__=="ROSData" and r.datatype.type not in types:
+						imp = {}
+						imp['type'] = r.datatype.type
+						imp['package'] = r.datatype.package
+						extra_imports.append(imp)
+						types.append(r.datatype.type)
+					
 			else:
 				sub['package'] = s.smsg.package
 				#TODO append the Ros subscriber parameters
@@ -303,6 +380,12 @@ for package in model_root.hasPackages:
 				pub['package'] = 'interfaces'
 				for r in p.pmsg.hasObjectProperties:
 					pmsgObj.append(r.name)
+					if r.datatype.__class__.__name__=="ROSData" and r.datatype.type not in types:
+						imp = {}
+						imp['type'] = r.datatype.type
+						imp['package'] = r.datatype.package
+						extra_imports.append(imp)
+						types.append(r.datatype.type)
 			else:
 				pub['package'] = p.pmsg.package
 				#TODO append the Ros publisher parameters
@@ -330,8 +413,20 @@ for package in model_root.hasPackages:
 				ser['package'] = 'interfaces'
 				for r in s.servicemessage.hasRequest.hasObjectProperties:
 					srequestObj.append(r.name)
+					if r.datatype.__class__.__name__=="ROSData" and r.datatype.type not in types:
+						imp = {}
+						imp['type'] = r.datatype.type
+						imp['package'] = r.datatype.package
+						extra_imports.append(imp)
+						types.append(r.datatype.type)
 				for r in s.servicemessage.hasResponse.hasObjectProperties:
 					sresponseObj.append(r.name)
+					if r.datatype.__class__.__name__=="ROSData" and r.datatype.type not in types:
+						imp = {}
+						imp['type'] = r.datatype.type
+						imp['package'] = r.datatype.package
+						extra_imports.append(imp)
+						types.append(r.datatype.type)
 			else:
 				ser['package'] = s.servicemessage.package
 				#TODO append the Ros service parameters
@@ -358,8 +453,20 @@ for package in model_root.hasPackages:
 				cli['package'] = 'interfaces'
 				for r in c.servicemessage.hasRequest.hasObjectProperties:
 					crequestObj.append(r.name)
+					if r.datatype.__class__.__name__=="ROSData" and r.datatype.type not in types:
+						imp = {}
+						imp['type'] = r.datatype.type
+						imp['package'] = r.datatype.package
+						extra_imports.append(imp)
+						types.append(r.datatype.type)
 				for r in c.servicemessage.hasResponse.hasObjectProperties:
 					cresponseObj.append(r.name)
+					if r.datatype.__class__.__name__=="ROSData" and r.datatype.type not in types:
+						imp = {}
+						imp['type'] = r.datatype.type
+						imp['package'] = r.datatype.package
+						extra_imports.append(imp)
+						types.append(r.datatype.type)
 			else:
 				cli['package'] = c.servicemessage.package
 				#TODO append the Ros client parameters
@@ -371,7 +478,7 @@ for package in model_root.hasPackages:
 		# Fire up the rendering proccess
 		output = template.render(pack = pack_data, node = node_data, publishers = publishers, 
 		subscribers = subscribers, objects = objects, smessages=smessages, tmessages=tmessages, 
-		servers = servers, clients=clients, params = params)
+		servers = servers, clients=clients, params = params,extra_imports=extra_imports)
 		
 		# Write the generated file
 		dest=package.name+'/'+node.name+'_node.py'

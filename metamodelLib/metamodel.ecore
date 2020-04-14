@@ -116,6 +116,7 @@
         eType="#//Request" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasResponse" lowerBound="1"
         eType="#//Response" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Request">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasObjectProperties" upperBound="-1"
@@ -128,6 +129,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="CustomMessage" eSuperTypes="#//TopicMessage">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasObjectProperties" upperBound="-1"
         eType="#//ObjectProperty" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ROSSystem">
     <eStructuralFeatures xsi:type="ecore:EReference" name="topology" lowerBound="1"
@@ -203,7 +206,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="ObjectProperty">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="default" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="datatype" lowerBound="1"
         eType="#//Datatype" containment="true"/>
   </eClassifiers>
@@ -245,7 +249,13 @@
     <eLiterals name="float32"/>
     <eLiterals name="float64" value="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ROSData" eSuperTypes="#//Datatype"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ROSData" eSuperTypes="#//Datatype">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="package" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rostype" lowerBound="1"
+        eType="#//RosInterface" defaultValueLiteral="RosInterface.msg"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Array" abstract="true" eSuperTypes="#//Datatype"/>
   <eClassifiers xsi:type="ecore:EClass" name="UintArray" eSuperTypes="#//Array">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//UIntArrayType"
@@ -296,5 +306,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="RosService" eSuperTypes="#//ServiceMessage">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="package" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RosInterface">
+    <eLiterals name="msg"/>
+    <eLiterals name="srv" value="1"/>
   </eClassifiers>
 </ecore:EPackage>

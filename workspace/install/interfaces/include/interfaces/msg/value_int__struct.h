@@ -17,9 +17,14 @@ extern "C"
 
 // Constants defined in the message
 
+// Include directives for member types
+// Member 'header'
+#include "std_msgs/msg/header__struct.h"
+
 // Struct defined in msg/ValueInt in the package interfaces.
 typedef struct interfaces__msg__ValueInt
 {
+  std_msgs__msg__Header header;
   int8_t x;
 } interfaces__msg__ValueInt;
 

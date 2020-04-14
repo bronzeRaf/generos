@@ -25,7 +25,22 @@ namespace msg
 namespace rosidl_typesupport_introspection_cpp
 {
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember ValueInt_message_member_array[1] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember ValueInt_message_member_array[2] = {
+  {
+    "header",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_MESSAGE,  // type
+    0,  // upper bound of string
+    ::rosidl_typesupport_introspection_cpp::get_message_type_support_handle<std_msgs::msg::Header>(),  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces::msg::ValueInt, header),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    NULL  // resize(index) function pointer
+  },
   {
     "x",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT8,  // type
@@ -46,7 +61,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember ValueInt_mess
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers ValueInt_message_members = {
   "interfaces::msg",  // message namespace
   "ValueInt",  // message name
-  1,  // number of fields
+  2,  // number of fields
   sizeof(interfaces::msg::ValueInt),
   ValueInt_message_member_array  // message members
 };

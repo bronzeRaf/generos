@@ -2,14 +2,14 @@
 import rclpy
 from rclpy.node import Node
 import sys
-
-from interfaces.msg import ValueString
+# Imports for msg interfaces
+from std_msgs.msg import Header
 from interfaces.msg import ValueInt
-
-
+# Imports for srv interfaces
 from interfaces.srv import Addtwo
 from std_srvs.srv import SetBool
-
+# Imports for msg inside custom interfaces
+from std_msgs.msg import Int32
 #*********
 # ~ # ~ from interfaces.msg import ValueInt
 # ~ # ~ from interfaces.msg import ValueString
@@ -38,7 +38,7 @@ class node1_class(Node):
 		# Publishers
 		#____________________________________________
 		# publy3
-		self.publisher_publy3 = self.create_publisher(ValueString, 'topic/path3', 10)
+		self.publisher_publy3 = self.create_publisher(Header, 'topic/path3', 10)
 		self.timer_publy3 = self.create_timer(12.0, self.publisher_call_publy3)
 		self.i = 0
 		#_____
@@ -74,12 +74,10 @@ class node1_class(Node):
 	# messages. This function is the template of the publisher callback 
 	# and you should put your own functionality.
 	def publisher_call_publy3(self):
-		msg = ValueString()
+		msg = Header()
 		# Please create the message of the publisher in this callback
 		# Message after calculactions should be stored in
-		# msg.x 
 		
-		msg.x = 'Hello World: %d' % self.i
 		
 		
 		self.publisher_publy3.publish(msg)
@@ -96,6 +94,7 @@ class node1_class(Node):
 		msg = ValueInt()
 		# Please create the message of the publisher in this callback
 		# Message after calculactions should be stored in
+		# msg.header 
 		# msg.x 
 		
 		

@@ -2,13 +2,14 @@
 // with input from interfaces/srv/Addtwo.srv
 // generated code does not contain a copyright notice
 
+#include "std_msgs/msg/Int32.idl"
 
 module interfaces {
   module srv {
     struct Addtwo_Request {
       @verbatim (language="comment", text=
         " a value for integer service Addtwo request 1")
-      int8 a;
+      std_msgs::msg::Int32 a;
 
       @verbatim (language="comment", text=
         " b value for integer service Addtwo request 2")

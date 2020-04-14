@@ -17,10 +17,7 @@
   
   <exec_depend>rclpy</exec_depend>
   <exec_depend>interfaces</exec_depend>
-  {% for i in pack.msg %}
-  <exec_depend>{{i}}</exec_depend>
-  {%endfor%}
-  {% for i in pack.srv %}
+  {% for i in pack_depend %}
   <exec_depend>{{i}}</exec_depend>
   {%endfor%}
   <test_depend>ament_copyright</test_depend>

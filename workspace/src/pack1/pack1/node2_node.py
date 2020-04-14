@@ -2,13 +2,14 @@
 import rclpy
 from rclpy.node import Node
 import sys
-
-
+# Imports for msg interfaces
 from interfaces.msg import ValueInt
-
-
+# Imports for srv interfaces
 from interfaces.srv import Addtwo
 from std_srvs.srv import SetBool
+# Imports for msg inside custom interfaces
+from std_msgs.msg import Header
+from std_msgs.msg import Int32
 #*********
 # ~ # ~ from interfaces.msg import ValueInt
 # ~ # ~ from interfaces.msg import ValueString
@@ -33,7 +34,7 @@ class node2_class(Node):
 		# Subscribers
 		#____________________________________________
 		# suby2
-		self.subscriber_suby2 = self.create_subscription(ValueInt, 'name/space/topic/path2', self.subscriber_call_suby2, 10)
+		self.subscriber_suby2 = self.create_subscription(ValueInt, 'topic/path2', self.subscriber_call_suby2, 10)
 		self.subscriber_suby2
 		#_____
 		
@@ -65,6 +66,7 @@ class node2_class(Node):
 	def subscriber_call_suby2(self, msg):
 		# Please obtain the message from the subscriber in this callback
 		# Store the variables of the msg
+		header = msg.header
 		x = msg.x
 		# Now you can use the received variables
 		self.get_logger().info('I heard: '+str(msg.x))

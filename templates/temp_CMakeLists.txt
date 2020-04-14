@@ -24,8 +24,11 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-
 find_package(rosidl_default_generators REQUIRED)
+find_package(builtin_interfaces REQUIRED)
+{%for d in depend%}
+find_package({{d}} REQUIRED)
+{%endfor%}
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   {%for t in tmessages %}
@@ -34,6 +37,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   {%for s in smessages %}
   "srv/{{s}}.srv"
   {%endfor%}
+  DEPENDENCIES builtin_interfaces{%for d in depend%} {{d}}{%endfor%}
  )
 # uncomment the following section in order to fill in
 # further dependencies manually.

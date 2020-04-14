@@ -33,6 +33,8 @@ UIntArrayType = EEnum('UIntArrayType', literals=['uint8[]', 'uint16[]', 'uint32[
 
 FloatArrayType = EEnum('FloatArrayType', literals=['float32[]', 'float64[]'])
 
+RosInterface = EEnum('RosInterface', literals=['msg', 'srv'])
+
 
 class Client(EObject, metaclass=MetaEClass):
 
@@ -609,12 +611,16 @@ class ServiceMessage(EObject, metaclass=MetaEClass):
 
 class CustomService(ServiceMessage):
 
+    description = EAttribute(eType=EString, derived=False, changeable=True)
     hasRequest = EReference(ordered=True, unique=True, containment=True)
     hasResponse = EReference(ordered=True, unique=True, containment=True)
 
-    def __init__(self, *, hasRequest=None, hasResponse=None, **kwargs):
+    def __init__(self, *, hasRequest=None, hasResponse=None, description=None, **kwargs):
 
         super().__init__(**kwargs)
+
+        if description is not None:
+            self.description = description
 
         if hasRequest is not None:
             self.hasRequest = hasRequest
@@ -625,11 +631,15 @@ class CustomService(ServiceMessage):
 
 class CustomMessage(TopicMessage):
 
+    description = EAttribute(eType=EString, derived=False, changeable=True)
     hasObjectProperties = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, hasObjectProperties=None, **kwargs):
+    def __init__(self, *, hasObjectProperties=None, description=None, **kwargs):
 
         super().__init__(**kwargs)
+
+        if description is not None:
+            self.description = description
 
         if hasObjectProperties:
             self.hasObjectProperties.extend(hasObjectProperties)
@@ -683,9 +693,22 @@ class Number(Datatype):
 
 class ROSData(Datatype):
 
-    def __init__(self, **kwargs):
+    type = EAttribute(eType=EString, derived=False, changeable=True)
+    package = EAttribute(eType=EString, derived=False, changeable=True)
+    rostype = EAttribute(eType=RosInterface, derived=False, changeable=True, default_value=None)
+
+    def __init__(self, *, type=None, package=None, rostype=None, **kwargs):
 
         super().__init__(**kwargs)
+
+        if type is not None:
+            self.type = type
+
+        if package is not None:
+            self.package = package
+
+        if rostype is not None:
+            self.rostype = rostype
 
 
 @abstract

@@ -17,15 +17,16 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-
 find_package(rosidl_default_generators REQUIRED)
+find_package(builtin_interfaces REQUIRED)
+find_package(std_msgs REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/ValueInt.msg"
   "msg/ValueString.msg"
   "srv/Addtwo.srv"
   "srv/SrFloatFloatString.srv"
- )
+  DEPENDENCIES builtin_interfaces std_msgs )
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)

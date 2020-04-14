@@ -33,13 +33,13 @@ subscriber1 = metamodel.Subscriber(name="suby1",topicPath = "topic/path1")
 subscriber2 = metamodel.Subscriber(name="suby2",topicPath = "topic/path2")
 subscriber3 = metamodel.Subscriber(name="suby3",topicPath = "topic/path3")
 #set the topic messages
-custommessage1 = metamodel.CustomMessage(name="ValueInt")
-custommessage2 = metamodel.CustomMessage(name="ValueString")
-rosmessage1 = metamodel.RosMessage(name="String", package = "std_msgs")
+custommessage1 = metamodel.CustomMessage(name="ValueInt", description = "Message for passing a header and an integer")
+custommessage2 = metamodel.CustomMessage(name="ValueString", description = "Message for testing purposes")
+rosmessage1 = metamodel.RosMessage(name="Header", package = "std_msgs")
 rosmessage2 = metamodel.RosMessage(name="Int32", package = "std_msgs")
 #set the service messages
-servicemessage1 = metamodel.CustomService(name = "Addtwo")
-servicemessage2 = metamodel.CustomService(name = "SrFloatFloatString")
+servicemessage1 = metamodel.CustomService(name = "Addtwo", description = "Service for receiving two numbers and returning their their sum")
+servicemessage2 = metamodel.CustomService(name = "SrFloatFloatString", description = "Service for testing purposes")
 servicemessage3 = metamodel.RosService(name="SetBool", package = "std_srvs")
 #set the communication objects for the topics
 tobject1 = metamodel.ObjectProperty(name="x", description = "x value for integer message")
@@ -48,6 +48,11 @@ tobject1.datatype = dt1
 tobject2 = metamodel.ObjectProperty(name="x", description = "x value for string message")
 dt2 = metamodel.String(type="string")
 tobject2.datatype = dt2
+
+tobject3 = metamodel.ObjectProperty(name="header", description = "header type object")
+dt3 = metamodel.ROSData(type="Header",package="std_msgs")
+tobject3.datatype = dt3
+
 #set the request for the services
 req1 = metamodel.Request()
 req2 = metamodel.Request()
@@ -56,7 +61,7 @@ res1 = metamodel.Response()
 res2 = metamodel.Response()
 #set the communication objects for the services
 sobject1 = metamodel.ObjectProperty(name="a", description = "a value for integer service Addtwo request 1")
-st1 = metamodel.Int(type = metamodel.IntType.int32)
+st1 = metamodel.ROSData(type = "Int32", package="std_msgs")
 sobject1.datatype = st1
 
 sobject2 = metamodel.ObjectProperty(name="b", description = "b value for integer service Addtwo request 2")
@@ -113,7 +118,7 @@ package1.hasNodes.extend([node1])						#0..*	package-node
 package1.hasNodes.extend([node2])						#0..*	package-node
 package2.hasNodes.extend([node3])						#0..*	package-node
 
-package1.hasRosMessages.extend([rosmessage2])						#0..*	package-node
+package1.hasRosMessages.extend([rosmessage1])						#0..*	package-node
 package1.hasRosServices.extend([servicemessage3])						#0..*	package-node
 
 node1.hasPublishers.extend([publisher3])				#0..*	node-publisher
@@ -129,6 +134,7 @@ node3.hasClients.extend([client2])						#0..*	node-client
 
 node1.hasParameters.extend([param1])					#0..*	node-parameter
 
+custommessage1.hasObjectProperties.extend([tobject3])	#0..*	custommessage-objectproperty
 custommessage1.hasObjectProperties.extend([tobject1])	#0..*	custommessage-objectproperty
 custommessage2.hasObjectProperties.extend([tobject2])	#0..*	custommessage-objectproperty
 servicemessage1.hasRequest = req1						#0..*	customservice-request
@@ -143,9 +149,9 @@ res1.hasObjectProperties.extend([sobject3])				#0..*	response-CommunicationObjec
 res2.hasObjectProperties.extend([sobject6])				#0..*	response-CommunicationObject
 
 #apply references
-publisher3.pmsg = custommessage2							#1..1	publisher-custommessage
+publisher3.pmsg = rosmessage1							#1..1	publisher-custommessage
 publisher2.pmsg = custommessage1							#1..1	publisher-custommessage
-subscriber3.smsg = custommessage2						#1..1	subscriber-custommessage
+subscriber3.smsg = rosmessage1						#1..1	subscriber-custommessage
 subscriber2.smsg = custommessage1						#1..1	subscriber-custommessage
 
 graph1.nodes.extend([node1, node2, node3])				#0..*	graph-nodes

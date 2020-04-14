@@ -2,12 +2,11 @@
 import rclpy
 from rclpy.node import Node
 import sys
-
-
-from interfaces.msg import ValueString
-
-
+# Imports for msg interfaces
+from std_msgs.msg import Header
+# Imports for srv interfaces
 from interfaces.srv import SrFloatFloatString
+# Imports for msg inside custom interfaces
 #*********
 # ~ # ~ from interfaces.msg import ValueInt
 # ~ # ~ from interfaces.msg import ValueString
@@ -32,7 +31,7 @@ class node3_class(Node):
 		# Subscribers
 		#____________________________________________
 		# suby3
-		self.subscriber_suby3 = self.create_subscription(ValueString, 'topic/path3', self.subscriber_call_suby3, 10)
+		self.subscriber_suby3 = self.create_subscription(Header, 'topic/path3', self.subscriber_call_suby3, 10)
 		self.subscriber_suby3
 		#_____
 		
@@ -61,7 +60,6 @@ class node3_class(Node):
 	def subscriber_call_suby3(self, msg):
 		# Please obtain the message from the subscriber in this callback
 		# Store the variables of the msg
-		x = msg.x
 		# Now you can use the received variables
 		self.get_logger().info('I heard: '+str(msg.x))
 	#_____

@@ -2,10 +2,15 @@
 // with input from interfaces/msg/ValueInt.msg
 // generated code does not contain a copyright notice
 
+#include "std_msgs/msg/Header.idl"
 
 module interfaces {
   module msg {
     struct ValueInt {
+      @verbatim (language="comment", text=
+        " header type object")
+      std_msgs::msg::Header header;
+
       @verbatim (language="comment", text=
         " x value for integer message")
       int8 x;

@@ -8,29 +8,31 @@
 import rclpy
 from rclpy.node import Node
 import sys
-
+# Imports for msg interfaces
 {%for p in publishers %}
 {%if p.unique == 1 %}
 from {{p.package}}.msg import {{p.type}}
 {%endif%}
 {%endfor%}
-
 {%for s in subscribers %}
 {%if s.unique == 1 %}
 from {{s.package}}.msg import {{s.type}}
 {%endif%}
 {%endfor%}
-
+# Imports for srv interfaces
 {%for s in servers %}
 {%if s.unique == 1 %}
 from {{s.package}}.srv import {{s.type}}
 {%endif%}
 {%endfor%}
-
 {%for c in clients %}
 {%if c.unique == 1 %}
 from {{c.package}}.srv import {{c.type}}
 {%endif%}
+{%endfor%}
+# Imports for msg inside custom interfaces
+{%for e in extra_imports %}
+from {{e.package}}.msg import {{e.type}}
 {%endfor%}
 #*********
 # ~ {%for t in tmessages %}

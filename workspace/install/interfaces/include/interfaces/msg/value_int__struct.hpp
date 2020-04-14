@@ -24,6 +24,10 @@
   #endif
 #endif
 
+// Include directives for member types
+// Member 'header'
+#include "std_msgs/msg/header__struct.hpp"
+
 #ifndef _WIN32
 # define DEPRECATED__interfaces__msg__ValueInt __attribute__((deprecated))
 #else
@@ -43,6 +47,7 @@ struct ValueInt_
   using Type = ValueInt_<ContainerAllocator>;
 
   explicit ValueInt_(rosidl_generator_cpp::MessageInitialization _init = rosidl_generator_cpp::MessageInitialization::ALL)
+  : header(_init)
   {
     if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
       rosidl_generator_cpp::MessageInitialization::ZERO == _init)
@@ -52,8 +57,8 @@ struct ValueInt_
   }
 
   explicit ValueInt_(const ContainerAllocator & _alloc, rosidl_generator_cpp::MessageInitialization _init = rosidl_generator_cpp::MessageInitialization::ALL)
+  : header(_alloc, _init)
   {
-    (void)_alloc;
     if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
       rosidl_generator_cpp::MessageInitialization::ZERO == _init)
     {
@@ -62,11 +67,20 @@ struct ValueInt_
   }
 
   // field types and members
+  using _header_type =
+    std_msgs::msg::Header_<ContainerAllocator>;
+  _header_type header;
   using _x_type =
     int8_t;
   _x_type x;
 
   // setters for named parameter idiom
+  Type & set__header(
+    const std_msgs::msg::Header_<ContainerAllocator> & _arg)
+  {
+    this->header = _arg;
+    return *this;
+  }
   Type & set__x(
     const int8_t & _arg)
   {
@@ -116,6 +130,9 @@ struct ValueInt_
   // comparison operators
   bool operator==(const ValueInt_ & other) const
   {
+    if (this->header != other.header) {
+      return false;
+    }
     if (this->x != other.x) {
       return false;
     }

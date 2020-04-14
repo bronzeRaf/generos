@@ -9,10 +9,19 @@
 #include <string.h>
 
 
+// Include directives for member types
+// Member `header`
+#include "std_msgs/msg/header__functions.h"
+
 bool
 interfaces__msg__ValueInt__init(interfaces__msg__ValueInt * msg)
 {
   if (!msg) {
+    return false;
+  }
+  // header
+  if (!std_msgs__msg__Header__init(&msg->header)) {
+    interfaces__msg__ValueInt__destroy(msg);
     return false;
   }
   // x
@@ -25,6 +34,8 @@ interfaces__msg__ValueInt__fini(interfaces__msg__ValueInt * msg)
   if (!msg) {
     return;
   }
+  // header
+  std_msgs__msg__Header__fini(&msg->header);
   // x
 }
 
