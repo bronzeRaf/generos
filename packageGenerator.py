@@ -49,6 +49,7 @@ os.system('mkdir interfaces')
 os.chdir('interfaces')
 os.system('mkdir srv')
 os.system('mkdir msg')
+os.system('mkdir action')
 # Now the working directory is workspace/src/interfaces
 os.chdir('..')
 # Now the working directory is workspace/src
@@ -83,7 +84,7 @@ for t in model_root.hasCustomMessages:
 		objects.append(obj)
 	
 	# Fire up the rendering proccess
-	output = template.render(objects = objects, message_data=message_data)
+	output = template.render(objects = objects, message_data = message_data)
 	
 	# Write the generated file
 	dest='interfaces/msg/'+t.name+'.msg'
@@ -126,12 +127,78 @@ for t in model_root.hasCustomServices:
 		response.append(res)
 	
 	# Fire up the rendering proccess
-	output = template.render(request = request, response = response, service_data=service_data)
+	output = template.render(request = request, response = response, service_data = service_data)
 	
 	# Write the generated file
 	dest='interfaces/srv/'+t.name+'.srv'
 	with open(dest, 'w') as f:
 		f.write(output)
+		
+
+
+
+
+
+# Generate Action Messages	
+# ___________________________________________
+# Load the Template of the action
+template = env.get_template('temp_action.action')
+# Build the srv data to pass to the Template
+for t in model_root.hasCustomActionInterfaces:
+	action_data = {}
+	action_data['name'] = t.name
+	action_data['description'] = t.description
+	goal = []
+	for o in t.hasGoal.hasObjectProperties:
+		g = {}
+		g['name'] = o.name
+		g['type'] = o.datatype.type
+		g['default'] = o.default
+		g['description'] = o.description
+		if o.datatype.__class__.__name__=="ROSData":
+			g['package'] = o.datatype.package
+		else:
+			g['package'] = "no"
+		goal.append(g)
+	
+	result = []
+	for o in t.hasResult.hasObjectProperties:
+		r = {}
+		r['name'] = o.name
+		r['type'] = o.datatype.type
+		r['default'] = o.default
+		r['description'] = o.description
+		if o.datatype.__class__.__name__=="ROSData":
+			r['package'] = o.datatype.package
+		else:
+			r['package'] = "no"
+		result.append(r)
+		
+	feedback = []
+	for o in t.hasFeedback.hasObjectProperties:
+		r = {}
+		r['name'] = o.name
+		r['type'] = o.datatype.type
+		r['default'] = o.default
+		r['description'] = o.description
+		if o.datatype.__class__.__name__=="ROSData":
+			r['package'] = o.datatype.package
+		else:
+			r['package'] = "no"
+		feedback.append(r)
+	
+	# Fire up the rendering proccess
+	output = template.render(goal = goal, result = result, feedback = feedback, action_data = action_data)
+	
+	# Write the generated file
+	dest='interfaces/action/'+t.name+'.action'
+	with open(dest, 'w') as f:
+		f.write(output)
+
+
+
+
+
 	
 # Generate interface package CMkakeLists.txt
 # ___________________________________________
@@ -140,7 +207,9 @@ template = env.get_template('temp_CMakeLists.txt')
 # Build the msg data to pass to the Template
 tmessages = []
 smessages = []
+amessages = []
 depend = []
+# Custom message interfaces
 for t in model_root.hasCustomMessages:
 	tmessages.append(t.name)
 	for tt in t.hasObjectProperties:
@@ -148,20 +217,39 @@ for t in model_root.hasCustomMessages:
 		if tt.datatype.__class__.__name__=="ROSData":
 			if tt.datatype.package not in depend:
 				depend.append(tt.datatype.package)
+# Custom service interfaces
 for t in model_root.hasCustomServices:
 	smessages.append(t.name)
 	for tt in t.hasResponse.hasObjectProperties:
 		# Find packages and add dependencies from ros datatypes
 		if tt.datatype.__class__.__name__=="ROSData":
 			if tt.datatype.package not in depend:
-				depend.append(t.datatype.package)
+				depend.append(tt.datatype.package)
 	for tt in t.hasRequest.hasObjectProperties:
 		# Find packages and add dependencies from ros datatypes
 		if tt.datatype.__class__.__name__=="ROSData":
 			if tt.datatype.package not in depend:
-				depend.append(t.datatype.package)
+				depend.append(tt.datatype.package)
+# Custom action interfaces
+for t in model_root.hasCustomActionInterfaces:
+	amessages.append(t.name)
+	for tt in t.hasGoal.hasObjectProperties:
+		# Find packages and add dependencies from ros datatypes
+		if tt.datatype.__class__.__name__=="ROSData":
+			if tt.datatype.package not in depend:
+				depend.append(tt.datatype.package)
+	for tt in t.hasResult.hasObjectProperties:
+		# Find packages and add dependencies from ros datatypes
+		if tt.datatype.__class__.__name__=="ROSData":
+			if tt.datatype.package not in depend:
+				depend.append(tt.datatype.package)
+	for tt in t.hasFeedback.hasObjectProperties:
+		# Find packages and add dependencies from ros datatypes
+		if tt.datatype.__class__.__name__=="ROSData":
+			if tt.datatype.package not in depend:
+				depend.append(tt.datatype.package)
 # Fire up the rendering proccess
-output = template.render(smessages=smessages, tmessages=tmessages, depend=depend)
+output = template.render(smessages=smessages, tmessages=tmessages, amessages = amessages, depend=depend)
 # Write the generated file
 dest='interfaces/'+'CMakeLists.txt'
 with open(dest, 'w') as f:
@@ -229,7 +317,7 @@ for package in model_root.hasPackages:
 					if o.datatype.__class__.__name__=="ROSData":
 						if o.datatype.package not in pack_depend:
 							pack_depend.append(o.datatype.package)
-		# In Publushers using Ros Messages
+		# In Publishers using Ros Messages
 		for p in n.hasPublishers:
 			if p.pmsg.__class__.__name__=="CustomMessage":
 				for o in p.pmsg.hasObjectProperties:
@@ -255,6 +343,36 @@ for package in model_root.hasPackages:
 						if o.datatype.package not in pack_depend:
 							pack_depend.append(o.datatype.package)
 				for o in c.servicemessage.hasResponse.hasObjectProperties:
+					if o.datatype.__class__.__name__=="ROSData":
+						if o.datatype.package not in pack_depend:
+							pack_depend.append(o.datatype.package)
+		# In Action Clients using Action Interfaces
+		for c in n.hasActionClients:
+			if c.actioninterface.__class__.__name__=="CustomActionInterface":
+				for o in c.actioninterface.hasGoal.hasObjectProperties:
+					if o.datatype.__class__.__name__=="ROSData":
+						if o.datatype.package not in pack_depend:
+							pack_depend.append(o.datatype.package)
+				for o in c.actioninterface.hasResult.hasObjectProperties:
+					if o.datatype.__class__.__name__=="ROSData":
+						if o.datatype.package not in pack_depend:
+							pack_depend.append(o.datatype.package)
+				for o in c.actioninterface.hasFeedback.hasObjectProperties:
+					if o.datatype.__class__.__name__=="ROSData":
+						if o.datatype.package not in pack_depend:
+							pack_depend.append(o.datatype.package)
+		# In Action Servers using Action Interfaces
+		for c in n.hasActionServers:
+			if c.actioninterface.__class__.__name__=="CustomActionInterface":
+				for o in c.actioninterface.hasGoal.hasObjectProperties:
+					if o.datatype.__class__.__name__=="ROSData":
+						if o.datatype.package not in pack_depend:
+							pack_depend.append(o.datatype.package)
+				for o in c.actioninterface.hasResult.hasObjectProperties:
+					if o.datatype.__class__.__name__=="ROSData":
+						if o.datatype.package not in pack_depend:
+							pack_depend.append(o.datatype.package)
+				for o in c.actioninterface.hasFeedback.hasObjectProperties:
 					if o.datatype.__class__.__name__=="ROSData":
 						if o.datatype.package not in pack_depend:
 							pack_depend.append(o.datatype.package)
@@ -475,10 +593,140 @@ for package in model_root.hasPackages:
 			cli['responses'] = cresponseObj
 			clients.append(cli)
 			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		# Build the action servers/clients data to pass to the Template
+		action_servers = []
+		action_clients = []
+		for s in node.hasActionServers:
+			sgoalObj = []
+			sresultObj = []
+			sfeedbackObj = []
+			ser = {}
+			ser['name'] = s.name
+			if s.actioninterface.name in types:
+				ser['unique'] = 0
+			else:
+				ser['unique'] = 1
+			ser['type'] = s.actioninterface.name
+			types.append(s.actioninterface.name)
+			if s.actioninterface.__class__.__name__=="CustomActionInterface":
+				ser['package'] = 'interfaces'
+				for r in s.actioninterface.hasGoal.hasObjectProperties:
+					sgoalObj.append(r.name)
+					if r.datatype.__class__.__name__=="ROSData" and r.datatype.type not in types:
+						imp = {}
+						imp['type'] = r.datatype.type
+						imp['package'] = r.datatype.package
+						extra_imports.append(imp)
+						types.append(r.datatype.type)
+				for r in s.actioninterface.hasResult.hasObjectProperties:
+					sresultObj.append(r.name)
+					if r.datatype.__class__.__name__=="ROSData" and r.datatype.type not in types:
+						imp = {}
+						imp['type'] = r.datatype.type
+						imp['package'] = r.datatype.package
+						extra_imports.append(imp)
+						types.append(r.datatype.type)
+				for r in s.actioninterface.hasFeedback.hasObjectProperties:
+					sfeedbackObj.append(r.name)
+					if r.datatype.__class__.__name__=="ROSData" and r.datatype.type not in types:
+						imp = {}
+						imp['type'] = r.datatype.type
+						imp['package'] = r.datatype.package
+						extra_imports.append(imp)
+						types.append(r.datatype.type)
+			else:
+				ser['package'] = s.actioninterface.package
+				#TODO append the Ros action parameters
+			ser['goal'] = sgoalObj
+			ser['result'] = sresultObj
+			ser['feedback'] = sfeedbackObj
+			action_servers.append(ser)
+		
+		for c in node.hasActionClients:
+			cgoalObj = []
+			cresultObj = []
+			cfeedbackObj = []
+			cli = {}
+			cli['name'] = c.name
+			
+			if c.actioninterface.name in types:
+				cli['unique'] = 0
+			else:
+				cli['unique'] = 1
+			
+			cli['type'] = c.actioninterface.name
+			types.append(c.actioninterface.name)
+			if c.actioninterface.__class__.__name__=="CustomActionInterface":
+				cli['package'] = 'interfaces'
+				for r in c.actioninterface.hasGoal.hasObjectProperties:
+					cgoalObj.append(r.name)
+					if r.datatype.__class__.__name__=="ROSData" and r.datatype.type not in types:
+						imp = {}
+						imp['type'] = r.datatype.type
+						imp['package'] = r.datatype.package
+						extra_imports.append(imp)
+						types.append(r.datatype.type)
+				for r in c.actioninterface.hasResult.hasObjectProperties:
+					cresultObj.append(r.name)
+					if r.datatype.__class__.__name__=="ROSData" and r.datatype.type not in types:
+						imp = {}
+						imp['type'] = r.datatype.type
+						imp['package'] = r.datatype.package
+						extra_imports.append(imp)
+						types.append(r.datatype.type)
+				for r in c.actioninterface.hasFeedback.hasObjectProperties:
+					cfeedbackObj.append(r.name)
+					if r.datatype.__class__.__name__=="ROSData" and r.datatype.type not in types:
+						imp = {}
+						imp['type'] = r.datatype.type
+						imp['package'] = r.datatype.package
+						extra_imports.append(imp)
+						types.append(r.datatype.type)
+			else:
+				cli['package'] = c.actioninterface.package
+				#TODO append the Ros client parameters
+			
+			cli['goal'] = cgoalObj
+			cli['result'] = cresultObj
+			cli['feedback'] = cfeedbackObj
+			action_clients.append(cli)
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		# Fire up the rendering proccess
 		output = template.render(pack = pack_data, node = node_data, publishers = publishers, 
 		subscribers = subscribers, objects = objects, smessages=smessages, tmessages=tmessages, 
-		servers = servers, clients=clients, params = params,extra_imports=extra_imports)
+		servers = servers, clients=clients, params = params,extra_imports=extra_imports, 
+		action_clients = action_clients, action_servers = action_servers)
 		
 		# Write the generated file
 		dest=package.name+'/'+node.name+'_node.py'

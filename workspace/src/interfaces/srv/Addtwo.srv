@@ -2,19 +2,19 @@
 
 # Service for receiving two numbers and returning their their sum
 
+# Service Request
 
 # a -- a value for integer service Addtwo request 1
 std_msgs/Int32 a
 
-
 # b -- b value for integer service Addtwo request 2
-int8 b
-
+int64 b
 
 
 ---
 
-# c -- c value for integer service Addtwo response
-int8 c
+# Service Response
 
+# c -- c value for integer service Addtwo response
+int32 c
 

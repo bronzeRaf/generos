@@ -22,9 +22,11 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasParameters" upperBound="-1"
         eType="#//Parameter" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="hasActions" upperBound="-1"
-        eType="#//Action" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="namespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasActionServers" upperBound="-1"
+        eType="#//ActionServer" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasActionClients" upperBound="-1"
+        eType="#//ActionClient" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Subscriber">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -51,7 +53,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Parameter">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//DataTypes"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//DataTypes"
+        defaultValueLiteral="DataTypes.float32"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Package">
@@ -129,8 +132,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="CustomMessage" eSuperTypes="#//TopicMessage">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasObjectProperties" upperBound="-1"
         eType="#//ObjectProperty" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ROSSystem">
     <eStructuralFeatures xsi:type="ecore:EReference" name="topology" lowerBound="1"
@@ -144,6 +146,8 @@
         eType="#//CustomMessage" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasCustomServices" upperBound="-1"
         eType="#//CustomService" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasCustomActionInterfaces"
+        upperBound="-1" eType="#//CustomActionInterface" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Topology">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasPlatforms" upperBound="-1"
@@ -178,11 +182,16 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasNetworkInterfaces" upperBound="-1"
         eType="#//NetworkInterface" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Action" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="ActionServer">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actioninterface" lowerBound="1"
+        eType="#//ActionInterface"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ActionServer" eSuperTypes="#//Action"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ActionClient" eSuperTypes="#//Action"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ActionClient">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actioninterface" lowerBound="1"
+        eType="#//ActionInterface"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ROSVersion">
     <eLiterals name="Eloquent"/>
   </eClassifiers>
@@ -223,15 +232,15 @@
   <eClassifiers xsi:type="ecore:EClass" name="Number" abstract="true" eSuperTypes="#//Datatype"/>
   <eClassifiers xsi:type="ecore:EClass" name="Int" eSuperTypes="#//Number">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//IntType"
-        defaultValueLiteral="int32"/>
+        defaultValueLiteral="IntType.int32"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Uint" eSuperTypes="#//Number">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//UIntType"
-        defaultValueLiteral="uint32"/>
+        defaultValueLiteral="UIntType.uint32"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Float" eSuperTypes="#//Number">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//FloatType"
-        defaultValueLiteral="float32"/>
+        defaultValueLiteral="FloatType.float32"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="UIntType">
     <eLiterals name="uint8"/>
@@ -253,21 +262,19 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="package" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rostype" lowerBound="1"
-        eType="#//RosInterface" defaultValueLiteral="RosInterface.msg"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Array" abstract="true" eSuperTypes="#//Datatype"/>
   <eClassifiers xsi:type="ecore:EClass" name="UintArray" eSuperTypes="#//Array">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//UIntArrayType"
-        defaultValueLiteral="uint32"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//UIntArrayType"
+        defaultValueLiteral="UIntArrayType.uint32"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="FloatArray" eSuperTypes="#//Array">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//FloatArrayType"
-        defaultValueLiteral="float32"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//FloatArrayType"
+        defaultValueLiteral="FloatArrayType.float32"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IntArray" eSuperTypes="#//Array">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//IntArrayType"
-        defaultValueLiteral="int32"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//IntArrayType"
+        defaultValueLiteral="IntArrayType.int32"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="IntArrayType">
     <eLiterals name="int8[]"/>
@@ -307,8 +314,28 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="package" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="RosInterface">
-    <eLiterals name="msg"/>
-    <eLiterals name="srv" value="1"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ActionInterface" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CustomActionInterface" eSuperTypes="#//ActionInterface">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasGoal" lowerBound="1"
+        eType="#//Goal" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasResult" lowerBound="1"
+        eType="#//Result" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasFeedback" lowerBound="1"
+        eType="#//Feedback" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Goal">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasObjectProperties" upperBound="-1"
+        eType="#//ObjectProperty" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Result">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasObjectProperties" upperBound="-1"
+        eType="#//ObjectProperty" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Feedback">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasObjectProperties" upperBound="-1"
+        eType="#//ObjectProperty" containment="true"/>
   </eClassifiers>
 </ecore:EPackage>

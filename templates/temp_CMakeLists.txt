@@ -37,6 +37,9 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   {%for s in smessages %}
   "srv/{{s}}.srv"
   {%endfor%}
+  {%for a in amessages %}
+  "action/{{a}}.action"
+  {%endfor%}
   DEPENDENCIES builtin_interfaces{%for d in depend%} {{d}}{%endfor%}
  )
 # uncomment the following section in order to fill in

@@ -33,8 +33,6 @@ UIntArrayType = EEnum('UIntArrayType', literals=['uint8[]', 'uint16[]', 'uint32[
 
 FloatArrayType = EEnum('FloatArrayType', literals=['float32[]', 'float64[]'])
 
-RosInterface = EEnum('RosInterface', literals=['msg', 'srv'])
-
 
 class Client(EObject, metaclass=MetaEClass):
 
@@ -71,9 +69,10 @@ class Node(EObject, metaclass=MetaEClass):
     hasClients = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasServers = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasParameters = EReference(ordered=True, unique=True, containment=True, upper=-1)
-    hasActions = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    hasActionServers = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    hasActionClients = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, hasSubscribers=None, hasPublishers=None, hasClients=None, hasServers=None, hasParameters=None, name=None, hasActions=None, namespace=None, **kwargs):
+    def __init__(self, *, hasSubscribers=None, hasPublishers=None, hasClients=None, hasServers=None, hasParameters=None, name=None, namespace=None, hasActionServers=None, hasActionClients=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -100,8 +99,11 @@ class Node(EObject, metaclass=MetaEClass):
         if hasParameters:
             self.hasParameters.extend(hasParameters)
 
-        if hasActions:
-            self.hasActions.extend(hasActions)
+        if hasActionServers:
+            self.hasActionServers.extend(hasActionServers)
+
+        if hasActionClients:
+            self.hasActionClients.extend(hasActionClients)
 
 
 class Subscriber(EObject, metaclass=MetaEClass):
@@ -181,7 +183,7 @@ class Server(EObject, metaclass=MetaEClass):
 class Parameter(EObject, metaclass=MetaEClass):
 
     name = EAttribute(eType=EString, derived=False, changeable=True)
-    type = EAttribute(eType=DataTypes, derived=False, changeable=True)
+    type = EAttribute(eType=DataTypes, derived=False, changeable=True, default_value=None)
     value = EAttribute(eType=EString, derived=False, changeable=True)
 
     def __init__(self, *, name=None, type=None, value=None, **kwargs):
@@ -362,8 +364,9 @@ class ROSSystem(EObject, metaclass=MetaEClass):
     hasGraphs = EReference(ordered=True, unique=True, containment=True)
     hasCustomMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasCustomServices = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    hasCustomActionInterfaces = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, topology=None, hasPackages=None, hasGraphs=None, name=None, hasCustomMessages=None, hasCustomServices=None, **kwargs):
+    def __init__(self, *, topology=None, hasPackages=None, hasGraphs=None, name=None, hasCustomMessages=None, hasCustomServices=None, hasCustomActionInterfaces=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -386,6 +389,9 @@ class ROSSystem(EObject, metaclass=MetaEClass):
 
         if hasCustomServices:
             self.hasCustomServices.extend(hasCustomServices)
+
+        if hasCustomActionInterfaces:
+            self.hasCustomActionInterfaces.extend(hasCustomActionInterfaces)
 
 
 class Topology(EObject, metaclass=MetaEClass):
@@ -488,12 +494,12 @@ class Host(EObject, metaclass=MetaEClass):
             self.hasNetworkInterfaces.extend(hasNetworkInterfaces)
 
 
-@abstract
-class Action(EObject, metaclass=MetaEClass):
+class ActionServer(EObject, metaclass=MetaEClass):
 
     name = EAttribute(eType=EString, derived=False, changeable=True)
+    actioninterface = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, name=None, **kwargs):
+    def __init__(self, *, name=None, actioninterface=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -501,6 +507,27 @@ class Action(EObject, metaclass=MetaEClass):
 
         if name is not None:
             self.name = name
+
+        if actioninterface is not None:
+            self.actioninterface = actioninterface
+
+
+class ActionClient(EObject, metaclass=MetaEClass):
+
+    name = EAttribute(eType=EString, derived=False, changeable=True)
+    actioninterface = EReference(ordered=True, unique=True, containment=False)
+
+    def __init__(self, *, name=None, actioninterface=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if name is not None:
+            self.name = name
+
+        if actioninterface is not None:
+            self.actioninterface = actioninterface
 
 
 class NetworkInterface(EObject, metaclass=MetaEClass):
@@ -609,6 +636,63 @@ class ServiceMessage(EObject, metaclass=MetaEClass):
             self.name = name
 
 
+@abstract
+class ActionInterface(EObject, metaclass=MetaEClass):
+
+    name = EAttribute(eType=EString, derived=False, changeable=True)
+
+    def __init__(self, *, name=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if name is not None:
+            self.name = name
+
+
+class Goal(EObject, metaclass=MetaEClass):
+
+    hasObjectProperties = EReference(ordered=True, unique=True, containment=True, upper=-1)
+
+    def __init__(self, *, hasObjectProperties=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if hasObjectProperties:
+            self.hasObjectProperties.extend(hasObjectProperties)
+
+
+class Result(EObject, metaclass=MetaEClass):
+
+    hasObjectProperties = EReference(ordered=True, unique=True, containment=True, upper=-1)
+
+    def __init__(self, *, hasObjectProperties=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if hasObjectProperties:
+            self.hasObjectProperties.extend(hasObjectProperties)
+
+
+class Feedback(EObject, metaclass=MetaEClass):
+
+    hasObjectProperties = EReference(ordered=True, unique=True, containment=True, upper=-1)
+
+    def __init__(self, *, hasObjectProperties=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if hasObjectProperties:
+            self.hasObjectProperties.extend(hasObjectProperties)
+
+
 class CustomService(ServiceMessage):
 
     description = EAttribute(eType=EString, derived=False, changeable=True)
@@ -643,20 +727,6 @@ class CustomMessage(TopicMessage):
 
         if hasObjectProperties:
             self.hasObjectProperties.extend(hasObjectProperties)
-
-
-class ActionServer(Action):
-
-    def __init__(self, **kwargs):
-
-        super().__init__(**kwargs)
-
-
-class ActionClient(Action):
-
-    def __init__(self, **kwargs):
-
-        super().__init__(**kwargs)
 
 
 class Bool(Datatype):
@@ -695,9 +765,8 @@ class ROSData(Datatype):
 
     type = EAttribute(eType=EString, derived=False, changeable=True)
     package = EAttribute(eType=EString, derived=False, changeable=True)
-    rostype = EAttribute(eType=RosInterface, derived=False, changeable=True, default_value=None)
 
-    def __init__(self, *, type=None, package=None, rostype=None, **kwargs):
+    def __init__(self, *, type=None, package=None, **kwargs):
 
         super().__init__(**kwargs)
 
@@ -706,9 +775,6 @@ class ROSData(Datatype):
 
         if package is not None:
             self.package = package
-
-        if rostype is not None:
-            self.rostype = rostype
 
 
 @abstract
@@ -759,9 +825,33 @@ class RosService(ServiceMessage):
             self.package = package
 
 
+class CustomActionInterface(ActionInterface):
+
+    description = EAttribute(eType=EString, derived=False, changeable=True)
+    hasGoal = EReference(ordered=True, unique=True, containment=True)
+    hasResult = EReference(ordered=True, unique=True, containment=True)
+    hasFeedback = EReference(ordered=True, unique=True, containment=True)
+
+    def __init__(self, *, description=None, hasGoal=None, hasResult=None, hasFeedback=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if description is not None:
+            self.description = description
+
+        if hasGoal is not None:
+            self.hasGoal = hasGoal
+
+        if hasResult is not None:
+            self.hasResult = hasResult
+
+        if hasFeedback is not None:
+            self.hasFeedback = hasFeedback
+
+
 class Int(Number):
 
-    type = EAttribute(eType=IntType, derived=False, changeable=True, default_value=IntType.int32)
+    type = EAttribute(eType=IntType, derived=False, changeable=True, default_value=None)
 
     def __init__(self, *, type=None, **kwargs):
 
@@ -773,7 +863,7 @@ class Int(Number):
 
 class Uint(Number):
 
-    type = EAttribute(eType=UIntType, derived=False, changeable=True, default_value=UIntType.uint32)
+    type = EAttribute(eType=UIntType, derived=False, changeable=True, default_value=None)
 
     def __init__(self, *, type=None, **kwargs):
 
@@ -785,8 +875,7 @@ class Uint(Number):
 
 class Float(Number):
 
-    type = EAttribute(eType=FloatType, derived=False, changeable=True,
-                      default_value=FloatType.float32)
+    type = EAttribute(eType=FloatType, derived=False, changeable=True, default_value=None)
 
     def __init__(self, *, type=None, **kwargs):
 

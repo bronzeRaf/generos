@@ -8,6 +8,6 @@ std_msgs/Header header
 
 
 # x -- x value for integer message
-int8 x
+int32 x
 
 

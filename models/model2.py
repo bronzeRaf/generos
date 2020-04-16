@@ -64,8 +64,58 @@ sobject1 = metamodel.ObjectProperty(name="a", description = "a value for integer
 st1 = metamodel.ROSData(type = "Int32", package="std_msgs")
 sobject1.datatype = st1
 
+
+
+
+
+
+#set the action interfaces
+action1 = metamodel.CustomActionInterface(name = "Increase", description = "Action for enabling counters")
+#set the action
+actionserver1 = metamodel.ActionServer(name = "action1")
+#set client
+actionclient1 = metamodel.ActionClient(name = "action1")
+
+goal1 = metamodel.Goal()
+result1 = metamodel.Result()
+feedback1 = metamodel.Feedback()
+
+ac1 = metamodel.ObjectProperty(name="start", description = "a value for start value")
+acc1 = metamodel.ROSData(type = "Int32", package="std_msgs")
+ac1.datatype = acc1
+
+ac2 = metamodel.ObjectProperty(name="goal", description = "a value for goal value")
+acc2 = metamodel.ROSData(type = "Int32", package="std_msgs")
+ac2.datatype = acc2
+
+ac3 = metamodel.ObjectProperty(name="update", description = "a value for feedback")
+acc3 = metamodel.Int(type = metamodel.IntType.int64)
+ac3.datatype = acc3
+
+ac4 = metamodel.ObjectProperty(name="a", description = "a value for result trigger")
+acc4 = metamodel.Bool(type = "bool")
+ac4.datatype = acc4
+
+rosystem1.hasCustomActionInterfaces.extend([action1])	#0..*	system-customservice
+
+action1.hasResult = result1
+action1.hasGoal = goal1
+action1.hasFeedback = feedback1
+
+result1.hasObjectProperties.extend([ac4])
+goal1.hasObjectProperties.extend([ac1])
+goal1.hasObjectProperties.extend([ac2])
+feedback1.hasObjectProperties.extend([ac3])
+
+actionserver1.actioninterface=action1
+actionclient1.actioninterface=action1
+node1.hasActionServers.extend([actionserver1])				#0..*	node-action server
+node2.hasActionClients.extend([actionclient1])				#0..*	node-action client
+
+
+
 sobject2 = metamodel.ObjectProperty(name="b", description = "b value for integer service Addtwo request 2")
-st2 = metamodel.Int(type = metamodel.IntType.int32)
+st2 = metamodel.Int(type = metamodel.IntType.int64)
 sobject2.datatype = st2
 
 sobject3 = metamodel.ObjectProperty(name="c", description = "c value for integer service Addtwo response")
@@ -73,7 +123,7 @@ st3 = metamodel.Int(type = metamodel.IntType.int32)
 sobject3.datatype = st3
 
 sobject4 = metamodel.ObjectProperty(name="x", description = "x value for float service SrFloatFloatString request 1")
-st4 = metamodel.Float(type = metamodel.FloatType.float32)
+st4 = metamodel.Float(type = metamodel.FloatType.float64)
 sobject4.datatype = st4
 
 sobject5 = metamodel.ObjectProperty(name="y", description = "y value for float service SrFloatFloatString request 2")
@@ -100,7 +150,7 @@ client2 = metamodel.Client(name = "Client2", servicePath = "ser/vice/path2", ser
 client3 = metamodel.Client(name = "Client3", servicePath = "ser/vice/path3", serviceName = "set_bool")
 
 #set parameters
-param1 = metamodel.Parameter(name = "p1", type = metamodel.DataTypes.int32, value = "32")
+param1 = metamodel.Parameter(name = "p1",  value = "32")
 
 #apply compositions
 rosystem1.hasPackages.extend([package1])				#0..*	system-package
@@ -133,6 +183,7 @@ node2.hasClients.extend([client3])						#0..*	node-client
 node3.hasClients.extend([client2])						#0..*	node-client
 
 node1.hasParameters.extend([param1])					#0..*	node-parameter
+
 
 custommessage1.hasObjectProperties.extend([tobject3])	#0..*	custommessage-objectproperty
 custommessage1.hasObjectProperties.extend([tobject1])	#0..*	custommessage-objectproperty

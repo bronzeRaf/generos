@@ -8,6 +8,8 @@ from interfaces.msg import ValueInt
 # Imports for srv interfaces
 from interfaces.srv import Addtwo
 from std_srvs.srv import SetBool
+# Imports for action interfaces
+from interfaces.action import Increase
 # Imports for msg inside custom interfaces
 from std_msgs.msg import Int32
 #*********
@@ -27,6 +29,7 @@ class node1_class(Node):
 		# Params
 		#____________________________________________
 		# p1
+		int32
 		self.param_p1 = self.declare_parameter('p1', 32)
 		# You can use your parameter p1 with type int32
 		# with 		self.get_parameter('p1')._value

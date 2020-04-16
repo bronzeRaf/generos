@@ -30,6 +30,17 @@ from {{s.package}}.srv import {{s.type}}
 from {{c.package}}.srv import {{c.type}}
 {%endif%}
 {%endfor%}
+# Imports for action interfaces
+{%for s in action_servers %}
+{%if s.unique == 1 %}
+from {{s.package}}.action import {{s.type}}
+{%endif%}
+{%endfor%}
+{%for c in action_clients %}
+{%if c.unique == 1 %}
+from {{c.package}}.action import {{c.type}}
+{%endif%}
+{%endfor%}
 # Imports for msg inside custom interfaces
 {%for e in extra_imports %}
 from {{e.package}}.msg import {{e.type}}
@@ -54,6 +65,7 @@ class {{node.name}}_class(Node):
 		#____________________________________________
 		{%for p in params %}
 		# {{p.name}}
+		{{p.type}}
 		self.param_{{p.name}} = self.declare_parameter('{{p.name}}', {{p.value}})
 		# You can use your parameter {{p.name}} with type {{p.type}}
 		# with 		self.get_parameter('{{p.name}}')._value

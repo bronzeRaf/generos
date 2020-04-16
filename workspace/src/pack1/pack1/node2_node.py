@@ -7,6 +7,8 @@ from interfaces.msg import ValueInt
 # Imports for srv interfaces
 from interfaces.srv import Addtwo
 from std_srvs.srv import SetBool
+# Imports for action interfaces
+from interfaces.action import Increase
 # Imports for msg inside custom interfaces
 from std_msgs.msg import Header
 from std_msgs.msg import Int32

@@ -1,5 +1,5 @@
 {# 
-#This is a jinja2 template of the msg interfaces of ROS2 packages
+#This is a jinja2 template of the srv interfaces of ROS2 packages
 #
 # Written in 13/3/2020
 # Written by Rafael Brouzos
@@ -8,20 +8,21 @@
 
 # {{service_data.description}}
 
+# Service Request
 
 {%for o in request %}
 # {{o.name}} -- {{o.description}}
 {%if not o.package == "no"%}{{o.package}}/{%endif%}{{o.type}} {{o.name}}
 
-
 {%endfor%}
 
 ---
 
+# Service Response
+
 {%for o in response %}
 # {{o.name}} -- {{o.description}}
 {%if not o.package == "no"%}{{o.package}}/{%endif%}{{o.type}} {{o.name}}
-
 
 {%endfor%}
 
