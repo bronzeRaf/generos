@@ -5,9 +5,12 @@
 
 module interfaces {
   module msg {
+    @verbatim (language="comment", text=
+      " Message ValueString definition")
     struct ValueString {
       @verbatim (language="comment", text=
-        " x value for string message")
+        " Message for testing purposes" "\n"
+        " x -- x value for string message")
       string x;
     };
   };

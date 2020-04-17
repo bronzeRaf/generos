@@ -1,4 +1,6 @@
-
+# Imports for Action Clients
+from rclpy.action import ActionClient
+from action_msgs.msg import GoalStatus
 import rclpy
 from rclpy.node import Node
 import sys
@@ -12,13 +14,7 @@ from interfaces.action import Increase
 # Imports for msg inside custom interfaces
 from std_msgs.msg import Header
 from std_msgs.msg import Int32
-#*********
-# ~ # ~ from interfaces.msg import ValueInt
-# ~ # ~ from interfaces.msg import ValueString
-# ~ # ~ # ~ from interfaces.srv import Addtwo
-# ~ # ~ from interfaces.srv import SrFloatFloatString
-# ~ # ~ from std_msgs.msg import 
-# ~ from example_interfaces.srv import AddTwoInts
+
 
 # Class for the node node2 
 class node2_class(Node):
@@ -51,6 +47,16 @@ class node2_class(Node):
 		# Client3
 		self.client_Client3 = self.create_client(SetBool, 'set_bool')
 		#_____
+		
+		# Action Servers
+		#____________________________________________
+		
+		# Action Clients
+		#____________________________________________
+		# action1
+		self.action_client_action1 = ActionClient(self, Increase, 'action1')
+		#_____
+		
 		
 		
 	# ************Callbacks************
@@ -116,7 +122,78 @@ class node2_class(Node):
 		self.future_Client3 = self.client_Client3.call_async(self.request_Client3)
 		# Result after server's response is stored in 
 	#_____
+			
+	# Action Servers
+	#____________________________________________
+	
+	# Action Clients
+	#____________________________________________
+	# This is the call function of the action client action1. 
+	# You can call this function, passing all the arguments of the 
+	# action goal request declaration. This function will not be called 
+	# automatically as you should call it to make a request. The 
+	# function waits for the action to be available before going on and
+	# the action server's response is stored in a future object once 
+	# the action server return the response. This function is the 
+	# template of the action client call and you should call it for 
+	# applying requests.
+	def send_goal_call_action1(self, start, goal):
+		# Wait for action service
+		self.get_logger().info('Waiting for action server...')
+		self._action_client.wait_for_server()
+		# Create goal and fill it with data
+		goal_msg = action1.Goal()
+		goal_msg.start = start
+		goal_msg.goal = goal
+		# Send the goal request
+		self.get_logger().info('Sending goal request...')
+		self.future_action1 = self.action_client_action1.send_goal_async(goal_msg, feedback_callback=self.feedback_client_callback_action1)
+		self.future_action1.add_done_callback(self.goal_response_callback_client_action1)
 		
+	# This is the feedback callback of the action client action1.
+	# This function receives and handles the feedback that the 
+	# action server publishes. This function is the template of the 
+	# action client callback and you should put your own 
+	# functionality.
+	def feedback_client_callback_action1(self, feedback):
+		elf.get_logger().info('received feedback')
+		# Do something with the variables in feedback
+		# feedback_msg.update
+		
+	# This is the response callback of the action client action1.
+	# This function receives and handles the response that the 
+	# action server gives. This function is the template of the 
+	# action client callback and you should put your own 
+	# functionality.
+	def goal_response_client_callback_action1(self, future):
+		# Set the goal result
+		goal_handle = future.result()
+		# Check if the goal was accepted
+		if not goal_handle.accepted:
+			self.get_logger().info('Goal rejected :(')
+			return
+		# Goal Accepted
+		self.get_logger().info('Goal accepted :)')
+		# Create a callback for receiving the result async
+		self.client_future_action1 = goal_handle.get_result_async()
+		self.client_future_action1.add_done_callback(self.get_result_callback_action1)
+		
+	# This is the result callback of the action client action1.
+	# This function receives and final result that the 
+	# action server returns. This function is the template of the 
+	# action client callback and you should put your own 
+	# functionality.
+	def get_result_callback_action1(self, future):
+		result = future.result().result
+		status = future.result().status
+		if status == GoalStatus.STATUS_SUCCEEDED:
+			# Do something with the variables in result
+			# result.a
+			self.get_logger().info('Result obtained') 
+		else:
+			self.get_logger().info('Goal failed with status: {0}'.format(status))
+
+	#_____
 		
 		
 # Main executable
@@ -136,6 +213,8 @@ def main(args=None):
 	# Destroy the node explicitly
 	# (optional - otherwise it will be done automatically
 	# when the garbage collector destroys the node object)
+	# Destroy action server action1
+	node2.action_client_action1.destroy()
 	node2.destroy_node()
 	rclpy.shutdown()
 

@@ -1,3 +1,5 @@
+action/Increase.action
+action/Increase.idl
 msg/ValueInt.idl
 msg/ValueInt.msg
 msg/ValueString.idl

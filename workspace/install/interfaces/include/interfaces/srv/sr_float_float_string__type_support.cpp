@@ -28,7 +28,7 @@ namespace rosidl_typesupport_introspection_cpp
 static const ::rosidl_typesupport_introspection_cpp::MessageMember SrFloatFloatString_Request_message_member_array[2] = {
   {
     "x",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_FLOAT,  // type
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_DOUBLE,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array

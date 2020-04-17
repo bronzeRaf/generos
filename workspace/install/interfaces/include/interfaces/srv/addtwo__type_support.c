@@ -40,7 +40,7 @@ static rosidl_typesupport_introspection_c__MessageMember Addtwo_Request__rosidl_
   },
   {
     "b",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_INT8,  // type
+    rosidl_typesupport_introspection_c__ROS_TYPE_INT64,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array
@@ -110,7 +110,7 @@ extern "C"
 static rosidl_typesupport_introspection_c__MessageMember Addtwo_Response__rosidl_typesupport_introspection_c__Addtwo_Response_message_member_array[1] = {
   {
     "c",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_INT8,  // type
+    rosidl_typesupport_introspection_c__ROS_TYPE_INT32,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array

@@ -1,4 +1,5 @@
-
+# Imports for Action Servers
+from rclpy.action import ActionServer, CancelResponse, GoalResponse
 import rclpy
 from rclpy.node import Node
 import sys
@@ -12,13 +13,7 @@ from std_srvs.srv import SetBool
 from interfaces.action import Increase
 # Imports for msg inside custom interfaces
 from std_msgs.msg import Int32
-#*********
-# ~ # ~ from interfaces.msg import ValueInt
-# ~ # ~ from interfaces.msg import ValueString
-# ~ # ~ # ~ from interfaces.srv import Addtwo
-# ~ # ~ from interfaces.srv import SrFloatFloatString
-# ~ # ~ from std_msgs.msg import 
-# ~ from example_interfaces.srv import AddTwoInts
+
 
 # Class for the node node1 
 class node1_class(Node):
@@ -65,6 +60,16 @@ class node1_class(Node):
 		
 		# Clients
 		#____________________________________________
+		
+		# Action Servers
+		#____________________________________________
+		# action1
+		self.action_server_action1 = ActionServer(self, Increase, 'action1', execute_callback=self.action_execute_call_action1, goal_callback=self.action_goal_call_action1, cancel_callback=self.action_cancel_call_action1)
+		#_____
+		
+		# Action Clients
+		#____________________________________________
+		
 		
 		
 	# ************Callbacks************
@@ -147,7 +152,61 @@ class node1_class(Node):
 		
 	# Clients
 	#____________________________________________
+			
+	# Action Servers
+	#____________________________________________
+	# This is the execute callback of the action server action1. 
+	# You can execute the goal request to the action server from the 
+	# variables set in this function, according to the instructions in 
+	# the comments below. This function will be called automatically 
+	# every time an action goal request is received and needs to be 
+	# executed. This function is the template of the action server 
+	# callback and you should put your own functionality.
+	def action_execute_callback_action1(self):
+		# Please add the server's functionality in this callback
+		self.get_logger().info('Executing goal...')
+		# Store the variables of the goal request
+		start = goal_handle.request.start
+		goal = goal_handle.request.goal
+		# Create a feedback object
+		feedback_msg = action1.Feedback()
+		# Every time you want to pass feedback update feedback attributes
+		# feedback_msg.update = ...
+		# And call 
+		# goal_handle.publish_feedback(feedback_msg)
 		
+		# Set the Result
+		goal_handle.succeed()
+		result = action1.Result()
+		# Fill the result with data
+		# result.a = ...
+		return result
+	
+	# This is the goal callback of the action server action1.
+	# This function receives a client goal requests to handle actions.
+	# This function is the template of the action server 
+	# callback and you should put your own functionality.
+	def action_goal_callback_action1(self,goal_request):
+		# Please add the server's functionality in this callback
+		self.get_logger().info('Received goal request')
+		# Uncomment one of the following to reject or to accept an action request
+		#return GoalResponse.REJECT
+		return GoalResponse.ACCEPT
+	
+	# This is the cancel callback of the action server action1.
+	# This function receives client cancel requests to handle actions.
+	# This function is the template of the action server 
+	# callback and you should put your own functionality.
+	def action_cancel_callback_action1(self, goal_handle):
+		# Please add the server's functionality in this callback
+		self.get_logger().info('Received cancel request')
+		# Uncomment one of the following to reject or to accept an action request
+		#return CancelResponse.REJECT
+		return CancelResponse.ACCEPT
+	#_____
+	
+	# Action Clients
+	#____________________________________________
 		
 		
 # Main executable
@@ -167,6 +226,8 @@ def main(args=None):
 	# Destroy the node explicitly
 	# (optional - otherwise it will be done automatically
 	# when the garbage collector destroys the node object)
+	# Destroy action server action1
+	node1.action_server_action1.destroy()
 	node1.destroy_node()
 	rclpy.shutdown()
 

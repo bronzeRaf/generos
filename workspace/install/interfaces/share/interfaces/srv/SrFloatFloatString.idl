@@ -5,18 +5,23 @@
 
 module interfaces {
   module srv {
+    @verbatim (language="comment", text=
+      " Service SrFloatFloatString definition")
     struct SrFloatFloatString_Request {
       @verbatim (language="comment", text=
-        " x value for float service SrFloatFloatString request 1")
-      float x;
+        " Service for testing purposes" "\n"
+        " Service Request" "\n"
+        " x -- x value for float service SrFloatFloatString request 1")
+      double x;
 
       @verbatim (language="comment", text=
-        " y value for float service SrFloatFloatString request 2")
+        " y -- y value for float service SrFloatFloatString request 2")
       float y;
     };
     struct SrFloatFloatString_Response {
       @verbatim (language="comment", text=
-        " z value for string service SrFloatFloatString response")
+        " Service Response" "\n"
+        " z -- z value for string service SrFloatFloatString response")
       string z;
     };
   };

@@ -1,2 +1,13 @@
-std_msgs/Header header		# header type object
-int8 x		# x value for integer message
+# Message ValueInt definition
+
+# Message for passing a header and an integer
+
+
+# header -- header type object
+std_msgs/Header header
+
+
+# x -- x value for integer message
+int32 x
+
+

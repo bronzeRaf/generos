@@ -6,19 +6,24 @@
 
 module interfaces {
   module srv {
+    @verbatim (language="comment", text=
+      " Service Addtwo definition")
     struct Addtwo_Request {
       @verbatim (language="comment", text=
-        " a value for integer service Addtwo request 1")
+        " Service for receiving two numbers and returning their their sum" "\n"
+        " Service Request" "\n"
+        " a -- a value for integer service Addtwo request 1")
       std_msgs::msg::Int32 a;
 
       @verbatim (language="comment", text=
-        " b value for integer service Addtwo request 2")
-      int8 b;
+        " b -- b value for integer service Addtwo request 2")
+      int64 b;
     };
     struct Addtwo_Response {
       @verbatim (language="comment", text=
-        " c value for integer service Addtwo response")
-      int8 c;
+        " Service Response" "\n"
+        " c -- c value for integer service Addtwo response")
+      int32 c;
     };
   };
 };

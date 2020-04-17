@@ -20,7 +20,7 @@ extern "C"
 // Struct defined in srv/SrFloatFloatString in the package interfaces.
 typedef struct interfaces__srv__SrFloatFloatString_Request
 {
-  float x;
+  double x;
   float y;
 } interfaces__srv__SrFloatFloatString_Request;
 

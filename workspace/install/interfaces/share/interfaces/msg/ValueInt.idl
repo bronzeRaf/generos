@@ -6,14 +6,17 @@
 
 module interfaces {
   module msg {
+    @verbatim (language="comment", text=
+      " Message ValueInt definition")
     struct ValueInt {
       @verbatim (language="comment", text=
-        " header type object")
+        " Message for passing a header and an integer" "\n"
+        " header -- header type object")
       std_msgs::msg::Header header;
 
       @verbatim (language="comment", text=
-        " x value for integer message")
-      int8 x;
+        " x -- x value for integer message")
+      int32 x;
     };
   };
 };

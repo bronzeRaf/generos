@@ -25,7 +25,7 @@ extern "C"
 typedef struct interfaces__msg__ValueInt
 {
   std_msgs__msg__Header header;
-  int8_t x;
+  int32_t x;
 } interfaces__msg__ValueInt;
 
 // Struct for a sequence of interfaces__msg__ValueInt.

@@ -52,7 +52,7 @@ struct ValueInt_
     if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
       rosidl_generator_cpp::MessageInitialization::ZERO == _init)
     {
-      this->x = 0;
+      this->x = 0l;
     }
   }
 
@@ -62,7 +62,7 @@ struct ValueInt_
     if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
       rosidl_generator_cpp::MessageInitialization::ZERO == _init)
     {
-      this->x = 0;
+      this->x = 0l;
     }
   }
 
@@ -71,7 +71,7 @@ struct ValueInt_
     std_msgs::msg::Header_<ContainerAllocator>;
   _header_type header;
   using _x_type =
-    int8_t;
+    int32_t;
   _x_type x;
 
   // setters for named parameter idiom
@@ -82,7 +82,7 @@ struct ValueInt_
     return *this;
   }
   Type & set__x(
-    const int8_t & _arg)
+    const int32_t & _arg)
   {
     this->x = _arg;
     return *this;

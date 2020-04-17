@@ -4,7 +4,15 @@
 # Written in 13/3/2020
 # Written by Rafael Brouzos
 #}
-
+{% if action_servers is defined and action_servers|length %}
+# Imports for Action Servers
+from rclpy.action import ActionServer, CancelResponse, GoalResponse
+{% endif %}
+{% if action_clients is defined and action_clients|length %}
+# Imports for Action Clients
+from rclpy.action import ActionClient
+from action_msgs.msg import GoalStatus
+{% endif %}
 import rclpy
 from rclpy.node import Node
 import sys
@@ -45,15 +53,7 @@ from {{c.package}}.action import {{c.type}}
 {%for e in extra_imports %}
 from {{e.package}}.msg import {{e.type}}
 {%endfor%}
-#*********
-# ~ {%for t in tmessages %}
-# ~ from interfaces.msg import {{t}}
-# ~ {%endfor%}
-# ~ {%for s in smessages %}
-# ~ from interfaces.srv import {{s}}
-# ~ {%endfor%}
-# ~ from std_msgs.msg import {{objects.type}}
-# ~ from example_interfaces.srv import AddTwoInts
+
 
 # Class for the node {{node.name}} 
 class {{node.name}}_class(Node):
@@ -109,6 +109,23 @@ class {{node.name}}_class(Node):
 		self.client_{{c.name}} = self.create_client({{c.type}}, '{{c.serviceName}}')
 		#_____
 		{%endfor%}
+		
+		# Action Servers
+		#____________________________________________
+		{%for s in action_servers %}
+		# {{s.name}}
+		self.action_server_{{s.name}} = ActionServer(self, {{s.type}}, '{{s.name}}', execute_callback=self.action_execute_call_{{s.name}}, goal_callback=self.action_goal_call_{{s.name}}, cancel_callback=self.action_cancel_call_{{s.name}})
+		#_____
+		{%endfor%}
+		
+		# Action Clients
+		#____________________________________________
+		{%for s in action_clients %}
+		# {{s.name}}
+		self.action_client_{{s.name}} = ActionClient(self, {{s.type}}, '{{s.name}}')
+		#_____
+		{%endfor%}
+		
 		
 		
 	# ************Callbacks************
@@ -215,7 +232,141 @@ class {{node.name}}_class(Node):
 		{%endfor%}
 	#_____
 	{%endfor%}
+			
+	# Action Servers
+	#____________________________________________
+	{%for s in action_servers %}
+	# This is the execute callback of the action server {{s.name}}. 
+	# You can execute the goal request to the action server from the 
+	# variables set in this function, according to the instructions in 
+	# the comments below. This function will be called automatically 
+	# every time an action goal request is received and needs to be 
+	# executed. This function is the template of the action server 
+	# callback and you should put your own functionality.
+	def action_execute_callback_{{s.name}}(self):
+		# Please add the server's functionality in this callback
+		self.get_logger().info('Executing goal...')
+		# Store the variables of the goal request
+		{%for r in s.goal %}
+		{{r}} = goal_handle.request.{{r}}
+		{%endfor%}
+		# Create a feedback object
+		feedback_msg = {{s.name}}.Feedback()
+		# Every time you want to pass feedback update feedback attributes
+		{%for r in s.feedback %}
+		# feedback_msg.{{r}} = ...
+		{%endfor%}
+		# And call 
+		# goal_handle.publish_feedback(feedback_msg)
 		
+		# Set the Result
+		goal_handle.succeed()
+		result = {{s.name}}.Result()
+		# Fill the result with data
+		{%for r in s.result %}
+		# result.{{r}} = ...
+		{%endfor%}
+		return result
+	
+	# This is the goal callback of the action server {{s.name}}.
+	# This function receives a client goal requests to handle actions.
+	# This function is the template of the action server 
+	# callback and you should put your own functionality.
+	def action_goal_callback_{{s.name}}(self,goal_request):
+		# Please add the server's functionality in this callback
+		self.get_logger().info('Received goal request')
+		# Uncomment one of the following to reject or to accept an action request
+		#return GoalResponse.REJECT
+		return GoalResponse.ACCEPT
+	
+	# This is the cancel callback of the action server {{s.name}}.
+	# This function receives client cancel requests to handle actions.
+	# This function is the template of the action server 
+	# callback and you should put your own functionality.
+	def action_cancel_callback_{{s.name}}(self, goal_handle):
+		# Please add the server's functionality in this callback
+		self.get_logger().info('Received cancel request')
+		# Uncomment one of the following to reject or to accept an action request
+		#return CancelResponse.REJECT
+		return CancelResponse.ACCEPT
+	#_____
+	{%endfor%}
+	
+	# Action Clients
+	#____________________________________________
+	{%for c in action_clients %}
+	# This is the call function of the action client {{c.name}}. 
+	# You can call this function, passing all the arguments of the 
+	# action goal request declaration. This function will not be called 
+	# automatically as you should call it to make a request. The 
+	# function waits for the action to be available before going on and
+	# the action server's response is stored in a future object once 
+	# the action server return the response. This function is the 
+	# template of the action client call and you should call it for 
+	# applying requests.
+	def send_goal_call_{{c.name}}(self{%for r in c.goal %}, {{r }} {%endfor%}):
+		# Wait for action service
+		self.get_logger().info('Waiting for action server...')
+		self._action_client.wait_for_server()
+		# Create goal and fill it with data
+		goal_msg = {{c.name}}.Goal()
+		{%for r in c.goal %}
+		goal_msg.{{r}} = {{r}}
+		{%endfor%}
+		# Send the goal request
+		self.get_logger().info('Sending goal request...')
+		self.future_{{c.name}} = self.action_client_{{c.name}}.send_goal_async(goal_msg, feedback_callback=self.feedback_client_callback_{{c.name}})
+		self.future_{{c.name}}.add_done_callback(self.goal_response_callback_client_{{c.name}})
+		
+	# This is the feedback callback of the action client {{c.name}}.
+	# This function receives and handles the feedback that the 
+	# action server publishes. This function is the template of the 
+	# action client callback and you should put your own 
+	# functionality.
+	def feedback_client_callback_{{c.name}}(self, feedback):
+		elf.get_logger().info('received feedback')
+		# Do something with the variables in feedback
+		{%for r in c.feedback %}
+		# feedback_msg.{{r}}
+		{%endfor%}
+		
+	# This is the response callback of the action client {{c.name}}.
+	# This function receives and handles the response that the 
+	# action server gives. This function is the template of the 
+	# action client callback and you should put your own 
+	# functionality.
+	def goal_response_client_callback_{{c.name}}(self, future):
+		# Set the goal result
+		goal_handle = future.result()
+		# Check if the goal was accepted
+		if not goal_handle.accepted:
+			self.get_logger().info('Goal rejected :(')
+			return
+		# Goal Accepted
+		self.get_logger().info('Goal accepted :)')
+		# Create a callback for receiving the result async
+		self.client_future_{{c.name}} = goal_handle.get_result_async()
+		self.client_future_{{c.name}}.add_done_callback(self.get_result_callback_{{c.name}})
+		
+	# This is the result callback of the action client {{c.name}}.
+	# This function receives and final result that the 
+	# action server returns. This function is the template of the 
+	# action client callback and you should put your own 
+	# functionality.
+	def get_result_callback_{{c.name}}(self, future):
+		result = future.result().result
+		status = future.result().status
+		if status == GoalStatus.STATUS_SUCCEEDED:
+			# Do something with the variables in result
+			{%for r in c.result %}
+			# result.{{r}}
+			self.get_logger().info('Result obtained') 
+			{%endfor%}
+		else:
+			self.get_logger().info('Goal failed with status: {0}'.format(status))
+
+	#_____
+	{%endfor%}
 		
 		
 # Main executable
@@ -235,6 +386,14 @@ def main(args=None):
 	# Destroy the node explicitly
 	# (optional - otherwise it will be done automatically
 	# when the garbage collector destroys the node object)
+	{%for s in action_servers %}
+	# Destroy action server {{s.name}}
+	{{node.name}}.action_server_{{s.name}}.destroy()
+	{%endfor%}
+	{%for c in action_clients %}
+	# Destroy action server {{c.name}}
+	{{node.name}}.action_client_{{c.name}}.destroy()
+	{%endfor%}
 	{{node.name}}.destroy_node()
 	rclpy.shutdown()
 

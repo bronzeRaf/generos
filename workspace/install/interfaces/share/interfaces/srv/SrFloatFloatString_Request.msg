@@ -1,2 +1,13 @@
-float32 x		# x value for float service SrFloatFloatString request 1
-float32 y		# y value for float service SrFloatFloatString request 2
+# Service SrFloatFloatString definition
+
+# Service for testing purposes
+
+# Service Request
+
+# x -- x value for float service SrFloatFloatString request 1
+float64 x
+
+# y -- y value for float service SrFloatFloatString request 2
+float32 y
+
+

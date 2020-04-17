@@ -1,0 +1,28 @@
+# Action Increase definition
+
+# Action for enabling counters
+
+# Action Goal
+
+# start -- a value for start value
+std_msgs/Int32 start
+
+# goal -- a value for goal value
+std_msgs/Int32 goal
+
+
+---
+
+# Action Result
+
+# a -- a value for result trigger
+bool a
+
+
+---
+
+# Action Feedback
+
+# update -- a value for feedback
+int64 update
+

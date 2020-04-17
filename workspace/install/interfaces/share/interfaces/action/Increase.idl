@@ -1,0 +1,35 @@
+// generated from rosidl_adapter/resource/action.idl.em
+// with input from interfaces/action/Increase.action
+// generated code does not contain a copyright notice
+
+#include "std_msgs/msg/Int32.idl"
+
+module interfaces {
+  module action {
+    @verbatim (language="comment", text=
+      " Action Increase definition")
+    struct Increase_Goal {
+      @verbatim (language="comment", text=
+        " Action for enabling counters" "\n"
+        " Action Goal" "\n"
+        " start -- a value for start value")
+      std_msgs::msg::Int32 start;
+
+      @verbatim (language="comment", text=
+        " goal -- a value for goal value")
+      std_msgs::msg::Int32 goal;
+    };
+    struct Increase_Result {
+      @verbatim (language="comment", text=
+        " Action Result" "\n"
+        " a -- a value for result trigger")
+      boolean a;
+    };
+    struct Increase_Feedback {
+      @verbatim (language="comment", text=
+        " Action Feedback" "\n"
+        " update -- a value for feedback")
+      int64 update;
+    };
+  };
+};

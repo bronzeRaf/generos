@@ -1,4 +1,3 @@
-
 import rclpy
 from rclpy.node import Node
 import sys
@@ -8,13 +7,7 @@ from std_msgs.msg import Header
 from interfaces.srv import SrFloatFloatString
 # Imports for action interfaces
 # Imports for msg inside custom interfaces
-#*********
-# ~ # ~ from interfaces.msg import ValueInt
-# ~ # ~ from interfaces.msg import ValueString
-# ~ # ~ # ~ from interfaces.srv import Addtwo
-# ~ # ~ from interfaces.srv import SrFloatFloatString
-# ~ # ~ from std_msgs.msg import 
-# ~ from example_interfaces.srv import AddTwoInts
+
 
 # Class for the node node3 
 class node3_class(Node):
@@ -44,6 +37,13 @@ class node3_class(Node):
 		# Client2
 		self.client_Client2 = self.create_client(SrFloatFloatString, 'str')
 		#_____
+		
+		# Action Servers
+		#____________________________________________
+		
+		# Action Clients
+		#____________________________________________
+		
 		
 		
 	# ************Callbacks************
@@ -90,7 +90,12 @@ class node3_class(Node):
 		# Result after server's response is stored in 
 		# self.future_Client2.result().z 
 	#_____
-		
+			
+	# Action Servers
+	#____________________________________________
+	
+	# Action Clients
+	#____________________________________________
 		
 		
 # Main executable

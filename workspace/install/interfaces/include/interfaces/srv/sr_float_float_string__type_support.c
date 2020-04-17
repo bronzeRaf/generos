@@ -19,7 +19,7 @@ extern "C"
 static rosidl_typesupport_introspection_c__MessageMember SrFloatFloatString_Request__rosidl_typesupport_introspection_c__SrFloatFloatString_Request_message_member_array[2] = {
   {
     "x",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
+    rosidl_typesupport_introspection_c__ROS_TYPE_DOUBLE,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array
