@@ -2,7 +2,7 @@
 # to be generated to for the ROS2 package. Actually implements the 
 # MDE transformation part, for model to code.
 #
-# Written in 14/2/2020
+# Written in 14/4/2020
 # Written by Rafael Brouzos
 #
 # After generating the code from the model go to the workspace root 
