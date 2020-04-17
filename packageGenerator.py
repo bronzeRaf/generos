@@ -133,12 +133,7 @@ for t in model_root.hasCustomServices:
 	dest='interfaces/srv/'+t.name+'.srv'
 	with open(dest, 'w') as f:
 		f.write(output)
-		
-
-
-
-
-
+	
 # Generate Action Messages	
 # ___________________________________________
 # Load the Template of the action
@@ -195,11 +190,6 @@ for t in model_root.hasCustomActionInterfaces:
 	with open(dest, 'w') as f:
 		f.write(output)
 
-
-
-
-
-	
 # Generate interface package CMkakeLists.txt
 # ___________________________________________
 # Load the Template of the CMakeLists.txt
@@ -592,22 +582,7 @@ for package in model_root.hasPackages:
 			cli['requests'] = crequestObj
 			cli['responses'] = cresponseObj
 			clients.append(cli)
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+		
 		# Build the action servers/clients data to pass to the Template
 		action_servers = []
 		action_clients = []
@@ -705,22 +680,6 @@ for package in model_root.hasPackages:
 			cli['result'] = cresultObj
 			cli['feedback'] = cfeedbackObj
 			action_clients.append(cli)
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			
 		# Fire up the rendering proccess
 		output = template.render(pack = pack_data, node = node_data, publishers = publishers, 

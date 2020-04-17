@@ -64,11 +64,45 @@ sobject1 = metamodel.ObjectProperty(name="a", description = "a value for integer
 st1 = metamodel.ROSData(type = "Int32", package="std_msgs")
 sobject1.datatype = st1
 
+sobject2 = metamodel.ObjectProperty(name="b", description = "b value for integer service Addtwo request 2")
+st2 = metamodel.Int(type = metamodel.IntType.int64)
+sobject2.datatype = st2
 
+sobject3 = metamodel.ObjectProperty(name="c", description = "c value for integer service Addtwo response")
+st3 = metamodel.Int(type = metamodel.IntType.int32)
+sobject3.datatype = st3
 
+sobject4 = metamodel.ObjectProperty(name="x", description = "x value for float service SrFloatFloatString request 1")
+st4 = metamodel.Float(type = metamodel.FloatType.float64)
+sobject4.datatype = st4
 
+sobject5 = metamodel.ObjectProperty(name="y", description = "y value for float service SrFloatFloatString request 2")
+st5 = metamodel.Float(type = metamodel.FloatType.float32)
+sobject5.datatype = st5
 
+sobject6 = metamodel.ObjectProperty(name="z", description = "z value for string service SrFloatFloatString response")
+st6 = metamodel.String(type="string")
+sobject6.datatype = st6
 
+#set documentation
+documentation1 = metamodel.Documentation()
+documentation2 = metamodel.Documentation()
+#set graph
+graph1 = metamodel.Graph()
+#set topology
+topology1 = metamodel.Topology()
+#set server
+server1 = metamodel.Server(name = "Server1", servicePath = "ser/vice/path1", serviceName = "add_two")
+server3 = metamodel.Server(name = "Server3", servicePath = "ser/vice/path3", serviceName = "set_bool")
+#set client
+client1 = metamodel.Client(name = "Client1", servicePath = "ser/vice/path1", serviceName = "add_two")
+client2 = metamodel.Client(name = "Client2", servicePath = "ser/vice/path2", serviceName = "str")
+client3 = metamodel.Client(name = "Client3", servicePath = "ser/vice/path3", serviceName = "set_bool")
+
+#set parameters
+param1 = metamodel.Parameter(name = "p1",  value = "32")
+
+# ACTIONS
 #set the action interfaces
 action1 = metamodel.CustomActionInterface(name = "Increase", description = "Action for enabling counters")
 #set the action
@@ -113,44 +147,6 @@ node1.hasActionServers.extend([actionserver1])				#0..*	node-action server
 node2.hasActionClients.extend([actionclient1])				#0..*	node-action client
 
 
-
-sobject2 = metamodel.ObjectProperty(name="b", description = "b value for integer service Addtwo request 2")
-st2 = metamodel.Int(type = metamodel.IntType.int64)
-sobject2.datatype = st2
-
-sobject3 = metamodel.ObjectProperty(name="c", description = "c value for integer service Addtwo response")
-st3 = metamodel.Int(type = metamodel.IntType.int32)
-sobject3.datatype = st3
-
-sobject4 = metamodel.ObjectProperty(name="x", description = "x value for float service SrFloatFloatString request 1")
-st4 = metamodel.Float(type = metamodel.FloatType.float64)
-sobject4.datatype = st4
-
-sobject5 = metamodel.ObjectProperty(name="y", description = "y value for float service SrFloatFloatString request 2")
-st5 = metamodel.Float(type = metamodel.FloatType.float32)
-sobject5.datatype = st5
-
-sobject6 = metamodel.ObjectProperty(name="z", description = "z value for string service SrFloatFloatString response")
-st6 = metamodel.String(type="string")
-sobject6.datatype = st6
-
-#set documentation
-documentation1 = metamodel.Documentation()
-documentation2 = metamodel.Documentation()
-#set graph
-graph1 = metamodel.Graph()
-#set topology
-topology1 = metamodel.Topology()
-#set server
-server1 = metamodel.Server(name = "Server1", servicePath = "ser/vice/path1", serviceName = "add_two")
-server3 = metamodel.Server(name = "Server3", servicePath = "ser/vice/path3", serviceName = "set_bool")
-#set client
-client1 = metamodel.Client(name = "Client1", servicePath = "ser/vice/path1", serviceName = "add_two")
-client2 = metamodel.Client(name = "Client2", servicePath = "ser/vice/path2", serviceName = "str")
-client3 = metamodel.Client(name = "Client3", servicePath = "ser/vice/path3", serviceName = "set_bool")
-
-#set parameters
-param1 = metamodel.Parameter(name = "p1",  value = "32")
 
 #apply compositions
 rosystem1.hasPackages.extend([package1])				#0..*	system-package
