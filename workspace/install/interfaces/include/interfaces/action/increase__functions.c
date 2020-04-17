@@ -9,11 +9,6 @@
 #include <string.h>
 
 
-// Include directives for member types
-// Member `start`
-// Member `goal`
-#include "std_msgs/msg/int32__functions.h"
-
 bool
 interfaces__action__Increase_Goal__init(interfaces__action__Increase_Goal * msg)
 {
@@ -21,15 +16,7 @@ interfaces__action__Increase_Goal__init(interfaces__action__Increase_Goal * msg)
     return false;
   }
   // start
-  if (!std_msgs__msg__Int32__init(&msg->start)) {
-    interfaces__action__Increase_Goal__destroy(msg);
-    return false;
-  }
   // goal
-  if (!std_msgs__msg__Int32__init(&msg->goal)) {
-    interfaces__action__Increase_Goal__destroy(msg);
-    return false;
-  }
   return true;
 }
 
@@ -40,9 +27,7 @@ interfaces__action__Increase_Goal__fini(interfaces__action__Increase_Goal * msg)
     return;
   }
   // start
-  std_msgs__msg__Int32__fini(&msg->start);
   // goal
-  std_msgs__msg__Int32__fini(&msg->goal);
 }
 
 interfaces__action__Increase_Goal *

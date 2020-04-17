@@ -23,8 +23,7 @@ class node1_class(Node):
 		super().__init__('node1', namespace = 'name/space')
 		# Params
 		#____________________________________________
-		# p1
-		int32
+		# p1  -  int32
 		self.param_p1 = self.declare_parameter('p1', 32)
 		# You can use your parameter p1 with type int32
 		# with 		self.get_parameter('p1')._value
@@ -162,14 +161,14 @@ class node1_class(Node):
 	# every time an action goal request is received and needs to be 
 	# executed. This function is the template of the action server 
 	# callback and you should put your own functionality.
-	def action_execute_callback_action1(self):
+	def action_execute_call_action1(self, goal_handle):
 		# Please add the server's functionality in this callback
 		self.get_logger().info('Executing goal...')
 		# Store the variables of the goal request
 		start = goal_handle.request.start
 		goal = goal_handle.request.goal
 		# Create a feedback object
-		feedback_msg = action1.Feedback()
+		feedback_msg = Increase.Feedback()
 		# Every time you want to pass feedback update feedback attributes
 		# feedback_msg.update = ...
 		# And call 
@@ -177,7 +176,7 @@ class node1_class(Node):
 		
 		# Set the Result
 		goal_handle.succeed()
-		result = action1.Result()
+		result = Increase.Result()
 		# Fill the result with data
 		# result.a = ...
 		return result
@@ -186,7 +185,7 @@ class node1_class(Node):
 	# This function receives a client goal requests to handle actions.
 	# This function is the template of the action server 
 	# callback and you should put your own functionality.
-	def action_goal_callback_action1(self,goal_request):
+	def action_goal_call_action1(self,goal_request):
 		# Please add the server's functionality in this callback
 		self.get_logger().info('Received goal request')
 		# Uncomment one of the following to reject or to accept an action request
@@ -197,7 +196,7 @@ class node1_class(Node):
 	# This function receives client cancel requests to handle actions.
 	# This function is the template of the action server 
 	# callback and you should put your own functionality.
-	def action_cancel_callback_action1(self, goal_handle):
+	def action_cancel_call_action1(self, goal_handle):
 		# Please add the server's functionality in this callback
 		self.get_logger().info('Received cancel request')
 		# Uncomment one of the following to reject or to accept an action request

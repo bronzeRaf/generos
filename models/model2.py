@@ -81,11 +81,11 @@ result1 = metamodel.Result()
 feedback1 = metamodel.Feedback()
 
 ac1 = metamodel.ObjectProperty(name="start", description = "a value for start value")
-acc1 = metamodel.ROSData(type = "Int32", package="std_msgs")
+acc1 = metamodel.Int(type = metamodel.IntType.int64)
 ac1.datatype = acc1
 
 ac2 = metamodel.ObjectProperty(name="goal", description = "a value for goal value")
-acc2 = metamodel.ROSData(type = "Int32", package="std_msgs")
+acc2 = metamodel.Int(type = metamodel.IntType.int64)
 ac2.datatype = acc2
 
 ac3 = metamodel.ObjectProperty(name="update", description = "a value for feedback")
@@ -93,7 +93,7 @@ acc3 = metamodel.Int(type = metamodel.IntType.int64)
 ac3.datatype = acc3
 
 ac4 = metamodel.ObjectProperty(name="a", description = "a value for result trigger")
-acc4 = metamodel.Bool(type = "bool")
+acc4 = metamodel.Int(type = metamodel.IntType.int64)
 ac4.datatype = acc4
 
 rosystem1.hasCustomActionInterfaces.extend([action1])	#0..*	system-customservice

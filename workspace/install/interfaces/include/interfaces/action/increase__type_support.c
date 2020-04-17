@@ -11,14 +11,6 @@
 #include "interfaces/action/increase__struct.h"
 
 
-// Include directives for member types
-// Member `start`
-// Member `goal`
-#include "std_msgs/msg/int32.h"
-// Member `start`
-// Member `goal`
-#include "std_msgs/msg/int32__rosidl_typesupport_introspection_c.h"
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -27,9 +19,9 @@ extern "C"
 static rosidl_typesupport_introspection_c__MessageMember Increase_Goal__rosidl_typesupport_introspection_c__Increase_Goal_message_member_array[2] = {
   {
     "start",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_MESSAGE,  // type
+    rosidl_typesupport_introspection_c__ROS_TYPE_INT64,  // type
     0,  // upper bound of string
-    NULL,  // members of sub message (initialized later)
+    NULL,  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
@@ -42,9 +34,9 @@ static rosidl_typesupport_introspection_c__MessageMember Increase_Goal__rosidl_t
   },
   {
     "goal",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_MESSAGE,  // type
+    rosidl_typesupport_introspection_c__ROS_TYPE_INT64,  // type
     0,  // upper bound of string
-    NULL,  // members of sub message (initialized later)
+    NULL,  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
@@ -76,10 +68,6 @@ static rosidl_message_type_support_t Increase_Goal__rosidl_typesupport_introspec
 ROSIDL_TYPESUPPORT_INTROSPECTION_C_EXPORT_interfaces
 const rosidl_message_type_support_t *
 ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, interfaces, action, Increase_Goal)() {
-  Increase_Goal__rosidl_typesupport_introspection_c__Increase_Goal_message_member_array[0].members_ =
-    ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, std_msgs, msg, Int32)();
-  Increase_Goal__rosidl_typesupport_introspection_c__Increase_Goal_message_member_array[1].members_ =
-    ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, std_msgs, msg, Int32)();
   if (!Increase_Goal__rosidl_typesupport_introspection_c__Increase_Goal_message_type_support_handle.typesupport_identifier) {
     Increase_Goal__rosidl_typesupport_introspection_c__Increase_Goal_message_type_support_handle.typesupport_identifier =
       rosidl_typesupport_introspection_c__identifier;
@@ -114,7 +102,7 @@ extern "C"
 static rosidl_typesupport_introspection_c__MessageMember Increase_Result__rosidl_typesupport_introspection_c__Increase_Result_message_member_array[1] = {
   {
     "a",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_BOOLEAN,  // type
+    rosidl_typesupport_introspection_c__ROS_TYPE_INT64,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array

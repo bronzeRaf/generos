@@ -140,32 +140,32 @@ class node2_class(Node):
 	def send_goal_call_action1(self, start, goal):
 		# Wait for action service
 		self.get_logger().info('Waiting for action server...')
-		self._action_client.wait_for_server()
+		self.action_client_action1.wait_for_server()
 		# Create goal and fill it with data
-		goal_msg = action1.Goal()
+		goal_msg = Increase.Goal()
 		goal_msg.start = start
 		goal_msg.goal = goal
 		# Send the goal request
 		self.get_logger().info('Sending goal request...')
-		self.future_action1 = self.action_client_action1.send_goal_async(goal_msg, feedback_callback=self.feedback_client_callback_action1)
-		self.future_action1.add_done_callback(self.goal_response_callback_client_action1)
+		self.future_action1 = self.action_client_action1.send_goal_async(goal_msg, feedback_callback=self.feedback_client_call_action1)
+		self.future_action1.add_done_callback(self.goal_response_client_call_action1)
 		
 	# This is the feedback callback of the action client action1.
 	# This function receives and handles the feedback that the 
 	# action server publishes. This function is the template of the 
 	# action client callback and you should put your own 
 	# functionality.
-	def feedback_client_callback_action1(self, feedback):
-		elf.get_logger().info('received feedback')
+	def feedback_client_call_action1(self, feedback):
+		self.get_logger().info('received feedback')
 		# Do something with the variables in feedback
-		# feedback_msg.update
+		# feedback.feedback.update
 		
 	# This is the response callback of the action client action1.
 	# This function receives and handles the response that the 
 	# action server gives. This function is the template of the 
 	# action client callback and you should put your own 
 	# functionality.
-	def goal_response_client_callback_action1(self, future):
+	def goal_response_client_call_action1(self, future):
 		# Set the goal result
 		goal_handle = future.result()
 		# Check if the goal was accepted
@@ -176,14 +176,14 @@ class node2_class(Node):
 		self.get_logger().info('Goal accepted :)')
 		# Create a callback for receiving the result async
 		self.client_future_action1 = goal_handle.get_result_async()
-		self.client_future_action1.add_done_callback(self.get_result_callback_action1)
+		self.client_future_action1.add_done_callback(self.get_result_call_action1)
 		
 	# This is the result callback of the action client action1.
 	# This function receives and final result that the 
 	# action server returns. This function is the template of the 
 	# action client callback and you should put your own 
 	# functionality.
-	def get_result_callback_action1(self, future):
+	def get_result_call_action1(self, future):
 		result = future.result().result
 		status = future.result().status
 		if status == GoalStatus.STATUS_SUCCEEDED:

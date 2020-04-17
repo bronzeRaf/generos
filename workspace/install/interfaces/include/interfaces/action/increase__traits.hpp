@@ -10,11 +10,6 @@
 #include <stdint.h>
 #include <type_traits>
 
-// Include directives for member types
-// Member 'start'
-// Member 'goal'
-#include "std_msgs/msg/int32__traits.hpp"
-
 namespace rosidl_generator_traits
 {
 
@@ -26,11 +21,11 @@ inline const char * data_type<interfaces::action::Increase_Goal>()
 
 template<>
 struct has_fixed_size<interfaces::action::Increase_Goal>
-  : std::integral_constant<bool, has_fixed_size<std_msgs::msg::Int32>::value> {};
+  : std::integral_constant<bool, true> {};
 
 template<>
 struct has_bounded_size<interfaces::action::Increase_Goal>
-  : std::integral_constant<bool, has_bounded_size<std_msgs::msg::Int32>::value> {};
+  : std::integral_constant<bool, true> {};
 
 }  // namespace rosidl_generator_traits
 

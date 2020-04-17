@@ -24,11 +24,6 @@
   #endif
 #endif
 
-// Include directives for member types
-// Member 'start'
-// Member 'goal'
-#include "std_msgs/msg/int32__struct.hpp"
-
 #ifndef _WIN32
 # define DEPRECATED__interfaces__action__Increase_Goal __attribute__((deprecated))
 #else
@@ -48,36 +43,43 @@ struct Increase_Goal_
   using Type = Increase_Goal_<ContainerAllocator>;
 
   explicit Increase_Goal_(rosidl_generator_cpp::MessageInitialization _init = rosidl_generator_cpp::MessageInitialization::ALL)
-  : start(_init),
-    goal(_init)
   {
-    (void)_init;
+    if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
+      rosidl_generator_cpp::MessageInitialization::ZERO == _init)
+    {
+      this->start = 0ll;
+      this->goal = 0ll;
+    }
   }
 
   explicit Increase_Goal_(const ContainerAllocator & _alloc, rosidl_generator_cpp::MessageInitialization _init = rosidl_generator_cpp::MessageInitialization::ALL)
-  : start(_alloc, _init),
-    goal(_alloc, _init)
   {
-    (void)_init;
+    (void)_alloc;
+    if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
+      rosidl_generator_cpp::MessageInitialization::ZERO == _init)
+    {
+      this->start = 0ll;
+      this->goal = 0ll;
+    }
   }
 
   // field types and members
   using _start_type =
-    std_msgs::msg::Int32_<ContainerAllocator>;
+    int64_t;
   _start_type start;
   using _goal_type =
-    std_msgs::msg::Int32_<ContainerAllocator>;
+    int64_t;
   _goal_type goal;
 
   // setters for named parameter idiom
   Type & set__start(
-    const std_msgs::msg::Int32_<ContainerAllocator> & _arg)
+    const int64_t & _arg)
   {
     this->start = _arg;
     return *this;
   }
   Type & set__goal(
-    const std_msgs::msg::Int32_<ContainerAllocator> & _arg)
+    const int64_t & _arg)
   {
     this->goal = _arg;
     return *this;
@@ -183,7 +185,7 @@ struct Increase_Result_
     if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
       rosidl_generator_cpp::MessageInitialization::ZERO == _init)
     {
-      this->a = false;
+      this->a = 0ll;
     }
   }
 
@@ -193,18 +195,18 @@ struct Increase_Result_
     if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
       rosidl_generator_cpp::MessageInitialization::ZERO == _init)
     {
-      this->a = false;
+      this->a = 0ll;
     }
   }
 
   // field types and members
   using _a_type =
-    bool;
+    int64_t;
   _a_type a;
 
   // setters for named parameter idiom
   Type & set__a(
-    const bool & _arg)
+    const int64_t & _arg)
   {
     this->a = _arg;
     return *this;

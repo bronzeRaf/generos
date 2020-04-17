@@ -64,8 +64,7 @@ class {{node.name}}_class(Node):
 		# Params
 		#____________________________________________
 		{%for p in params %}
-		# {{p.name}}
-		{{p.type}}
+		# {{p.name}}  -  {{p.type}}
 		self.param_{{p.name}} = self.declare_parameter('{{p.name}}', {{p.value}})
 		# You can use your parameter {{p.name}} with type {{p.type}}
 		# with 		self.get_parameter('{{p.name}}')._value
@@ -243,7 +242,7 @@ class {{node.name}}_class(Node):
 	# every time an action goal request is received and needs to be 
 	# executed. This function is the template of the action server 
 	# callback and you should put your own functionality.
-	def action_execute_callback_{{s.name}}(self):
+	def action_execute_call_{{s.name}}(self, goal_handle):
 		# Please add the server's functionality in this callback
 		self.get_logger().info('Executing goal...')
 		# Store the variables of the goal request
@@ -251,7 +250,7 @@ class {{node.name}}_class(Node):
 		{{r}} = goal_handle.request.{{r}}
 		{%endfor%}
 		# Create a feedback object
-		feedback_msg = {{s.name}}.Feedback()
+		feedback_msg = {{s.type}}.Feedback()
 		# Every time you want to pass feedback update feedback attributes
 		{%for r in s.feedback %}
 		# feedback_msg.{{r}} = ...
@@ -261,7 +260,7 @@ class {{node.name}}_class(Node):
 		
 		# Set the Result
 		goal_handle.succeed()
-		result = {{s.name}}.Result()
+		result = {{s.type}}.Result()
 		# Fill the result with data
 		{%for r in s.result %}
 		# result.{{r}} = ...
@@ -272,7 +271,7 @@ class {{node.name}}_class(Node):
 	# This function receives a client goal requests to handle actions.
 	# This function is the template of the action server 
 	# callback and you should put your own functionality.
-	def action_goal_callback_{{s.name}}(self,goal_request):
+	def action_goal_call_{{s.name}}(self,goal_request):
 		# Please add the server's functionality in this callback
 		self.get_logger().info('Received goal request')
 		# Uncomment one of the following to reject or to accept an action request
@@ -283,7 +282,7 @@ class {{node.name}}_class(Node):
 	# This function receives client cancel requests to handle actions.
 	# This function is the template of the action server 
 	# callback and you should put your own functionality.
-	def action_cancel_callback_{{s.name}}(self, goal_handle):
+	def action_cancel_call_{{s.name}}(self, goal_handle):
 		# Please add the server's functionality in this callback
 		self.get_logger().info('Received cancel request')
 		# Uncomment one of the following to reject or to accept an action request
@@ -307,27 +306,27 @@ class {{node.name}}_class(Node):
 	def send_goal_call_{{c.name}}(self{%for r in c.goal %}, {{r }} {%endfor%}):
 		# Wait for action service
 		self.get_logger().info('Waiting for action server...')
-		self._action_client.wait_for_server()
+		self.action_client_{{c.name}}.wait_for_server()
 		# Create goal and fill it with data
-		goal_msg = {{c.name}}.Goal()
+		goal_msg = {{c.type}}.Goal()
 		{%for r in c.goal %}
 		goal_msg.{{r}} = {{r}}
 		{%endfor%}
 		# Send the goal request
 		self.get_logger().info('Sending goal request...')
-		self.future_{{c.name}} = self.action_client_{{c.name}}.send_goal_async(goal_msg, feedback_callback=self.feedback_client_callback_{{c.name}})
-		self.future_{{c.name}}.add_done_callback(self.goal_response_callback_client_{{c.name}})
+		self.future_{{c.name}} = self.action_client_{{c.name}}.send_goal_async(goal_msg, feedback_callback=self.feedback_client_call_{{c.name}})
+		self.future_{{c.name}}.add_done_callback(self.goal_response_client_call_{{c.name}})
 		
 	# This is the feedback callback of the action client {{c.name}}.
 	# This function receives and handles the feedback that the 
 	# action server publishes. This function is the template of the 
 	# action client callback and you should put your own 
 	# functionality.
-	def feedback_client_callback_{{c.name}}(self, feedback):
-		elf.get_logger().info('received feedback')
+	def feedback_client_call_{{c.name}}(self, feedback):
+		self.get_logger().info('received feedback')
 		# Do something with the variables in feedback
 		{%for r in c.feedback %}
-		# feedback_msg.{{r}}
+		# feedback.feedback.{{r}}
 		{%endfor%}
 		
 	# This is the response callback of the action client {{c.name}}.
@@ -335,7 +334,7 @@ class {{node.name}}_class(Node):
 	# action server gives. This function is the template of the 
 	# action client callback and you should put your own 
 	# functionality.
-	def goal_response_client_callback_{{c.name}}(self, future):
+	def goal_response_client_call_{{c.name}}(self, future):
 		# Set the goal result
 		goal_handle = future.result()
 		# Check if the goal was accepted
@@ -346,14 +345,14 @@ class {{node.name}}_class(Node):
 		self.get_logger().info('Goal accepted :)')
 		# Create a callback for receiving the result async
 		self.client_future_{{c.name}} = goal_handle.get_result_async()
-		self.client_future_{{c.name}}.add_done_callback(self.get_result_callback_{{c.name}})
+		self.client_future_{{c.name}}.add_done_callback(self.get_result_call_{{c.name}})
 		
 	# This is the result callback of the action client {{c.name}}.
 	# This function receives and final result that the 
 	# action server returns. This function is the template of the 
 	# action client callback and you should put your own 
 	# functionality.
-	def get_result_callback_{{c.name}}(self, future):
+	def get_result_call_{{c.name}}(self, future):
 		result = future.result().result
 		status = future.result().status
 		if status == GoalStatus.STATUS_SUCCEEDED:

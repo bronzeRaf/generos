@@ -5,10 +5,10 @@
 # Action Goal
 
 # start -- a value for start value
-std_msgs/Int32 start
+int64 start
 
 # goal -- a value for goal value
-std_msgs/Int32 goal
+int64 goal
 
 
 ---
@@ -16,7 +16,7 @@ std_msgs/Int32 goal
 # Action Result
 
 # a -- a value for result trigger
-bool a
+int64 a
 
 
 ---

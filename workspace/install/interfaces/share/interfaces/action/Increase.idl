@@ -2,7 +2,6 @@
 // with input from interfaces/action/Increase.action
 // generated code does not contain a copyright notice
 
-#include "std_msgs/msg/Int32.idl"
 
 module interfaces {
   module action {
@@ -13,17 +12,17 @@ module interfaces {
         " Action for enabling counters" "\n"
         " Action Goal" "\n"
         " start -- a value for start value")
-      std_msgs::msg::Int32 start;
+      int64 start;
 
       @verbatim (language="comment", text=
         " goal -- a value for goal value")
-      std_msgs::msg::Int32 goal;
+      int64 goal;
     };
     struct Increase_Result {
       @verbatim (language="comment", text=
         " Action Result" "\n"
         " a -- a value for result trigger")
-      boolean a;
+      int64 a;
     };
     struct Increase_Feedback {
       @verbatim (language="comment", text=

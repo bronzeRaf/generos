@@ -17,16 +17,11 @@ extern "C"
 
 // Constants defined in the message
 
-// Include directives for member types
-// Member 'start'
-// Member 'goal'
-#include "std_msgs/msg/int32__struct.h"
-
 // Struct defined in action/Increase in the package interfaces.
 typedef struct interfaces__action__Increase_Goal
 {
-  std_msgs__msg__Int32 start;
-  std_msgs__msg__Int32 goal;
+  int64_t start;
+  int64_t goal;
 } interfaces__action__Increase_Goal;
 
 // Struct for a sequence of interfaces__action__Increase_Goal.
@@ -45,7 +40,7 @@ typedef struct interfaces__action__Increase_Goal__Sequence
 // Struct defined in action/Increase in the package interfaces.
 typedef struct interfaces__action__Increase_Result
 {
-  bool a;
+  int64_t a;
 } interfaces__action__Increase_Result;
 
 // Struct for a sequence of interfaces__action__Increase_Result.
