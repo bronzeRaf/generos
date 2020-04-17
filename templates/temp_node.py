@@ -1,7 +1,7 @@
 {# 
 #This is a jinja2 template of a ROS2 Node
 #
-# Written in 13/3/2020
+# Written in 13/4/2020
 # Written by Rafael Brouzos
 #}
 {% if action_servers is defined and action_servers|length %}

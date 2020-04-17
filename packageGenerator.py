@@ -9,7 +9,7 @@
 # (folder named "workspace") in terminal and run the comands:
 # $ colcon build
 # $ . install/setup.bash
-# $ ros2 run <package_name> <node_name>_exec
+# $ ros2 run [package_name] [node_name]_exec
 
 from pyecore.resources import ResourceSet, URI, global_registry
 from pyecore.resources.json import JsonResource

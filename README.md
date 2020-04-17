@@ -25,7 +25,7 @@ This folder contains all the [jinja2](https://buildmedia.readthedocs.org/media/p
 
 - The temp_action.action is a template of the custom action type, created by the user in the "interfaces" package.
 
-- The temp_node.py is a template of the node implementation. In every node all the callbacks, the Publishers, Subscribers, Services, Clients, Action Servers and Action Clients are working in the generated executable named "{Node's name}_exec". For every Client in the node, another executable is generated, named "{Node's name}_[Client's name}", so it can be called seperatelly. This extra executable run once, until the Server's response and exits.
+- The temp_node.py is a template of the node implementation. In every node all the callbacks, the Publishers, Subscribers, Services, Clients, Action Servers and Action Clients are working in the generated executable named "{Node's name}_exec". For every Client in the node, another executable is generated, named "{Node's name}_{Client's name}", so it can be called seperatelly. This extra executable run once, until the Server's response and exits.
 
 - The temp_package.xml is a template of the package.xml file of the generated package. It contains the package and the maintainer information, as long as the dependencies.
 
