@@ -1,0 +1,246 @@
+{# 
+#This is a jinja2 template of a ROS2 Node
+#
+# Written in 13/4/2020
+# Written by Rafael Brouzos
+#}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Doc Interfaces</title>
+	<link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+<div class = "maincontainer">
+<!--
+		Description
+-->
+	<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<h1>Documentation of ROS2 package: Interfaces</h1>
+	</div>
+	<div class="gradient1">
+		<div class="description">
+			<h3>Description:</h3> <p style: color: #36304a;> </br>This is a 
+			package, generated from Generos to contain all the Custom 
+			Interfaces, created by the user. This package contains all
+			the Msg, Srv and Action interfaces the user created in the
+			model. This document present this interfaces.</p>
+		</div>
+	</div>
+<div class="gradient"></div>
+<!--
+		MSG
+-->
+<div class="whiteTitle">
+<h2>Topic Messages</h2>
+</div>
+{% for m in allmsg %}
+<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<h3>MSG: {{m.name}}</h3>
+</div>
+<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<p>{{m.description}}</p>
+</div>
+<div class="gradient">
+
+			<div class="msg">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">{{m.name}} Objects</caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Name</th>
+											<th class="column2">Type</th>
+											<th class="column3">Default</th>
+											<th class="column4">Package</th>
+											<th class="column5">Description</th>
+										</tr>
+									</thead>
+									<tbody>
+											{% for p in m.objects %}
+											<tr>
+												<td class="column1">{{p.name}}</td>
+												<td class="column2">{{p.type}}</td>
+												<td class="column3">{{p.default}}</td>
+												<td class="column4">{{p.package}}</td>
+												<td class="column5">{{p.description}}</td>
+											</tr>
+											{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+
+<div class="clear"></div>
+{% endfor %}
+<div class="gradient"></div>
+<!--
+		SRV
+-->
+<div class="whiteTitle">
+<h2>Service Messages</h2>
+</div>
+{% for m in allsrv %}
+<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<h3>SRV: {{m.name}}</h3>
+</div>
+<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<p>{{m.description}}</p>
+</div>
+
+<div class="gradient">
+			<div class="srv">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">{{m.name}} Objects</caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Name</th>
+											<th class="column2">Type</th>
+											<th class="column3">Default</th>
+											<th class="column4">Package</th>
+											<th class="column5">Description</th>
+										</tr>
+									</thead>
+									<tbody>
+											{% for p in m.requests %}
+											{% if loop.index == 1 %}
+											<tr>
+											<td colspan="5" class="column1">Request</td>
+											</tr>
+											{%endif%}
+											<tr>
+												<td class="column1">{{p.name}}</td>
+												<td class="column2">{{p.type}}</td>
+												<td class="column3">{{p.default}}</td>
+												<td class="column4">{{p.package}}</td>
+												<td class="column5">{{p.description}}</td>
+											</tr>
+											{% endfor %}
+											{% for p in m.responses %}
+											{% if loop.index == 1 %}
+											<tr>
+											<td colspan="5" class="column1">Response</td>
+											</tr>
+											{%endif%}
+											<tr>
+												<td class="column1">{{p.name}}</td>
+												<td class="column2">{{p.type}}</td>
+												<td class="column3">{{p.default}}</td>
+												<td class="column4">{{p.package}}</td>
+												<td class="column5">{{p.description}}</td>
+											</tr>
+											{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+<div class="clear"></div>
+{% endfor %}
+<div class="gradient"></div>
+<!--
+		Actions
+-->
+<div class="whiteTitle">
+<h2>Action Messages</h2>
+</div>
+{% for m in allactions %}
+<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<h3>ACTION: {{m.name}}</h3>
+</div>
+<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<p>{{m.description}}</p>
+</div>
+
+<div class="gradient">
+			<div class="srv">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">{{m.name}} Objects</caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Name</th>
+											<th class="column2">Type</th>
+											<th class="column3">Default</th>
+											<th class="column4">Package</th>
+											<th class="column5">Description</th>
+										</tr>
+									</thead>
+									<tbody>
+											{% for p in m.goal %}
+											{% if loop.index == 1 %}
+											<tr>
+											<td colspan="5" class="column1">Goal</td>
+											</tr>
+											{%endif%}
+											<tr>
+												<td class="column1">{{p.name}}</td>
+												<td class="column2">{{p.type}}</td>
+												<td class="column3">{{p.default}}</td>
+												<td class="column4">{{p.package}}</td>
+												<td class="column5">{{p.description}}</td>
+											</tr>
+											{% endfor %}
+											{% for p in m.result %}
+											{% if loop.index == 1 %}
+											<tr>
+											<td colspan="5" class="column1">Result</td>
+											</tr>
+											{%endif%}
+											<tr>
+												<td class="column1">{{p.name}}</td>
+												<td class="column2">{{p.type}}</td>
+												<td class="column3">{{p.default}}</td>
+												<td class="column4">{{p.package}}</td>
+												<td class="column5">{{p.description}}</td>
+											</tr>
+											{% endfor %}
+											{% for p in m.feedback %}
+											{% if loop.index == 1 %}
+											<tr>
+											<td colspan="5" class="column1">Feedback</td>
+											</tr>
+											{%endif%}
+											<tr>
+												<td class="column1">{{p.name}}</td>
+												<td class="column2">{{p.type}}</td>
+												<td class="column3">{{p.default}}</td>
+												<td class="column4">{{p.package}}</td>
+												<td class="column5">{{p.description}}</td>
+											</tr>
+											{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+<div class="clear"></div>
+{% endfor %}
+
+</div>
+</body>
+</html>

@@ -39,7 +39,6 @@ rset.metamodel_registry[root.nsURI] = root
 # We obtain the model from an XMI
 model_root = rset.get_resource(URI('models/test2.xmi')).contents[0]
 
-
 # Create the workspace directory tree
 os.system('mkdir workspace')
 os.chdir('workspace')
@@ -50,6 +49,7 @@ os.chdir('interfaces')
 os.system('mkdir srv')
 os.system('mkdir msg')
 os.system('mkdir action')
+os.system('mkdir documentation')
 # Now the working directory is workspace/src/interfaces
 os.chdir('..')
 # Now the working directory is workspace/src
@@ -64,7 +64,7 @@ env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
 # ___________________________________________
 # Load the Template of the msg
 template = env.get_template('temp_msg.msg')
-
+allmsg = []
 # Build the msg data to pass to the Template
 for t in model_root.hasCustomMessages:
 	message_data = {}
@@ -82,7 +82,8 @@ for t in model_root.hasCustomMessages:
 		else:
 			obj['package'] = "no"
 		objects.append(obj)
-	
+	message_data['objects'] = objects
+	allmsg.append(message_data)
 	# Fire up the rendering proccess
 	output = template.render(objects = objects, message_data = message_data)
 	
@@ -96,6 +97,7 @@ for t in model_root.hasCustomMessages:
 # Load the Template of the srv
 template = env.get_template('temp_srv.srv')
 # Build the srv data to pass to the Template
+allsrv = []
 for t in model_root.hasCustomServices:
 	service_data = {}
 	service_data['name'] = t.name
@@ -112,6 +114,7 @@ for t in model_root.hasCustomServices:
 		else:
 			req['package'] = "no"
 		request.append(req)
+	service_data['requests'] = request
 	
 	response = []
 	for o in t.hasResponse.hasObjectProperties:
@@ -125,6 +128,8 @@ for t in model_root.hasCustomServices:
 		else:
 			res['package'] = "no"
 		response.append(res)
+	service_data['responses'] = response
+	allsrv.append(service_data)
 	
 	# Fire up the rendering proccess
 	output = template.render(request = request, response = response, service_data = service_data)
@@ -139,6 +144,7 @@ for t in model_root.hasCustomServices:
 # Load the Template of the action
 template = env.get_template('temp_action.action')
 # Build the srv data to pass to the Template
+allactions = []
 for t in model_root.hasCustomActionInterfaces:
 	action_data = {}
 	action_data['name'] = t.name
@@ -155,6 +161,7 @@ for t in model_root.hasCustomActionInterfaces:
 		else:
 			g['package'] = "no"
 		goal.append(g)
+	action_data['goal'] = goal
 	
 	result = []
 	for o in t.hasResult.hasObjectProperties:
@@ -168,7 +175,8 @@ for t in model_root.hasCustomActionInterfaces:
 		else:
 			r['package'] = "no"
 		result.append(r)
-		
+	action_data['result'] = result
+	
 	feedback = []
 	for o in t.hasFeedback.hasObjectProperties:
 		r = {}
@@ -181,7 +189,9 @@ for t in model_root.hasCustomActionInterfaces:
 		else:
 			r['package'] = "no"
 		feedback.append(r)
+	action_data['feedback'] = feedback
 	
+	allactions.append(action_data)
 	# Fire up the rendering proccess
 	output = template.render(goal = goal, result = result, feedback = feedback, action_data = action_data)
 	
@@ -244,6 +254,39 @@ output = template.render(smessages=smessages, tmessages=tmessages, amessages = a
 dest='interfaces/'+'CMakeLists.txt'
 with open(dest, 'w') as f:
 	f.write(output)
+
+# Generate documentation.html 
+	# ___________________________________________
+	# Load the Template of the documentation.html
+	template = env.get_template('temp_interfaces_documentation.html')
+	
+	# Fire up the rendering proccess
+	output = template.render(allmsg = allmsg, allsrv = allsrv, allactions = allactions)
+	
+	# Write the generated file
+	dest='interfaces/documentation/documentation.html'
+	with open(dest, 'w') as f:
+		f.write(output)
+
+	# Give execution permissions to the generated python file
+	os.chmod(dest, 509)
+	# Go to the workspace/src for the next package
+	
+	# Generate main.css 
+	# ___________________________________________
+	# Load the Template of the main.css
+	template = env.get_template('temp_main.css')
+	
+	# Fire up the rendering proccess
+	output = template.render()
+	
+	# Write the generated file
+	dest='interfaces/documentation/main.css'
+	with open(dest, 'w') as f:
+		f.write(output)
+
+	# Give execution permissions to the generated python file
+	os.chmod(dest, 509)
 
 # Generate interface package package.xml
 # ___________________________________________
@@ -419,6 +462,7 @@ for package in model_root.hasPackages:
 	
 	# Generate nodes
 	# ___________________________________________
+	allnodes = []
 	for node in package.hasNodes:
 		# Load the Template of a node
 		template = env.get_template('temp_node.py')
@@ -435,7 +479,8 @@ for package in model_root.hasPackages:
 			param['value'] = p.value
 			param['type'] = p.type
 			params.append(param)
-		
+			
+		node_data['param'] = params
 		# Build the publisher/subscriber data to pass to the Template
 		subscribers = []
 		publishers = []
@@ -470,6 +515,7 @@ for package in model_root.hasPackages:
 			
 			sub['msg'] = smsgObj
 			subscribers.append(sub)
+		node_data['subscribers'] = subscribers
 		
 		for p in node.hasPublishers:
 			pmsgObj = []
@@ -500,6 +546,7 @@ for package in model_root.hasPackages:
 			
 			pub['msg'] = pmsgObj
 			publishers.append(pub)
+		node_data['publishers'] = publishers
 		
 		# Build the servers/clients data to pass to the Template
 		servers = []
@@ -541,6 +588,7 @@ for package in model_root.hasPackages:
 			ser['requests'] = srequestObj
 			ser['responses'] = sresponseObj
 			servers.append(ser)
+		node_data['servers'] = servers
 		
 		for c in node.hasClients:
 			crequestObj = []
@@ -582,6 +630,7 @@ for package in model_root.hasPackages:
 			cli['requests'] = crequestObj
 			cli['responses'] = cresponseObj
 			clients.append(cli)
+		node_data['clients'] = clients
 		
 		# Build the action servers/clients data to pass to the Template
 		action_servers = []
@@ -631,6 +680,7 @@ for package in model_root.hasPackages:
 			ser['result'] = sresultObj
 			ser['feedback'] = sfeedbackObj
 			action_servers.append(ser)
+		node_data['action_servers'] = action_servers
 		
 		for c in node.hasActionClients:
 			cgoalObj = []
@@ -680,7 +730,8 @@ for package in model_root.hasPackages:
 			cli['result'] = cresultObj
 			cli['feedback'] = cfeedbackObj
 			action_clients.append(cli)
-			
+		node_data['action_clients'] = action_clients
+		allnodes.append(node_data)
 		# Fire up the rendering proccess
 		output = template.render(pack = pack_data, node = node_data, publishers = publishers, 
 		subscribers = subscribers, objects = objects, smessages=smessages, tmessages=tmessages, 
@@ -694,6 +745,39 @@ for package in model_root.hasPackages:
 
 		# Give execution permissions to the generated python file
 		os.chmod(dest, 509)
-		
+	
+	# Generate documentation.html 
+	# ___________________________________________
+	# Load the Template of the documentation.html
+	template = env.get_template('temp_documentation.html')
+	
+	# Fire up the rendering proccess
+	output = template.render(pack=pack_data, allmsg = allmsg, allnodes = allnodes)
+	os.system('mkdir documentation')
+	
+	# Write the generated file
+	dest='documentation/documentation.html'
+	with open(dest, 'w') as f:
+		f.write(output)
+
+	# Give execution permissions to the generated python file
+	os.chmod(dest, 509)
+	# Go to the workspace/src for the next package
+	
+	# Generate main.css 
+	# ___________________________________________
+	# Load the Template of the main.css
+	template = env.get_template('temp_main.css')
+	
+	# Fire up the rendering proccess
+	output = template.render()
+	
+	# Write the generated file
+	dest='documentation/main.css'
+	with open(dest, 'w') as f:
+		f.write(output)
+
+	# Give execution permissions to the generated python file
+	os.chmod(dest, 509)
 	# Go to the workspace/src for the next package
 	os.chdir('..')

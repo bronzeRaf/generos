@@ -1,0 +1,298 @@
+{# 
+#This is a jinja2 template of a ROS2 Node
+#
+# Written in 13/4/2020
+# Written by Rafael Brouzos
+#}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Doc {{pack.packageName}}</title>
+	<link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+<div class = "maincontainer">
+<!--
+		Description
+-->
+	<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<h1>Documentation of ROS2 package: {{pack.packageName}}</h1>
+	</div>
+	<div class="gradient1">
+		<div class="description">
+			<h3>Description:</h3> <p style: color: #36304a;>{{pack.description}}</p>
+		</div>
+	</div>
+<!--
+		Metadata
+-->
+	<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<h2>Package Metadata</h2>
+	</div>
+	<div class="gradient1">
+		<div class="metadata">
+			
+			<h3>Maintaner:</h3> <p style: color: #36304a;>{{pack.maintainer}} </br></br></p>
+			<h3>Email: </h3> <p style: color: #36304a;> {{pack.email}} </br></br></p>
+			<h3>License: </h3> <p style: color: #36304a;>{{pack.license}} </br></br></p>
+			
+		</div>
+	</div>
+
+
+{% for node in allnodes %}
+<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<h2>Node: {{node.name}} -- Namespace: {{node.namespace}} </h2>
+</div>
+<div class="gradient">
+<!--
+		Parameters
+-->
+	{% if node.param is defined and node.param|length %}
+			<div class="parameter">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Parameters</caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Name</th>
+											<th class="column2">Type</th>
+										</tr>
+									</thead>
+									<tbody>
+											{% for p in node.param %}
+											<tr>
+												<td class="column1">{{p.name}}</td>
+												<td class="column2">{{p.type}}</td>
+											</tr>
+											{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			</div>
+	{%endif%}
+<!--
+		Publishers
+-->
+	{% if node.publishers is defined and node.publishers|length %}
+			<div class="publisher">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Publishers</caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Name</th>
+											<th class="column2">Type</th>
+											<th class="column3">Package</th>
+											<th class="column4">Path</th>
+											<th class="column5">Rate</th>
+											<th class="column6">QoS</th>
+										</tr>
+									</thead>
+									<tbody>
+											{% for p in node.publishers %}
+											<tr>
+												<td class="column1">{{p.name}}</td>
+												<td class="column2">{{p.type}}</td>
+												<td class="column3">{{p.package}}</td>
+												<td class="column4">{{p.topicPath}}</td>
+												<td class="column5">{{p.publishRate}}</td>
+												<td class="column6">{{p.qos}}</td>
+											</tr>
+											{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			</div>
+	{%endif%}	
+<!--
+		Subscribers
+-->
+	{% if node.subscribers is defined and node.subscribers|length %}
+			<div class="subscriber">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Subscribers</caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Name</th>
+											<th class="column2">Type</th>
+											<th class="column3">Package</th>
+											<th class="column4">Path</th>
+											<th class="column6">QoS</th>
+										</tr>
+									</thead>
+									<tbody>
+											{% for p in node.subscribers %}
+											<tr>
+												<td class="column1">{{p.name}}</td>
+												<td class="column2">{{p.type}}</td>
+												<td class="column3">{{p.package}}</td>
+												<td class="column4">{{p.topicPath}}</td>
+												<td class="column6">{{p.qos}}</td>
+											</tr>
+											{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			</div>
+	{%endif%}
+<!--
+		Servers
+-->
+	{% if node.servers is defined and node.servers|length %}
+			<div class="servers">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Servers</caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Name</th>
+											<th class="column2">Service Name</th>
+											<th class="column3">Type</th>
+											<th class="column4">Package</th>
+											<th class="column6">Path</th>
+										</tr>
+									</thead>
+									<tbody>
+											{% for p in node.servers %}
+											<tr>
+												<td class="column1">{{p.name}}</td>
+												<td class="column2">{{p.serviceName}}</td>
+												<td class="column3">{{p.type}}</td>
+												<td class="column4">{{p.package}}</td>
+												<td class="column6">{{p.servicePath}}</td>
+											</tr>
+											{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			</div>
+	{%endif%}
+<!--
+		Clients
+-->
+	{% if node.clients is defined and node.clients|length %}
+			<div class="servers">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Clients</caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Name</th>
+											<th class="column2">Service Name</th>
+											<th class="column3">Type</th>
+											<th class="column4">Package</th>
+											<th class="column6">Path</th>
+										</tr>
+									</thead>
+									<tbody>
+											{% for p in node.clients %}
+											<tr>
+												<td class="column1">{{p.name}}</td>
+												<td class="column2">{{p.serviceName}}</td>
+												<td class="column3">{{p.type}}</td>
+												<td class="column4">{{p.package}}</td>
+												<td class="column6">{{p.servicePath}}</td>
+											</tr>
+											{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			</div>
+	{%endif%}
+<!--
+		Action Servers
+-->
+	{% if node.action_servers is defined and node.action_servers|length %}
+			<div class="actionservers">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Action Servers</caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Name</th>
+											<th class="column2">Type</th>
+											<th class="column6">Package</th>
+										</tr>
+									</thead>
+									<tbody>
+											{% for p in node.action_servers %}
+											<tr>
+												<td class="column1">{{p.name}}</td>
+												<td class="column2">{{p.type}}</td>
+												<td class="column6">{{p.package}}</td>
+											</tr>
+											{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			</div>
+	{%endif%}
+<!--
+		Action Clients
+-->
+	{% if node.action_clients is defined and node.action_clients|length %}
+			<div class="actionclients">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Action Clients</caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Name</th>
+											<th class="column2">Type</th>
+											<th class="column6">Package</th>
+										</tr>
+									</thead>
+									<tbody>
+											{% for p in node.action_clients %}
+											<tr>
+												<td class="column1">{{p.name}}</td>
+												<td class="column2">{{p.type}}</td>
+												<td class="column6">{{p.package}}</td>
+											</tr>
+											{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			</div>
+	{%endif%}
+</div>
+<div class="clear"></div>
+{% endfor %}
+
+</div>
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Doc Interfaces</title>
+	<link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+<div class = "maincontainer">
+<!--
+		Description
+-->
+	<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<h1>Documentation of ROS2 package: Interfaces</h1>
+	</div>
+	<div class="gradient1">
+		<div class="description">
+			<h3>Description:</h3> <p style: color: #36304a;> </br>This is a 
+			package, generated from Generos to contain all the Custom 
+			Interfaces, created by the user. This package contains all
+			the Msg, Srv and Action interfaces the user created in the
+			model. This document present this interfaces.</p>
+		</div>
+	</div>
+<div class="gradient"></div>
+<!--
+		MSG
+-->
+<div class="whiteTitle">
+<h2>Topic Messages</h2>
+</div>
+<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<h3>MSG: ValueInt</h3>
+</div>
+<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<p>Message for passing a header and an integer</p>
+</div>
+<div class="gradient">
+
+			<div class="msg">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">ValueInt Objects</caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Name</th>
+											<th class="column2">Type</th>
+											<th class="column3">Default</th>
+											<th class="column4">Package</th>
+											<th class="column5">Description</th>
+										</tr>
+									</thead>
+									<tbody>
+											<tr>
+												<td class="column1">header</td>
+												<td class="column2">Header</td>
+												<td class="column3">None</td>
+												<td class="column4">std_msgs</td>
+												<td class="column5">header type object</td>
+											</tr>
+											<tr>
+												<td class="column1">x</td>
+												<td class="column2">int32</td>
+												<td class="column3">None</td>
+												<td class="column4">no</td>
+												<td class="column5">x value for integer message</td>
+											</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+
+<div class="clear"></div>
+<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<h3>MSG: ValueString</h3>
+</div>
+<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<p>Message for testing purposes</p>
+</div>
+<div class="gradient">
+
+			<div class="msg">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">ValueString Objects</caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Name</th>
+											<th class="column2">Type</th>
+											<th class="column3">Default</th>
+											<th class="column4">Package</th>
+											<th class="column5">Description</th>
+										</tr>
+									</thead>
+									<tbody>
+											<tr>
+												<td class="column1">x</td>
+												<td class="column2">string</td>
+												<td class="column3">None</td>
+												<td class="column4">no</td>
+												<td class="column5">x value for string message</td>
+											</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+
+<div class="clear"></div>
+<div class="gradient"></div>
+<!--
+		SRV
+-->
+<div class="whiteTitle">
+<h2>Service Messages</h2>
+</div>
+<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<h3>SRV: Addtwo</h3>
+</div>
+<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<p>Service for receiving two numbers and returning their their sum</p>
+</div>
+
+<div class="gradient">
+			<div class="srv">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Addtwo Objects</caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Name</th>
+											<th class="column2">Type</th>
+											<th class="column3">Default</th>
+											<th class="column4">Package</th>
+											<th class="column5">Description</th>
+										</tr>
+									</thead>
+									<tbody>
+											<tr>
+											<td colspan="5" class="column1">Request</td>
+											</tr>
+											<tr>
+												<td class="column1">a</td>
+												<td class="column2">Int32</td>
+												<td class="column3">None</td>
+												<td class="column4">std_msgs</td>
+												<td class="column5">a value for integer service Addtwo request 1</td>
+											</tr>
+											<tr>
+												<td class="column1">b</td>
+												<td class="column2">int64</td>
+												<td class="column3">None</td>
+												<td class="column4">no</td>
+												<td class="column5">b value for integer service Addtwo request 2</td>
+											</tr>
+											<tr>
+											<td colspan="5" class="column1">Response</td>
+											</tr>
+											<tr>
+												<td class="column1">c</td>
+												<td class="column2">int32</td>
+												<td class="column3">None</td>
+												<td class="column4">no</td>
+												<td class="column5">c value for integer service Addtwo response</td>
+											</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+<div class="clear"></div>
+<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<h3>SRV: SrFloatFloatString</h3>
+</div>
+<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<p>Service for testing purposes</p>
+</div>
+
+<div class="gradient">
+			<div class="srv">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">SrFloatFloatString Objects</caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Name</th>
+											<th class="column2">Type</th>
+											<th class="column3">Default</th>
+											<th class="column4">Package</th>
+											<th class="column5">Description</th>
+										</tr>
+									</thead>
+									<tbody>
+											<tr>
+											<td colspan="5" class="column1">Request</td>
+											</tr>
+											<tr>
+												<td class="column1">x</td>
+												<td class="column2">float64</td>
+												<td class="column3">None</td>
+												<td class="column4">no</td>
+												<td class="column5">x value for float service SrFloatFloatString request 1</td>
+											</tr>
+											<tr>
+												<td class="column1">y</td>
+												<td class="column2">float32</td>
+												<td class="column3">None</td>
+												<td class="column4">no</td>
+												<td class="column5">y value for float service SrFloatFloatString request 2</td>
+											</tr>
+											<tr>
+											<td colspan="5" class="column1">Response</td>
+											</tr>
+											<tr>
+												<td class="column1">z</td>
+												<td class="column2">string</td>
+												<td class="column3">None</td>
+												<td class="column4">no</td>
+												<td class="column5">z value for string service SrFloatFloatString response</td>
+											</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+<div class="clear"></div>
+<div class="gradient"></div>
+<!--
+		Actions
+-->
+<div class="whiteTitle">
+<h2>Action Messages</h2>
+</div>
+<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<h3>ACTION: Increase</h3>
+</div>
+<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<p>Action for enabling counters</p>
+</div>
+
+<div class="gradient">
+			<div class="srv">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Increase Objects</caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Name</th>
+											<th class="column2">Type</th>
+											<th class="column3">Default</th>
+											<th class="column4">Package</th>
+											<th class="column5">Description</th>
+										</tr>
+									</thead>
+									<tbody>
+											<tr>
+											<td colspan="5" class="column1">Goal</td>
+											</tr>
+											<tr>
+												<td class="column1">start</td>
+												<td class="column2">int64</td>
+												<td class="column3">None</td>
+												<td class="column4">no</td>
+												<td class="column5">a value for start value</td>
+											</tr>
+											<tr>
+												<td class="column1">goal</td>
+												<td class="column2">int64</td>
+												<td class="column3">None</td>
+												<td class="column4">no</td>
+												<td class="column5">a value for goal value</td>
+											</tr>
+											<tr>
+											<td colspan="5" class="column1">Result</td>
+											</tr>
+											<tr>
+												<td class="column1">a</td>
+												<td class="column2">int64</td>
+												<td class="column3">None</td>
+												<td class="column4">no</td>
+												<td class="column5">a value for result trigger</td>
+											</tr>
+											<tr>
+											<td colspan="5" class="column1">Feedback</td>
+											</tr>
+											<tr>
+												<td class="column1">update</td>
+												<td class="column2">int64</td>
+												<td class="column3">None</td>
+												<td class="column4">no</td>
+												<td class="column5">a value for feedback</td>
+											</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+<div class="clear"></div>
+
+</div>
+</body>
+</html>
