@@ -11,6 +11,7 @@
 # $ . install/setup.bash
 # $ ros2 run [package_name] [node_name]_exec
 
+from weasyprint import HTML
 from pyecore.resources import ResourceSet, URI, global_registry
 from pyecore.resources.json import JsonResource
 from pyecore.ecore import EClass, EAttribute
@@ -262,6 +263,8 @@ with open(dest, 'w') as f:
 	
 	# Fire up the rendering proccess
 	output = template.render(allmsg = allmsg, allsrv = allsrv, allactions = allactions)
+	# Build the pdf of the Documentation
+	HTML(string=output).write_pdf("interfaces/documentation/report.pdf", stylesheets=["../../templates/temp_pdf.css"])
 	
 	# Write the generated file
 	dest='interfaces/documentation/documentation.html'
@@ -754,6 +757,9 @@ for package in model_root.hasPackages:
 	# Fire up the rendering proccess
 	output = template.render(pack=pack_data, allmsg = allmsg, allnodes = allnodes)
 	os.system('mkdir documentation')
+	
+	# Build the pdf of the Documentation
+	HTML(string=output).write_pdf("documentation/report.pdf", stylesheets=["../../../templates/temp_pdf.css"])
 	
 	# Write the generated file
 	dest='documentation/documentation.html'

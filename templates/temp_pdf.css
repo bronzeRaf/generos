@@ -1,0 +1,175 @@
+{# 
+#This is a jinja2 template of a ROS2 Node
+#
+# Written in 13/4/2020
+# Written by Rafael Brouzos
+#}
+@font-face {
+  font-family: OpenSans-Regular;
+  src: url('../fonts/OpenSans/OpenSans-Regular.ttf'); 
+}
+
+/*//////////////////////////////////////////////////////////////////
+[ RESTYLE TAG ]*/
+* {
+	margin: 0px; 
+	padding: 0px; 
+	box-sizing: border-box;
+}
+
+body, html {
+	height: 100%;
+	font-family: sans-serif;
+}
+
+/* ------------------------------------ */
+a {
+	margin: 0px;
+	transition: all 0.4s;
+	-webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+}
+
+/* ------------------------------------ */
+h1,h2,h3,h4,h5,h6 {margin: 2px; color: #36304a}
+
+p {margin: 0px; color: #36304a;}
+
+ul, li {
+	margin: 0px;
+	list-style-type: none;
+}
+
+/* [ Table ]*/
+.container-table100 {
+  width: 80%;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 20px;
+}
+.maincontainer {
+  width: 100%;
+  background: #e7ebee;
+  align-items: center;
+  justify-content: center;
+  padding: 2% 10%;
+}
+.gradient {
+  width: 70%;
+  background: #e7ebee;
+  border-bottom: 3px solid #dfe1e6;
+  align-items: center;
+  justify-content: center;
+  padding-top: 60px;
+}
+.gradient1 {
+  width: 100%;
+  background: #e7ebee;
+  border-bottom: 3px solid #dfe1e6;
+  align-items: left;
+  justify-content: left;
+  padding-top: 60px;
+}
+.whiteTitle {
+  width: 100%;
+  background: #e7ebee;
+  color: #36304a;
+
+  align-items: left;
+  justify-content: left;
+  padding-top: 40px;
+  font-size: 15px
+}
+.wrap-table100 {
+  min-width: 500px;
+}
+table {
+  border-spacing: 1;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+table * {
+  position: relative;
+}
+table td, table th {
+  padding-left: 8px;
+}
+table thead tr {
+  height: 60px;
+  background: #36304a;
+}
+table tbody tr {
+  height: 50px;
+}
+table tbody tr:last-child {
+  border: 0;
+}
+table td, table th {
+  text-align: left;
+}
+table td.l, table th.l {
+  text-align: right;
+}
+table td.c, table th.c {
+  text-align: center;
+}
+table td.r, table th.r {
+  text-align: center;
+}
+.table100-head th{
+  font-family: OpenSans-Regular;
+  font-size: 14px;
+  color: #fff;
+  background:#36304a;
+  line-height: 1.2;
+  font-weight: unset;
+}
+.tabletop{
+  font-family: OpenSans-Regular;
+  font-size: 14px;
+  color: #36304a;
+  line-height: 1.2;
+  font-weight: unset;
+  margin-bottom: 8px;
+}
+tbody tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+tbody tr {
+  font-family: OpenSans-Regular;
+  font-size: 15px;
+  color: #808080;
+  line-height: 1.2;
+  font-weight: unset;
+}
+tbody tr:hover {
+  color: #555555;
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+.column1 {
+  width: auto;
+  padding-left: 10px;
+}
+.column2 {
+  width: auto;
+}
+.column3 {
+  width: auto;
+}
+.column4 {
+  width: auto;
+}
+.column5 {
+  width: auto;
+}
+.column6 {
+  width: auto;
+  padding-right: 10px;
+}
