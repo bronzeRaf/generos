@@ -4,6 +4,11 @@
 # Written in 13/4/2020
 # Written by Rafael Brouzos
 #}
+
+from rclpy.qos import QoSDurabilityPolicy, QoSHistoryPolicy, QoSReliabilityPolicy
+from rclpy.qos import QoSProfile
+
+
 {% if action_servers is defined and action_servers|length %}
 # Imports for Action Servers
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
@@ -60,7 +65,7 @@ class {{node.name}}_class(Node):
 	
 	# Constructor function of the node
 	def __init__(self):
-		super().__init__('{{node.name}}'{%if not node.namespace == None%}, namespace = '{{node.namespace}}'{%endif%})
+		super().__init__('{{node.name}}'{%if not node.namespace == None%}, namespace = '{{node.namespace}}'{%endif%})		
 		# Params
 		#____________________________________________
 		{%for p in params %}
@@ -78,7 +83,16 @@ class {{node.name}}_class(Node):
 		#____________________________________________
 		{%for p in publishers %}
 		# {{p.name}}
-		self.publisher_{{p.name}} = self.create_publisher({{p.type}}, '{{p.topicPath}}', {{p.qos}})
+		# Qos profile
+		qos_profile = QoSProfile()
+		qos_profile.history = QoSHistoryPolicy.{{p.profile.history}}
+		qos_profile.durability = QoSDurabilityPolicy.{{p.profile.durability}}
+		qos_profile.reliability = QoSReliabilityPolicy.{{p.profile.reliability}}
+		qos_profile.depth ={{p.profile.depth}}
+		
+		
+		
+		self.publisher_{{p.name}} = self.create_publisher({{p.type}}, '{{p.topicPath}}', qos_profile = qos_profile)
 		self.timer_{{p.name}} = self.create_timer({{p.publishRate}}, self.publisher_call_{{p.name}})
 		self.i = 0
 		#_____
@@ -88,7 +102,16 @@ class {{node.name}}_class(Node):
 		#____________________________________________
 		{%for s in subscribers %}
 		# {{s.name}}
-		self.subscriber_{{s.name}} = self.create_subscription({{s.type}}, '{{s.topicPath}}', self.subscriber_call_{{s.name}}, {{s.qos}})
+		# Qos profile
+		qos_profile = QoSProfile()
+		qos_profile.history = QoSHistoryPolicy.{{s.profile.history}}
+		qos_profile.durability = QoSDurabilityPolicy.{{s.profile.durability}}
+		qos_profile.reliability = QoSReliabilityPolicy.{{s.profile.reliability}}
+		qos_profile.depth ={{s.profile.depth}}
+		
+		
+		
+		self.subscriber_{{s.name}} = self.create_subscription({{s.type}}, '{{s.topicPath}}', self.subscriber_call_{{s.name}}, qos_profile = qos_profile)
 		self.subscriber_{{s.name}}
 		#_____
 		{%endfor%}
@@ -151,10 +174,11 @@ class {{node.name}}_class(Node):
 		
 		{% if p.type == "ValueInt" %}
 		msg.x = self.i
-		{% endif %}
+		
 		
 		self.publisher_{{p.name}}.publish(msg)
 		self.get_logger().info('Publishing: "%s"' % msg.x)
+		{% endif %}
 		self.i += 1
 	#_____
 	{%endfor%}

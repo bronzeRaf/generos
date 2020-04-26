@@ -1,3 +1,8 @@
+
+from rclpy.qos import QoSDurabilityPolicy, QoSHistoryPolicy, QoSReliabilityPolicy
+from rclpy.qos import QoSProfile
+
+
 # Imports for Action Servers
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
 import rclpy
@@ -20,7 +25,7 @@ class node1_class(Node):
 	
 	# Constructor function of the node
 	def __init__(self):
-		super().__init__('node1', namespace = 'name/space')
+		super().__init__('node1')		
 		# Params
 		#____________________________________________
 		# p1  -  int32
@@ -35,12 +40,30 @@ class node1_class(Node):
 		# Publishers
 		#____________________________________________
 		# publy3
-		self.publisher_publy3 = self.create_publisher(Header, 'topic/path3', 10)
+		# Qos profile
+		qos_profile = QoSProfile()
+		qos_profile.history = QoSHistoryPolicy.SYSTEM_DEFAULT
+		qos_profile.durability = QoSDurabilityPolicy.SYSTEM_DEFAULT
+		qos_profile.reliability = QoSReliabilityPolicy.SYSTEM_DEFAULT
+		qos_profile.depth =0
+		
+		
+		
+		self.publisher_publy3 = self.create_publisher(Header, 'topic/path3', qos_profile = qos_profile)
 		self.timer_publy3 = self.create_timer(12.0, self.publisher_call_publy3)
 		self.i = 0
 		#_____
 		# publy2
-		self.publisher_publy2 = self.create_publisher(ValueInt, 'topic/path2', 10)
+		# Qos profile
+		qos_profile = QoSProfile()
+		qos_profile.history = QoSHistoryPolicy.KEEP_ALL
+		qos_profile.durability = QoSDurabilityPolicy.TRANSIENT_LOCAL
+		qos_profile.reliability = QoSReliabilityPolicy.RELIABLE
+		qos_profile.depth =10
+		
+		
+		
+		self.publisher_publy2 = self.create_publisher(ValueInt, 'topic/path2', qos_profile = qos_profile)
 		self.timer_publy2 = self.create_timer(8.0, self.publisher_call_publy2)
 		self.i = 0
 		#_____
@@ -86,9 +109,6 @@ class node1_class(Node):
 		# Message after calculactions should be stored in
 		
 		
-		
-		self.publisher_publy3.publish(msg)
-		self.get_logger().info('Publishing: "%s"' % msg.x)
 		self.i += 1
 	#_____
 	# This is the callback of the publisher publy2. 
@@ -106,6 +126,7 @@ class node1_class(Node):
 		
 		
 		msg.x = self.i
+		
 		
 		self.publisher_publy2.publish(msg)
 		self.get_logger().info('Publishing: "%s"' % msg.x)

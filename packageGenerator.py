@@ -495,6 +495,22 @@ for package in model_root.hasPackages:
 			sub['name'] = s.name
 			sub['topicPath'] = s.topicPath
 			sub['qos'] = 10
+			# Add QoS profile
+			if s.qosprofile.__class__.__name__=="CustomQosProfile":
+				profile = {}
+				profile['history'] = s.qosprofile.history
+				profile['reliability'] = s.qosprofile.reliability
+				profile['durability'] = s.qosprofile.durability
+				profile['depth'] = s.qosprofile.depth
+				sub['profile'] = profile
+			else:
+				profile = {}
+				profile['history'] = "SYSTEM_DEFAULT"
+				profile['reliability'] = "SYSTEM_DEFAULT"
+				profile['durability'] = "SYSTEM_DEFAULT"
+				profile['depth'] = 0
+				sub['profile'] = profile
+			# Add msg objects
 			if s.smsg.name in types:
 				sub['unique'] = 0
 			else:
@@ -527,6 +543,22 @@ for package in model_root.hasPackages:
 			pub['topicPath'] = p.topicPath
 			pub['publishRate'] = p.publishRate
 			pub['qos'] = 10
+			# Add QoS profile
+			if p.qosprofile.__class__.__name__=="CustomQosProfile":
+				profile = {}
+				profile['history'] = p.qosprofile.history
+				profile['reliability'] = p.qosprofile.reliability
+				profile['durability'] = p.qosprofile.durability
+				profile['depth'] = p.qosprofile.depth
+				pub['profile'] = profile
+			else:
+				profile = {}
+				profile['history'] = "SYSTEM_DEFAULT"
+				profile['reliability'] = "SYSTEM_DEFAULT"
+				profile['durability'] = "SYSTEM_DEFAULT"
+				profile['depth'] = 0
+				pub['profile'] = profile
+			# Add msg objects
 			if p.pmsg.name in types:
 				pub['unique'] = 0
 			else:
@@ -561,6 +593,22 @@ for package in model_root.hasPackages:
 			ser['name'] = s.name
 			ser['servicePath'] = s.servicePath
 			ser['serviceName'] = s.serviceName
+			# Add QoS profile
+			if s.qosprofile.__class__.__name__=="CustomQosProfile":
+				profile = {}
+				profile['history'] = s.qosprofile.history
+				profile['reliability'] = s.qosprofile.reliability
+				profile['durability'] = s.qosprofile.durability
+				profile['depth'] = s.qosprofile.depth
+				ser['profile'] = profile
+			else:
+				profile = {}
+				profile['history'] = "SYSTEM_DEFAULT"
+				profile['reliability'] = "SYSTEM_DEFAULT"
+				profile['durability'] = "SYSTEM_DEFAULT"
+				profile['depth'] = 0
+				ser['profile'] = profile
+			# Add srv objects
 			if s.servicemessage.name in types:
 				ser['unique'] = 0
 			else:
@@ -590,6 +638,7 @@ for package in model_root.hasPackages:
 				#TODO append the Ros service parameters
 			ser['requests'] = srequestObj
 			ser['responses'] = sresponseObj
+			
 			servers.append(ser)
 		node_data['servers'] = servers
 		
@@ -600,7 +649,22 @@ for package in model_root.hasPackages:
 			cli['name'] = c.name
 			cli['servicePath'] = c.servicePath
 			cli['serviceName'] = c.serviceName
-			
+			# Add QoS profile
+			if c.qosprofile.__class__.__name__=="CustomQosProfile":
+				profile = {}
+				profile['history'] = c.qosprofile.history
+				profile['reliability'] = c.qosprofile.reliability
+				profile['durability'] = c.qosprofile.durability
+				profile['depth'] = c.qosprofile.depth
+				cli['profile'] = profile
+			else:
+				profile = {}
+				profile['history'] = "SYSTEM_DEFAULT"
+				profile['reliability'] = "SYSTEM_DEFAULT"
+				profile['durability'] = "SYSTEM_DEFAULT"
+				profile['depth'] = 0
+				cli['profile'] = profile
+			# Add srv objects
 			if c.servicemessage.name in types:
 				cli['unique'] = 0
 			else:

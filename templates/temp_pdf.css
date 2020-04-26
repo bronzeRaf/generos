@@ -50,14 +50,14 @@ ul, li {
 }
 .maincontainer {
   width: 100%;
-  background: #e7ebee;
+  background: #fff;
   align-items: center;
   justify-content: center;
   padding: 2% 10%;
 }
 .gradient {
   width: 70%;
-  background: #e7ebee;
+  background: #fff;
   border-bottom: 3px solid #dfe1e6;
   align-items: center;
   justify-content: center;
@@ -65,7 +65,7 @@ ul, li {
 }
 .gradient1 {
   width: 100%;
-  background: #e7ebee;
+  background: #fff;
   border-bottom: 3px solid #dfe1e6;
   align-items: left;
   justify-content: left;
@@ -73,7 +73,7 @@ ul, li {
 }
 .whiteTitle {
   width: 100%;
-  background: #e7ebee;
+  background: #fff;
   color: #36304a;
 
   align-items: left;
@@ -152,6 +152,12 @@ tbody tr:hover {
   color: #555555;
   background-color: #f5f5f5;
   cursor: pointer;
+}
+.fcolumn {
+  width: auto;
+  padding-left: 10px;
+  text-align: left;
+  font-weight: bold;
 }
 .column1 {
   width: auto;

@@ -1,3 +1,8 @@
+
+from rclpy.qos import QoSDurabilityPolicy, QoSHistoryPolicy, QoSReliabilityPolicy
+from rclpy.qos import QoSProfile
+
+
 # Imports for Action Clients
 from rclpy.action import ActionClient
 from action_msgs.msg import GoalStatus
@@ -21,7 +26,7 @@ class node2_class(Node):
 	
 	# Constructor function of the node
 	def __init__(self):
-		super().__init__('node2')
+		super().__init__('node2')		
 		# Params
 		#____________________________________________
 		
@@ -32,7 +37,16 @@ class node2_class(Node):
 		# Subscribers
 		#____________________________________________
 		# suby2
-		self.subscriber_suby2 = self.create_subscription(ValueInt, 'topic/path2', self.subscriber_call_suby2, 10)
+		# Qos profile
+		qos_profile = QoSProfile()
+		qos_profile.history = QoSHistoryPolicy.KEEP_ALL
+		qos_profile.durability = QoSDurabilityPolicy.TRANSIENT_LOCAL
+		qos_profile.reliability = QoSReliabilityPolicy.RELIABLE
+		qos_profile.depth =10
+		
+		
+		
+		self.subscriber_suby2 = self.create_subscription(ValueInt, 'topic/path2', self.subscriber_call_suby2, qos_profile = qos_profile)
 		self.subscriber_suby2
 		#_____
 		

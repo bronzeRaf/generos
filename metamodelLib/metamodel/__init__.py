@@ -1,13 +1,13 @@
 
 from .metamodel import getEClassifier, eClassifiers
 from .metamodel import name, nsURI, nsPrefix, eClass
-from .metamodel import Client, Node, Subscriber, Publisher, Server, Parameter, Package, Dependency, Documentation, DataTypes, Graph, Topic, ServiceLink, CustomService, Request, Response, CustomMessage, ROSSystem, Topology, Platform, LocalNetwork, Host, ActionServer, ActionClient, ROSVersion, AritectureTypes, OSType, NetworkInterface, ObjectProperty, Datatype, Bool, String, Number, Int, Uint, Float, UIntType, IntType, FloatType, ROSData, Array, UintArray, FloatArray, IntArray, IntArrayType, UIntArrayType, FloatArrayType, Enumeration, Element, TopicMessage, RosMessage, ServiceMessage, RosService, ActionInterface, CustomActionInterface, Goal, Result, Feedback
+from .metamodel import Client, Node, Subscriber, Publisher, Server, Parameter, Package, Dependency, Documentation, DataTypes, Graph, Topic, ServiceLink, CustomService, Request, Response, CustomMessage, ROSSystem, Topology, Platform, LocalNetwork, Host, ActionServer, ActionClient, ROSVersion, AritectureTypes, OSType, NetworkInterface, ObjectProperty, Datatype, Bool, String, Number, Int, Uint, Float, UIntType, IntType, FloatType, ROSData, Array, UintArray, FloatArray, IntArray, IntArrayType, UIntArrayType, FloatArrayType, Enumeration, Element, TopicMessage, RosMessage, ServiceMessage, RosService, ActionInterface, CustomActionInterface, Goal, Result, Feedback, CustomQosProfile, QosHistory, QosReliability, QosDurability, QosProfile, RosQosProfile, NewEnum14
 
 
 from . import metamodel
 
-__all__ = ['Client', 'Node', 'Subscriber', 'Publisher', 'Server', 'Parameter', 'Package', 'Dependency', 'Documentation', 'DataTypes', 'Graph', 'Topic', 'ServiceLink', 'CustomService', 'Request', 'Response', 'CustomMessage', 'ROSSystem', 'Topology', 'Platform', 'LocalNetwork', 'Host', 'ActionServer', 'ActionClient', 'ROSVersion', 'AritectureTypes', 'OSType', 'NetworkInterface',
-           'ObjectProperty', 'Datatype', 'Bool', 'String', 'Number', 'Int', 'Uint', 'Float', 'UIntType', 'IntType', 'FloatType', 'ROSData', 'Array', 'UintArray', 'FloatArray', 'IntArray', 'IntArrayType', 'UIntArrayType', 'FloatArrayType', 'Enumeration', 'Element', 'TopicMessage', 'RosMessage', 'ServiceMessage', 'RosService', 'ActionInterface', 'CustomActionInterface', 'Goal', 'Result', 'Feedback']
+__all__ = ['Client', 'Node', 'Subscriber', 'Publisher', 'Server', 'Parameter', 'Package', 'Dependency', 'Documentation', 'DataTypes', 'Graph', 'Topic', 'ServiceLink', 'CustomService', 'Request', 'Response', 'CustomMessage', 'ROSSystem', 'Topology', 'Platform', 'LocalNetwork', 'Host', 'ActionServer', 'ActionClient', 'ROSVersion', 'AritectureTypes', 'OSType', 'NetworkInterface', 'ObjectProperty', 'Datatype', 'Bool', 'String', 'Number', 'Int',
+           'Uint', 'Float', 'UIntType', 'IntType', 'FloatType', 'ROSData', 'Array', 'UintArray', 'FloatArray', 'IntArray', 'IntArrayType', 'UIntArrayType', 'FloatArrayType', 'Enumeration', 'Element', 'TopicMessage', 'RosMessage', 'ServiceMessage', 'RosService', 'ActionInterface', 'CustomActionInterface', 'Goal', 'Result', 'Feedback', 'CustomQosProfile', 'QosHistory', 'QosReliability', 'QosDurability', 'QosProfile', 'RosQosProfile', 'NewEnum14']
 
 eSubpackages = []
 eSuperPackage = None
@@ -15,6 +15,7 @@ metamodel.eSubpackages = eSubpackages
 metamodel.eSuperPackage = eSuperPackage
 
 Client.servicemessage.eType = ServiceMessage
+Client.qosprofile.eType = CustomQosProfile
 Node.hasSubscribers.eType = Subscriber
 Node.hasPublishers.eType = Publisher
 Node.hasClients.eType = Client
@@ -23,8 +24,11 @@ Node.hasParameters.eType = Parameter
 Node.hasActionServers.eType = ActionServer
 Node.hasActionClients.eType = ActionClient
 Subscriber.smsg.eType = TopicMessage
+Subscriber.qosprofile.eType = CustomQosProfile
 Publisher.pmsg.eType = TopicMessage
+Publisher.qosprofile.eType = CustomQosProfile
 Server.servicemessage.eType = ServiceMessage
+Server.qosprofile.eType = CustomQosProfile
 Package.hasDependencies.eType = Dependency
 Package.hasNodes.eType = Node
 Package.hasDocumentation.eType = Documentation
@@ -48,6 +52,7 @@ ROSSystem.hasGraphs.eType = Graph
 ROSSystem.hasCustomMessages.eType = CustomMessage
 ROSSystem.hasCustomServices.eType = CustomService
 ROSSystem.hasCustomActionInterfaces.eType = CustomActionInterface
+ROSSystem.hasCustomQosProfiles.eType = CustomQosProfile
 Topology.hasPlatforms.eType = Platform
 Topology.network.eType = LocalNetwork
 Platform.hasHost.eType = Host
@@ -63,8 +68,8 @@ Goal.hasObjectProperties.eType = ObjectProperty
 Result.hasObjectProperties.eType = ObjectProperty
 Feedback.hasObjectProperties.eType = ObjectProperty
 
-otherClassifiers = [DataTypes, ROSVersion, AritectureTypes, OSType, UIntType,
-                    IntType, FloatType, IntArrayType, UIntArrayType, FloatArrayType]
+otherClassifiers = [DataTypes, ROSVersion, AritectureTypes, OSType, UIntType, IntType, FloatType,
+                    IntArrayType, UIntArrayType, FloatArrayType, QosHistory, QosReliability, QosDurability, NewEnum14]
 
 for classif in otherClassifiers:
     eClassifiers[classif.name] = classif

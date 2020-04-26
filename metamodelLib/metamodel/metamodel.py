@@ -33,6 +33,14 @@ UIntArrayType = EEnum('UIntArrayType', literals=['uint8[]', 'uint16[]', 'uint32[
 
 FloatArrayType = EEnum('FloatArrayType', literals=['float32[]', 'float64[]'])
 
+QosHistory = EEnum('QosHistory', literals=['SYSTEM_DEFAULT', 'KEEP_LAST', 'KEEP_ALL'])
+
+QosReliability = EEnum('QosReliability', literals=['SYSTEM_DEFAULT', 'RELIABLE', 'BEST_EFFORT'])
+
+QosDurability = EEnum('QosDurability', literals=['SYSTEM_DEFAULT', 'TRANSIENT_LOCAL', 'VOLATILE'])
+
+NewEnum14 = EEnum('NewEnum14', literals=[])
+
 
 class Client(EObject, metaclass=MetaEClass):
 
@@ -40,8 +48,9 @@ class Client(EObject, metaclass=MetaEClass):
     servicePath = EAttribute(eType=EString, derived=False, changeable=True)
     serviceName = EAttribute(eType=EString, derived=False, changeable=True)
     servicemessage = EReference(ordered=True, unique=True, containment=False)
+    qosprofile = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, name=None, servicePath=None, serviceName=None, servicemessage=None, **kwargs):
+    def __init__(self, *, name=None, servicePath=None, serviceName=None, servicemessage=None, qosprofile=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -58,6 +67,9 @@ class Client(EObject, metaclass=MetaEClass):
 
         if servicemessage is not None:
             self.servicemessage = servicemessage
+
+        if qosprofile is not None:
+            self.qosprofile = qosprofile
 
 
 class Node(EObject, metaclass=MetaEClass):
@@ -111,8 +123,9 @@ class Subscriber(EObject, metaclass=MetaEClass):
     name = EAttribute(eType=EString, derived=False, changeable=True)
     topicPath = EAttribute(eType=EString, derived=False, changeable=True)
     smsg = EReference(ordered=True, unique=True, containment=False)
+    qosprofile = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, name=None, topicPath=None, smsg=None, **kwargs):
+    def __init__(self, *, name=None, topicPath=None, smsg=None, qosprofile=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -127,6 +140,9 @@ class Subscriber(EObject, metaclass=MetaEClass):
         if smsg is not None:
             self.smsg = smsg
 
+        if qosprofile is not None:
+            self.qosprofile = qosprofile
+
 
 class Publisher(EObject, metaclass=MetaEClass):
 
@@ -134,8 +150,9 @@ class Publisher(EObject, metaclass=MetaEClass):
     topicPath = EAttribute(eType=EString, derived=False, changeable=True)
     publishRate = EAttribute(eType=EFloat, derived=False, changeable=True)
     pmsg = EReference(ordered=True, unique=True, containment=False)
+    qosprofile = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, name=None, topicPath=None, publishRate=None, pmsg=None, **kwargs):
+    def __init__(self, *, name=None, topicPath=None, publishRate=None, pmsg=None, qosprofile=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -153,6 +170,9 @@ class Publisher(EObject, metaclass=MetaEClass):
         if pmsg is not None:
             self.pmsg = pmsg
 
+        if qosprofile is not None:
+            self.qosprofile = qosprofile
+
 
 class Server(EObject, metaclass=MetaEClass):
 
@@ -160,8 +180,9 @@ class Server(EObject, metaclass=MetaEClass):
     servicePath = EAttribute(eType=EString, derived=False, changeable=True)
     serviceName = EAttribute(eType=EString, derived=False, changeable=True)
     servicemessage = EReference(ordered=True, unique=True, containment=False)
+    qosprofile = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, name=None, servicePath=None, serviceName=None, servicemessage=None, **kwargs):
+    def __init__(self, *, name=None, servicePath=None, serviceName=None, servicemessage=None, qosprofile=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -178,6 +199,9 @@ class Server(EObject, metaclass=MetaEClass):
 
         if servicemessage is not None:
             self.servicemessage = servicemessage
+
+        if qosprofile is not None:
+            self.qosprofile = qosprofile
 
 
 class Parameter(EObject, metaclass=MetaEClass):
@@ -365,8 +389,9 @@ class ROSSystem(EObject, metaclass=MetaEClass):
     hasCustomMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasCustomServices = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasCustomActionInterfaces = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    hasCustomQosProfiles = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, topology=None, hasPackages=None, hasGraphs=None, name=None, hasCustomMessages=None, hasCustomServices=None, hasCustomActionInterfaces=None, **kwargs):
+    def __init__(self, *, topology=None, hasPackages=None, hasGraphs=None, name=None, hasCustomMessages=None, hasCustomServices=None, hasCustomActionInterfaces=None, hasCustomQosProfiles=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -392,6 +417,9 @@ class ROSSystem(EObject, metaclass=MetaEClass):
 
         if hasCustomActionInterfaces:
             self.hasCustomActionInterfaces.extend(hasCustomActionInterfaces)
+
+        if hasCustomQosProfiles:
+            self.hasCustomQosProfiles.extend(hasCustomQosProfiles)
 
 
 class Topology(EObject, metaclass=MetaEClass):
@@ -693,6 +721,42 @@ class Feedback(EObject, metaclass=MetaEClass):
             self.hasObjectProperties.extend(hasObjectProperties)
 
 
+class CustomQosProfile(EObject, metaclass=MetaEClass):
+
+    history = EAttribute(eType=QosHistory, derived=False, changeable=True)
+    depth = EAttribute(eType=EInt, derived=False, changeable=True)
+    reliability = EAttribute(eType=QosReliability, derived=False, changeable=True)
+    durability = EAttribute(eType=QosDurability, derived=False, changeable=True)
+
+    def __init__(self, *, history=None, depth=None, reliability=None, durability=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if history is not None:
+            self.history = history
+
+        if depth is not None:
+            self.depth = depth
+
+        if reliability is not None:
+            self.reliability = reliability
+
+        if durability is not None:
+            self.durability = durability
+
+
+@abstract
+class QosProfile(EObject, metaclass=MetaEClass):
+
+    def __init__(self, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+
 class CustomService(ServiceMessage):
 
     description = EAttribute(eType=EString, derived=False, changeable=True)
@@ -847,6 +911,13 @@ class CustomActionInterface(ActionInterface):
 
         if hasFeedback is not None:
             self.hasFeedback = hasFeedback
+
+
+class RosQosProfile(QosProfile):
+
+    def __init__(self, **kwargs):
+
+        super().__init__(**kwargs)
 
 
 class Int(Number):

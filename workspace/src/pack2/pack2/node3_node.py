@@ -1,3 +1,8 @@
+
+from rclpy.qos import QoSDurabilityPolicy, QoSHistoryPolicy, QoSReliabilityPolicy
+from rclpy.qos import QoSProfile
+
+
 import rclpy
 from rclpy.node import Node
 import sys
@@ -14,7 +19,7 @@ class node3_class(Node):
 	
 	# Constructor function of the node
 	def __init__(self):
-		super().__init__('node3')
+		super().__init__('node3')		
 		# Params
 		#____________________________________________
 		
@@ -25,7 +30,16 @@ class node3_class(Node):
 		# Subscribers
 		#____________________________________________
 		# suby3
-		self.subscriber_suby3 = self.create_subscription(Header, 'topic/path3', self.subscriber_call_suby3, 10)
+		# Qos profile
+		qos_profile = QoSProfile()
+		qos_profile.history = QoSHistoryPolicy.SYSTEM_DEFAULT
+		qos_profile.durability = QoSDurabilityPolicy.SYSTEM_DEFAULT
+		qos_profile.reliability = QoSReliabilityPolicy.SYSTEM_DEFAULT
+		qos_profile.depth =0
+		
+		
+		
+		self.subscriber_suby3 = self.create_subscription(Header, 'topic/path3', self.subscriber_call_suby3, qos_profile = qos_profile)
 		self.subscriber_suby3
 		#_____
 		

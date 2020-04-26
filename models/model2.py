@@ -21,7 +21,7 @@ rosystem1.name = "My_first_ROS_system2"
 package1 = metamodel.Package(name = "pack1", rosVersion = 0, packagePath = "path to pack1")
 package2 = metamodel.Package(name = "pack2", rosVersion = 0, packagePath = "path to pack2")
 #set nodes
-node1 = metamodel.Node(name="node1", namespace = "name/space")
+node1 = metamodel.Node(name="node1")
 node2 = metamodel.Node(name="node2")
 node3 = metamodel.Node(name="node3")
 #set publishers
@@ -146,6 +146,13 @@ actionclient1.actioninterface=action1
 node1.hasActionServers.extend([actionserver1])				#0..*	node-action server
 node2.hasActionClients.extend([actionclient1])				#0..*	node-action client
 
+
+
+#QoS Profiles
+qos1 = metamodel.CustomQosProfile(history = metamodel.QosHistory.KEEP_ALL, depth = 10, reliability = metamodel.QosReliability.RELIABLE, durability = metamodel.QosDurability.TRANSIENT_LOCAL)
+rosystem1.hasCustomQosProfiles.extend([qos1])
+publisher2.qosprofile = qos1
+subscriber2.qosprofile = qos1
 
 
 #apply compositions
