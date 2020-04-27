@@ -39,7 +39,11 @@ QosReliability = EEnum('QosReliability', literals=['SYSTEM_DEFAULT', 'RELIABLE',
 
 QosDurability = EEnum('QosDurability', literals=['SYSTEM_DEFAULT', 'TRANSIENT_LOCAL', 'VOLATILE'])
 
-NewEnum14 = EEnum('NewEnum14', literals=[])
+QosLiveliness = EEnum('QosLiveliness', literals=[
+                      'SYSTEM_DEFAULT', 'AUTOMATIC', 'MANUAL_BY_NODE', 'MANUAL_BY_TOPIC'])
+
+QosPresetProfiles = EEnum('QosPresetProfiles', literals=[
+                          'SYSTEM_DEFAULT', 'SERVICES_DEFAULT', 'SENSOR_DATA', 'PARAMETER_EVENTS', 'PARAMETERS', 'ACTION_STATUS_DEFAULT'])
 
 
 class Client(EObject, metaclass=MetaEClass):
@@ -236,8 +240,9 @@ class Package(EObject, metaclass=MetaEClass):
     hasDocumentation = EReference(ordered=True, unique=True, containment=True)
     hasRosMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasRosServices = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    hasRosQosProfiles = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, hasDependencies=None, hasNodes=None, hasDocumentation=None, name=None, rosVersion=None, packagePath=None, hasRosMessages=None, hasRosServices=None, **kwargs):
+    def __init__(self, *, hasDependencies=None, hasNodes=None, hasDocumentation=None, name=None, rosVersion=None, packagePath=None, hasRosMessages=None, hasRosServices=None, hasRosQosProfiles=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -266,6 +271,9 @@ class Package(EObject, metaclass=MetaEClass):
 
         if hasRosServices:
             self.hasRosServices.extend(hasRosServices)
+
+        if hasRosQosProfiles:
+            self.hasRosQosProfiles.extend(hasRosQosProfiles)
 
 
 class Dependency(EObject, metaclass=MetaEClass):
@@ -721,32 +729,6 @@ class Feedback(EObject, metaclass=MetaEClass):
             self.hasObjectProperties.extend(hasObjectProperties)
 
 
-class CustomQosProfile(EObject, metaclass=MetaEClass):
-
-    history = EAttribute(eType=QosHistory, derived=False, changeable=True)
-    depth = EAttribute(eType=EInt, derived=False, changeable=True)
-    reliability = EAttribute(eType=QosReliability, derived=False, changeable=True)
-    durability = EAttribute(eType=QosDurability, derived=False, changeable=True)
-
-    def __init__(self, *, history=None, depth=None, reliability=None, durability=None, **kwargs):
-        if kwargs:
-            raise AttributeError('unexpected arguments: {}'.format(kwargs))
-
-        super().__init__()
-
-        if history is not None:
-            self.history = history
-
-        if depth is not None:
-            self.depth = depth
-
-        if reliability is not None:
-            self.reliability = reliability
-
-        if durability is not None:
-            self.durability = durability
-
-
 @abstract
 class QosProfile(EObject, metaclass=MetaEClass):
 
@@ -913,11 +895,72 @@ class CustomActionInterface(ActionInterface):
             self.hasFeedback = hasFeedback
 
 
-class RosQosProfile(QosProfile):
+class CustomQosProfile(QosProfile):
 
-    def __init__(self, **kwargs):
+    history = EAttribute(eType=QosHistory, derived=False, changeable=True)
+    depth = EAttribute(eType=EInt, derived=False, changeable=True)
+    reliability = EAttribute(eType=QosReliability, derived=False, changeable=True)
+    durability = EAttribute(eType=QosDurability, derived=False, changeable=True)
+    liveliness = EAttribute(eType=QosLiveliness, derived=False, changeable=True)
+    deadlineSec = EAttribute(eType=EInt, derived=False, changeable=True)
+    deadlineNSec = EAttribute(eType=EInt, derived=False, changeable=True)
+    lifespanSec = EAttribute(eType=EInt, derived=False, changeable=True)
+    lifespanNSec = EAttribute(eType=EInt, derived=False, changeable=True)
+    liveliness_lease_durationSec = EAttribute(eType=EInt, derived=False, changeable=True)
+    liveliness_lease_durationNSec = EAttribute(eType=EInt, derived=False, changeable=True)
+    avoid_ros_namespace_conventions = EAttribute(eType=EBoolean, derived=False, changeable=True)
+
+    def __init__(self, *, history=None, depth=None, reliability=None, durability=None, liveliness=None, deadlineSec=None, deadlineNSec=None, lifespanSec=None, lifespanNSec=None, liveliness_lease_durationSec=None, liveliness_lease_durationNSec=None, avoid_ros_namespace_conventions=None, **kwargs):
 
         super().__init__(**kwargs)
+
+        if history is not None:
+            self.history = history
+
+        if depth is not None:
+            self.depth = depth
+
+        if reliability is not None:
+            self.reliability = reliability
+
+        if durability is not None:
+            self.durability = durability
+
+        if liveliness is not None:
+            self.liveliness = liveliness
+
+        if deadlineSec is not None:
+            self.deadlineSec = deadlineSec
+
+        if deadlineNSec is not None:
+            self.deadlineNSec = deadlineNSec
+
+        if lifespanSec is not None:
+            self.lifespanSec = lifespanSec
+
+        if lifespanNSec is not None:
+            self.lifespanNSec = lifespanNSec
+
+        if liveliness_lease_durationSec is not None:
+            self.liveliness_lease_durationSec = liveliness_lease_durationSec
+
+        if liveliness_lease_durationNSec is not None:
+            self.liveliness_lease_durationNSec = liveliness_lease_durationNSec
+
+        if avoid_ros_namespace_conventions is not None:
+            self.avoid_ros_namespace_conventions = avoid_ros_namespace_conventions
+
+
+class RosQosProfile(QosProfile):
+
+    name = EAttribute(eType=QosPresetProfiles, derived=False, changeable=True)
+
+    def __init__(self, *, name=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if name is not None:
+            self.name = name
 
 
 class Int(Number):

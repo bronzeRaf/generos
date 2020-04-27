@@ -502,6 +502,14 @@ for package in model_root.hasPackages:
 				profile['reliability'] = s.qosprofile.reliability
 				profile['durability'] = s.qosprofile.durability
 				profile['depth'] = s.qosprofile.depth
+				profile['liveliness'] = s.qosprofile.liveliness
+				profile['deadlineSec'] = s.qosprofile.deadlineSec
+				profile['deadlineNSec'] = s.qosprofile.deadlineNSec
+				profile['lifespanSec'] = s.qosprofile.lifespanSec
+				profile['lifespanNSec'] = s.qosprofile.lifespanNSec
+				profile['liveliness_lease_durationSec'] = s.qosprofile.liveliness_lease_durationSec
+				profile['liveliness_lease_durationNSec'] = s.qosprofile.liveliness_lease_durationNSec
+				profile['avoid_ros_namespace_conventions'] = s.qosprofile.avoid_ros_namespace_conventions
 				sub['profile'] = profile
 			else:
 				profile = {}
@@ -509,6 +517,14 @@ for package in model_root.hasPackages:
 				profile['reliability'] = "SYSTEM_DEFAULT"
 				profile['durability'] = "SYSTEM_DEFAULT"
 				profile['depth'] = 0
+				profile['liveliness'] = "SYSTEM_DEFAULT"
+				profile['deadlineSec'] = 0
+				profile['deadlineNSec'] = 0
+				profile['lifespanSec'] = 0
+				profile['lifespanNSec'] = 0
+				profile['liveliness_lease_durationSec'] = 0
+				profile['liveliness_lease_durationNSec'] = 0
+				profile['avoid_ros_namespace_conventions'] = "false"
 				sub['profile'] = profile
 			# Add msg objects
 			if s.smsg.name in types:
@@ -550,6 +566,14 @@ for package in model_root.hasPackages:
 				profile['reliability'] = p.qosprofile.reliability
 				profile['durability'] = p.qosprofile.durability
 				profile['depth'] = p.qosprofile.depth
+				profile['liveliness'] = p.qosprofile.liveliness
+				profile['deadlineSec'] = p.qosprofile.deadlineSec
+				profile['deadlineNSec'] = p.qosprofile.deadlineNSec
+				profile['lifespanSec'] = p.qosprofile.lifespanSec
+				profile['lifespanNSec'] = p.qosprofile.lifespanNSec
+				profile['liveliness_lease_durationSec'] = p.qosprofile.liveliness_lease_durationSec
+				profile['liveliness_lease_durationNSec'] = p.qosprofile.liveliness_lease_durationNSec
+				profile['avoid_ros_namespace_conventions'] = p.qosprofile.avoid_ros_namespace_conventions
 				pub['profile'] = profile
 			else:
 				profile = {}
@@ -557,6 +581,14 @@ for package in model_root.hasPackages:
 				profile['reliability'] = "SYSTEM_DEFAULT"
 				profile['durability'] = "SYSTEM_DEFAULT"
 				profile['depth'] = 0
+				profile['liveliness'] = "SYSTEM_DEFAULT"
+				profile['deadlineSec'] = 0
+				profile['deadlineNSec'] = 0
+				profile['lifespanSec'] = 0
+				profile['lifespanNSec'] = 0
+				profile['liveliness_lease_durationSec'] = 0
+				profile['liveliness_lease_durationNSec'] = 0
+				profile['avoid_ros_namespace_conventions'] = "false"
 				pub['profile'] = profile
 			# Add msg objects
 			if p.pmsg.name in types:
@@ -600,6 +632,14 @@ for package in model_root.hasPackages:
 				profile['reliability'] = s.qosprofile.reliability
 				profile['durability'] = s.qosprofile.durability
 				profile['depth'] = s.qosprofile.depth
+				profile['liveliness'] = s.qosprofile.liveliness
+				profile['deadlineSec'] = s.qosprofile.deadlineSec
+				profile['deadlineNSec'] = s.qosprofile.deadlineNSec
+				profile['lifespanSec'] = s.qosprofile.lifespanSec
+				profile['lifespanNSec'] = s.qosprofile.lifespanNSec
+				profile['liveliness_lease_durationSec'] = s.qosprofile.liveliness_lease_durationSec
+				profile['liveliness_lease_durationNSec'] = s.qosprofile.liveliness_lease_durationNSec
+				profile['avoid_ros_namespace_conventions'] = s.qosprofile.avoid_ros_namespace_conventions
 				ser['profile'] = profile
 			else:
 				profile = {}
@@ -607,6 +647,14 @@ for package in model_root.hasPackages:
 				profile['reliability'] = "SYSTEM_DEFAULT"
 				profile['durability'] = "SYSTEM_DEFAULT"
 				profile['depth'] = 0
+				profile['liveliness'] = "SYSTEM_DEFAULT"
+				profile['deadlineSec'] = 0
+				profile['deadlineNSec'] = 0
+				profile['lifespanSec'] = 0
+				profile['lifespanNSec'] = 0
+				profile['liveliness_lease_durationSec'] = 0
+				profile['liveliness_lease_durationNSec'] = 0
+				profile['avoid_ros_namespace_conventions'] = "false"
 				ser['profile'] = profile
 			# Add srv objects
 			if s.servicemessage.name in types:
@@ -656,6 +704,14 @@ for package in model_root.hasPackages:
 				profile['reliability'] = c.qosprofile.reliability
 				profile['durability'] = c.qosprofile.durability
 				profile['depth'] = c.qosprofile.depth
+				profile['liveliness'] = c.qosprofile.liveliness
+				profile['deadlineSec'] = c.qosprofile.deadlineSec
+				profile['deadlineNSec'] = c.qosprofile.deadlineNSec
+				profile['lifespanSec'] = c.qosprofile.lifespanSec
+				profile['lifespanNSec'] = c.qosprofile.lifespanNSec
+				profile['liveliness_lease_durationSec'] = c.qosprofile.liveliness_lease_durationSec
+				profile['liveliness_lease_durationNSec'] = c.qosprofile.liveliness_lease_durationNSec
+				profile['avoid_ros_namespace_conventions'] = c.qosprofile.avoid_ros_namespace_conventions
 				cli['profile'] = profile
 			else:
 				profile = {}
@@ -663,6 +719,14 @@ for package in model_root.hasPackages:
 				profile['reliability'] = "SYSTEM_DEFAULT"
 				profile['durability'] = "SYSTEM_DEFAULT"
 				profile['depth'] = 0
+				profile['liveliness'] = "SYSTEM_DEFAULT"
+				profile['deadlineSec'] = 0
+				profile['deadlineNSec'] = 0
+				profile['lifespanSec'] = 0
+				profile['lifespanNSec'] = 0
+				profile['liveliness_lease_durationSec'] = 0
+				profile['liveliness_lease_durationNSec'] = 0
+				profile['avoid_ros_namespace_conventions'] = "false"
 				cli['profile'] = profile
 			# Add srv objects
 			if c.servicemessage.name in types:

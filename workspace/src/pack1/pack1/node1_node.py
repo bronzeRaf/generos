@@ -41,29 +41,43 @@ class node1_class(Node):
 		#____________________________________________
 		# publy3
 		# Qos profile
-		qos_profile = QoSProfile()
-		qos_profile.history = QoSHistoryPolicy.SYSTEM_DEFAULT
-		qos_profile.durability = QoSDurabilityPolicy.SYSTEM_DEFAULT
-		qos_profile.reliability = QoSReliabilityPolicy.SYSTEM_DEFAULT
-		qos_profile.depth =0
+		qos_profile_publy3 = QoSProfile(history=QoSHistoryPolicy.SYSTEM_DEFAULT, durability = QoSDurabilityPolicy.SYSTEM_DEFAULT,reliability = QoSReliabilityPolicy.SYSTEM_DEFAULT,depth =0)
+		# ~ qos_profile_publy3.history = QoSHistoryPolicy.SYSTEM_DEFAULT
+		# ~ qos_profile_publy3.durability = QoSDurabilityPolicy.SYSTEM_DEFAULT
+		# ~ qos_profile_publy3.reliability = QoSReliabilityPolicy.SYSTEM_DEFAULT
+		# ~ qos_profile_publy3.depth =0
 		
+		# ~ qos_profile_publy3.liveliness =SYSTEM_DEFAULT
+		# ~ qos_profile_publy3.deadline.sec =0
+		# ~ qos_profile_publy3.deadline.nsec =0
+		# ~ qos_profile_publy3.lifespan.sec =0
+		# ~ qos_profile_publy3.lifespan.nsec =0
+		# ~ qos_profile_publy3.liveliness_lease_duration.sec =0
+		# ~ qos_profile_publy3.liveliness_lease_duration.nsec =0
+		# ~ qos_profile_publy3.avoid_ros_namespace_conventions =false
 		
-		
-		self.publisher_publy3 = self.create_publisher(Header, 'topic/path3', qos_profile = qos_profile)
+		self.publisher_publy3 = self.create_publisher(Header, 'topic/path3', qos_profile = qos_profile_publy3)
 		self.timer_publy3 = self.create_timer(12.0, self.publisher_call_publy3)
 		self.i = 0
 		#_____
 		# publy2
 		# Qos profile
-		qos_profile = QoSProfile()
-		qos_profile.history = QoSHistoryPolicy.KEEP_ALL
-		qos_profile.durability = QoSDurabilityPolicy.TRANSIENT_LOCAL
-		qos_profile.reliability = QoSReliabilityPolicy.RELIABLE
-		qos_profile.depth =10
+		qos_profile_publy2 = QoSProfile(history=QoSHistoryPolicy.KEEP_ALL, durability = QoSDurabilityPolicy.TRANSIENT_LOCAL,reliability = QoSReliabilityPolicy.RELIABLE,depth =10)
+		# ~ qos_profile_publy2.history = QoSHistoryPolicy.KEEP_ALL
+		# ~ qos_profile_publy2.durability = QoSDurabilityPolicy.TRANSIENT_LOCAL
+		# ~ qos_profile_publy2.reliability = QoSReliabilityPolicy.RELIABLE
+		# ~ qos_profile_publy2.depth =10
 		
+		# ~ qos_profile_publy2.liveliness =SYSTEM_DEFAULT
+		# ~ qos_profile_publy2.deadline.sec =0
+		# ~ qos_profile_publy2.deadline.nsec =0
+		# ~ qos_profile_publy2.lifespan.sec =0
+		# ~ qos_profile_publy2.lifespan.nsec =0
+		# ~ qos_profile_publy2.liveliness_lease_duration.sec =0
+		# ~ qos_profile_publy2.liveliness_lease_duration.nsec =0
+		# ~ qos_profile_publy2.avoid_ros_namespace_conventions =False
 		
-		
-		self.publisher_publy2 = self.create_publisher(ValueInt, 'topic/path2', qos_profile = qos_profile)
+		self.publisher_publy2 = self.create_publisher(ValueInt, 'topic/path2', qos_profile = qos_profile_publy2)
 		self.timer_publy2 = self.create_timer(8.0, self.publisher_call_publy2)
 		self.i = 0
 		#_____
@@ -74,10 +88,42 @@ class node1_class(Node):
 		# Servers
 		#____________________________________________
 		# Server1
-		self.server_Server1 = self.create_service(Addtwo, 'add_two', self.server_call_Server1)
+		# Qos profile
+		qos_profile_Server1 = QoSProfile(history = QoSHistoryPolicy.SYSTEM_DEFAULT, durability = QoSDurabilityPolicy.SYSTEM_DEFAULT, reliability = QoSReliabilityPolicy.SYSTEM_DEFAULT, depth =0)
+		# ~ qos_profile_Server1.history = QoSHistoryPolicy.SYSTEM_DEFAULT
+		# ~ qos_profile_Server1.durability = QoSDurabilityPolicy.SYSTEM_DEFAULT
+		# ~ qos_profile_Server1.reliability = QoSReliabilityPolicy.SYSTEM_DEFAULT
+		# ~ qos_profile_Server1.depth =0
+		
+		# ~ qos_profile_Server1.liveliness =SYSTEM_DEFAULT
+		# ~ qos_profile_Server1.deadline.sec =0
+		# ~ qos_profile_Server1.deadline.nsec =0
+		# ~ qos_profile_Server1.lifespan.sec =0
+		# ~ qos_profile_Server1.lifespan.nsec =0
+		# ~ qos_profile_Server1.liveliness_lease_duration.sec =0
+		# ~ qos_profile_Server1.liveliness_lease_duration.nsec =0
+		# ~ qos_profile_Server1.avoid_ros_namespace_conventions =false
+		
+		self.server_Server1 = self.create_service(Addtwo, 'add_two', self.server_call_Server1, qos_profile = qos_profile_Server1)
 		#_____
 		# Server3
-		self.server_Server3 = self.create_service(SetBool, 'set_bool', self.server_call_Server3)
+		# Qos profile
+		qos_profile_Server3 = QoSProfile(history = QoSHistoryPolicy.SYSTEM_DEFAULT, durability = QoSDurabilityPolicy.SYSTEM_DEFAULT, reliability = QoSReliabilityPolicy.SYSTEM_DEFAULT, depth =0)
+		# ~ qos_profile_Server3.history = QoSHistoryPolicy.SYSTEM_DEFAULT
+		# ~ qos_profile_Server3.durability = QoSDurabilityPolicy.SYSTEM_DEFAULT
+		# ~ qos_profile_Server3.reliability = QoSReliabilityPolicy.SYSTEM_DEFAULT
+		# ~ qos_profile_Server3.depth =0
+		
+		# ~ qos_profile_Server3.liveliness =SYSTEM_DEFAULT
+		# ~ qos_profile_Server3.deadline.sec =0
+		# ~ qos_profile_Server3.deadline.nsec =0
+		# ~ qos_profile_Server3.lifespan.sec =0
+		# ~ qos_profile_Server3.lifespan.nsec =0
+		# ~ qos_profile_Server3.liveliness_lease_duration.sec =0
+		# ~ qos_profile_Server3.liveliness_lease_duration.nsec =0
+		# ~ qos_profile_Server3.avoid_ros_namespace_conventions =false
+		
+		self.server_Server3 = self.create_service(SetBool, 'set_bool', self.server_call_Server3, qos_profile = qos_profile_Server3)
 		#_____
 		
 		# Clients

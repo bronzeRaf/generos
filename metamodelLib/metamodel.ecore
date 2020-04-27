@@ -9,7 +9,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="servicemessage" lowerBound="1"
         eType="#//ServiceMessage"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="qosprofile" eType="#//CustomQosProfile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qosprofile" eType="#//QosProfile"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Node">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasSubscribers" upperBound="-1"
@@ -34,7 +34,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="topicPath" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="smsg" lowerBound="1" eType="#//TopicMessage"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="qosprofile" eType="#//CustomQosProfile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qosprofile" eType="#//QosProfile"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Publisher">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -43,7 +43,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="publishRate" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="pmsg" lowerBound="1" eType="#//TopicMessage"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="qosprofile" eType="#//CustomQosProfile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qosprofile" eType="#//QosProfile"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Server">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -53,7 +53,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="servicemessage" lowerBound="1"
         eType="#//ServiceMessage"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="qosprofile" eType="#//CustomQosProfile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="qosprofile" eType="#//QosProfile"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Parameter">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -77,6 +77,8 @@
         eType="#//RosMessage" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasRosServices" upperBound="-1"
         eType="#//RosService" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasRosQosProfiles" upperBound="-1"
+        eType="#//RosQosProfile" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Dependency"/>
   <eClassifiers xsi:type="ecore:EClass" name="Documentation"/>
@@ -344,11 +346,22 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasObjectProperties" upperBound="-1"
         eType="#//ObjectProperty" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CustomQosProfile">
+  <eClassifiers xsi:type="ecore:EClass" name="CustomQosProfile" eSuperTypes="#//QosProfile">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="history" eType="#//QosHistory"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="depth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="reliability" eType="#//QosReliability"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="durability" eType="#//QosDurability"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="liveliness" eType="#//QosLiveliness"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deadlineSec" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deadlineNSec" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lifespanSec" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lifespanNSec" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="liveliness_lease_durationSec"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="liveliness_lease_durationNSec"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="avoid_ros_namespace_conventions"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="QosHistory">
     <eLiterals name="SYSTEM_DEFAULT"/>
@@ -366,6 +379,21 @@
     <eLiterals name="VOLATILE" value="2"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="QosProfile" abstract="true"/>
-  <eClassifiers xsi:type="ecore:EClass" name="RosQosProfile" eSuperTypes="#//QosProfile"/>
-  <eClassifiers xsi:type="ecore:EEnum" name="NewEnum14"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RosQosProfile" eSuperTypes="#//QosProfile">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="#//QosPresetProfiles"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="QosLiveliness">
+    <eLiterals name="SYSTEM_DEFAULT"/>
+    <eLiterals name="AUTOMATIC" value="1"/>
+    <eLiterals name="MANUAL_BY_NODE" value="2"/>
+    <eLiterals name="MANUAL_BY_TOPIC" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="QosPresetProfiles">
+    <eLiterals name="SYSTEM_DEFAULT"/>
+    <eLiterals name="SERVICES_DEFAULT" value="1"/>
+    <eLiterals name="SENSOR_DATA" value="2"/>
+    <eLiterals name="PARAMETER_EVENTS" value="3"/>
+    <eLiterals name="PARAMETERS" value="4"/>
+    <eLiterals name="ACTION_STATUS_DEFAULT" value="5"/>
+  </eClassifiers>
 </ecore:EPackage>

@@ -84,15 +84,22 @@ class {{node.name}}_class(Node):
 		{%for p in publishers %}
 		# {{p.name}}
 		# Qos profile
-		qos_profile = QoSProfile()
-		qos_profile.history = QoSHistoryPolicy.{{p.profile.history}}
-		qos_profile.durability = QoSDurabilityPolicy.{{p.profile.durability}}
-		qos_profile.reliability = QoSReliabilityPolicy.{{p.profile.reliability}}
-		qos_profile.depth ={{p.profile.depth}}
+		qos_profile_{{p.name}} = QoSProfile(history=QoSHistoryPolicy.{{p.profile.history}}, durability = QoSDurabilityPolicy.{{p.profile.durability}},reliability = QoSReliabilityPolicy.{{p.profile.reliability}},depth ={{p.profile.depth}})
+		# ~ qos_profile_{{p.name}}.history = QoSHistoryPolicy.{{p.profile.history}}
+		# ~ qos_profile_{{p.name}}.durability = QoSDurabilityPolicy.{{p.profile.durability}}
+		# ~ qos_profile_{{p.name}}.reliability = QoSReliabilityPolicy.{{p.profile.reliability}}
+		# ~ qos_profile_{{p.name}}.depth ={{p.profile.depth}}
 		
+		# ~ qos_profile_{{p.name}}.liveliness ={{p.profile.liveliness}}
+		# ~ qos_profile_{{p.name}}.deadline.sec ={{p.profile.deadlineSec}}
+		# ~ qos_profile_{{p.name}}.deadline.nsec ={{p.profile.deadlineNSec}}
+		# ~ qos_profile_{{p.name}}.lifespan.sec ={{p.profile.lifespanSec}}
+		# ~ qos_profile_{{p.name}}.lifespan.nsec ={{p.profile.lifespanNSec}}
+		# ~ qos_profile_{{p.name}}.liveliness_lease_duration.sec ={{p.profile.liveliness_lease_durationSec}}
+		# ~ qos_profile_{{p.name}}.liveliness_lease_duration.nsec ={{p.profile.liveliness_lease_durationNSec}}
+		# ~ qos_profile_{{p.name}}.avoid_ros_namespace_conventions ={{p.profile.avoid_ros_namespace_conventions}}
 		
-		
-		self.publisher_{{p.name}} = self.create_publisher({{p.type}}, '{{p.topicPath}}', qos_profile = qos_profile)
+		self.publisher_{{p.name}} = self.create_publisher({{p.type}}, '{{p.topicPath}}', qos_profile = qos_profile_{{p.name}})
 		self.timer_{{p.name}} = self.create_timer({{p.publishRate}}, self.publisher_call_{{p.name}})
 		self.i = 0
 		#_____
@@ -103,15 +110,22 @@ class {{node.name}}_class(Node):
 		{%for s in subscribers %}
 		# {{s.name}}
 		# Qos profile
-		qos_profile = QoSProfile()
-		qos_profile.history = QoSHistoryPolicy.{{s.profile.history}}
-		qos_profile.durability = QoSDurabilityPolicy.{{s.profile.durability}}
-		qos_profile.reliability = QoSReliabilityPolicy.{{s.profile.reliability}}
-		qos_profile.depth ={{s.profile.depth}}
+		qos_profile_{{s.name}} = QoSProfile(history = QoSHistoryPolicy.{{s.profile.history}}, durability = QoSDurabilityPolicy.{{s.profile.durability}}, reliability = QoSReliabilityPolicy.{{s.profile.reliability}}, depth ={{s.profile.depth}})
+		# ~ qos_profile_{{s.name}}.history = QoSHistoryPolicy.{{s.profile.history}}
+		# ~ qos_profile_{{s.name}}.durability = QoSDurabilityPolicy.{{s.profile.durability}}
+		# ~ qos_profile_{{s.name}}.reliability = QoSReliabilityPolicy.{{s.profile.reliability}}
+		# ~ qos_profile_{{s.name}}.depth ={{s.profile.depth}}
 		
+		# ~ qos_profile_{{s.name}}.liveliness ={{s.profile.liveliness}}
+		# ~ qos_profile_{{s.name}}.deadline.sec ={{s.profile.deadlineSec}}
+		# ~ qos_profile_{{s.name}}.deadline.nsec ={{s.profile.deadlineNSec}}
+		# ~ qos_profile_{{s.name}}.lifespan.sec ={{s.profile.lifespanSec}}
+		# ~ qos_profile_{{s.name}}.lifespan.nsec ={{s.profile.lifespanNSec}}
+		# ~ qos_profile_{{s.name}}.liveliness_lease_duration.sec ={{s.profile.liveliness_lease_durationSec}}
+		# ~ qos_profile_{{s.name}}.liveliness_lease_duration.nsec ={{s.profile.liveliness_lease_durationNSec}}
+		# ~ qos_profile_{{s.name}}.avoid_ros_namespace_conventions ={{s.profile.avoid_ros_namespace_conventions}}
 		
-		
-		self.subscriber_{{s.name}} = self.create_subscription({{s.type}}, '{{s.topicPath}}', self.subscriber_call_{{s.name}}, qos_profile = qos_profile)
+		self.subscriber_{{s.name}} = self.create_subscription({{s.type}}, '{{s.topicPath}}', self.subscriber_call_{{s.name}}, qos_profile = qos_profile_{{s.name}})
 		self.subscriber_{{s.name}}
 		#_____
 		{%endfor%}
@@ -120,7 +134,23 @@ class {{node.name}}_class(Node):
 		#____________________________________________
 		{%for s in servers %}
 		# {{s.name}}
-		self.server_{{s.name}} = self.create_service({{s.type}}, '{{s.serviceName}}', self.server_call_{{s.name}})
+		# Qos profile
+		qos_profile_{{s.name}} = QoSProfile(history = QoSHistoryPolicy.{{s.profile.history}}, durability = QoSDurabilityPolicy.{{s.profile.durability}}, reliability = QoSReliabilityPolicy.{{s.profile.reliability}}, depth ={{s.profile.depth}})
+		# ~ qos_profile_{{s.name}}.history = QoSHistoryPolicy.{{s.profile.history}}
+		# ~ qos_profile_{{s.name}}.durability = QoSDurabilityPolicy.{{s.profile.durability}}
+		# ~ qos_profile_{{s.name}}.reliability = QoSReliabilityPolicy.{{s.profile.reliability}}
+		# ~ qos_profile_{{s.name}}.depth ={{s.profile.depth}}
+		
+		# ~ qos_profile_{{s.name}}.liveliness ={{s.profile.liveliness}}
+		# ~ qos_profile_{{s.name}}.deadline.sec ={{s.profile.deadlineSec}}
+		# ~ qos_profile_{{s.name}}.deadline.nsec ={{s.profile.deadlineNSec}}
+		# ~ qos_profile_{{s.name}}.lifespan.sec ={{s.profile.lifespanSec}}
+		# ~ qos_profile_{{s.name}}.lifespan.nsec ={{s.profile.lifespanNSec}}
+		# ~ qos_profile_{{s.name}}.liveliness_lease_duration.sec ={{s.profile.liveliness_lease_durationSec}}
+		# ~ qos_profile_{{s.name}}.liveliness_lease_duration.nsec ={{s.profile.liveliness_lease_durationNSec}}
+		# ~ qos_profile_{{s.name}}.avoid_ros_namespace_conventions ={{s.profile.avoid_ros_namespace_conventions}}
+		
+		self.server_{{s.name}} = self.create_service({{s.type}}, '{{s.serviceName}}', self.server_call_{{s.name}}, qos_profile = qos_profile_{{s.name}})
 		#_____
 		{%endfor%}
 		
@@ -128,7 +158,23 @@ class {{node.name}}_class(Node):
 		#____________________________________________
 		{%for c in clients %}
 		# {{c.name}}
-		self.client_{{c.name}} = self.create_client({{c.type}}, '{{c.serviceName}}')
+		# Qos profile
+		qos_profile_{{c.name}} = QoSProfile(history = QoSHistoryPolicy.{{c.profile.history}}, durability = QoSDurabilityPolicy.{{c.profile.durability}}, reliability = QoSReliabilityPolicy.{{c.profile.reliability}}, depth ={{c.profile.depth}})
+		# ~ qos_profile_{{c.name}}.history = QoSHistoryPolicy.{{c.profile.history}}
+		# ~ qos_profile_{{c.name}}.durability = QoSDurabilityPolicy.{{c.profile.durability}}
+		# ~ qos_profile_{{c.name}}.reliability = QoSReliabilityPolicy.{{c.profile.reliability}}
+		# ~ qos_profile_{{c.name}}.depth ={{c.profile.depth}}
+		
+		# ~ qos_profile_{{c.name}}.liveliness ={{c.profile.liveliness}}
+		# ~ qos_profile_{{c.name}}.deadline.sec ={{c.profile.deadlineSec}}
+		# ~ qos_profile_{{c.name}}.deadline.nsec ={{c.profile.deadlineNSec}}
+		# ~ qos_profile_{{c.name}}.lifespan.sec ={{c.profile.lifespanSec}}
+		# ~ qos_profile_{{c.name}}.lifespan.nsec ={{c.profile.lifespanNSec}}
+		# ~ qos_profile_{{c.name}}.liveliness_lease_duration.sec ={{c.profile.liveliness_lease_durationSec}}
+		# ~ qos_profile_{{c.name}}.liveliness_lease_duration.nsec ={{c.profile.liveliness_lease_durationNSec}}
+		# ~ qos_profile_{{c.name}}.avoid_ros_namespace_conventions ={{c.profile.avoid_ros_namespace_conventions}}
+		
+		self.client_{{c.name}} = self.create_client({{c.type}}, '{{c.serviceName}}', qos_profile = qos_profile_{{c.name}})
 		#_____
 		{%endfor%}
 		

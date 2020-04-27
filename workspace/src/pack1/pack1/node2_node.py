@@ -38,15 +38,22 @@ class node2_class(Node):
 		#____________________________________________
 		# suby2
 		# Qos profile
-		qos_profile = QoSProfile()
-		qos_profile.history = QoSHistoryPolicy.KEEP_ALL
-		qos_profile.durability = QoSDurabilityPolicy.TRANSIENT_LOCAL
-		qos_profile.reliability = QoSReliabilityPolicy.RELIABLE
-		qos_profile.depth =10
+		qos_profile_suby2 = QoSProfile(history = QoSHistoryPolicy.KEEP_ALL, durability = QoSDurabilityPolicy.TRANSIENT_LOCAL, reliability = QoSReliabilityPolicy.RELIABLE, depth =10)
+		# ~ qos_profile_suby2.history = QoSHistoryPolicy.KEEP_ALL
+		# ~ qos_profile_suby2.durability = QoSDurabilityPolicy.TRANSIENT_LOCAL
+		# ~ qos_profile_suby2.reliability = QoSReliabilityPolicy.RELIABLE
+		# ~ qos_profile_suby2.depth =10
 		
+		# ~ qos_profile_suby2.liveliness =SYSTEM_DEFAULT
+		# ~ qos_profile_suby2.deadline.sec =0
+		# ~ qos_profile_suby2.deadline.nsec =0
+		# ~ qos_profile_suby2.lifespan.sec =0
+		# ~ qos_profile_suby2.lifespan.nsec =0
+		# ~ qos_profile_suby2.liveliness_lease_duration.sec =0
+		# ~ qos_profile_suby2.liveliness_lease_duration.nsec =0
+		# ~ qos_profile_suby2.avoid_ros_namespace_conventions =False
 		
-		
-		self.subscriber_suby2 = self.create_subscription(ValueInt, 'topic/path2', self.subscriber_call_suby2, qos_profile = qos_profile)
+		self.subscriber_suby2 = self.create_subscription(ValueInt, 'topic/path2', self.subscriber_call_suby2, qos_profile = qos_profile_suby2)
 		self.subscriber_suby2
 		#_____
 		
@@ -56,10 +63,42 @@ class node2_class(Node):
 		# Clients
 		#____________________________________________
 		# Client1
-		self.client_Client1 = self.create_client(Addtwo, 'add_two')
+		# Qos profile
+		qos_profile_Client1 = QoSProfile(history = QoSHistoryPolicy.SYSTEM_DEFAULT, durability = QoSDurabilityPolicy.SYSTEM_DEFAULT, reliability = QoSReliabilityPolicy.SYSTEM_DEFAULT, depth =0)
+		# ~ qos_profile_Client1.history = QoSHistoryPolicy.SYSTEM_DEFAULT
+		# ~ qos_profile_Client1.durability = QoSDurabilityPolicy.SYSTEM_DEFAULT
+		# ~ qos_profile_Client1.reliability = QoSReliabilityPolicy.SYSTEM_DEFAULT
+		# ~ qos_profile_Client1.depth =0
+		
+		# ~ qos_profile_Client1.liveliness =SYSTEM_DEFAULT
+		# ~ qos_profile_Client1.deadline.sec =0
+		# ~ qos_profile_Client1.deadline.nsec =0
+		# ~ qos_profile_Client1.lifespan.sec =0
+		# ~ qos_profile_Client1.lifespan.nsec =0
+		# ~ qos_profile_Client1.liveliness_lease_duration.sec =0
+		# ~ qos_profile_Client1.liveliness_lease_duration.nsec =0
+		# ~ qos_profile_Client1.avoid_ros_namespace_conventions =false
+		
+		self.client_Client1 = self.create_client(Addtwo, 'add_two', qos_profile = qos_profile_Client1)
 		#_____
 		# Client3
-		self.client_Client3 = self.create_client(SetBool, 'set_bool')
+		# Qos profile
+		qos_profile_Client3 = QoSProfile(history = QoSHistoryPolicy.SYSTEM_DEFAULT, durability = QoSDurabilityPolicy.SYSTEM_DEFAULT, reliability = QoSReliabilityPolicy.SYSTEM_DEFAULT, depth =0)
+		# ~ qos_profile_Client3.history = QoSHistoryPolicy.SYSTEM_DEFAULT
+		# ~ qos_profile_Client3.durability = QoSDurabilityPolicy.SYSTEM_DEFAULT
+		# ~ qos_profile_Client3.reliability = QoSReliabilityPolicy.SYSTEM_DEFAULT
+		# ~ qos_profile_Client3.depth =0
+		
+		# ~ qos_profile_Client3.liveliness =SYSTEM_DEFAULT
+		# ~ qos_profile_Client3.deadline.sec =0
+		# ~ qos_profile_Client3.deadline.nsec =0
+		# ~ qos_profile_Client3.lifespan.sec =0
+		# ~ qos_profile_Client3.lifespan.nsec =0
+		# ~ qos_profile_Client3.liveliness_lease_duration.sec =0
+		# ~ qos_profile_Client3.liveliness_lease_duration.nsec =0
+		# ~ qos_profile_Client3.avoid_ros_namespace_conventions =false
+		
+		self.client_Client3 = self.create_client(SetBool, 'set_bool', qos_profile = qos_profile_Client3)
 		#_____
 		
 		# Action Servers
