@@ -149,10 +149,15 @@ node2.hasActionClients.extend([actionclient1])				#0..*	node-action client
 
 
 #QoS Profiles
-qos1 = metamodel.CustomQosProfile(history = metamodel.QosHistory.KEEP_ALL, depth = 10, reliability = metamodel.QosReliability.RELIABLE, durability = metamodel.QosDurability.TRANSIENT_LOCAL)
-rosystem1.hasCustomQosProfiles.extend([qos1])
-publisher2.qosprofile = qos1
-subscriber2.qosprofile = qos1
+# ~ qos1 = metamodel.CustomQosProfile(history = metamodel.QosHistory.KEEP_ALL, depth = 10, reliability = metamodel.QosReliability.RELIABLE, durability = metamodel.QosDurability.TRANSIENT_LOCAL)
+# ~ rosystem1.hasCustomQosProfiles.extend([qos1])
+# ~ publisher2.qosprofile = qos1
+# ~ subscriber2.qosprofile = qos1
+
+qos2 = metamodel.RosQosProfile(name = metamodel.QosPresetProfiles.SENSOR_DATA)
+package1.hasRosQosProfiles.extend([qos2])
+publisher2.qosprofile = qos2
+subscriber2.qosprofile = qos2
 
 
 #apply compositions

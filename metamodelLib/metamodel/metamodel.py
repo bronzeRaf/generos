@@ -43,7 +43,7 @@ QosLiveliness = EEnum('QosLiveliness', literals=[
                       'SYSTEM_DEFAULT', 'AUTOMATIC', 'MANUAL_BY_NODE', 'MANUAL_BY_TOPIC'])
 
 QosPresetProfiles = EEnum('QosPresetProfiles', literals=[
-                          'SYSTEM_DEFAULT', 'SERVICES_DEFAULT', 'SENSOR_DATA', 'PARAMETER_EVENTS', 'PARAMETERS', 'ACTION_STATUS_DEFAULT'])
+                          'DEFAULT', 'SYSTEM_DEFAULT', 'SENSOR_DATA', 'SERVICES_DEFAULT', 'PARAMETERS', 'PARAMETER_EVENTS', 'ACTION_STATUS_DEFAULT'])
 
 
 class Client(EObject, metaclass=MetaEClass):
@@ -902,12 +902,14 @@ class CustomQosProfile(QosProfile):
     reliability = EAttribute(eType=QosReliability, derived=False, changeable=True)
     durability = EAttribute(eType=QosDurability, derived=False, changeable=True)
     liveliness = EAttribute(eType=QosLiveliness, derived=False, changeable=True)
-    deadlineSec = EAttribute(eType=EInt, derived=False, changeable=True)
-    deadlineNSec = EAttribute(eType=EInt, derived=False, changeable=True)
-    lifespanSec = EAttribute(eType=EInt, derived=False, changeable=True)
-    lifespanNSec = EAttribute(eType=EInt, derived=False, changeable=True)
-    liveliness_lease_durationSec = EAttribute(eType=EInt, derived=False, changeable=True)
-    liveliness_lease_durationNSec = EAttribute(eType=EInt, derived=False, changeable=True)
+    deadlineSec = EAttribute(eType=EInt, derived=False, changeable=True, default_value=-1)
+    deadlineNSec = EAttribute(eType=EInt, derived=False, changeable=True, default_value=-1)
+    lifespanSec = EAttribute(eType=EInt, derived=False, changeable=True, default_value=-1)
+    lifespanNSec = EAttribute(eType=EInt, derived=False, changeable=True, default_value=-1)
+    liveliness_lease_durationSec = EAttribute(
+        eType=EInt, derived=False, changeable=True, default_value=-1)
+    liveliness_lease_durationNSec = EAttribute(
+        eType=EInt, derived=False, changeable=True, default_value=-1)
     avoid_ros_namespace_conventions = EAttribute(eType=EBoolean, derived=False, changeable=True)
 
     def __init__(self, *, history=None, depth=None, reliability=None, durability=None, liveliness=None, deadlineSec=None, deadlineNSec=None, lifespanSec=None, lifespanNSec=None, liveliness_lease_durationSec=None, liveliness_lease_durationNSec=None, avoid_ros_namespace_conventions=None, **kwargs):

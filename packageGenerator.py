@@ -510,22 +510,15 @@ for package in model_root.hasPackages:
 				profile['liveliness_lease_durationSec'] = s.qosprofile.liveliness_lease_durationSec
 				profile['liveliness_lease_durationNSec'] = s.qosprofile.liveliness_lease_durationNSec
 				profile['avoid_ros_namespace_conventions'] = s.qosprofile.avoid_ros_namespace_conventions
-				sub['profile'] = profile
+			elif s.qosprofile.__class__.__name__=="RosQosProfile":
+				profile = {}
+				profile['history'] = "standart"
+				profile['name'] = s.qosprofile.name
 			else:
 				profile = {}
-				profile['history'] = "SYSTEM_DEFAULT"
-				profile['reliability'] = "SYSTEM_DEFAULT"
-				profile['durability'] = "SYSTEM_DEFAULT"
-				profile['depth'] = 0
-				profile['liveliness'] = "SYSTEM_DEFAULT"
-				profile['deadlineSec'] = 0
-				profile['deadlineNSec'] = 0
-				profile['lifespanSec'] = 0
-				profile['lifespanNSec'] = 0
-				profile['liveliness_lease_durationSec'] = 0
-				profile['liveliness_lease_durationNSec'] = 0
-				profile['avoid_ros_namespace_conventions'] = "false"
-				sub['profile'] = profile
+				profile['history'] = "default"
+			
+			sub['profile'] = profile
 			# Add msg objects
 			if s.smsg.name in types:
 				sub['unique'] = 0
@@ -574,22 +567,15 @@ for package in model_root.hasPackages:
 				profile['liveliness_lease_durationSec'] = p.qosprofile.liveliness_lease_durationSec
 				profile['liveliness_lease_durationNSec'] = p.qosprofile.liveliness_lease_durationNSec
 				profile['avoid_ros_namespace_conventions'] = p.qosprofile.avoid_ros_namespace_conventions
-				pub['profile'] = profile
+			elif p.qosprofile.__class__.__name__=="RosQosProfile":
+				profile = {}
+				profile['history'] = "standart"
+				profile['name'] = p.qosprofile.name
 			else:
 				profile = {}
-				profile['history'] = "SYSTEM_DEFAULT"
-				profile['reliability'] = "SYSTEM_DEFAULT"
-				profile['durability'] = "SYSTEM_DEFAULT"
-				profile['depth'] = 0
-				profile['liveliness'] = "SYSTEM_DEFAULT"
-				profile['deadlineSec'] = 0
-				profile['deadlineNSec'] = 0
-				profile['lifespanSec'] = 0
-				profile['lifespanNSec'] = 0
-				profile['liveliness_lease_durationSec'] = 0
-				profile['liveliness_lease_durationNSec'] = 0
-				profile['avoid_ros_namespace_conventions'] = "false"
-				pub['profile'] = profile
+				profile['history'] = "default"
+				
+			pub['profile'] = profile
 			# Add msg objects
 			if p.pmsg.name in types:
 				pub['unique'] = 0
@@ -640,22 +626,15 @@ for package in model_root.hasPackages:
 				profile['liveliness_lease_durationSec'] = s.qosprofile.liveliness_lease_durationSec
 				profile['liveliness_lease_durationNSec'] = s.qosprofile.liveliness_lease_durationNSec
 				profile['avoid_ros_namespace_conventions'] = s.qosprofile.avoid_ros_namespace_conventions
-				ser['profile'] = profile
+			elif s.qosprofile.__class__.__name__=="RosQosProfile":
+				profile = {}
+				profile['history'] = "standart"
+				profile['name'] = s.qosprofile.name
 			else:
 				profile = {}
-				profile['history'] = "SYSTEM_DEFAULT"
-				profile['reliability'] = "SYSTEM_DEFAULT"
-				profile['durability'] = "SYSTEM_DEFAULT"
-				profile['depth'] = 0
-				profile['liveliness'] = "SYSTEM_DEFAULT"
-				profile['deadlineSec'] = 0
-				profile['deadlineNSec'] = 0
-				profile['lifespanSec'] = 0
-				profile['lifespanNSec'] = 0
-				profile['liveliness_lease_durationSec'] = 0
-				profile['liveliness_lease_durationNSec'] = 0
-				profile['avoid_ros_namespace_conventions'] = "false"
-				ser['profile'] = profile
+				profile['history'] = "default"
+				
+			ser['profile'] = profile
 			# Add srv objects
 			if s.servicemessage.name in types:
 				ser['unique'] = 0
@@ -712,22 +691,15 @@ for package in model_root.hasPackages:
 				profile['liveliness_lease_durationSec'] = c.qosprofile.liveliness_lease_durationSec
 				profile['liveliness_lease_durationNSec'] = c.qosprofile.liveliness_lease_durationNSec
 				profile['avoid_ros_namespace_conventions'] = c.qosprofile.avoid_ros_namespace_conventions
-				cli['profile'] = profile
+			elif c.qosprofile.__class__.__name__=="RosQosProfile":
+				profile = {}
+				profile['history'] = "standart"
+				profile['name'] = c.qosprofile.name
 			else:
 				profile = {}
-				profile['history'] = "SYSTEM_DEFAULT"
-				profile['reliability'] = "SYSTEM_DEFAULT"
-				profile['durability'] = "SYSTEM_DEFAULT"
-				profile['depth'] = 0
-				profile['liveliness'] = "SYSTEM_DEFAULT"
-				profile['deadlineSec'] = 0
-				profile['deadlineNSec'] = 0
-				profile['lifespanSec'] = 0
-				profile['lifespanNSec'] = 0
-				profile['liveliness_lease_durationSec'] = 0
-				profile['liveliness_lease_durationNSec'] = 0
-				profile['avoid_ros_namespace_conventions'] = "false"
-				cli['profile'] = profile
+				profile['history'] = "default"
+				
+			cli['profile'] = profile
 			# Add srv objects
 			if c.servicemessage.name in types:
 				cli['unique'] = 0

@@ -7,6 +7,7 @@
 
 from rclpy.qos import QoSDurabilityPolicy, QoSHistoryPolicy, QoSReliabilityPolicy
 from rclpy.qos import QoSProfile
+from rclpy.qos import QoSPresetProfiles
 
 
 {% if action_servers is defined and action_servers|length %}
@@ -65,6 +66,7 @@ class {{node.name}}_class(Node):
 	
 	# Constructor function of the node
 	def __init__(self):
+				
 		super().__init__('{{node.name}}'{%if not node.namespace == None%}, namespace = '{{node.namespace}}'{%endif%})		
 		# Params
 		#____________________________________________
@@ -84,21 +86,38 @@ class {{node.name}}_class(Node):
 		{%for p in publishers %}
 		# {{p.name}}
 		# Qos profile
+		{% if p.profile.history == "standart" %}
+		qos_profile_{{p.name}} = QoSPresetProfiles.{{p.profile.name}}.value
+		{%elif p.profile.history == "default" %}
+		qos_profile_{{p.name}} = QoSPresetProfiles.SYSTEM_DEFAULT.value
+		{%else%}
 		qos_profile_{{p.name}} = QoSProfile(history=QoSHistoryPolicy.{{p.profile.history}}, durability = QoSDurabilityPolicy.{{p.profile.durability}},reliability = QoSReliabilityPolicy.{{p.profile.reliability}},depth ={{p.profile.depth}})
-		# ~ qos_profile_{{p.name}}.history = QoSHistoryPolicy.{{p.profile.history}}
-		# ~ qos_profile_{{p.name}}.durability = QoSDurabilityPolicy.{{p.profile.durability}}
-		# ~ qos_profile_{{p.name}}.reliability = QoSReliabilityPolicy.{{p.profile.reliability}}
-		# ~ qos_profile_{{p.name}}.depth ={{p.profile.depth}}
-		
+		{% if p.profile.liveliness is defined %}
 		# ~ qos_profile_{{p.name}}.liveliness ={{p.profile.liveliness}}
+		{%endif%}
+		{% if p.profile.deadlineSec is defined %}
 		# ~ qos_profile_{{p.name}}.deadline.sec ={{p.profile.deadlineSec}}
+		{%endif%}
+		{% if p.profile.deadlineNSec is defined %}
 		# ~ qos_profile_{{p.name}}.deadline.nsec ={{p.profile.deadlineNSec}}
+		{%endif%}
+		{% if p.profile.lifespanSec is defined %}
 		# ~ qos_profile_{{p.name}}.lifespan.sec ={{p.profile.lifespanSec}}
+		{%endif%}
+		{% if p.profile.lifespanNSec is defined %}
 		# ~ qos_profile_{{p.name}}.lifespan.nsec ={{p.profile.lifespanNSec}}
+		{%endif%}
+		{% if p.profile.liveliness_lease_durationSec is defined %}
 		# ~ qos_profile_{{p.name}}.liveliness_lease_duration.sec ={{p.profile.liveliness_lease_durationSec}}
+		{%endif%}
+		{% if p.profile.liveliness_lease_durationNSec is defined %}
 		# ~ qos_profile_{{p.name}}.liveliness_lease_duration.nsec ={{p.profile.liveliness_lease_durationNSec}}
+		{%endif%}
+		{% if p.profile.avoid_ros_namespace_conventions is defined %}
 		# ~ qos_profile_{{p.name}}.avoid_ros_namespace_conventions ={{p.profile.avoid_ros_namespace_conventions}}
-		
+		{%endif%}
+		{%endif%}
+				
 		self.publisher_{{p.name}} = self.create_publisher({{p.type}}, '{{p.topicPath}}', qos_profile = qos_profile_{{p.name}})
 		self.timer_{{p.name}} = self.create_timer({{p.publishRate}}, self.publisher_call_{{p.name}})
 		self.i = 0
@@ -110,11 +129,13 @@ class {{node.name}}_class(Node):
 		{%for s in subscribers %}
 		# {{s.name}}
 		# Qos profile
+		{% if s.profile.history == "standart" %}
+		qos_profile_{{s.name}} = QoSPresetProfiles.{{s.profile.name}}.value
+		{%elif s.profile.history == "default" %}
+		qos_profile_{{s.name}} = QoSPresetProfiles.SYSTEM_DEFAULT.value
+		{%else%}
 		qos_profile_{{s.name}} = QoSProfile(history = QoSHistoryPolicy.{{s.profile.history}}, durability = QoSDurabilityPolicy.{{s.profile.durability}}, reliability = QoSReliabilityPolicy.{{s.profile.reliability}}, depth ={{s.profile.depth}})
-		# ~ qos_profile_{{s.name}}.history = QoSHistoryPolicy.{{s.profile.history}}
-		# ~ qos_profile_{{s.name}}.durability = QoSDurabilityPolicy.{{s.profile.durability}}
-		# ~ qos_profile_{{s.name}}.reliability = QoSReliabilityPolicy.{{s.profile.reliability}}
-		# ~ qos_profile_{{s.name}}.depth ={{s.profile.depth}}
+		{%endif%}
 		
 		# ~ qos_profile_{{s.name}}.liveliness ={{s.profile.liveliness}}
 		# ~ qos_profile_{{s.name}}.deadline.sec ={{s.profile.deadlineSec}}
@@ -135,11 +156,13 @@ class {{node.name}}_class(Node):
 		{%for s in servers %}
 		# {{s.name}}
 		# Qos profile
+		{% if s.profile.history == "standart" %}
+		qos_profile_{{s.name}} = QoSPresetProfiles.{{s.profile.name}}.value
+		{%elif s.profile.history == "default" %}
+		qos_profile_{{s.name}} = QoSPresetProfiles.SERVICES_DEFAULT.value
+		{%else%}
 		qos_profile_{{s.name}} = QoSProfile(history = QoSHistoryPolicy.{{s.profile.history}}, durability = QoSDurabilityPolicy.{{s.profile.durability}}, reliability = QoSReliabilityPolicy.{{s.profile.reliability}}, depth ={{s.profile.depth}})
-		# ~ qos_profile_{{s.name}}.history = QoSHistoryPolicy.{{s.profile.history}}
-		# ~ qos_profile_{{s.name}}.durability = QoSDurabilityPolicy.{{s.profile.durability}}
-		# ~ qos_profile_{{s.name}}.reliability = QoSReliabilityPolicy.{{s.profile.reliability}}
-		# ~ qos_profile_{{s.name}}.depth ={{s.profile.depth}}
+		{%endif%}
 		
 		# ~ qos_profile_{{s.name}}.liveliness ={{s.profile.liveliness}}
 		# ~ qos_profile_{{s.name}}.deadline.sec ={{s.profile.deadlineSec}}
@@ -159,11 +182,13 @@ class {{node.name}}_class(Node):
 		{%for c in clients %}
 		# {{c.name}}
 		# Qos profile
+		{% if c.profile.history == "standart" %}
+		qos_profile_{{c.name}} = QoSPresetProfiles.{{c.profile.name}}.value
+		{%elif c.profile.history == "default" %}
+		qos_profile_{{c.name}} = QoSPresetProfiles.SERVICES_DEFAULT.value
+		{%else%}
 		qos_profile_{{c.name}} = QoSProfile(history = QoSHistoryPolicy.{{c.profile.history}}, durability = QoSDurabilityPolicy.{{c.profile.durability}}, reliability = QoSReliabilityPolicy.{{c.profile.reliability}}, depth ={{c.profile.depth}})
-		# ~ qos_profile_{{c.name}}.history = QoSHistoryPolicy.{{c.profile.history}}
-		# ~ qos_profile_{{c.name}}.durability = QoSDurabilityPolicy.{{c.profile.durability}}
-		# ~ qos_profile_{{c.name}}.reliability = QoSReliabilityPolicy.{{c.profile.reliability}}
-		# ~ qos_profile_{{c.name}}.depth ={{c.profile.depth}}
+		{%endif%}
 		
 		# ~ qos_profile_{{c.name}}.liveliness ={{c.profile.liveliness}}
 		# ~ qos_profile_{{c.name}}.deadline.sec ={{c.profile.deadlineSec}}
