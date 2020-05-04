@@ -40,7 +40,7 @@ QosReliability = EEnum('QosReliability', literals=['SYSTEM_DEFAULT', 'RELIABLE',
 QosDurability = EEnum('QosDurability', literals=['SYSTEM_DEFAULT', 'TRANSIENT_LOCAL', 'VOLATILE'])
 
 QosLiveliness = EEnum('QosLiveliness', literals=[
-                      'SYSTEM_DEFAULT', 'AUTOMATIC', 'MANUAL_BY_NODE', 'MANUAL_BY_TOPIC'])
+                      'SYSTEM_DEFAULT', 'AUTOMATIC', 'MANUAL_BY_NODE', 'MANUAL_BY_TOPIC', 'UKNOWN'])
 
 QosPresetProfiles = EEnum('QosPresetProfiles', literals=[
                           'DEFAULT', 'SYSTEM_DEFAULT', 'SENSOR_DATA', 'SERVICES_DEFAULT', 'PARAMETERS', 'PARAMETER_EVENTS', 'ACTION_STATUS_DEFAULT'])

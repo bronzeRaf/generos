@@ -391,6 +391,7 @@
     <eLiterals name="AUTOMATIC" value="1"/>
     <eLiterals name="MANUAL_BY_NODE" value="2"/>
     <eLiterals name="MANUAL_BY_TOPIC" value="3"/>
+    <eLiterals name="UKNOWN" value="4"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="QosPresetProfiles">
     <eLiterals name="DEFAULT"/>

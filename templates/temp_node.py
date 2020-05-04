@@ -5,7 +5,7 @@
 # Written by Rafael Brouzos
 #}
 
-from rclpy.qos import QoSDurabilityPolicy, QoSHistoryPolicy, QoSReliabilityPolicy
+from rclpy.qos import QoSDurabilityPolicy, QoSHistoryPolicy, QoSReliabilityPolicy, QoSLivelinessPolicy
 from rclpy.qos import QoSProfile
 from rclpy.qos import QoSPresetProfiles
 
@@ -92,30 +92,15 @@ class {{node.name}}_class(Node):
 		qos_profile_{{p.name}} = QoSPresetProfiles.SYSTEM_DEFAULT.value
 		{%else%}
 		qos_profile_{{p.name}} = QoSProfile(history=QoSHistoryPolicy.{{p.profile.history}}, durability = QoSDurabilityPolicy.{{p.profile.durability}},reliability = QoSReliabilityPolicy.{{p.profile.reliability}},depth ={{p.profile.depth}})
-		{% if p.profile.liveliness is defined %}
-		# ~ qos_profile_{{p.name}}.liveliness ={{p.profile.liveliness}}
-		{%endif%}
-		{% if p.profile.deadlineSec is defined %}
-		# ~ qos_profile_{{p.name}}.deadline.sec ={{p.profile.deadlineSec}}
-		{%endif%}
-		{% if p.profile.deadlineNSec is defined %}
-		# ~ qos_profile_{{p.name}}.deadline.nsec ={{p.profile.deadlineNSec}}
-		{%endif%}
-		{% if p.profile.lifespanSec is defined %}
-		# ~ qos_profile_{{p.name}}.lifespan.sec ={{p.profile.lifespanSec}}
-		{%endif%}
-		{% if p.profile.lifespanNSec is defined %}
-		# ~ qos_profile_{{p.name}}.lifespan.nsec ={{p.profile.lifespanNSec}}
-		{%endif%}
-		{% if p.profile.liveliness_lease_durationSec is defined %}
-		# ~ qos_profile_{{p.name}}.liveliness_lease_duration.sec ={{p.profile.liveliness_lease_durationSec}}
-		{%endif%}
-		{% if p.profile.liveliness_lease_durationNSec is defined %}
-		# ~ qos_profile_{{p.name}}.liveliness_lease_duration.nsec ={{p.profile.liveliness_lease_durationNSec}}
-		{%endif%}
-		{% if p.profile.avoid_ros_namespace_conventions is defined %}
-		# ~ qos_profile_{{p.name}}.avoid_ros_namespace_conventions ={{p.profile.avoid_ros_namespace_conventions}}
-		{%endif%}
+		# Additional qos settings
+		qos_profile_{{p.name}}.liveliness = QoSLivelinessPolicy.{{p.profile.liveliness}}
+		qos_profile_{{p.name}}.deadline.sec = {{p.profile.deadlineSec}}
+		qos_profile_{{p.name}}.deadline.nsec = {{p.profile.deadlineNSec}}
+		qos_profile_{{p.name}}.lifespan.sec = {{p.profile.lifespanSec}}
+		qos_profile_{{p.name}}.lifespan.nsec = {{p.profile.lifespanNSec}}
+		qos_profile_{{p.name}}.liveliness_lease_duration.sec = {{p.profile.liveliness_lease_durationSec}}
+		qos_profile_{{p.name}}.liveliness_lease_duration.nsec = {{p.profile.liveliness_lease_durationNSec}}
+		qos_profile_{{p.name}}.avoid_ros_namespace_conventions = {{p.profile.avoid_ros_namespace_conventions}}
 		{%endif%}
 				
 		self.publisher_{{p.name}} = self.create_publisher({{p.type}}, '{{p.topicPath}}', qos_profile = qos_profile_{{p.name}})
@@ -135,17 +120,17 @@ class {{node.name}}_class(Node):
 		qos_profile_{{s.name}} = QoSPresetProfiles.SYSTEM_DEFAULT.value
 		{%else%}
 		qos_profile_{{s.name}} = QoSProfile(history = QoSHistoryPolicy.{{s.profile.history}}, durability = QoSDurabilityPolicy.{{s.profile.durability}}, reliability = QoSReliabilityPolicy.{{s.profile.reliability}}, depth ={{s.profile.depth}})
+		# Additional qos settings
+		qos_profile_{{s.name}}.liveliness = QoSLivelinessPolicy.{{s.profile.liveliness}}
+		qos_profile_{{s.name}}.deadline.sec = {{s.profile.deadlineSec}}
+		qos_profile_{{s.name}}.deadline.nsec = {{s.profile.deadlineNSec}}
+		qos_profile_{{s.name}}.lifespan.sec = {{s.profile.lifespanSec}}
+		qos_profile_{{s.name}}.lifespan.nsec = {{s.profile.lifespanNSec}}
+		qos_profile_{{s.name}}.liveliness_lease_duration.sec = {{s.profile.liveliness_lease_durationSec}}
+		qos_profile_{{s.name}}.liveliness_lease_duration.nsec = {{s.profile.liveliness_lease_durationNSec}}
+		qos_profile_{{s.name}}.avoid_ros_namespace_conventions = {{s.profile.avoid_ros_namespace_conventions}}
 		{%endif%}
-		
-		# ~ qos_profile_{{s.name}}.liveliness ={{s.profile.liveliness}}
-		# ~ qos_profile_{{s.name}}.deadline.sec ={{s.profile.deadlineSec}}
-		# ~ qos_profile_{{s.name}}.deadline.nsec ={{s.profile.deadlineNSec}}
-		# ~ qos_profile_{{s.name}}.lifespan.sec ={{s.profile.lifespanSec}}
-		# ~ qos_profile_{{s.name}}.lifespan.nsec ={{s.profile.lifespanNSec}}
-		# ~ qos_profile_{{s.name}}.liveliness_lease_duration.sec ={{s.profile.liveliness_lease_durationSec}}
-		# ~ qos_profile_{{s.name}}.liveliness_lease_duration.nsec ={{s.profile.liveliness_lease_durationNSec}}
-		# ~ qos_profile_{{s.name}}.avoid_ros_namespace_conventions ={{s.profile.avoid_ros_namespace_conventions}}
-		
+				
 		self.subscriber_{{s.name}} = self.create_subscription({{s.type}}, '{{s.topicPath}}', self.subscriber_call_{{s.name}}, qos_profile = qos_profile_{{s.name}})
 		self.subscriber_{{s.name}}
 		#_____
@@ -162,17 +147,17 @@ class {{node.name}}_class(Node):
 		qos_profile_{{s.name}} = QoSPresetProfiles.SERVICES_DEFAULT.value
 		{%else%}
 		qos_profile_{{s.name}} = QoSProfile(history = QoSHistoryPolicy.{{s.profile.history}}, durability = QoSDurabilityPolicy.{{s.profile.durability}}, reliability = QoSReliabilityPolicy.{{s.profile.reliability}}, depth ={{s.profile.depth}})
+		# Additional qos settings
+		qos_profile_{{s.name}}.liveliness = QoSLivelinessPolicy.{{s.profile.liveliness}}
+		qos_profile_{{s.name}}.deadline.sec = {{s.profile.deadlineSec}}
+		qos_profile_{{s.name}}.deadline.nsec = {{s.profile.deadlineNSec}}
+		qos_profile_{{s.name}}.lifespan.sec = {{s.profile.lifespanSec}}
+		qos_profile_{{s.name}}.lifespan.nsec = {{s.profile.lifespanNSec}}
+		qos_profile_{{s.name}}.liveliness_lease_duration.sec = {{s.profile.liveliness_lease_durationSec}}
+		qos_profile_{{s.name}}.liveliness_lease_duration.nsec = {{s.profile.liveliness_lease_durationNSec}}
+		qos_profile_{{s.name}}.avoid_ros_namespace_conventions = {{s.profile.avoid_ros_namespace_conventions}}
 		{%endif%}
-		
-		# ~ qos_profile_{{s.name}}.liveliness ={{s.profile.liveliness}}
-		# ~ qos_profile_{{s.name}}.deadline.sec ={{s.profile.deadlineSec}}
-		# ~ qos_profile_{{s.name}}.deadline.nsec ={{s.profile.deadlineNSec}}
-		# ~ qos_profile_{{s.name}}.lifespan.sec ={{s.profile.lifespanSec}}
-		# ~ qos_profile_{{s.name}}.lifespan.nsec ={{s.profile.lifespanNSec}}
-		# ~ qos_profile_{{s.name}}.liveliness_lease_duration.sec ={{s.profile.liveliness_lease_durationSec}}
-		# ~ qos_profile_{{s.name}}.liveliness_lease_duration.nsec ={{s.profile.liveliness_lease_durationNSec}}
-		# ~ qos_profile_{{s.name}}.avoid_ros_namespace_conventions ={{s.profile.avoid_ros_namespace_conventions}}
-		
+				
 		self.server_{{s.name}} = self.create_service({{s.type}}, '{{s.serviceName}}', self.server_call_{{s.name}}, qos_profile = qos_profile_{{s.name}})
 		#_____
 		{%endfor%}
@@ -188,17 +173,17 @@ class {{node.name}}_class(Node):
 		qos_profile_{{c.name}} = QoSPresetProfiles.SERVICES_DEFAULT.value
 		{%else%}
 		qos_profile_{{c.name}} = QoSProfile(history = QoSHistoryPolicy.{{c.profile.history}}, durability = QoSDurabilityPolicy.{{c.profile.durability}}, reliability = QoSReliabilityPolicy.{{c.profile.reliability}}, depth ={{c.profile.depth}})
+		# Additional qos settings
+		qos_profile_{{c.name}}.liveliness = QoSLivelinessPolicy.{{c.profile.liveliness}}
+		qos_profile_{{c.name}}.deadline.sec = {{c.profile.deadlineSec}}
+		qos_profile_{{c.name}}.deadline.nsec = {{c.profile.deadlineNSec}}
+		qos_profile_{{c.name}}.lifespan.sec = {{c.profile.lifespanSec}}
+		qos_profile_{{c.name}}.lifespan.nsec = {{c.profile.lifespanNSec}}
+		qos_profile_{{c.name}}.liveliness_lease_duration.sec = {{c.profile.liveliness_lease_durationSec}}
+		qos_profile_{{c.name}}.liveliness_lease_duration.nsec = {{c.profile.liveliness_lease_durationNSec}}
+		qos_profile_{{c.name}}.avoid_ros_namespace_conventions = {{c.profile.avoid_ros_namespace_conventions}}
 		{%endif%}
-		
-		# ~ qos_profile_{{c.name}}.liveliness ={{c.profile.liveliness}}
-		# ~ qos_profile_{{c.name}}.deadline.sec ={{c.profile.deadlineSec}}
-		# ~ qos_profile_{{c.name}}.deadline.nsec ={{c.profile.deadlineNSec}}
-		# ~ qos_profile_{{c.name}}.lifespan.sec ={{c.profile.lifespanSec}}
-		# ~ qos_profile_{{c.name}}.lifespan.nsec ={{c.profile.lifespanNSec}}
-		# ~ qos_profile_{{c.name}}.liveliness_lease_duration.sec ={{c.profile.liveliness_lease_durationSec}}
-		# ~ qos_profile_{{c.name}}.liveliness_lease_duration.nsec ={{c.profile.liveliness_lease_durationNSec}}
-		# ~ qos_profile_{{c.name}}.avoid_ros_namespace_conventions ={{c.profile.avoid_ros_namespace_conventions}}
-		
+				
 		self.client_{{c.name}} = self.create_client({{c.type}}, '{{c.serviceName}}', qos_profile = qos_profile_{{c.name}})
 		#_____
 		{%endfor%}

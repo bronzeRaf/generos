@@ -1,5 +1,5 @@
 
-from rclpy.qos import QoSDurabilityPolicy, QoSHistoryPolicy, QoSReliabilityPolicy
+from rclpy.qos import QoSDurabilityPolicy, QoSHistoryPolicy, QoSReliabilityPolicy, QoSLivelinessPolicy
 from rclpy.qos import QoSProfile
 from rclpy.qos import QoSPresetProfiles
 
@@ -34,16 +34,7 @@ class node3_class(Node):
 		# suby3
 		# Qos profile
 		qos_profile_suby3 = QoSPresetProfiles.SYSTEM_DEFAULT.value
-		
-		# ~ qos_profile_suby3.liveliness =
-		# ~ qos_profile_suby3.deadline.sec =
-		# ~ qos_profile_suby3.deadline.nsec =
-		# ~ qos_profile_suby3.lifespan.sec =
-		# ~ qos_profile_suby3.lifespan.nsec =
-		# ~ qos_profile_suby3.liveliness_lease_duration.sec =
-		# ~ qos_profile_suby3.liveliness_lease_duration.nsec =
-		# ~ qos_profile_suby3.avoid_ros_namespace_conventions =
-		
+				
 		self.subscriber_suby3 = self.create_subscription(Header, 'topic/path3', self.subscriber_call_suby3, qos_profile = qos_profile_suby3)
 		self.subscriber_suby3
 		#_____
@@ -56,16 +47,7 @@ class node3_class(Node):
 		# Client2
 		# Qos profile
 		qos_profile_Client2 = QoSPresetProfiles.SERVICES_DEFAULT.value
-		
-		# ~ qos_profile_Client2.liveliness =
-		# ~ qos_profile_Client2.deadline.sec =
-		# ~ qos_profile_Client2.deadline.nsec =
-		# ~ qos_profile_Client2.lifespan.sec =
-		# ~ qos_profile_Client2.lifespan.nsec =
-		# ~ qos_profile_Client2.liveliness_lease_duration.sec =
-		# ~ qos_profile_Client2.liveliness_lease_duration.nsec =
-		# ~ qos_profile_Client2.avoid_ros_namespace_conventions =
-		
+				
 		self.client_Client2 = self.create_client(SrFloatFloatString, 'str', qos_profile = qos_profile_Client2)
 		#_____
 		
