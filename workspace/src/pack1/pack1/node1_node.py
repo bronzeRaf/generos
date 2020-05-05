@@ -111,7 +111,10 @@ class node1_class(Node):
 	def publisher_call_publy3(self):
 		msg = Header()
 		# Please create the message of the publisher in this callback
-		# Message after calculactions should be stored in
+		# The message definition could be found in the package: std_msgs
+		
+		# The message is type std_msgs/Header
+		# Remember to store data in its attributes before publishing
 		
 		
 		self.i += 1
@@ -125,7 +128,10 @@ class node1_class(Node):
 	def publisher_call_publy2(self):
 		msg = ValueInt()
 		# Please create the message of the publisher in this callback
-		# Message after calculactions should be stored in
+		# The message definition could be found in the package: interfaces
+		
+		# Some attributes of the message may be submessages and have special attributes
+		# Message after calculactions should be stored in the attibutes:
 		# msg.header 
 		# msg.x 
 		
@@ -154,8 +160,9 @@ class node1_class(Node):
 		# Store the variables of the request
 		a = request.a
 		b = request.b
-		# Service result after calculactions should be stored in
+		# Service result after calculactions should be stored in:
 		# response.c 
+		
 		response.c = request.a + request.b
 		self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
 		return response
@@ -168,8 +175,9 @@ class node1_class(Node):
 	# callback and you should put your own functionality.
 	def server_call_Server3(self, request, response):
 		# Please add the server's functionality in this callback
-		# Store the variables of the request
-		# Service result after calculactions should be stored in
+		# The service is type std_srvs/SetBool
+		# Remember to store data in its attributes
+		
 		response.c = request.a + request.b
 		self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
 		return response

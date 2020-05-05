@@ -98,10 +98,13 @@ class node2_class(Node):
 	# and you should put your own functionality.
 	def subscriber_call_suby2(self, msg):
 		# Please obtain the message from the subscriber in this callback
+		# The message definition could be found in the package: interfaces
+		
 		# Store the variables of the msg
 		header = msg.header
 		x = msg.x
 		# Now you can use the received variables
+
 		self.get_logger().info('I heard: '+str(msg.x))
 	#_____
 	
@@ -112,12 +115,14 @@ class node2_class(Node):
 	#____________________________________________
 	# This is the call function of the client Client1. 
 	# You can call this function, passing all the arguments of the 
-	# service request declaration. This function will not be called 
-	# automatically as you should call it to make a request. The 
-	# function waits for the service to be available before going on and
-	# the server's response is stored in a future object once the server
-	# return the response. This function is the template of the client 
-	# call and you should call it for applying requests.
+	# service request declaration (if the service is a Custom Service). 
+	# This function will not be called automatically as you should call 
+	# it to make a request. The function waits for the service to be 
+	# available before going on and the server's response is stored in 
+	# a future object once the server returns the response. This 
+	# function is the template of the client call and you should call 
+	# it for applying requests. Remember to change the arguments of the 
+	# function based on the service you use.
 	def client_call_Client1(self, a, b):
 		# Wait for service
 		while not self.client_Client1.wait_for_service(timeout_sec=1.0):
@@ -132,18 +137,22 @@ class node2_class(Node):
 	#_____
 	# This is the call function of the client Client3. 
 	# You can call this function, passing all the arguments of the 
-	# service request declaration. This function will not be called 
-	# automatically as you should call it to make a request. The 
-	# function waits for the service to be available before going on and
-	# the server's response is stored in a future object once the server
-	# return the response. This function is the template of the client 
-	# call and you should call it for applying requests.
+	# service request declaration (if the service is a Custom Service). 
+	# This function will not be called automatically as you should call 
+	# it to make a request. The function waits for the service to be 
+	# available before going on and the server's response is stored in 
+	# a future object once the server returns the response. This 
+	# function is the template of the client call and you should call 
+	# it for applying requests. Remember to change the arguments of the 
+	# function based on the service you use.
 	def client_call_Client3(self):
 		# Wait for service
 		while not self.client_Client3.wait_for_service(timeout_sec=1.0):
 			self.get_logger().info('service not available, waiting again...')
 		# Create request and fill it with data
 		self.request_Client3 = SetBool.Request()
+		# The service is type std_srvs/SetBool
+		# Remember to store data the attributes of self.request_Client3
 		self.future_Client3 = self.client_Client3.call_async(self.request_Client3)
 		# Result after server's response is stored in 
 	#_____
@@ -281,7 +290,7 @@ def run_Client3(args=None):
 	
 	node2 = node2_class()
 	#TODO create typecast from command line to client call type (change int to custom type)
-	node2.client_call_Client3()
+	node2.client_call_Client3(int(sys.argv[1]))
 	while rclpy.ok():
 		rclpy.spin_once(node2)
 		if node2.future_Client3.done():

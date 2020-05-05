@@ -219,10 +219,18 @@ class {{node.name}}_class(Node):
 	def publisher_call_{{p.name}}(self):
 		msg = {{p.type}}()
 		# Please create the message of the publisher in this callback
-		# Message after calculactions should be stored in
+		# The message definition could be found in the package: {{p.package}}
+		
+		{% if p.package == 'interfaces' %}
+		# Some attributes of the message may be submessages and have special attributes
+		# Message after calculactions should be stored in the attibutes:
 		{%for r in p.msg %}
 		# msg.{{r}} 
 		{%endfor%}
+		{% else %}
+		# The message is type {{p.package}}/{{p.msg[0]}}
+		# Remember to store data in its attributes before publishing
+		{% endif %}
 		
 		{% if p.type == "ValueString" %}
 		msg.x = 'Hello World: %d' % self.i
@@ -250,16 +258,24 @@ class {{node.name}}_class(Node):
 	# and you should put your own functionality.
 	def subscriber_call_{{s.name}}(self, msg):
 		# Please obtain the message from the subscriber in this callback
+		# The message definition could be found in the package: {{s.package}}
+		
+		{% if s.package == 'interfaces' %}
 		# Store the variables of the msg
 		{%for r in s.msg %}
 		{{r}} = msg.{{r}}
 		{%endfor%}
 		# Now you can use the received variables
+		{% else %}
+		# The message is type {{s.package}}/{{s.msg[0]}}
+		# Remember to obtain data from its attributes
+		{% endif %}
+
 		self.get_logger().info('I heard: '+str(msg.x))
 	#_____
 	{%endfor%}
 	
-	#Servers
+	# Servers
 	#____________________________________________
 	{%for s in servers %}
 	# This is the callback of the server {{s.name}}. 
@@ -270,14 +286,20 @@ class {{node.name}}_class(Node):
 	# callback and you should put your own functionality.
 	def server_call_{{s.name}}(self, request, response):
 		# Please add the server's functionality in this callback
+		{% if s.package == 'interfaces' %}
 		# Store the variables of the request
 		{%for r in s.requests %}
 		{{r}} = request.{{r}}
 		{%endfor%}
-		# Service result after calculactions should be stored in
+		# Service result after calculactions should be stored in:
 		{%for r in s.responses %}
 		# response.{{r}} 
 		{%endfor%}
+		{% else %}
+		# The service is type {{s.package}}/{{s.requests[0]}}
+		# Remember to store data in its attributes
+		{% endif %}
+		
 		response.c = request.a + request.b
 		self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
 		return response
@@ -289,21 +311,28 @@ class {{node.name}}_class(Node):
 	{%for c in clients %}
 	# This is the call function of the client {{c.name}}. 
 	# You can call this function, passing all the arguments of the 
-	# service request declaration. This function will not be called 
-	# automatically as you should call it to make a request. The 
-	# function waits for the service to be available before going on and
-	# the server's response is stored in a future object once the server
-	# return the response. This function is the template of the client 
-	# call and you should call it for applying requests.
-	def client_call_{{c.name}}(self{%for r in c.requests %}, {{r }} {%endfor%}):
+	# service request declaration (if the service is a Custom Service). 
+	# This function will not be called automatically as you should call 
+	# it to make a request. The function waits for the service to be 
+	# available before going on and the server's response is stored in 
+	# a future object once the server returns the response. This 
+	# function is the template of the client call and you should call 
+	# it for applying requests. Remember to change the arguments of the 
+	# function based on the service you use.
+	def client_call_{{c.name}}(self{% if c.package == 'interfaces' %}{%for r in c.requests %}, {{r }} {%endfor%}{% endif %}):
 		# Wait for service
 		while not self.client_{{c.name}}.wait_for_service(timeout_sec=1.0):
 			self.get_logger().info('service not available, waiting again...')
 		# Create request and fill it with data
 		self.request_{{c.name}} = {{c.type}}.Request()
+		{% if c.package == 'interfaces' %}
 		{%for r in c.requests %}
 		self.request_{{c.name}}.{{r}} = {{r}}
 		{%endfor%}
+		{% else %}
+		# The service is type {{c.package}}/{{c.requests[0]}}
+		# Remember to store data in the attributes of self.request_{{c.name}}
+		{% endif %}
 		self.future_{{c.name}} = self.client_{{c.name}}.call_async(self.request_{{c.name}})
 		# Result after server's response is stored in 
 		{%for r in c.responses %}

@@ -538,6 +538,7 @@ for package in model_root.hasPackages:
 						types.append(r.datatype.type)
 					
 			else:
+				smsgObj.append(s.smsg.name)
 				sub['package'] = s.smsg.package
 				#TODO append the Ros subscriber parameters
 			
@@ -594,6 +595,7 @@ for package in model_root.hasPackages:
 						extra_imports.append(imp)
 						types.append(r.datatype.type)
 			else:
+				pmsgObj.append(p.pmsg.name)
 				pub['package'] = p.pmsg.package
 				#TODO append the Ros publisher parameters
 			
@@ -661,6 +663,7 @@ for package in model_root.hasPackages:
 						extra_imports.append(imp)
 						types.append(r.datatype.type)
 			else:
+				srequestObj.append(s.servicemessage.name)
 				ser['package'] = s.servicemessage.package
 				#TODO append the Ros service parameters
 			ser['requests'] = srequestObj
@@ -727,6 +730,7 @@ for package in model_root.hasPackages:
 						extra_imports.append(imp)
 						types.append(r.datatype.type)
 			else:
+				crequestObj.append(c.servicemessage.name)
 				cli['package'] = c.servicemessage.package
 				#TODO append the Ros client parameters
 			

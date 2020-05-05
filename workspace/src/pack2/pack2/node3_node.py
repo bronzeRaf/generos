@@ -73,8 +73,11 @@ class node3_class(Node):
 	# and you should put your own functionality.
 	def subscriber_call_suby3(self, msg):
 		# Please obtain the message from the subscriber in this callback
-		# Store the variables of the msg
-		# Now you can use the received variables
+		# The message definition could be found in the package: std_msgs
+		
+		# The message is type std_msgs/Header
+		# Remember to obtain data from its attributes
+
 		self.get_logger().info('I heard: '+str(msg.x))
 	#_____
 	
@@ -85,12 +88,14 @@ class node3_class(Node):
 	#____________________________________________
 	# This is the call function of the client Client2. 
 	# You can call this function, passing all the arguments of the 
-	# service request declaration. This function will not be called 
-	# automatically as you should call it to make a request. The 
-	# function waits for the service to be available before going on and
-	# the server's response is stored in a future object once the server
-	# return the response. This function is the template of the client 
-	# call and you should call it for applying requests.
+	# service request declaration (if the service is a Custom Service). 
+	# This function will not be called automatically as you should call 
+	# it to make a request. The function waits for the service to be 
+	# available before going on and the server's response is stored in 
+	# a future object once the server returns the response. This 
+	# function is the template of the client call and you should call 
+	# it for applying requests. Remember to change the arguments of the 
+	# function based on the service you use.
 	def client_call_Client2(self, x, y):
 		# Wait for service
 		while not self.client_Client2.wait_for_service(timeout_sec=1.0):
