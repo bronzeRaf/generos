@@ -232,6 +232,10 @@ class {{node.name}}_class(Node):
 		# Remember to store data in its attributes before publishing
 		{% endif %}
 		
+		
+		# TODO: Add functionality here
+		
+		
 		{% if p.type == "ValueString" %}
 		msg.x = 'Hello World: %d' % self.i
 		{% endif %}
@@ -270,7 +274,11 @@ class {{node.name}}_class(Node):
 		# The message is type {{s.package}}/{{s.msg[0]}}
 		# Remember to obtain data from its attributes
 		{% endif %}
-
+		
+		
+		# TODO: Add functionality here
+		
+		
 		self.get_logger().info('I heard: '+str(msg.x))
 	#_____
 	{%endfor%}
@@ -299,6 +307,10 @@ class {{node.name}}_class(Node):
 		# The service is type {{s.package}}/{{s.requests[0]}}
 		# Remember to store data in its attributes
 		{% endif %}
+		
+		
+		# TODO: Add functionality here
+		
 		
 		response.c = request.a + request.b
 		self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
@@ -338,6 +350,11 @@ class {{node.name}}_class(Node):
 		{%for r in c.responses %}
 		# self.future_{{c.name}}.result().{{r}} 
 		{%endfor%}
+		
+		
+		# TODO: Add functionality here
+		
+		
 	#_____
 	{%endfor%}
 			
@@ -354,6 +371,7 @@ class {{node.name}}_class(Node):
 	def action_execute_call_{{s.name}}(self, goal_handle):
 		# Please add the server's functionality in this callback
 		self.get_logger().info('Executing goal...')
+		# If your action interface contain submessages remember to fill their attributes
 		# Store the variables of the goal request
 		{%for r in s.goal %}
 		{{r}} = goal_handle.request.{{r}}
@@ -374,6 +392,11 @@ class {{node.name}}_class(Node):
 		{%for r in s.result %}
 		# result.{{r}} = ...
 		{%endfor%}
+		
+		
+		# TODO: Add functionality here
+		
+		
 		return result
 	
 	# This is the goal callback of the action server {{s.name}}.
@@ -416,6 +439,7 @@ class {{node.name}}_class(Node):
 		# Wait for action service
 		self.get_logger().info('Waiting for action server...')
 		self.action_client_{{c.name}}.wait_for_server()
+		# If your action interface contain submessages remember to fill their attributes 
 		# Create goal and fill it with data
 		goal_msg = {{c.type}}.Goal()
 		{%for r in c.goal %}
@@ -433,10 +457,16 @@ class {{node.name}}_class(Node):
 	# functionality.
 	def feedback_client_call_{{c.name}}(self, feedback):
 		self.get_logger().info('received feedback')
+		# If your action interface contain submessages remember to obtain their attributes 
 		# Do something with the variables in feedback
 		{%for r in c.feedback %}
 		# feedback.feedback.{{r}}
 		{%endfor%}
+		
+		
+		# TODO: Add functionality here
+		
+		
 		
 	# This is the response callback of the action client {{c.name}}.
 	# This function receives and handles the response that the 
@@ -465,6 +495,7 @@ class {{node.name}}_class(Node):
 		result = future.result().result
 		status = future.result().status
 		if status == GoalStatus.STATUS_SUCCEEDED:
+			# If your action interface contain submessages remember to obtain their attributes 
 			# Do something with the variables in result
 			{%for r in c.result %}
 			# result.{{r}}
@@ -472,7 +503,11 @@ class {{node.name}}_class(Node):
 			{%endfor%}
 		else:
 			self.get_logger().info('Goal failed with status: {0}'.format(status))
-
+		
+		
+		# TODO: Add functionality here
+		
+		
 	#_____
 	{%endfor%}
 		

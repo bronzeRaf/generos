@@ -134,6 +134,10 @@ class node1_class(Node):
 		# Remember to store data in its attributes before publishing
 		
 		
+		# TODO: Add functionality here
+		
+		
+		
 		self.i += 1
 	#_____
 	# This is the callback of the publisher publy2. 
@@ -151,6 +155,10 @@ class node1_class(Node):
 		# Message after calculactions should be stored in the attibutes:
 		# msg.header 
 		# msg.x 
+		
+		
+		# TODO: Add functionality here
+		
 		
 		
 		msg.x = self.i
@@ -180,6 +188,10 @@ class node1_class(Node):
 		# Service result after calculactions should be stored in:
 		# response.c 
 		
+		
+		# TODO: Add functionality here
+		
+		
 		response.c = request.a + request.b
 		self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
 		return response
@@ -194,6 +206,10 @@ class node1_class(Node):
 		# Please add the server's functionality in this callback
 		# The service is type std_srvs/SetBool
 		# Remember to store data in its attributes
+		
+		
+		# TODO: Add functionality here
+		
 		
 		response.c = request.a + request.b
 		self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
@@ -215,6 +231,7 @@ class node1_class(Node):
 	def action_execute_call_action1(self, goal_handle):
 		# Please add the server's functionality in this callback
 		self.get_logger().info('Executing goal...')
+		# If your action interface contain submessages remember to fill their attributes
 		# Store the variables of the goal request
 		start = goal_handle.request.start
 		goal = goal_handle.request.goal
@@ -230,6 +247,11 @@ class node1_class(Node):
 		result = Increase.Result()
 		# Fill the result with data
 		# result.a = ...
+		
+		
+		# TODO: Add functionality here
+		
+		
 		return result
 	
 	# This is the goal callback of the action server action1.

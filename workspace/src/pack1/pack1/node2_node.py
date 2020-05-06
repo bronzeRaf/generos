@@ -121,7 +121,11 @@ class node2_class(Node):
 		header = msg.header
 		x = msg.x
 		# Now you can use the received variables
-
+		
+		
+		# TODO: Add functionality here
+		
+		
 		self.get_logger().info('I heard: '+str(msg.x))
 	#_____
 	
@@ -151,6 +155,11 @@ class node2_class(Node):
 		self.future_Client1 = self.client_Client1.call_async(self.request_Client1)
 		# Result after server's response is stored in 
 		# self.future_Client1.result().c 
+		
+		
+		# TODO: Add functionality here
+		
+		
 	#_____
 	# This is the call function of the client Client3. 
 	# You can call this function, passing all the arguments of the 
@@ -172,6 +181,11 @@ class node2_class(Node):
 		# Remember to store data in the attributes of self.request_Client3
 		self.future_Client3 = self.client_Client3.call_async(self.request_Client3)
 		# Result after server's response is stored in 
+		
+		
+		# TODO: Add functionality here
+		
+		
 	#_____
 			
 	# Action Servers
@@ -192,6 +206,7 @@ class node2_class(Node):
 		# Wait for action service
 		self.get_logger().info('Waiting for action server...')
 		self.action_client_action1.wait_for_server()
+		# If your action interface contain submessages remember to fill their attributes 
 		# Create goal and fill it with data
 		goal_msg = Increase.Goal()
 		goal_msg.start = start
@@ -208,8 +223,14 @@ class node2_class(Node):
 	# functionality.
 	def feedback_client_call_action1(self, feedback):
 		self.get_logger().info('received feedback')
+		# If your action interface contain submessages remember to obtain their attributes 
 		# Do something with the variables in feedback
 		# feedback.feedback.update
+		
+		
+		# TODO: Add functionality here
+		
+		
 		
 	# This is the response callback of the action client action1.
 	# This function receives and handles the response that the 
@@ -238,12 +259,17 @@ class node2_class(Node):
 		result = future.result().result
 		status = future.result().status
 		if status == GoalStatus.STATUS_SUCCEEDED:
+			# If your action interface contain submessages remember to obtain their attributes 
 			# Do something with the variables in result
 			# result.a
 			self.get_logger().info('Result obtained') 
 		else:
 			self.get_logger().info('Goal failed with status: {0}'.format(status))
-
+		
+		
+		# TODO: Add functionality here
+		
+		
 	#_____
 		
 		

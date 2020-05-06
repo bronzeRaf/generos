@@ -77,7 +77,11 @@ class node3_class(Node):
 		
 		# The message is type std_msgs/Header
 		# Remember to obtain data from its attributes
-
+		
+		
+		# TODO: Add functionality here
+		
+		
 		self.get_logger().info('I heard: '+str(msg.x))
 	#_____
 	
@@ -107,6 +111,11 @@ class node3_class(Node):
 		self.future_Client2 = self.client_Client2.call_async(self.request_Client2)
 		# Result after server's response is stored in 
 		# self.future_Client2.result().z 
+		
+		
+		# TODO: Add functionality here
+		
+		
 	#_____
 			
 	# Action Servers
