@@ -81,7 +81,7 @@ class node3_class(Node):
 		self.get_logger().info('I heard: '+str(msg.x))
 	#_____
 	
-	#Servers
+	# Servers
 	#____________________________________________
 		
 	# Clients

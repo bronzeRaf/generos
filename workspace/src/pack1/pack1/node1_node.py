@@ -18,7 +18,6 @@ from std_srvs.srv import SetBool
 # Imports for action interfaces
 from interfaces.action import Increase
 # Imports for msg inside custom interfaces
-from std_msgs.msg import Int32
 
 
 # Class for the node node1 
@@ -74,13 +73,31 @@ class node1_class(Node):
 		#____________________________________________
 		# Server1
 		# Qos profile
-		qos_profile_Server1 = QoSPresetProfiles.SERVICES_DEFAULT.value
+		qos_profile_Server1 = QoSProfile(history = QoSHistoryPolicy.KEEP_LAST, durability = QoSDurabilityPolicy.VOLATILE, reliability = QoSReliabilityPolicy.RELIABLE, depth =5)
+		# Additional qos settings
+		qos_profile_Server1.liveliness = QoSLivelinessPolicy.SYSTEM_DEFAULT
+		qos_profile_Server1.deadline.sec = 0
+		qos_profile_Server1.deadline.nsec = 0
+		qos_profile_Server1.lifespan.sec = 0
+		qos_profile_Server1.lifespan.nsec = 0
+		qos_profile_Server1.liveliness_lease_duration.sec = 0
+		qos_profile_Server1.liveliness_lease_duration.nsec = 0
+		qos_profile_Server1.avoid_ros_namespace_conventions = False
 				
 		self.server_Server1 = self.create_service(Addtwo, 'add_two', self.server_call_Server1, qos_profile = qos_profile_Server1)
 		#_____
 		# Server3
 		# Qos profile
-		qos_profile_Server3 = QoSPresetProfiles.SERVICES_DEFAULT.value
+		qos_profile_Server3 = QoSProfile(history = QoSHistoryPolicy.KEEP_LAST, durability = QoSDurabilityPolicy.VOLATILE, reliability = QoSReliabilityPolicy.RELIABLE, depth =5)
+		# Additional qos settings
+		qos_profile_Server3.liveliness = QoSLivelinessPolicy.SYSTEM_DEFAULT
+		qos_profile_Server3.deadline.sec = 0
+		qos_profile_Server3.deadline.nsec = 0
+		qos_profile_Server3.lifespan.sec = 0
+		qos_profile_Server3.lifespan.nsec = 0
+		qos_profile_Server3.liveliness_lease_duration.sec = 0
+		qos_profile_Server3.liveliness_lease_duration.nsec = 0
+		qos_profile_Server3.avoid_ros_namespace_conventions = False
 				
 		self.server_Server3 = self.create_service(SetBool, 'set_bool', self.server_call_Server3, qos_profile = qos_profile_Server3)
 		#_____
@@ -147,7 +164,7 @@ class node1_class(Node):
 	# Subscribers
 	#____________________________________________
 	
-	#Servers
+	# Servers
 	#____________________________________________
 	# This is the callback of the server Server1. 
 	# You can obtain the request to the server from the variables set in 

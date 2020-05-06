@@ -61,7 +61,7 @@ res1 = metamodel.Response()
 res2 = metamodel.Response()
 #set the communication objects for the services
 sobject1 = metamodel.ObjectProperty(name="a", description = "a value for integer service Addtwo request 1")
-st1 = metamodel.ROSData(type = "Int32", package="std_msgs")
+st1 = metamodel.Int(type = metamodel.IntType.int64)
 sobject1.datatype = st1
 
 sobject2 = metamodel.ObjectProperty(name="b", description = "b value for integer service Addtwo request 2")
@@ -153,6 +153,13 @@ qos1 = metamodel.CustomQosProfile(history = metamodel.QosHistory.KEEP_ALL, depth
 rosystem1.hasCustomQosProfiles.extend([qos1])
 publisher2.qosprofile = qos1
 subscriber2.qosprofile = qos1
+
+qos3 = metamodel.CustomQosProfile(history = metamodel.QosHistory.KEEP_LAST, depth = 5, reliability = metamodel.QosReliability.RELIABLE, durability = metamodel.QosDurability.VOLATILE)
+rosystem1.hasCustomQosProfiles.extend([qos3])
+server1.qosprofile = qos3
+server3.qosprofile = qos3
+client1.qosprofile = qos3
+client3.qosprofile = qos3
 
 # ~ qos2 = metamodel.RosQosProfile(name = metamodel.QosPresetProfiles.SENSOR_DATA)
 # ~ package1.hasRosQosProfiles.extend([qos2])

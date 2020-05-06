@@ -10,10 +10,6 @@
 #include <stdint.h>
 #include <type_traits>
 
-// Include directives for member types
-// Member 'a'
-#include "std_msgs/msg/int32__traits.hpp"
-
 namespace rosidl_generator_traits
 {
 
@@ -25,11 +21,11 @@ inline const char * data_type<interfaces::srv::Addtwo_Request>()
 
 template<>
 struct has_fixed_size<interfaces::srv::Addtwo_Request>
-  : std::integral_constant<bool, has_fixed_size<std_msgs::msg::Int32>::value> {};
+  : std::integral_constant<bool, true> {};
 
 template<>
 struct has_bounded_size<interfaces::srv::Addtwo_Request>
-  : std::integral_constant<bool, has_bounded_size<std_msgs::msg::Int32>::value> {};
+  : std::integral_constant<bool, true> {};
 
 }  // namespace rosidl_generator_traits
 

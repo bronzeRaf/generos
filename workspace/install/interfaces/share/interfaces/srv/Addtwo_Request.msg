@@ -5,7 +5,7 @@
 # Service Request
 
 # a -- a value for integer service Addtwo request 1
-std_msgs/Int32 a
+int64 a
 
 # b -- b value for integer service Addtwo request 2
 int64 b

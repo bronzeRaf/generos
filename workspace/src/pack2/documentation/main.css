@@ -96,17 +96,26 @@ iframe {
 .gradient {
   width: 100%;
   background: #e7ebee;
-  border-bottom: 3px solid #dfe1e6;
+  border-bottom: 10px solid #dfe1e6;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
   padding: 33px 30px;
 }
+.containment {
+  
+  border-bottom: 3px solid #dfe1e6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 5px 5px;
+}
 .gradient1 {
   width: 100%;
   background: #e7ebee;
-  border-bottom: 3px solid #dfe1e6;
+  border-bottom: 10px solid #dfe1e6;
   display: flex;
   align-items: left;
   justify-content: left;

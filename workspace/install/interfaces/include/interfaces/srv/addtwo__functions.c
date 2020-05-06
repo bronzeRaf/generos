@@ -8,10 +8,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Include directives for member types
-// Member `a`
-#include "std_msgs/msg/int32__functions.h"
-
 bool
 interfaces__srv__Addtwo_Request__init(interfaces__srv__Addtwo_Request * msg)
 {
@@ -19,10 +15,6 @@ interfaces__srv__Addtwo_Request__init(interfaces__srv__Addtwo_Request * msg)
     return false;
   }
   // a
-  if (!std_msgs__msg__Int32__init(&msg->a)) {
-    interfaces__srv__Addtwo_Request__destroy(msg);
-    return false;
-  }
   // b
   return true;
 }
@@ -34,7 +26,6 @@ interfaces__srv__Addtwo_Request__fini(interfaces__srv__Addtwo_Request * msg)
     return;
   }
   // a
-  std_msgs__msg__Int32__fini(&msg->a);
   // b
 }
 

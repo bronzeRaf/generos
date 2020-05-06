@@ -11,12 +11,6 @@
 #include "interfaces/srv/addtwo__struct.h"
 
 
-// Include directives for member types
-// Member `a`
-#include "std_msgs/msg/int32.h"
-// Member `a`
-#include "std_msgs/msg/int32__rosidl_typesupport_introspection_c.h"
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -25,9 +19,9 @@ extern "C"
 static rosidl_typesupport_introspection_c__MessageMember Addtwo_Request__rosidl_typesupport_introspection_c__Addtwo_Request_message_member_array[2] = {
   {
     "a",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_MESSAGE,  // type
+    rosidl_typesupport_introspection_c__ROS_TYPE_INT64,  // type
     0,  // upper bound of string
-    NULL,  // members of sub message (initialized later)
+    NULL,  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
@@ -74,8 +68,6 @@ static rosidl_message_type_support_t Addtwo_Request__rosidl_typesupport_introspe
 ROSIDL_TYPESUPPORT_INTROSPECTION_C_EXPORT_interfaces
 const rosidl_message_type_support_t *
 ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, interfaces, srv, Addtwo_Request)() {
-  Addtwo_Request__rosidl_typesupport_introspection_c__Addtwo_Request_message_member_array[0].members_ =
-    ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, std_msgs, msg, Int32)();
   if (!Addtwo_Request__rosidl_typesupport_introspection_c__Addtwo_Request_message_type_support_handle.typesupport_identifier) {
     Addtwo_Request__rosidl_typesupport_introspection_c__Addtwo_Request_message_type_support_handle.typesupport_identifier =
       rosidl_typesupport_introspection_c__identifier;

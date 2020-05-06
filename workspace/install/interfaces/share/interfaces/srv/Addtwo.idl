@@ -2,7 +2,6 @@
 // with input from interfaces/srv/Addtwo.srv
 // generated code does not contain a copyright notice
 
-#include "std_msgs/msg/Int32.idl"
 
 module interfaces {
   module srv {
@@ -13,7 +12,7 @@ module interfaces {
         " Service for receiving two numbers and returning their their sum" "\n"
         " Service Request" "\n"
         " a -- a value for integer service Addtwo request 1")
-      std_msgs::msg::Int32 a;
+      int64 a;
 
       @verbatim (language="comment", text=
         " b -- b value for integer service Addtwo request 2")

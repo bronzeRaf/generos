@@ -898,18 +898,18 @@ class CustomActionInterface(ActionInterface):
 class CustomQosProfile(QosProfile):
 
     history = EAttribute(eType=QosHistory, derived=False, changeable=True)
-    depth = EAttribute(eType=EInt, derived=False, changeable=True)
+    depth = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
     reliability = EAttribute(eType=QosReliability, derived=False, changeable=True)
     durability = EAttribute(eType=QosDurability, derived=False, changeable=True)
     liveliness = EAttribute(eType=QosLiveliness, derived=False, changeable=True)
-    deadlineSec = EAttribute(eType=EInt, derived=False, changeable=True, default_value=-1)
-    deadlineNSec = EAttribute(eType=EInt, derived=False, changeable=True, default_value=-1)
-    lifespanSec = EAttribute(eType=EInt, derived=False, changeable=True, default_value=-1)
-    lifespanNSec = EAttribute(eType=EInt, derived=False, changeable=True, default_value=-1)
+    deadlineSec = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
+    deadlineNSec = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
+    lifespanSec = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
+    lifespanNSec = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
     liveliness_lease_durationSec = EAttribute(
-        eType=EInt, derived=False, changeable=True, default_value=-1)
+        eType=EInt, derived=False, changeable=True, default_value=0)
     liveliness_lease_durationNSec = EAttribute(
-        eType=EInt, derived=False, changeable=True, default_value=-1)
+        eType=EInt, derived=False, changeable=True, default_value=0)
     avoid_ros_namespace_conventions = EAttribute(eType=EBoolean, derived=False, changeable=True)
 
     def __init__(self, *, history=None, depth=None, reliability=None, durability=None, liveliness=None, deadlineSec=None, deadlineNSec=None, lifespanSec=None, lifespanNSec=None, liveliness_lease_durationSec=None, liveliness_lease_durationNSec=None, avoid_ros_namespace_conventions=None, **kwargs):

@@ -53,7 +53,7 @@
 		Parameters
 -->
 	{% if node.param is defined and node.param|length %}
-			<div class="parameter">
+			<div class="containment">
 					<div class="container-table100">
 						<div class="wrap-table100">
 							<div class="table100">
@@ -83,7 +83,7 @@
 		Publishers
 -->
 	{% if node.publishers is defined and node.publishers|length %}
-			<div class="publisher">
+			<div class="containment">
 					<div class="container-table100">
 						<div class="wrap-table100">
 							<div class="table100">
@@ -96,7 +96,7 @@
 											<th class="column3">Package</th>
 											<th class="column4">Path</th>
 											<th class="column5">Rate</th>
-											<th class="column6">QoS</th>
+											<th class="column6">QoS Profile</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -107,7 +107,13 @@
 												<td class="column3">{{p.package}}</td>
 												<td class="column4">{{p.topicPath}}</td>
 												<td class="column5">{{p.publishRate}}</td>
-												<td class="column6">{{p.qos}}</td>
+												{% if p.profile.history == "standart" %}
+												<td class="column6">{{p.profile.name}}</td>
+												{% elif p.profile.history == "default" %}
+												<td class="column6">SYSTEM_DEFAULT</td>
+												{% else %}
+												<td class="column6">Custom</td>
+												{% endif %}
 											</tr>
 											{% endfor %}
 									</tbody>
@@ -115,13 +121,88 @@
 							</div>
 						</div>
 					</div>
-			</div>
+					
+<!-- 
+		QoS
+-->
+{% for p in node.publishers %}
+{% if p.profile.history!="standart" and p.profile.history!="default" %}
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Custom QoS Profile of Publisher <strong>{{p.name}}</strong></caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Parameter</th>
+											<th class="column2">Value</th>
+										</tr>
+									</thead>
+									<tbody>
+											
+											<tr>
+												<td class="column1">History</td>
+												<td class="column2">{{p.profile.history}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Reliability</td>
+												<td class="column2">{{p.profile.reliability}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Durability</td>
+												<td class="column2">{{p.profile.durability}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Depth</td>
+												<td class="column2">{{p.profile.depth}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness</td>
+												<td class="column2">{{p.profile.liveliness}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Sec</td>
+												<td class="column2">{{p.profile.deadlineSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Nano Sec</td>
+												<td class="column2">{{p.profile.deadlineNSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Sec</td>
+												<td class="column2">{{p.profile.lifespanSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Nano Sec</td>
+												<td class="column2">{{p.profile.lifespanNSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Sec</td>
+												<td class="column2">{{p.profile.liveliness_lease_durationSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Nano Sec</td>
+												<td class="column2">{{p.profile.liveliness_lease_durationNSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Avoid ROS Namespace Conventions</td>
+												<td class="column2">{{p.profile.avoid_ros_namespace_conventions}}</td>
+											</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			
+{% endif %}
+{% endfor %}
+		</div>
 	{%endif%}	
 <!--
 		Subscribers
 -->
 	{% if node.subscribers is defined and node.subscribers|length %}
-			<div class="subscriber">
+			<div class="containment">
 					<div class="container-table100">
 						<div class="wrap-table100">
 							<div class="table100">
@@ -133,7 +214,7 @@
 											<th class="column2">Type</th>
 											<th class="column3">Package</th>
 											<th class="column4">Path</th>
-											<th class="column6">QoS</th>
+											<th class="column5">QoS Profile</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -143,7 +224,13 @@
 												<td class="column2">{{p.type}}</td>
 												<td class="column3">{{p.package}}</td>
 												<td class="column4">{{p.topicPath}}</td>
-												<td class="column6">{{p.qos}}</td>
+												{% if p.profile.history == "standart" %}
+												<td class="column5">{{p.profile.name}}</td>
+												{% elif p.profile.history == "default" %}
+												<td class="column5">SYSTEM_DEFAULT</td>
+												{% else %}
+												<td class="column5">Custom</td>
+												{% endif %}
 											</tr>
 											{% endfor %}
 									</tbody>
@@ -151,13 +238,88 @@
 							</div>
 						</div>
 					</div>
-			</div>
+
+<!-- 
+		QoS
+-->
+{% for p in node.subscribers %}
+{% if p.profile.history!="standart" and p.profile.history!="default" %}
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Custom QoS Profile of Subscribers <strong>{{p.name}}</strong></caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Parameter</th>
+											<th class="column2">Value</th>
+										</tr>
+									</thead>
+									<tbody>
+											
+											<tr>
+												<td class="column1">History</td>
+												<td class="column2">{{p.profile.history}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Reliability</td>
+												<td class="column2">{{p.profile.reliability}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Durability</td>
+												<td class="column2">{{p.profile.durability}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Depth</td>
+												<td class="column2">{{p.profile.depth}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness</td>
+												<td class="column2">{{p.profile.liveliness}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Sec</td>
+												<td class="column2">{{p.profile.deadlineSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Nano Sec</td>
+												<td class="column2">{{p.profile.deadlineNSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Sec</td>
+												<td class="column2">{{p.profile.lifespanSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Nano Sec</td>
+												<td class="column2">{{p.profile.lifespanNSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Sec</td>
+												<td class="column2">{{p.profile.liveliness_lease_durationSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Nano Sec</td>
+												<td class="column2">{{p.profile.liveliness_lease_durationNSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Avoid ROS Namespace Conventions</td>
+												<td class="column2">{{p.profile.avoid_ros_namespace_conventions}}</td>
+											</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			
+{% endif %}
+{% endfor %}
+		</div>
 	{%endif%}
 <!--
 		Servers
 -->
 	{% if node.servers is defined and node.servers|length %}
-			<div class="servers">
+			<div class="containment">
 					<div class="container-table100">
 						<div class="wrap-table100">
 							<div class="table100">
@@ -169,7 +331,8 @@
 											<th class="column2">Service Name</th>
 											<th class="column3">Type</th>
 											<th class="column4">Package</th>
-											<th class="column6">Path</th>
+											<th class="column5">Path</th>
+											<th class="column6">QoS Profile</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -179,7 +342,14 @@
 												<td class="column2">{{p.serviceName}}</td>
 												<td class="column3">{{p.type}}</td>
 												<td class="column4">{{p.package}}</td>
-												<td class="column6">{{p.servicePath}}</td>
+												<td class="column5">{{p.servicePath}}</td>
+												{% if p.profile.history == "standart" %}
+												<td class="column6">{{p.profile.name}}</td>
+												{% elif p.profile.history == "default" %}
+												<td class="column6">SYSTEM_DEFAULT</td>
+												{% else %}
+												<td class="column6">Custom</td>
+												{% endif %}
 											</tr>
 											{% endfor %}
 									</tbody>
@@ -187,13 +357,89 @@
 							</div>
 						</div>
 					</div>
-			</div>
+			
+<!-- 
+		QoS
+-->
+{% for p in node.servers %}
+{% if p.profile.history!="standart" and p.profile.history!="default" %}
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Custom QoS Profile of Server <strong>{{p.name}}</strong></caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Parameter</th>
+											<th class="column2">Value</th>
+										</tr>
+									</thead>
+									<tbody>
+											
+											<tr>
+												<td class="column1">History</td>
+												<td class="column2">{{p.profile.history}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Reliability</td>
+												<td class="column2">{{p.profile.reliability}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Durability</td>
+												<td class="column2">{{p.profile.durability}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Depth</td>
+												<td class="column2">{{p.profile.depth}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness</td>
+												<td class="column2">{{p.profile.liveliness}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Sec</td>
+												<td class="column2">{{p.profile.deadlineSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Nano Sec</td>
+												<td class="column2">{{p.profile.deadlineNSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Sec</td>
+												<td class="column2">{{p.profile.lifespanSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Nano Sec</td>
+												<td class="column2">{{p.profile.lifespanNSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Sec</td>
+												<td class="column2">{{p.profile.liveliness_lease_durationSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Nano Sec</td>
+												<td class="column2">{{p.profile.liveliness_lease_durationNSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Avoid ROS Namespace Conventions</td>
+												<td class="column2">{{p.profile.avoid_ros_namespace_conventions}}</td>
+											</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+{% endif %}
+{% endfor %}
+		</div>
+			
 	{%endif%}
 <!--
 		Clients
 -->
 	{% if node.clients is defined and node.clients|length %}
-			<div class="servers">
+			<div class="containment">
 					<div class="container-table100">
 						<div class="wrap-table100">
 							<div class="table100">
@@ -205,7 +451,8 @@
 											<th class="column2">Service Name</th>
 											<th class="column3">Type</th>
 											<th class="column4">Package</th>
-											<th class="column6">Path</th>
+											<th class="column5">Path</th>
+											<th class="column6">QoS Profile</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -215,7 +462,14 @@
 												<td class="column2">{{p.serviceName}}</td>
 												<td class="column3">{{p.type}}</td>
 												<td class="column4">{{p.package}}</td>
-												<td class="column6">{{p.servicePath}}</td>
+												<td class="column5">{{p.servicePath}}</td>
+												{% if p.profile.history == "standart" %}
+												<td class="column6">{{p.profile.name}}</td>
+												{% elif p.profile.history == "default" %}
+												<td class="column6">SYSTEM_DEFAULT</td>
+												{% else %}
+												<td class="column6">Custom</td>
+												{% endif %}
 											</tr>
 											{% endfor %}
 									</tbody>
@@ -223,13 +477,91 @@
 							</div>
 						</div>
 					</div>
-			</div>
+		
+<!-- 
+		QoS
+-->
+{% for p in node.clients %}
+{% if p.profile.history!="standart" and p.profile.history!="default" %}
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Custom QoS Profile of Subscribers <strong>{{p.name}}</strong></caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Parameter</th>
+											<th class="column2">Value</th>
+										</tr>
+									</thead>
+									<tbody>
+											
+											<tr>
+												<td class="column1">History</td>
+												<td class="column2">{{p.profile.history}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Reliability</td>
+												<td class="column2">{{p.profile.reliability}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Durability</td>
+												<td class="column2">{{p.profile.durability}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Depth</td>
+												<td class="column2">{{p.profile.depth}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness</td>
+												<td class="column2">{{p.profile.liveliness}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Sec</td>
+												<td class="column2">{{p.profile.deadlineSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Nano Sec</td>
+												<td class="column2">{{p.profile.deadlineNSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Sec</td>
+												<td class="column2">{{p.profile.lifespanSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Nano Sec</td>
+												<td class="column2">{{p.profile.lifespanNSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Sec</td>
+												<td class="column2">{{p.profile.liveliness_lease_durationSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Nano Sec</td>
+												<td class="column2">{{p.profile.liveliness_lease_durationNSec}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Avoid ROS Namespace Conventions</td>
+												<td class="column2">{{p.profile.avoid_ros_namespace_conventions}}</td>
+											</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			
+{% endif %}
+{% endfor %}
+		</div>
+
 	{%endif%}
+	
+
 <!--
 		Action Servers
 -->
 	{% if node.action_servers is defined and node.action_servers|length %}
-			<div class="actionservers">
+			<div class="containment">
 					<div class="container-table100">
 						<div class="wrap-table100">
 							<div class="table100">
@@ -261,7 +593,7 @@
 		Action Clients
 -->
 	{% if node.action_clients is defined and node.action_clients|length %}
-			<div class="actionclients">
+			<div class="containment">
 					<div class="container-table100">
 						<div class="wrap-table100">
 							<div class="table100">

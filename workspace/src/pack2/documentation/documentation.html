@@ -52,7 +52,7 @@
 <!--
 		Subscribers
 -->
-			<div class="subscriber">
+			<div class="containment">
 					<div class="container-table100">
 						<div class="wrap-table100">
 							<div class="table100">
@@ -64,7 +64,7 @@
 											<th class="column2">Type</th>
 											<th class="column3">Package</th>
 											<th class="column4">Path</th>
-											<th class="column6">QoS</th>
+											<th class="column5">QoS Profile</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -73,21 +73,25 @@
 												<td class="column2">Header</td>
 												<td class="column3">std_msgs</td>
 												<td class="column4">topic/path3</td>
-												<td class="column6">10</td>
+												<td class="column5">SYSTEM_DEFAULT</td>
 											</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
-			</div>
+
+<!-- 
+		QoS
+-->
+		</div>
 <!--
 		Servers
 -->
 <!--
 		Clients
 -->
-			<div class="servers">
+			<div class="containment">
 					<div class="container-table100">
 						<div class="wrap-table100">
 							<div class="table100">
@@ -99,7 +103,8 @@
 											<th class="column2">Service Name</th>
 											<th class="column3">Type</th>
 											<th class="column4">Package</th>
-											<th class="column6">Path</th>
+											<th class="column5">Path</th>
+											<th class="column6">QoS Profile</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -108,14 +113,22 @@
 												<td class="column2">str</td>
 												<td class="column3">SrFloatFloatString</td>
 												<td class="column4">interfaces</td>
-												<td class="column6">ser/vice/path2</td>
+												<td class="column5">ser/vice/path2</td>
+												<td class="column6">SYSTEM_DEFAULT</td>
 											</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
-			</div>
+		
+<!-- 
+		QoS
+-->
+		</div>
+
+	
+
 <!--
 		Action Servers
 -->

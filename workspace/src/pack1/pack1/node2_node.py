@@ -19,7 +19,6 @@ from std_srvs.srv import SetBool
 from interfaces.action import Increase
 # Imports for msg inside custom interfaces
 from std_msgs.msg import Header
-from std_msgs.msg import Int32
 
 
 # Class for the node node2 
@@ -62,13 +61,31 @@ class node2_class(Node):
 		#____________________________________________
 		# Client1
 		# Qos profile
-		qos_profile_Client1 = QoSPresetProfiles.SERVICES_DEFAULT.value
+		qos_profile_Client1 = QoSProfile(history = QoSHistoryPolicy.KEEP_LAST, durability = QoSDurabilityPolicy.VOLATILE, reliability = QoSReliabilityPolicy.RELIABLE, depth =5)
+		# Additional qos settings
+		qos_profile_Client1.liveliness = QoSLivelinessPolicy.SYSTEM_DEFAULT
+		qos_profile_Client1.deadline.sec = 0
+		qos_profile_Client1.deadline.nsec = 0
+		qos_profile_Client1.lifespan.sec = 0
+		qos_profile_Client1.lifespan.nsec = 0
+		qos_profile_Client1.liveliness_lease_duration.sec = 0
+		qos_profile_Client1.liveliness_lease_duration.nsec = 0
+		qos_profile_Client1.avoid_ros_namespace_conventions = False
 				
 		self.client_Client1 = self.create_client(Addtwo, 'add_two', qos_profile = qos_profile_Client1)
 		#_____
 		# Client3
 		# Qos profile
-		qos_profile_Client3 = QoSPresetProfiles.SERVICES_DEFAULT.value
+		qos_profile_Client3 = QoSProfile(history = QoSHistoryPolicy.KEEP_LAST, durability = QoSDurabilityPolicy.VOLATILE, reliability = QoSReliabilityPolicy.RELIABLE, depth =5)
+		# Additional qos settings
+		qos_profile_Client3.liveliness = QoSLivelinessPolicy.SYSTEM_DEFAULT
+		qos_profile_Client3.deadline.sec = 0
+		qos_profile_Client3.deadline.nsec = 0
+		qos_profile_Client3.lifespan.sec = 0
+		qos_profile_Client3.lifespan.nsec = 0
+		qos_profile_Client3.liveliness_lease_duration.sec = 0
+		qos_profile_Client3.liveliness_lease_duration.nsec = 0
+		qos_profile_Client3.avoid_ros_namespace_conventions = False
 				
 		self.client_Client3 = self.create_client(SetBool, 'set_bool', qos_profile = qos_profile_Client3)
 		#_____
@@ -108,7 +125,7 @@ class node2_class(Node):
 		self.get_logger().info('I heard: '+str(msg.x))
 	#_____
 	
-	#Servers
+	# Servers
 	#____________________________________________
 		
 	# Clients
@@ -152,7 +169,7 @@ class node2_class(Node):
 		# Create request and fill it with data
 		self.request_Client3 = SetBool.Request()
 		# The service is type std_srvs/SetBool
-		# Remember to store data the attributes of self.request_Client3
+		# Remember to store data in the attributes of self.request_Client3
 		self.future_Client3 = self.client_Client3.call_async(self.request_Client3)
 		# Result after server's response is stored in 
 	#_____

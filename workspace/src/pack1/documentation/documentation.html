@@ -45,7 +45,7 @@
 <!--
 		Parameters
 -->
-			<div class="parameter">
+			<div class="containment">
 					<div class="container-table100">
 						<div class="wrap-table100">
 							<div class="table100">
@@ -71,7 +71,7 @@
 <!--
 		Publishers
 -->
-			<div class="publisher">
+			<div class="containment">
 					<div class="container-table100">
 						<div class="wrap-table100">
 							<div class="table100">
@@ -84,7 +84,7 @@
 											<th class="column3">Package</th>
 											<th class="column4">Path</th>
 											<th class="column5">Rate</th>
-											<th class="column6">QoS</th>
+											<th class="column6">QoS Profile</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -94,7 +94,7 @@
 												<td class="column3">std_msgs</td>
 												<td class="column4">topic/path3</td>
 												<td class="column5">12.0</td>
-												<td class="column6">10</td>
+												<td class="column6">SYSTEM_DEFAULT</td>
 											</tr>
 											<tr>
 												<td class="column1">publy2</td>
@@ -102,14 +102,85 @@
 												<td class="column3">interfaces</td>
 												<td class="column4">topic/path2</td>
 												<td class="column5">8.0</td>
-												<td class="column6">10</td>
+												<td class="column6">Custom</td>
 											</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
-			</div>
+					
+<!-- 
+		QoS
+-->
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Custom QoS Profile of Publisher <strong>publy2</strong></caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Parameter</th>
+											<th class="column2">Value</th>
+										</tr>
+									</thead>
+									<tbody>
+											
+											<tr>
+												<td class="column1">History</td>
+												<td class="column2">KEEP_ALL</td>
+											</tr>
+											<tr>
+												<td class="column1">Reliability</td>
+												<td class="column2">RELIABLE</td>
+											</tr>
+											<tr>
+												<td class="column1">Durability</td>
+												<td class="column2">TRANSIENT_LOCAL</td>
+											</tr>
+											<tr>
+												<td class="column1">Depth</td>
+												<td class="column2">10</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness</td>
+												<td class="column2">SYSTEM_DEFAULT</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Nano Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Nano Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Nano Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Avoid ROS Namespace Conventions</td>
+												<td class="column2">False</td>
+											</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			
+		</div>
 	
 <!--
 		Subscribers
@@ -117,7 +188,7 @@
 <!--
 		Servers
 -->
-			<div class="servers">
+			<div class="containment">
 					<div class="container-table100">
 						<div class="wrap-table100">
 							<div class="table100">
@@ -129,7 +200,8 @@
 											<th class="column2">Service Name</th>
 											<th class="column3">Type</th>
 											<th class="column4">Package</th>
-											<th class="column6">Path</th>
+											<th class="column5">Path</th>
+											<th class="column6">QoS Profile</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -138,28 +210,171 @@
 												<td class="column2">add_two</td>
 												<td class="column3">Addtwo</td>
 												<td class="column4">interfaces</td>
-												<td class="column6">ser/vice/path1</td>
+												<td class="column5">ser/vice/path1</td>
+												<td class="column6">Custom</td>
 											</tr>
 											<tr>
 												<td class="column1">Server3</td>
 												<td class="column2">set_bool</td>
 												<td class="column3">SetBool</td>
 												<td class="column4">std_srvs</td>
-												<td class="column6">ser/vice/path3</td>
+												<td class="column5">ser/vice/path3</td>
+												<td class="column6">Custom</td>
 											</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
-			</div>
+			
+<!-- 
+		QoS
+-->
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Custom QoS Profile of Server <strong>Server1</strong></caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Parameter</th>
+											<th class="column2">Value</th>
+										</tr>
+									</thead>
+									<tbody>
+											
+											<tr>
+												<td class="column1">History</td>
+												<td class="column2">KEEP_LAST</td>
+											</tr>
+											<tr>
+												<td class="column1">Reliability</td>
+												<td class="column2">RELIABLE</td>
+											</tr>
+											<tr>
+												<td class="column1">Durability</td>
+												<td class="column2">VOLATILE</td>
+											</tr>
+											<tr>
+												<td class="column1">Depth</td>
+												<td class="column2">5</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness</td>
+												<td class="column2">SYSTEM_DEFAULT</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Nano Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Nano Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Nano Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Avoid ROS Namespace Conventions</td>
+												<td class="column2">False</td>
+											</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Custom QoS Profile of Server <strong>Server3</strong></caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Parameter</th>
+											<th class="column2">Value</th>
+										</tr>
+									</thead>
+									<tbody>
+											
+											<tr>
+												<td class="column1">History</td>
+												<td class="column2">KEEP_LAST</td>
+											</tr>
+											<tr>
+												<td class="column1">Reliability</td>
+												<td class="column2">RELIABLE</td>
+											</tr>
+											<tr>
+												<td class="column1">Durability</td>
+												<td class="column2">VOLATILE</td>
+											</tr>
+											<tr>
+												<td class="column1">Depth</td>
+												<td class="column2">5</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness</td>
+												<td class="column2">SYSTEM_DEFAULT</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Nano Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Nano Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Nano Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Avoid ROS Namespace Conventions</td>
+												<td class="column2">False</td>
+											</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+		</div>
+			
 <!--
 		Clients
 -->
+	
+
 <!--
 		Action Servers
 -->
-			<div class="actionservers">
+			<div class="containment">
 					<div class="container-table100">
 						<div class="wrap-table100">
 							<div class="table100">
@@ -204,7 +419,7 @@
 <!--
 		Subscribers
 -->
-			<div class="subscriber">
+			<div class="containment">
 					<div class="container-table100">
 						<div class="wrap-table100">
 							<div class="table100">
@@ -216,7 +431,7 @@
 											<th class="column2">Type</th>
 											<th class="column3">Package</th>
 											<th class="column4">Path</th>
-											<th class="column6">QoS</th>
+											<th class="column5">QoS Profile</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -225,21 +440,92 @@
 												<td class="column2">ValueInt</td>
 												<td class="column3">interfaces</td>
 												<td class="column4">topic/path2</td>
-												<td class="column6">10</td>
+												<td class="column5">Custom</td>
 											</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
-			</div>
+
+<!-- 
+		QoS
+-->
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Custom QoS Profile of Subscribers <strong>suby2</strong></caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Parameter</th>
+											<th class="column2">Value</th>
+										</tr>
+									</thead>
+									<tbody>
+											
+											<tr>
+												<td class="column1">History</td>
+												<td class="column2">KEEP_ALL</td>
+											</tr>
+											<tr>
+												<td class="column1">Reliability</td>
+												<td class="column2">RELIABLE</td>
+											</tr>
+											<tr>
+												<td class="column1">Durability</td>
+												<td class="column2">TRANSIENT_LOCAL</td>
+											</tr>
+											<tr>
+												<td class="column1">Depth</td>
+												<td class="column2">10</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness</td>
+												<td class="column2">SYSTEM_DEFAULT</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Nano Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Nano Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Nano Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Avoid ROS Namespace Conventions</td>
+												<td class="column2">False</td>
+											</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			
+		</div>
 <!--
 		Servers
 -->
 <!--
 		Clients
 -->
-			<div class="servers">
+			<div class="containment">
 					<div class="container-table100">
 						<div class="wrap-table100">
 							<div class="table100">
@@ -251,7 +537,8 @@
 											<th class="column2">Service Name</th>
 											<th class="column3">Type</th>
 											<th class="column4">Package</th>
-											<th class="column6">Path</th>
+											<th class="column5">Path</th>
+											<th class="column6">QoS Profile</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -260,28 +547,171 @@
 												<td class="column2">add_two</td>
 												<td class="column3">Addtwo</td>
 												<td class="column4">interfaces</td>
-												<td class="column6">ser/vice/path1</td>
+												<td class="column5">ser/vice/path1</td>
+												<td class="column6">Custom</td>
 											</tr>
 											<tr>
 												<td class="column1">Client3</td>
 												<td class="column2">set_bool</td>
 												<td class="column3">SetBool</td>
 												<td class="column4">std_srvs</td>
-												<td class="column6">ser/vice/path3</td>
+												<td class="column5">ser/vice/path3</td>
+												<td class="column6">Custom</td>
 											</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
-			</div>
+		
+<!-- 
+		QoS
+-->
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Custom QoS Profile of Subscribers <strong>Client1</strong></caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Parameter</th>
+											<th class="column2">Value</th>
+										</tr>
+									</thead>
+									<tbody>
+											
+											<tr>
+												<td class="column1">History</td>
+												<td class="column2">KEEP_LAST</td>
+											</tr>
+											<tr>
+												<td class="column1">Reliability</td>
+												<td class="column2">RELIABLE</td>
+											</tr>
+											<tr>
+												<td class="column1">Durability</td>
+												<td class="column2">VOLATILE</td>
+											</tr>
+											<tr>
+												<td class="column1">Depth</td>
+												<td class="column2">5</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness</td>
+												<td class="column2">SYSTEM_DEFAULT</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Nano Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Nano Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Nano Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Avoid ROS Namespace Conventions</td>
+												<td class="column2">False</td>
+											</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Custom QoS Profile of Subscribers <strong>Client3</strong></caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Parameter</th>
+											<th class="column2">Value</th>
+										</tr>
+									</thead>
+									<tbody>
+											
+											<tr>
+												<td class="column1">History</td>
+												<td class="column2">KEEP_LAST</td>
+											</tr>
+											<tr>
+												<td class="column1">Reliability</td>
+												<td class="column2">RELIABLE</td>
+											</tr>
+											<tr>
+												<td class="column1">Durability</td>
+												<td class="column2">VOLATILE</td>
+											</tr>
+											<tr>
+												<td class="column1">Depth</td>
+												<td class="column2">5</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness</td>
+												<td class="column2">SYSTEM_DEFAULT</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Deadline Nano Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Lifespan Nano Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Liveliness Lease Duration Nano Sec</td>
+												<td class="column2">0</td>
+											</tr>
+											<tr>
+												<td class="column1">Avoid ROS Namespace Conventions</td>
+												<td class="column2">False</td>
+											</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			
+		</div>
+
+	
+
 <!--
 		Action Servers
 -->
 <!--
 		Action Clients
 -->
-			<div class="actionclients">
+			<div class="containment">
 					<div class="container-table100">
 						<div class="wrap-table100">
 							<div class="table100">

@@ -28,9 +28,9 @@ namespace rosidl_typesupport_introspection_cpp
 static const ::rosidl_typesupport_introspection_cpp::MessageMember Addtwo_Request_message_member_array[2] = {
   {
     "a",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_MESSAGE,  // type
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT64,  // type
     0,  // upper bound of string
-    ::rosidl_typesupport_introspection_cpp::get_message_type_support_handle<std_msgs::msg::Int32>(),  // members of sub message
+    NULL,  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
