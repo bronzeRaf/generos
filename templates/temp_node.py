@@ -242,12 +242,12 @@ class {{node.name}}_class(Node):
 		
 		{% if p.type == "ValueInt" %}
 		msg.x = self.i
-		
-		
-		self.publisher_{{p.name}}.publish(msg)
+		self.i += 1
 		self.get_logger().info('Publishing: "%s"' % msg.x)
 		{% endif %}
-		self.i += 1
+		
+		self.publisher_{{p.name}}.publish(msg)
+		
 	#_____
 	{%endfor%}
 	

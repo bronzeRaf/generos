@@ -136,9 +136,12 @@ class node1_class(Node):
 		
 		# TODO: Add functionality here
 		
-		
+		msg.frame_id="blabla"+str(self.i)
 		
 		self.i += 1
+		self.publisher_publy3.publish(msg)
+		self.get_logger().info('Publishing: blabla'+str(self.i))
+		
 	#_____
 	# This is the callback of the publisher publy2. 
 	# You can store the message in the msg object attributes, according 
@@ -210,9 +213,9 @@ class node1_class(Node):
 		
 		# TODO: Add functionality here
 		
-		
-		response.c = request.a + request.b
-		self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
+		response.message = 'success message'
+		response.success = True
+		self.get_logger().info('Incoming request\n' + str(request.data))
 		return response
 	#_____
 		

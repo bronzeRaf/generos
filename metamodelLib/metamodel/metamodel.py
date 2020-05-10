@@ -235,14 +235,16 @@ class Package(EObject, metaclass=MetaEClass):
     name = EAttribute(eType=EString, derived=False, changeable=True)
     rosVersion = EAttribute(eType=ROSVersion, derived=False, changeable=True, upper=-1)
     packagePath = EAttribute(eType=EString, derived=False, changeable=True)
+    builtin = EAttribute(eType=EBoolean, derived=False, changeable=True, default_value=False)
     hasDependencies = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasNodes = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasDocumentation = EReference(ordered=True, unique=True, containment=True)
-    hasRosMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
-    hasRosServices = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasRosQosProfiles = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    hasTopicMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    hasServiceMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    hasActionInterfaces = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, hasDependencies=None, hasNodes=None, hasDocumentation=None, name=None, rosVersion=None, packagePath=None, hasRosMessages=None, hasRosServices=None, hasRosQosProfiles=None, **kwargs):
+    def __init__(self, *, hasDependencies=None, hasNodes=None, hasDocumentation=None, name=None, rosVersion=None, packagePath=None, hasRosQosProfiles=None, hasTopicMessages=None, hasServiceMessages=None, builtin=None, hasActionInterfaces=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -257,6 +259,9 @@ class Package(EObject, metaclass=MetaEClass):
         if packagePath is not None:
             self.packagePath = packagePath
 
+        if builtin is not None:
+            self.builtin = builtin
+
         if hasDependencies:
             self.hasDependencies.extend(hasDependencies)
 
@@ -266,16 +271,20 @@ class Package(EObject, metaclass=MetaEClass):
         if hasDocumentation is not None:
             self.hasDocumentation = hasDocumentation
 
-        if hasRosMessages:
-            self.hasRosMessages.extend(hasRosMessages)
-
-        if hasRosServices:
-            self.hasRosServices.extend(hasRosServices)
-
         if hasRosQosProfiles:
             self.hasRosQosProfiles.extend(hasRosQosProfiles)
 
+        if hasTopicMessages:
+            self.hasTopicMessages.extend(hasTopicMessages)
 
+        if hasServiceMessages:
+            self.hasServiceMessages.extend(hasServiceMessages)
+
+        if hasActionInterfaces:
+            self.hasActionInterfaces.extend(hasActionInterfaces)
+
+
+@abstract
 class Dependency(EObject, metaclass=MetaEClass):
 
     def __init__(self, **kwargs):
@@ -394,12 +403,9 @@ class ROSSystem(EObject, metaclass=MetaEClass):
     topology = EReference(ordered=True, unique=True, containment=True)
     hasPackages = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasGraphs = EReference(ordered=True, unique=True, containment=True)
-    hasCustomMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
-    hasCustomServices = EReference(ordered=True, unique=True, containment=True, upper=-1)
-    hasCustomActionInterfaces = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasCustomQosProfiles = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, topology=None, hasPackages=None, hasGraphs=None, name=None, hasCustomMessages=None, hasCustomServices=None, hasCustomActionInterfaces=None, hasCustomQosProfiles=None, **kwargs):
+    def __init__(self, *, topology=None, hasPackages=None, hasGraphs=None, name=None, hasCustomQosProfiles=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -416,15 +422,6 @@ class ROSSystem(EObject, metaclass=MetaEClass):
 
         if hasGraphs is not None:
             self.hasGraphs = hasGraphs
-
-        if hasCustomMessages:
-            self.hasCustomMessages.extend(hasCustomMessages)
-
-        if hasCustomServices:
-            self.hasCustomServices.extend(hasCustomServices)
-
-        if hasCustomActionInterfaces:
-            self.hasCustomActionInterfaces.extend(hasCustomActionInterfaces)
 
         if hasCustomQosProfiles:
             self.hasCustomQosProfiles.extend(hasCustomQosProfiles)
@@ -963,6 +960,18 @@ class RosQosProfile(QosProfile):
 
         if name is not None:
             self.name = name
+
+
+class PackageDependency(Dependency):
+
+    package = EReference(ordered=True, unique=True, containment=False)
+
+    def __init__(self, *, package=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if package is not None:
+            self.package = package
 
 
 class Int(Number):

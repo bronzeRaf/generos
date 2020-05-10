@@ -73,14 +73,18 @@
         upperBound="-1" eType="#//ROSVersion"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="packagePath" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="hasRosMessages" upperBound="-1"
-        eType="#//RosMessage" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="hasRosServices" upperBound="-1"
-        eType="#//RosService" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasRosQosProfiles" upperBound="-1"
         eType="#//RosQosProfile" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasTopicMessages" upperBound="-1"
+        eType="#//TopicMessage" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasServiceMessages" upperBound="-1"
+        eType="#//ServiceMessage" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="builtin" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasActionInterfaces" upperBound="-1"
+        eType="#//ActionInterface" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Dependency"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Dependency" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="Documentation"/>
   <eClassifiers xsi:type="ecore:EEnum" name="DataTypes">
     <eLiterals name="int32" value="2"/>
@@ -148,12 +152,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasGraphs" lowerBound="1"
         eType="#//Graph" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="hasCustomMessages" upperBound="-1"
-        eType="#//CustomMessage" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="hasCustomServices" upperBound="-1"
-        eType="#//CustomService" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="hasCustomActionInterfaces"
-        upperBound="-1" eType="#//CustomActionInterface" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasCustomQosProfiles" upperBound="-1"
         eType="#//CustomQosProfile" containment="true"/>
   </eClassifiers>
@@ -402,5 +400,9 @@
     <eLiterals name="PARAMETERS" value="4"/>
     <eLiterals name="PARAMETER_EVENTS" value="5"/>
     <eLiterals name="ACTION_STATUS_DEFAULT" value="6"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PackageDependency" eSuperTypes="#//Dependency">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="package" lowerBound="1"
+        eType="#//Package"/>
   </eClassifiers>
 </ecore:EPackage>

@@ -67,7 +67,8 @@ env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
 template = env.get_template('temp_msg.msg')
 allmsg = []
 # Build the msg data to pass to the Template
-for t in model_root.hasCustomMessages:
+for t in model_root.hasPackages[0].hasTopicMessages:
+	
 	message_data = {}
 	message_data['name'] = t.name
 	message_data['description'] = t.description
@@ -99,7 +100,7 @@ for t in model_root.hasCustomMessages:
 template = env.get_template('temp_srv.srv')
 # Build the srv data to pass to the Template
 allsrv = []
-for t in model_root.hasCustomServices:
+for t in model_root.hasPackages[0].hasServiceMessages:
 	service_data = {}
 	service_data['name'] = t.name
 	service_data['description'] = t.description
@@ -146,7 +147,7 @@ for t in model_root.hasCustomServices:
 template = env.get_template('temp_action.action')
 # Build the srv data to pass to the Template
 allactions = []
-for t in model_root.hasCustomActionInterfaces:
+for t in model_root.hasPackages[0].hasActionInterfaces:
 	action_data = {}
 	action_data['name'] = t.name
 	action_data['description'] = t.description
@@ -211,7 +212,7 @@ smessages = []
 amessages = []
 depend = []
 # Custom message interfaces
-for t in model_root.hasCustomMessages:
+for t in model_root.hasPackages[0].hasTopicMessages:
 	tmessages.append(t.name)
 	for tt in t.hasObjectProperties:
 		# Find packages and add dependencies from ros datatypes
@@ -219,7 +220,7 @@ for t in model_root.hasCustomMessages:
 			if tt.datatype.package not in depend:
 				depend.append(tt.datatype.package)
 # Custom service interfaces
-for t in model_root.hasCustomServices:
+for t in model_root.hasPackages[0].hasServiceMessages:
 	smessages.append(t.name)
 	for tt in t.hasResponse.hasObjectProperties:
 		# Find packages and add dependencies from ros datatypes
@@ -232,7 +233,7 @@ for t in model_root.hasCustomServices:
 			if tt.datatype.package not in depend:
 				depend.append(tt.datatype.package)
 # Custom action interfaces
-for t in model_root.hasCustomActionInterfaces:
+for t in model_root.hasPackages[0].hasActionInterfaces:
 	amessages.append(t.name)
 	for tt in t.hasGoal.hasObjectProperties:
 		# Find packages and add dependencies from ros datatypes
@@ -304,6 +305,9 @@ with open(dest, 'w') as f:
 
 # Build the packages
 for package in model_root.hasPackages:
+	if package.name == "interfaces" or package.builtin == True:
+		continue
+		
 	# Now the working directory is workspace/src
 	# Create the package directory tree
 	os.system('mkdir '+package.name)
@@ -337,12 +341,6 @@ for package in model_root.hasPackages:
 	
 	# Build the package dependencies data to pass to the Template
 	pack_depend = []
-	# In Ros Services
-	for i in package.hasRosServices:
-		pack_depend.append(i.package)
-	# In Ros Messages
-	for i in package.hasRosMessages:
-		pack_depend.append(i.package)
 	
 	# Dependencies for every node in the package
 	for n in package.hasNodes:
@@ -353,6 +351,9 @@ for package in model_root.hasPackages:
 					if o.datatype.__class__.__name__=="ROSData":
 						if o.datatype.package not in pack_depend:
 							pack_depend.append(o.datatype.package)
+			else:
+				if s.smsg.package not in pack_depend:
+					pack_depend.append(s.smsg.package)
 		# In Publishers using Ros Messages
 		for p in n.hasPublishers:
 			if p.pmsg.__class__.__name__=="CustomMessage":
@@ -360,6 +361,9 @@ for package in model_root.hasPackages:
 					if o.datatype.__class__.__name__=="ROSData":
 						if o.datatype.package not in pack_depend:
 							pack_depend.append(o.datatype.package)
+			else:
+				if p.pmsg.package not in pack_depend:
+					pack_depend.append(p.pmsg.package)
 		# In Servers using Ros Messages
 		for s in n.hasServers:
 			if s.servicemessage.__class__.__name__=="CustomService":
@@ -371,6 +375,9 @@ for package in model_root.hasPackages:
 					if o.datatype.__class__.__name__=="ROSData":
 						if o.datatype.package not in pack_depend:
 							pack_depend.append(o.datatype.package)
+			else:
+				if s.servicemessage.package not in pack_depend:
+					pack_depend.append(s.servicemessage.package)
 		# In Clients using Ros Messages
 		for c in n.hasClients:
 			if c.servicemessage.__class__.__name__=="CustomService":
@@ -382,6 +389,9 @@ for package in model_root.hasPackages:
 					if o.datatype.__class__.__name__=="ROSData":
 						if o.datatype.package not in pack_depend:
 							pack_depend.append(o.datatype.package)
+			else:
+				if c.servicemessage.package not in pack_depend:
+					pack_depend.append(c.servicemessage.package)
 		# In Action Clients using Action Interfaces
 		for c in n.hasActionClients:
 			if c.actioninterface.__class__.__name__=="CustomActionInterface":

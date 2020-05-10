@@ -82,7 +82,7 @@ class node3_class(Node):
 		# TODO: Add functionality here
 		
 		
-		self.get_logger().info('I heard: '+str(msg.x))
+		self.get_logger().info('I heard: '+str(msg.frame_id))
 	#_____
 	
 	# Servers

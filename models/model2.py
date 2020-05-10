@@ -18,6 +18,8 @@ rosystem1 = metamodel.ROSSystem(name = "My_first_ROS_system")
 #set system
 rosystem1.name = "My_first_ROS_system2"
 #set packages
+interfaces = metamodel.Package(name = "interfaces", rosVersion = 0, packagePath = "")
+std = metamodel.Package(name = "std_msgs", rosVersion = 0, packagePath = "", builtin = True)
 package1 = metamodel.Package(name = "pack1", rosVersion = 0, packagePath = "path to pack1")
 package2 = metamodel.Package(name = "pack2", rosVersion = 0, packagePath = "path to pack2")
 #set nodes
@@ -130,7 +132,7 @@ ac4 = metamodel.ObjectProperty(name="a", description = "a value for result trigg
 acc4 = metamodel.Int(type = metamodel.IntType.int64)
 ac4.datatype = acc4
 
-rosystem1.hasCustomActionInterfaces.extend([action1])	#0..*	system-customservice
+interfaces.hasActionInterfaces.extend([action1])	#0..*	system-customservice
 
 action1.hasResult = result1
 action1.hasGoal = goal1
@@ -168,14 +170,16 @@ client3.qosprofile = qos3
 
 
 #apply compositions
+rosystem1.hasPackages.extend([interfaces])				#0..*	system-package
+rosystem1.hasPackages.extend([std])				#0..*	system-package
 rosystem1.hasPackages.extend([package1])				#0..*	system-package
 rosystem1.hasPackages.extend([package2])				#0..*	system-package
 rosystem1.hasGraphs = graph1							#1..1	system-graph
 rosystem1.topology = topology1							#1..1	system-topology
-rosystem1.hasCustomMessages.extend([custommessage1])		#0..*	system-custommessage
-rosystem1.hasCustomMessages.extend([custommessage2])		#0..*	system-custommessage
-rosystem1.hasCustomServices.extend([servicemessage1])	#0..*	system-customservice
-rosystem1.hasCustomServices.extend([servicemessage2])	#0..*	system-customservice
+interfaces.hasTopicMessages.extend([custommessage1])		#0..*	system-custommessage
+interfaces.hasTopicMessages.extend([custommessage2])		#0..*	system-custommessage
+interfaces.hasServiceMessages.extend([servicemessage1])		#0..*	system-custommessage
+interfaces.hasServiceMessages.extend([servicemessage2])		#0..*	system-custommessage
 package1.hasDocumentation = documentation1				#1..1	package-documentation
 package2.hasDocumentation = documentation2				#1..1	package-documentation
 
@@ -183,8 +187,9 @@ package1.hasNodes.extend([node1])						#0..*	package-node
 package1.hasNodes.extend([node2])						#0..*	package-node
 package2.hasNodes.extend([node3])						#0..*	package-node
 
-package1.hasRosMessages.extend([rosmessage1])						#0..*	package-node
-package1.hasRosServices.extend([servicemessage3])						#0..*	package-node
+std.hasTopicMessages.extend([rosmessage1])						#0..*	package-node
+std.hasServiceMessages.extend([servicemessage3])						#0..*	package-node
+# ~ package1.hasRosServices.extend([servicemessage3])						#0..*	package-node
 
 node1.hasPublishers.extend([publisher3])				#0..*	node-publisher
 node1.hasPublishers.extend([publisher2])				#0..*	node-publisher

@@ -1,13 +1,13 @@
 
 from .metamodel import getEClassifier, eClassifiers
 from .metamodel import name, nsURI, nsPrefix, eClass
-from .metamodel import Client, Node, Subscriber, Publisher, Server, Parameter, Package, Dependency, Documentation, DataTypes, Graph, Topic, ServiceLink, CustomService, Request, Response, CustomMessage, ROSSystem, Topology, Platform, LocalNetwork, Host, ActionServer, ActionClient, ROSVersion, AritectureTypes, OSType, NetworkInterface, ObjectProperty, Datatype, Bool, String, Number, Int, Uint, Float, UIntType, IntType, FloatType, ROSData, Array, UintArray, FloatArray, IntArray, IntArrayType, UIntArrayType, FloatArrayType, Enumeration, Element, TopicMessage, RosMessage, ServiceMessage, RosService, ActionInterface, CustomActionInterface, Goal, Result, Feedback, CustomQosProfile, QosHistory, QosReliability, QosDurability, QosProfile, RosQosProfile, QosLiveliness, QosPresetProfiles
+from .metamodel import Client, Node, Subscriber, Publisher, Server, Parameter, Package, Dependency, Documentation, DataTypes, Graph, Topic, ServiceLink, CustomService, Request, Response, CustomMessage, ROSSystem, Topology, Platform, LocalNetwork, Host, ActionServer, ActionClient, ROSVersion, AritectureTypes, OSType, NetworkInterface, ObjectProperty, Datatype, Bool, String, Number, Int, Uint, Float, UIntType, IntType, FloatType, ROSData, Array, UintArray, FloatArray, IntArray, IntArrayType, UIntArrayType, FloatArrayType, Enumeration, Element, TopicMessage, RosMessage, ServiceMessage, RosService, ActionInterface, CustomActionInterface, Goal, Result, Feedback, CustomQosProfile, QosHistory, QosReliability, QosDurability, QosProfile, RosQosProfile, QosLiveliness, QosPresetProfiles, PackageDependency
 
 
 from . import metamodel
 
-__all__ = ['Client', 'Node', 'Subscriber', 'Publisher', 'Server', 'Parameter', 'Package', 'Dependency', 'Documentation', 'DataTypes', 'Graph', 'Topic', 'ServiceLink', 'CustomService', 'Request', 'Response', 'CustomMessage', 'ROSSystem', 'Topology', 'Platform', 'LocalNetwork', 'Host', 'ActionServer', 'ActionClient', 'ROSVersion', 'AritectureTypes', 'OSType', 'NetworkInterface', 'ObjectProperty', 'Datatype', 'Bool', 'String', 'Number', 'Int', 'Uint',
-           'Float', 'UIntType', 'IntType', 'FloatType', 'ROSData', 'Array', 'UintArray', 'FloatArray', 'IntArray', 'IntArrayType', 'UIntArrayType', 'FloatArrayType', 'Enumeration', 'Element', 'TopicMessage', 'RosMessage', 'ServiceMessage', 'RosService', 'ActionInterface', 'CustomActionInterface', 'Goal', 'Result', 'Feedback', 'CustomQosProfile', 'QosHistory', 'QosReliability', 'QosDurability', 'QosProfile', 'RosQosProfile', 'QosLiveliness', 'QosPresetProfiles']
+__all__ = ['Client', 'Node', 'Subscriber', 'Publisher', 'Server', 'Parameter', 'Package', 'Dependency', 'Documentation', 'DataTypes', 'Graph', 'Topic', 'ServiceLink', 'CustomService', 'Request', 'Response', 'CustomMessage', 'ROSSystem', 'Topology', 'Platform', 'LocalNetwork', 'Host', 'ActionServer', 'ActionClient', 'ROSVersion', 'AritectureTypes', 'OSType', 'NetworkInterface', 'ObjectProperty', 'Datatype', 'Bool', 'String', 'Number', 'Int', 'Uint', 'Float',
+           'UIntType', 'IntType', 'FloatType', 'ROSData', 'Array', 'UintArray', 'FloatArray', 'IntArray', 'IntArrayType', 'UIntArrayType', 'FloatArrayType', 'Enumeration', 'Element', 'TopicMessage', 'RosMessage', 'ServiceMessage', 'RosService', 'ActionInterface', 'CustomActionInterface', 'Goal', 'Result', 'Feedback', 'CustomQosProfile', 'QosHistory', 'QosReliability', 'QosDurability', 'QosProfile', 'RosQosProfile', 'QosLiveliness', 'QosPresetProfiles', 'PackageDependency']
 
 eSubpackages = []
 eSuperPackage = None
@@ -32,9 +32,10 @@ Server.qosprofile.eType = QosProfile
 Package.hasDependencies.eType = Dependency
 Package.hasNodes.eType = Node
 Package.hasDocumentation.eType = Documentation
-Package.hasRosMessages.eType = RosMessage
-Package.hasRosServices.eType = RosService
 Package.hasRosQosProfiles.eType = RosQosProfile
+Package.hasTopicMessages.eType = TopicMessage
+Package.hasServiceMessages.eType = ServiceMessage
+Package.hasActionInterfaces.eType = ActionInterface
 Graph.hasTopics.eType = Topic
 Graph.hasServiceLinks.eType = ServiceLink
 Graph.nodes.eType = Node
@@ -50,9 +51,6 @@ CustomMessage.hasObjectProperties.eType = ObjectProperty
 ROSSystem.topology.eType = Topology
 ROSSystem.hasPackages.eType = Package
 ROSSystem.hasGraphs.eType = Graph
-ROSSystem.hasCustomMessages.eType = CustomMessage
-ROSSystem.hasCustomServices.eType = CustomService
-ROSSystem.hasCustomActionInterfaces.eType = CustomActionInterface
 ROSSystem.hasCustomQosProfiles.eType = CustomQosProfile
 Topology.hasPlatforms.eType = Platform
 Topology.network.eType = LocalNetwork
@@ -68,6 +66,7 @@ CustomActionInterface.hasFeedback.eType = Feedback
 Goal.hasObjectProperties.eType = ObjectProperty
 Result.hasObjectProperties.eType = ObjectProperty
 Feedback.hasObjectProperties.eType = ObjectProperty
+PackageDependency.package.eType = Package
 
 otherClassifiers = [DataTypes, ROSVersion, AritectureTypes, OSType, UIntType, IntType, FloatType, IntArrayType,
                     UIntArrayType, FloatArrayType, QosHistory, QosReliability, QosDurability, QosLiveliness, QosPresetProfiles]
