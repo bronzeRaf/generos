@@ -355,7 +355,7 @@ class ServiceLink(EObject, metaclass=MetaEClass):
 
     name = EAttribute(eType=EString, derived=False, changeable=True)
     server = EReference(ordered=True, unique=True, containment=False)
-    client = EReference(ordered=True, unique=True, containment=False)
+    client = EReference(ordered=True, unique=True, containment=False, upper=-1)
 
     def __init__(self, *, server=None, client=None, name=None, **kwargs):
         if kwargs:
@@ -369,8 +369,8 @@ class ServiceLink(EObject, metaclass=MetaEClass):
         if server is not None:
             self.server = server
 
-        if client is not None:
-            self.client = client
+        if client:
+            self.client.extend(client)
 
 
 class Request(EObject, metaclass=MetaEClass):
@@ -406,10 +406,10 @@ class ROSSystem(EObject, metaclass=MetaEClass):
     name = EAttribute(eType=EString, derived=False, changeable=True)
     topology = EReference(ordered=True, unique=True, containment=True)
     hasPackages = EReference(ordered=True, unique=True, containment=True, upper=-1)
-    hasGraphs = EReference(ordered=True, unique=True, containment=True)
+    graph = EReference(ordered=True, unique=True, containment=True)
     hasCustomQosProfiles = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, topology=None, hasPackages=None, hasGraphs=None, name=None, hasCustomQosProfiles=None, **kwargs):
+    def __init__(self, *, topology=None, hasPackages=None, graph=None, name=None, hasCustomQosProfiles=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -424,8 +424,8 @@ class ROSSystem(EObject, metaclass=MetaEClass):
         if hasPackages:
             self.hasPackages.extend(hasPackages)
 
-        if hasGraphs is not None:
-            self.hasGraphs = hasGraphs
+        if graph is not None:
+            self.graph = graph
 
         if hasCustomQosProfiles:
             self.hasCustomQosProfiles.extend(hasCustomQosProfiles)

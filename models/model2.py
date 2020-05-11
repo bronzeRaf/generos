@@ -89,8 +89,7 @@ sobject6.datatype = st6
 #set documentation
 documentation1 = metamodel.Documentation()
 documentation2 = metamodel.Documentation()
-#set graph
-graph1 = metamodel.Graph()
+
 #set topology
 topology1 = metamodel.Topology()
 #set server
@@ -174,7 +173,6 @@ rosystem1.hasPackages.extend([interfaces])				#0..*	system-package
 rosystem1.hasPackages.extend([std])				#0..*	system-package
 rosystem1.hasPackages.extend([package1])				#0..*	system-package
 rosystem1.hasPackages.extend([package2])				#0..*	system-package
-rosystem1.hasGraphs = graph1							#1..1	system-graph
 rosystem1.topology = topology1							#1..1	system-topology
 interfaces.hasTopicMessages.extend([custommessage1])		#0..*	system-custommessage
 interfaces.hasTopicMessages.extend([custommessage2])		#0..*	system-custommessage
@@ -225,14 +223,51 @@ publisher2.pmsg = custommessage1							#1..1	publisher-custommessage
 subscriber3.smsg = rosmessage1						#1..1	subscriber-custommessage
 subscriber2.smsg = custommessage1						#1..1	subscriber-custommessage
 
-graph1.nodes.extend([node1, node2, node3])				#0..*	graph-nodes
+
 server1.servicemessage = servicemessage1				#1..1	server-servicemessage
 server3.servicemessage = servicemessage3				#1..1	server-servicemessage
 client1.servicemessage = servicemessage1				#1..1	client-servicemessage
 client2.servicemessage = servicemessage2				#1..1	client-servicemessage
 client3.servicemessage = servicemessage3				#1..1	client-servicemessage
 
+
+# Graph
+#set graph
+graph1 = metamodel.Graph()
+rosystem1.graph = graph1							#1..1	system-graph
+graph1.nodes.extend([node1, node2, node3])				#0..*	graph-nodes
+
+# ~ topic1 = metamodel.Topic(topicPath = "topic/path1")
+# ~ topic1.publisher = publisher1
+# ~ topic1.subscriber.extend([subscriber1]) 
+
+topic2 = metamodel.Topic(topicPath = "topic/path2")
+topic2.publisher = publisher2
+topic2.subscriber.extend([subscriber2]) 
+
+topic3 = metamodel.Topic(topicPath = "topic/path3")
+topic3.publisher = publisher3
+topic3.subscriber.extend([subscriber3]) 
+
+graph1.hasTopics.extend([topic2, topic3])				#0..*	graph-topics
+
+service1 = metamodel.ServiceLink(name = "add_two")
+service1.server = server1
+service1.client.extend([client1])
+
+service3 = metamodel.ServiceLink(name = "set_bool")
+service3.server = server3
+service3.client.extend([client3])
+
+graph1.hasServiceLinks.extend([service1, service3])				#0..*	graph-service
+
+
 # ~ rset = ResourceSet()
 model_res = rset.create_resource(URI('../models/test2.xmi'))
 model_res.append(rosystem1)
 model_res.save()
+
+
+
+# ~ print(service1.__dict__)
+# ~ print(server1._container.name)
