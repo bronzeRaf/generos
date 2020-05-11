@@ -2,7 +2,7 @@
 from rclpy.qos import QoSDurabilityPolicy, QoSHistoryPolicy, QoSReliabilityPolicy, QoSLivelinessPolicy
 from rclpy.qos import QoSProfile
 from rclpy.qos import QoSPresetProfiles
-
+from rcl_interfaces.msg import ParameterDescriptor
 
 # Imports for Action Clients
 from rclpy.action import ActionClient
@@ -177,7 +177,6 @@ class node2_class(Node):
 			self.get_logger().info('service not available, waiting again...')
 		# Create request and fill it with data
 		self.request_Client3 = SetBool.Request()
-		self.request_Client3.data = True
 		# The service is type std_srvs/SetBool
 		# Remember to store data in the attributes of self.request_Client3
 		self.future_Client3 = self.client_Client3.call_async(self.request_Client3)
@@ -334,7 +333,7 @@ def run_Client3(args=None):
 	
 	node2 = node2_class()
 	#TODO create typecast from command line to client call type (change int to custom type)
-	node2.client_call_Client3()
+	node2.client_call_Client3(int(sys.argv[1]))
 	while rclpy.ok():
 		rclpy.spin_once(node2)
 		if node2.future_Client3.done():
@@ -344,8 +343,8 @@ def run_Client3(args=None):
 				node2.get_logger().info('Service call failed %r' % (e,))
 			else:
 				node2.get_logger().info(
-				'success '+ str(response.success)+' message '+str(response.message))
-				
+				'Result of add_three_ints: for %d + %d = %d' %
+				(node2.request_Client3.a, node2.request_Client3.b, response.c))
 			break
 #_____
 	

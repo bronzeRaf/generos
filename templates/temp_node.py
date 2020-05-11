@@ -8,7 +8,7 @@
 from rclpy.qos import QoSDurabilityPolicy, QoSHistoryPolicy, QoSReliabilityPolicy, QoSLivelinessPolicy
 from rclpy.qos import QoSProfile
 from rclpy.qos import QoSPresetProfiles
-
+from rcl_interfaces.msg import ParameterDescriptor
 
 {% if action_servers is defined and action_servers|length %}
 # Imports for Action Servers
@@ -72,10 +72,10 @@ class {{node.name}}_class(Node):
 		#____________________________________________
 		{%for p in params %}
 		# {{p.name}}  -  {{p.type}}
-		self.param_{{p.name}} = self.declare_parameter('{{p.name}}', {{p.value}})
+		# Description: {{p.description}}
+		self.param_{{p.name}} = self.declare_parameter('{{p.name}}', {{p.value}}, descriptor=ParameterDescriptor(name='p1', type={{p.type2}}, description='', additional_constraints='', read_only=False, floating_point_range=[], integer_range=[]))
 		# You can use your parameter {{p.name}} with type {{p.type}}
 		# with 		self.get_parameter('{{p.name}}')._value
-		# or 		self.param_{{p.name}}._value
 		# You can also use your parameter from terminal or yaml file. 
 		#_____
 		{%endfor%}

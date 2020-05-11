@@ -2,7 +2,7 @@
 from rclpy.qos import QoSDurabilityPolicy, QoSHistoryPolicy, QoSReliabilityPolicy, QoSLivelinessPolicy
 from rclpy.qos import QoSProfile
 from rclpy.qos import QoSPresetProfiles
-
+from rcl_interfaces.msg import ParameterDescriptor
 
 # Imports for Action Servers
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
@@ -29,11 +29,11 @@ class node1_class(Node):
 		super().__init__('node1')		
 		# Params
 		#____________________________________________
-		# p1  -  int32
-		self.param_p1 = self.declare_parameter('p1', 32)
-		# You can use your parameter p1 with type int32
+		# p1  -  INTEGER_ARRAY
+		# Description: This is an integer value to publish to some nodes
+		self.param_p1 = self.declare_parameter('p1', 32, descriptor=ParameterDescriptor(name='p1', type=7, description='', additional_constraints='', read_only=False, floating_point_range=[], integer_range=[]))
+		# You can use your parameter p1 with type INTEGER_ARRAY
 		# with 		self.get_parameter('p1')._value
-		# or 		self.param_p1._value
 		# You can also use your parameter from terminal or yaml file. 
 		#_____
 		
@@ -136,11 +136,10 @@ class node1_class(Node):
 		
 		# TODO: Add functionality here
 		
-		msg.frame_id="blabla"+str(self.i)
 		
-		self.i += 1
+		
+		
 		self.publisher_publy3.publish(msg)
-		self.get_logger().info('Publishing: blabla'+str(self.i))
 		
 	#_____
 	# This is the callback of the publisher publy2. 
@@ -165,11 +164,11 @@ class node1_class(Node):
 		
 		
 		msg.x = self.i
-		
+		self.i += 1
+		self.get_logger().info('Publishing: "%s"' % msg.x)
 		
 		self.publisher_publy2.publish(msg)
-		self.get_logger().info('Publishing: "%s"' % msg.x)
-		self.i += 1
+		
 	#_____
 	
 	# Subscribers
@@ -213,9 +212,9 @@ class node1_class(Node):
 		
 		# TODO: Add functionality here
 		
-		response.message = 'success message'
-		response.success = True
-		self.get_logger().info('Incoming request\n' + str(request.data))
+		
+		response.c = request.a + request.b
+		self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
 		return response
 	#_____
 		

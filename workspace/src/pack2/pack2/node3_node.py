@@ -2,7 +2,7 @@
 from rclpy.qos import QoSDurabilityPolicy, QoSHistoryPolicy, QoSReliabilityPolicy, QoSLivelinessPolicy
 from rclpy.qos import QoSProfile
 from rclpy.qos import QoSPresetProfiles
-
+from rcl_interfaces.msg import ParameterDescriptor
 
 import rclpy
 from rclpy.node import Node
@@ -82,7 +82,7 @@ class node3_class(Node):
 		# TODO: Add functionality here
 		
 		
-		self.get_logger().info('I heard: '+str(msg.frame_id))
+		self.get_logger().info('I heard: '+str(msg.x))
 	#_____
 	
 	# Servers

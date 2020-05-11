@@ -102,7 +102,7 @@ client2 = metamodel.Client(name = "Client2", servicePath = "ser/vice/path2", ser
 client3 = metamodel.Client(name = "Client3", servicePath = "ser/vice/path3", serviceName = "set_bool")
 
 #set parameters
-param1 = metamodel.Parameter(name = "p1",  value = "32")
+param1 = metamodel.Parameter(name = "p1",  value = "32", type=metamodel.DataTypes.INTEGER_ARRAY, description= "This is an integer value to publish to some nodes")
 
 # ACTIONS
 #set the action interfaces

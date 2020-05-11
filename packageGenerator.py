@@ -491,6 +491,8 @@ for package in model_root.hasPackages:
 			param['name'] = p.name
 			param['value'] = p.value
 			param['type'] = p.type
+			param['type2'] = p.type.value
+			param['description'] = p.description
 			params.append(param)
 			
 		node_data['param'] = params

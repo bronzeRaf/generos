@@ -12,8 +12,8 @@ eClass = EPackage(name=name, nsURI=nsURI, nsPrefix=nsPrefix)
 
 eClassifiers = {}
 getEClassifier = partial(Ecore.getEClassifier, searchspace=eClassifiers)
-DataTypes = EEnum('DataTypes', literals=['int32', 'int8', 'int16', 'int64', 'uint8',
-                                         'uint32', 'uint16', 'uint64', 'float32', 'float64', 'string', 'bool', 'enumeration'])
+DataTypes = EEnum('DataTypes', literals=['NOT_SET', 'BOOL', 'INTEGER', 'DOUBLE', 'STRING',
+                                         'BYTE_ARRAY', 'BOOL_ARRAY', 'INTEGER_ARRAY', 'DOUBLE_ARRAY', 'STRING_ARRAY'])
 
 ROSVersion = EEnum('ROSVersion', literals=['Eloquent'])
 
@@ -213,8 +213,9 @@ class Parameter(EObject, metaclass=MetaEClass):
     name = EAttribute(eType=EString, derived=False, changeable=True)
     type = EAttribute(eType=DataTypes, derived=False, changeable=True, default_value=None)
     value = EAttribute(eType=EString, derived=False, changeable=True)
+    description = EAttribute(eType=EString, derived=False, changeable=True)
 
-    def __init__(self, *, name=None, type=None, value=None, **kwargs):
+    def __init__(self, *, name=None, type=None, value=None, description=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -228,6 +229,9 @@ class Parameter(EObject, metaclass=MetaEClass):
 
         if value is not None:
             self.value = value
+
+        if description is not None:
+            self.description = description
 
 
 class Package(EObject, metaclass=MetaEClass):

@@ -1,5 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <metamodel:ROSSystem xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel="http://www.example.org/metamodel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="My_first_ROS_system2" xmi:version="2.0">
+  <topology xsi:type="metamodel:Topology"/>
+  <hasGraphs xsi:type="metamodel:Graph" nodes="//@hasPackages.2/@hasNodes.0 //@hasPackages.2/@hasNodes.1 //@hasPackages.3/@hasNodes.0"/>
   <hasPackages xsi:type="metamodel:Package" packagePath="" name="interfaces">
     <hasServiceMessages xsi:type="metamodel:CustomService" description="Service for receiving two numbers and returning their their sum" name="Addtwo">
       <hasRequest xsi:type="metamodel:Request">
@@ -44,15 +46,7 @@
         <datatype xsi:type="metamodel:String" type="string"/>
       </hasObjectProperties>
     </hasTopicMessages>
-    <hasActionInterfaces xsi:type="metamodel:CustomActionInterface" name="Increase" description="Action for enabling counters">
-      <hasGoal xsi:type="metamodel:Goal">
-        <hasObjectProperties xsi:type="metamodel:ObjectProperty" description="a value for start value" name="start">
-          <datatype xsi:type="metamodel:Int" type="int64"/>
-        </hasObjectProperties>
-        <hasObjectProperties xsi:type="metamodel:ObjectProperty" description="a value for goal value" name="goal">
-          <datatype xsi:type="metamodel:Int" type="int64"/>
-        </hasObjectProperties>
-      </hasGoal>
+    <hasActionInterfaces xsi:type="metamodel:CustomActionInterface" description="Action for enabling counters" name="Increase">
       <hasFeedback xsi:type="metamodel:Feedback">
         <hasObjectProperties xsi:type="metamodel:ObjectProperty" description="a value for feedback" name="update">
           <datatype xsi:type="metamodel:Int" type="int64"/>
@@ -63,38 +57,44 @@
           <datatype xsi:type="metamodel:Int" type="int64"/>
         </hasObjectProperties>
       </hasResult>
+      <hasGoal xsi:type="metamodel:Goal">
+        <hasObjectProperties xsi:type="metamodel:ObjectProperty" description="a value for start value" name="start">
+          <datatype xsi:type="metamodel:Int" type="int64"/>
+        </hasObjectProperties>
+        <hasObjectProperties xsi:type="metamodel:ObjectProperty" description="a value for goal value" name="goal">
+          <datatype xsi:type="metamodel:Int" type="int64"/>
+        </hasObjectProperties>
+      </hasGoal>
     </hasActionInterfaces>
   </hasPackages>
-  <hasPackages xsi:type="metamodel:Package" builtin="true" packagePath="" name="std_msgs">
+  <hasPackages xsi:type="metamodel:Package" packagePath="" name="std_msgs" builtin="true">
     <hasServiceMessages xsi:type="metamodel:RosService" package="std_srvs" name="SetBool"/>
     <hasTopicMessages xsi:type="metamodel:RosMessage" name="Header" package="std_msgs"/>
   </hasPackages>
   <hasPackages xsi:type="metamodel:Package" name="pack1" packagePath="path to pack1">
     <hasNodes xsi:type="metamodel:Node" name="node1">
-      <hasParameters xsi:type="metamodel:Parameter" name="p1" value="32"/>
-      <hasPublishers xsi:type="metamodel:Publisher" pmsg="//@hasPackages.1/@hasTopicMessages.0" name="publy3" topicPath="topic/path3" publishRate="12.0"/>
-      <hasPublishers xsi:type="metamodel:Publisher" name="publy2" topicPath="topic/path2" pmsg="//@hasPackages.0/@hasTopicMessages.0" publishRate="8.0" qosprofile="//@hasCustomQosProfiles.0"/>
+      <hasParameters xsi:type="metamodel:Parameter" value="32" description="This is an integer value to publish to some nodes" type="INTEGER_ARRAY" name="p1"/>
+      <hasPublishers xsi:type="metamodel:Publisher" topicPath="topic/path3" publishRate="12.0" pmsg="//@hasPackages.1/@hasTopicMessages.0" name="publy3"/>
+      <hasPublishers xsi:type="metamodel:Publisher" qosprofile="//@hasCustomQosProfiles.0" name="publy2" topicPath="topic/path2" pmsg="//@hasPackages.0/@hasTopicMessages.0" publishRate="8.0"/>
       <hasServers xsi:type="metamodel:Server" serviceName="add_two" qosprofile="//@hasCustomQosProfiles.1" name="Server1" servicePath="ser/vice/path1" servicemessage="//@hasPackages.0/@hasServiceMessages.0"/>
       <hasServers xsi:type="metamodel:Server" serviceName="set_bool" qosprofile="//@hasCustomQosProfiles.1" name="Server3" servicePath="ser/vice/path3" servicemessage="//@hasPackages.1/@hasServiceMessages.0"/>
       <hasActionServers xsi:type="metamodel:ActionServer" name="action1" actioninterface="//@hasPackages.0/@hasActionInterfaces.0"/>
     </hasNodes>
     <hasNodes xsi:type="metamodel:Node" name="node2">
-      <hasSubscribers xsi:type="metamodel:Subscriber" topicPath="topic/path2" smsg="//@hasPackages.0/@hasTopicMessages.0" name="suby2" qosprofile="//@hasCustomQosProfiles.0"/>
-      <hasClients xsi:type="metamodel:Client" qosprofile="//@hasCustomQosProfiles.1" servicePath="ser/vice/path1" servicemessage="//@hasPackages.0/@hasServiceMessages.0" serviceName="add_two" name="Client1"/>
-      <hasClients xsi:type="metamodel:Client" qosprofile="//@hasCustomQosProfiles.1" servicePath="ser/vice/path3" servicemessage="//@hasPackages.1/@hasServiceMessages.0" serviceName="set_bool" name="Client3"/>
+      <hasClients xsi:type="metamodel:Client" name="Client1" qosprofile="//@hasCustomQosProfiles.1" servicePath="ser/vice/path1" servicemessage="//@hasPackages.0/@hasServiceMessages.0" serviceName="add_two"/>
+      <hasClients xsi:type="metamodel:Client" name="Client3" qosprofile="//@hasCustomQosProfiles.1" servicePath="ser/vice/path3" servicemessage="//@hasPackages.1/@hasServiceMessages.0" serviceName="set_bool"/>
       <hasActionClients xsi:type="metamodel:ActionClient" name="action1" actioninterface="//@hasPackages.0/@hasActionInterfaces.0"/>
+      <hasSubscribers xsi:type="metamodel:Subscriber" name="suby2" topicPath="topic/path2" smsg="//@hasPackages.0/@hasTopicMessages.0" qosprofile="//@hasCustomQosProfiles.0"/>
     </hasNodes>
     <hasDocumentation xsi:type="metamodel:Documentation"/>
   </hasPackages>
   <hasPackages xsi:type="metamodel:Package" name="pack2" packagePath="path to pack2">
     <hasNodes xsi:type="metamodel:Node" name="node3">
-      <hasSubscribers xsi:type="metamodel:Subscriber" topicPath="topic/path3" smsg="//@hasPackages.1/@hasTopicMessages.0" name="suby3"/>
-      <hasClients xsi:type="metamodel:Client" servicePath="ser/vice/path2" serviceName="str" servicemessage="//@hasPackages.0/@hasServiceMessages.1" name="Client2"/>
+      <hasClients xsi:type="metamodel:Client" name="Client2" servicePath="ser/vice/path2" serviceName="str" servicemessage="//@hasPackages.0/@hasServiceMessages.1"/>
+      <hasSubscribers xsi:type="metamodel:Subscriber" name="suby3" topicPath="topic/path3" smsg="//@hasPackages.1/@hasTopicMessages.0"/>
     </hasNodes>
     <hasDocumentation xsi:type="metamodel:Documentation"/>
   </hasPackages>
   <hasCustomQosProfiles xsi:type="metamodel:CustomQosProfile" history="KEEP_ALL" depth="10" reliability="RELIABLE" durability="TRANSIENT_LOCAL"/>
   <hasCustomQosProfiles xsi:type="metamodel:CustomQosProfile" history="KEEP_LAST" depth="5" reliability="RELIABLE" durability="VOLATILE"/>
-  <topology xsi:type="metamodel:Topology"/>
-  <hasGraphs xsi:type="metamodel:Graph" nodes="//@hasPackages.2/@hasNodes.0 //@hasPackages.2/@hasNodes.1 //@hasPackages.3/@hasNodes.0"/>
 </metamodel:ROSSystem>
