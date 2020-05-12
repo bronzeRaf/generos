@@ -6,10 +6,8 @@
 
 # x -- x value for float service SrFloatFloatString request 1
 float64 x
-
 # y -- y value for float service SrFloatFloatString request 2
 float32 y
-
 
 ---
 
@@ -17,4 +15,3 @@ float32 y
 
 # z -- z value for string service SrFloatFloatString response
 string z
-

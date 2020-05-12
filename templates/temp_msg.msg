@@ -11,7 +11,7 @@
 
 {%for o in objects %}
 # {{o.name}} -- {{o.description}}
-{%if not o.package == "no"%}{{o.package}}/{%endif%}{{o.type}} {{o.name}}
+{%if not o.package == "no"%}{{o.package}}/{%endif%}{{o.type}} {{o.name}} {% if o.constant==True %} = {{o.default}} {%endif%}
 
 
 {%endfor%}

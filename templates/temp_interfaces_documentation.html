@@ -65,7 +65,7 @@
 											{% for p in m.objects %}
 											<tr>
 												<td class="column1">{{p.name}}</td>
-												<td class="column2">{{p.type}}</td>
+												<td class="column2">{{p.type}} {% if p.constant == True %} (Constant) {%endif%}</td>
 												<td class="column3">{{p.default}}</td>
 												<td class="column4">{{p.package}}</td>
 												<td class="column5">{{p.description}}</td>
@@ -122,7 +122,7 @@
 											{%endif%}
 											<tr>
 												<td class="column1">{{p.name}}</td>
-												<td class="column2">{{p.type}}</td>
+												<td class="column2">{{p.type}} {% if p.constant == True %} (Constant) {%endif%}</td>
 												<td class="column3">{{p.default}}</td>
 												<td class="column4">{{p.package}}</td>
 												<td class="column5">{{p.description}}</td>
@@ -136,7 +136,7 @@
 											{%endif%}
 											<tr>
 												<td class="column1">{{p.name}}</td>
-												<td class="column2">{{p.type}}</td>
+												<td class="column2">{{p.type}} {% if p.constant == True %} (Constant) {%endif%}</td>
 												<td class="column3">{{p.default}}</td>
 												<td class="column4">{{p.package}}</td>
 												<td class="column5">{{p.description}}</td>
@@ -193,7 +193,7 @@
 											{%endif%}
 											<tr>
 												<td class="column1">{{p.name}}</td>
-												<td class="column2">{{p.type}}</td>
+												<td class="column2">{{p.type}} {% if p.constant == True %} (Constant) {%endif%}</td>
 												<td class="column3">{{p.default}}</td>
 												<td class="column4">{{p.package}}</td>
 												<td class="column5">{{p.description}}</td>
@@ -207,7 +207,7 @@
 											{%endif%}
 											<tr>
 												<td class="column1">{{p.name}}</td>
-												<td class="column2">{{p.type}}</td>
+												<td class="column2">{{p.type}} {% if p.constant == True %} (Constant) {%endif%}</td>
 												<td class="column3">{{p.default}}</td>
 												<td class="column4">{{p.package}}</td>
 												<td class="column5">{{p.description}}</td>
@@ -221,7 +221,7 @@
 											{%endif%}
 											<tr>
 												<td class="column1">{{p.name}}</td>
-												<td class="column2">{{p.type}}</td>
+												<td class="column2">{{p.type}} {% if p.constant == True %} (Constant) {%endif%}</td>
 												<td class="column3">{{p.default}}</td>
 												<td class="column4">{{p.package}}</td>
 												<td class="column5">{{p.description}}</td>

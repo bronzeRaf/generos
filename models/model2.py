@@ -262,6 +262,11 @@ service3.client.extend([client3])
 graph1.hasServiceLinks.extend([service1, service3])				#0..*	graph-service
 
 
+# Dependencies
+dep1 = metamodel.PackageDependency()
+package1.hasDependencies.extend([dep1])
+dep1.package = interfaces
+
 # ~ rset = ResourceSet()
 model_res = rset.create_resource(URI('../models/test2.xmi'))
 model_res.append(rosystem1)

@@ -80,6 +80,7 @@ for t in model_root.hasPackages[0].hasTopicMessages:
 		obj['name'] = o.name
 		obj['type'] = o.datatype.type
 		obj['default'] = o.default
+		obj['constant'] = o.constant
 		obj['description'] = o.description
 		if o.datatype.__class__.__name__=="ROSData":
 			obj['package'] = o.datatype.package
@@ -112,6 +113,7 @@ for t in model_root.hasPackages[0].hasServiceMessages:
 		req['name'] = o.name
 		req['type'] = o.datatype.type
 		req['default'] = o.default
+		req['constant'] = o.constant
 		req['description'] = o.description
 		if o.datatype.__class__.__name__=="ROSData":
 			req['package'] = o.datatype.package
@@ -126,6 +128,7 @@ for t in model_root.hasPackages[0].hasServiceMessages:
 		res['name'] = o.name
 		res['type'] = o.datatype.type
 		res['default'] = o.default
+		res['constant'] = o.constant
 		res['description'] = o.description
 		if o.datatype.__class__.__name__=="ROSData":
 			res['package'] = o.datatype.package
@@ -159,6 +162,7 @@ for t in model_root.hasPackages[0].hasActionInterfaces:
 		g['name'] = o.name
 		g['type'] = o.datatype.type
 		g['default'] = o.default
+		g['constant'] = o.constant
 		g['description'] = o.description
 		if o.datatype.__class__.__name__=="ROSData":
 			g['package'] = o.datatype.package
@@ -173,6 +177,7 @@ for t in model_root.hasPackages[0].hasActionInterfaces:
 		r['name'] = o.name
 		r['type'] = o.datatype.type
 		r['default'] = o.default
+		r['constant'] = o.constant
 		r['description'] = o.description
 		if o.datatype.__class__.__name__=="ROSData":
 			r['package'] = o.datatype.package
@@ -187,6 +192,7 @@ for t in model_root.hasPackages[0].hasActionInterfaces:
 		r['name'] = o.name
 		r['type'] = o.datatype.type
 		r['default'] = o.default
+		r['constant'] = o.constant
 		r['description'] = o.description
 		if o.datatype.__class__.__name__=="ROSData":
 			r['package'] = o.datatype.package
@@ -342,8 +348,13 @@ for package in model_root.hasPackages:
 	pack_data['license'] = 'The license is ...'
 	
 	# Build the package dependencies data to pass to the Template
+	# Registered Dependencies
 	pack_depend = []
-	
+	pack_depend.append("rclpy")
+	pack_depend.append("interfaces")
+	for d in package.hasDependencies:
+		if d.package.name not in pack_depend:
+			pack_depend.append(d.package.name)
 	# Dependencies for every node in the package
 	for n in package.hasNodes:
 		# In Subscribers using Ros Messages

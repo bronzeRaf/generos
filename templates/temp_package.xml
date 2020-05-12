@@ -14,9 +14,7 @@
   <license>{{pack.license}}</license>
 
   <buildtool_depend>ament_python</buildtool_depend>
-  
-  <exec_depend>rclpy</exec_depend>
-  <exec_depend>interfaces</exec_depend>
+
   {% for i in pack_depend %}
   <exec_depend>{{i}}</exec_depend>
   {%endfor%}

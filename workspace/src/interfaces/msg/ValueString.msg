@@ -6,4 +6,3 @@
 # x -- x value for string message
 string x
 
-

@@ -596,11 +596,12 @@ class NetworkInterface(EObject, metaclass=MetaEClass):
 class ObjectProperty(EObject, metaclass=MetaEClass):
 
     name = EAttribute(eType=EString, derived=False, changeable=True)
-    default = EAttribute(eType=EString, derived=False, changeable=True)
     description = EAttribute(eType=EString, derived=False, changeable=True)
+    constant = EAttribute(eType=EBoolean, derived=False, changeable=True, default_value=False)
+    default = EAttribute(eType=EString, derived=False, changeable=True)
     datatype = EReference(ordered=True, unique=True, containment=True)
 
-    def __init__(self, *, name=None, default=None, description=None, datatype=None, **kwargs):
+    def __init__(self, *, name=None, description=None, datatype=None, constant=None, default=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -609,11 +610,14 @@ class ObjectProperty(EObject, metaclass=MetaEClass):
         if name is not None:
             self.name = name
 
-        if default is not None:
-            self.default = default
-
         if description is not None:
             self.description = description
+
+        if constant is not None:
+            self.constant = constant
+
+        if default is not None:
+            self.default = default
 
         if datatype is not None:
             self.datatype = datatype
@@ -627,20 +631,6 @@ class Datatype(EObject, metaclass=MetaEClass):
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
         super().__init__()
-
-
-class Element(EObject, metaclass=MetaEClass):
-
-    name = EAttribute(eType=EString, derived=False, changeable=True)
-
-    def __init__(self, *, name=None, **kwargs):
-        if kwargs:
-            raise AttributeError('unexpected arguments: {}'.format(kwargs))
-
-        super().__init__()
-
-        if name is not None:
-            self.name = name
 
 
 @abstract
@@ -830,22 +820,6 @@ class Array(Datatype):
     def __init__(self, **kwargs):
 
         super().__init__(**kwargs)
-
-
-class Enumeration(Datatype):
-
-    name = EAttribute(eType=EString, derived=False, changeable=True)
-    hasElements = EReference(ordered=True, unique=True, containment=True, upper=-1)
-
-    def __init__(self, *, name=None, hasElements=None, **kwargs):
-
-        super().__init__(**kwargs)
-
-        if name is not None:
-            self.name = name
-
-        if hasElements:
-            self.hasElements.extend(hasElements)
 
 
 class RosMessage(TopicMessage):

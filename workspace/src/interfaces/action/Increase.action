@@ -6,10 +6,8 @@
 
 # start -- a value for start value
 int64 start
-
 # goal -- a value for goal value
 int64 goal
-
 
 ---
 
@@ -18,11 +16,9 @@ int64 goal
 # a -- a value for result trigger
 int64 a
 
-
 ---
 
 # Action Feedback
 
 # update -- a value for feedback
 int64 update
-

@@ -6,8 +6,6 @@
 # header -- header type object
 std_msgs/Header header
 
-
 # x -- x value for integer message
 int32 x
-
 
