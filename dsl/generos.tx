@@ -1,0 +1,95 @@
+/*
+  Generos DSL grammar.
+*/
+
+GenerosModel:		
+	packages*=Package
+	nodes*=Node
+	parameters*=Parameter
+	publishers*=Publisher
+	subscribers*=Subscriber
+	clients*=Client
+	servers*=Server
+	dependencies*=Dependency
+;
+
+Package:
+    'package' name=ID '{'
+		'path' '=' packagePath=STRING
+		('builtin' '=' builtin=BOOL)?
+		('hasNode' '=' hasNodes *= [Node][eolterm])?
+		('hasDependency' '=' hasDependencies *= [Dependency])?
+    '}'
+;
+
+Node:
+    'node' name=ID '{'
+		('namespace' '=' namespace=STRING)?
+		('hasParameter' '=' hasParameters *= [Parameter])?
+		('hasPublisher' '=' hasPublishers *= [Publisher])?
+		('hasSubscriber' '=' hasSubscribers *= [Subscriber])?
+		('hasServer' '=' hasServers *= [Server])?
+		('hasClient' '=' hasClients *= [Client])?
+		('hasActionServer' '=' hasActionServers *= [ActionServer])?
+		('hasActionClient' '=' hasActionClients *= [ActionClient])?
+    '}'
+;
+
+Parameter:
+    'parameter' name=ID '{'
+		'type' '=' type=STRING
+		'value' '=' value=STRING
+		('description' '=' description=STRING)?
+    '}'
+;
+
+Publisher:
+    'publisher' name=ID '{'
+		'topicPath' '=' topicPath=STRING
+		'publishRate' '=' publishRate=FLOAT
+    '}'
+;
+
+Subscriber:
+    'subscriber' name=ID '{'
+		'topicPath' '=' topicPath=STRING
+    '}'
+;
+
+Server:
+    'server' name=ID '{'
+		'servicePath' '=' topicPath=STRING
+		'serviceName' '=' topicPath=STRING
+    '}'
+;
+
+Client:
+    'client' name=ID '{'
+		'servicePath' '=' topicPath=STRING
+		'serviceName' '=' topicPath=STRING
+    '}'
+;
+
+ActionServer:
+    'actionServer' name=ID '{'
+		
+    '}'
+;
+
+ActionClient:
+    'actionClient' name=ID '{'
+		
+    '}'
+;
+
+Dependency:
+    'dependency' name=ID '{'
+		'package' '=' package=[Package]
+    '}'
+;
+
+
+// Special rule for comments. Comments start with //
+Comment:
+    /\/\/.*$/
+;

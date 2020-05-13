@@ -1,0 +1,34 @@
+package pack1 {
+	path = "path/to/pack1"
+	builtin = False
+	hasNode = node1
+	hasDependency = dep1
+}
+
+package pack2 {
+	path = "path/to/pack2"
+	builtin = False
+	hasNode = node2
+	
+}
+
+node node1 {
+		namespace = "name/space1"
+		hasParameter = p1
+}
+node node2 {
+		namespace = "name/space2"
+}
+
+parameter p1{
+	type = "int32"
+	value = "32"
+}
+
+server s1{
+	servicePath = "path"
+	serviceName = "service1"
+}
+dependency dep1{
+		package = pack2
+}

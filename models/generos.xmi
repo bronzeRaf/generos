@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<metamodel:ROSSystem xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel="http://www.example.org/metamodel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="My_dsl_ROS_system" xmi:version="2.0">
+  <hasPackages xsi:type="metamodel:Package" name="pack1">
+    <hasDependencies xsi:type="metamodel:PackageDependency" package="//@hasPackages.1"/>
+    <hasNodes xsi:type="metamodel:Node" name="node1">
+      <hasParameters xsi:type="metamodel:Parameter" type="INTEGER_ARRAY" value="32" name="p1" description=""/>
+    </hasNodes>
+  </hasPackages>
+  <hasPackages xsi:type="metamodel:Package" name="pack2">
+    <hasNodes xsi:type="metamodel:Node" name="node2"/>
+  </hasPackages>
+</metamodel:ROSSystem>
