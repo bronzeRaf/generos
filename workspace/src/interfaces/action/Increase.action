@@ -1,24 +1,26 @@
 # Action Increase definition
 
-# Action for enabling counters
+# 
 
 # Action Goal
 
-# start -- a value for start value
-int64 start
-# goal -- a value for goal value
-int64 goal
+# start -- start number
+int32 start
+# stop -- stop number
+int32 stop
 
 ---
 
 # Action Result
 
-# a -- a value for result trigger
-int64 a
+# resus -- descripssstion333...
+bool resus
 
 ---
 
 # Action Feedback
 
-# update -- a value for feedback
-int64 update
+# h -- 
+std_msgs/Header h
+# z -- The counter
+int64 z

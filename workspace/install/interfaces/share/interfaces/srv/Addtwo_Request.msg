@@ -1,13 +1,11 @@
 # Service Addtwo definition
 
-# Service for receiving two numbers and returning their their sum
+# 
 
 # Service Request
 
-# a -- a value for integer service Addtwo request 1
-int64 a
-
-# b -- b value for integer service Addtwo request 2
-int64 b
-
+# x -- first number
+int32 x
+# y -- second number
+int32 y
 

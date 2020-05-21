@@ -2,6 +2,7 @@
 // with input from interfaces/srv/Addtwo.srv
 // generated code does not contain a copyright notice
 
+#include "std_msgs/msg/Header.idl"
 
 module interfaces {
   module srv {
@@ -9,20 +10,27 @@ module interfaces {
       " Service Addtwo definition")
     struct Addtwo_Request {
       @verbatim (language="comment", text=
-        " Service for receiving two numbers and returning their their sum" "\n"
         " Service Request" "\n"
-        " a -- a value for integer service Addtwo request 1")
-      int64 a;
+        " x -- first number")
+      int32 x;
 
       @verbatim (language="comment", text=
-        " b -- b value for integer service Addtwo request 2")
-      int64 b;
+        " y -- second number")
+      int32 y;
     };
     struct Addtwo_Response {
       @verbatim (language="comment", text=
         " Service Response" "\n"
-        " c -- c value for integer service Addtwo response")
-      int32 c;
+        " b -- descripssstion333...")
+      boolean b;
+
+      @verbatim (language="comment", text=
+        " h --")
+      std_msgs::msg::Header h;
+
+      @verbatim (language="comment", text=
+        " z -- The sum of x+y")
+      int64 z;
     };
   };
 };

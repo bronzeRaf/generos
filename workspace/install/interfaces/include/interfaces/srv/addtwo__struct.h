@@ -20,8 +20,8 @@ extern "C"
 // Struct defined in srv/Addtwo in the package interfaces.
 typedef struct interfaces__srv__Addtwo_Request
 {
-  int64_t a;
-  int64_t b;
+  int32_t x;
+  int32_t y;
 } interfaces__srv__Addtwo_Request;
 
 // Struct for a sequence of interfaces__srv__Addtwo_Request.
@@ -37,10 +37,16 @@ typedef struct interfaces__srv__Addtwo_Request__Sequence
 
 // Constants defined in the message
 
+// Include directives for member types
+// Member 'h'
+#include "std_msgs/msg/header__struct.h"
+
 // Struct defined in srv/Addtwo in the package interfaces.
 typedef struct interfaces__srv__Addtwo_Response
 {
-  int32_t c;
+  bool b;
+  std_msgs__msg__Header h;
+  int64_t z;
 } interfaces__srv__Addtwo_Response;
 
 // Struct for a sequence of interfaces__srv__Addtwo_Response.

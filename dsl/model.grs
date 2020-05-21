@@ -11,13 +11,23 @@ package pack2 {
 	hasNode = node2
 	
 }
+subscriber sub1{
+	topicPath = "topic/path/1"
+	message = M1
+}
+publisher pub1{
+	topicPath = "topic/path/1"
+	publishRate = 10
+	message = M1
+}
 
 node node1 {
-		namespace = "name/space1"
 		hasParameter = p1
+		hasSubscriber = sub1
 }
 node node2 {
 		namespace = "name/space2"
+		hasPublisher = pub1
 }
 
 parameter p1{
@@ -30,5 +40,39 @@ server s1{
 	serviceName = "service1"
 }
 dependency dep1{
-		package = pack2
+	package = pack2
 }
+
+
+message M1{
+	prim int64, a, description = "description..."
+	prim bool, b, description = "description333...", default = "False"
+	prim bool, c, description = "descripssstion333..."
+	ros Header, h, std_msgs
+	prim string, s, description = "description444..."
+	prim float32, y, description = "description222..."
+}
+
+service Addtwo{
+	request:
+		prim int32, x, description = "first number", default = "0"
+		prim int32, y, description = "second number", default = "0"
+	response:	
+		prim bool, b, description = "descripssstion333..."
+		ros Header, h, std_msgs
+		prim int64, z, description = "The sum of x+y"
+}
+
+action Increase{
+	goal:
+		prim int32, start, description = "start number", default = "0"
+		prim int32, stop, description = "stop number", default = "0"
+	result:	
+		prim bool, resus, description = "descripssstion333..."
+	feedback:
+		ros Header, h, std_msgs
+		prim int64, z, description = "The counter"
+}
+
+message Header package = "std_msgs"
+service SetBool package = "std_srvs"

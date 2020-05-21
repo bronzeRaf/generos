@@ -1,12 +1,89 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <metamodel:ROSSystem xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel="http://www.example.org/metamodel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="My_dsl_ROS_system" xmi:version="2.0">
+  <hasPackages xsi:type="metamodel:Package" name="interfaces" packagePath="">
+    <hasTopicMessages xsi:type="metamodel:CustomMessage" description="" name="M1">
+      <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="a" description="description..." default="">
+        <datatype xsi:type="metamodel:Int" type="int64"/>
+      </hasObjectProperties>
+      <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="b" description="description333..." default="False">
+        <datatype xsi:type="metamodel:Bool" type="bool"/>
+      </hasObjectProperties>
+      <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="c" description="descripssstion333..." default="">
+        <datatype xsi:type="metamodel:Bool" type="bool"/>
+      </hasObjectProperties>
+      <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="h" description="" default="">
+        <datatype xsi:type="metamodel:ROSData" type="Header" package="std_msgs"/>
+      </hasObjectProperties>
+      <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="s" description="description444..." default="">
+        <datatype xsi:type="metamodel:String" type="string"/>
+      </hasObjectProperties>
+      <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="y" description="description222..." default="">
+        <datatype xsi:type="metamodel:Float"/>
+      </hasObjectProperties>
+    </hasTopicMessages>
+    <hasActionInterfaces xsi:type="metamodel:CustomActionInterface" name="Increase" description="">
+      <hasResult xsi:type="metamodel:Result">
+        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="resus" description="descripssstion333..." default="">
+          <datatype xsi:type="metamodel:Bool" type="bool"/>
+        </hasObjectProperties>
+      </hasResult>
+      <hasGoal xsi:type="metamodel:Goal">
+        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="start" description="start number" default="0">
+          <datatype xsi:type="metamodel:Int" type="int32"/>
+        </hasObjectProperties>
+        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="stop" description="stop number" default="0">
+          <datatype xsi:type="metamodel:Int" type="int32"/>
+        </hasObjectProperties>
+      </hasGoal>
+      <hasFeedback xsi:type="metamodel:Feedback">
+        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="h" description="" default="">
+          <datatype xsi:type="metamodel:ROSData" type="Header" package="std_msgs"/>
+        </hasObjectProperties>
+        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="z" description="The counter" default="">
+          <datatype xsi:type="metamodel:Int" type="int64"/>
+        </hasObjectProperties>
+      </hasFeedback>
+    </hasActionInterfaces>
+    <hasServiceMessages xsi:type="metamodel:CustomService" description="" name="Addtwo">
+      <hasRequest xsi:type="metamodel:Request">
+        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="x" description="first number" default="0">
+          <datatype xsi:type="metamodel:Int" type="int32"/>
+        </hasObjectProperties>
+        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="y" description="second number" default="0">
+          <datatype xsi:type="metamodel:Int" type="int32"/>
+        </hasObjectProperties>
+      </hasRequest>
+      <hasResponse xsi:type="metamodel:Response">
+        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="b" description="descripssstion333..." default="">
+          <datatype xsi:type="metamodel:Bool" type="bool"/>
+        </hasObjectProperties>
+        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="h" description="" default="">
+          <datatype xsi:type="metamodel:ROSData" type="Header" package="std_msgs"/>
+        </hasObjectProperties>
+        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="z" description="The sum of x+y" default="">
+          <datatype xsi:type="metamodel:Int" type="int64"/>
+        </hasObjectProperties>
+      </hasResponse>
+    </hasServiceMessages>
+  </hasPackages>
+  <hasPackages xsi:type="metamodel:Package" name="std_msgs" builtin="true" packagePath="">
+    <hasTopicMessages xsi:type="metamodel:RosMessage" name="Header" package="std_msgs"/>
+  </hasPackages>
+  <hasPackages xsi:type="metamodel:Package" name="std_srvs" builtin="true" packagePath="">
+    <hasServiceMessages xsi:type="metamodel:RosService" package="std_srvs" name="SetBool"/>
+  </hasPackages>
   <hasPackages xsi:type="metamodel:Package" name="pack1">
-    <hasDependencies xsi:type="metamodel:PackageDependency" package="//@hasPackages.1"/>
-    <hasNodes xsi:type="metamodel:Node" name="node1">
-      <hasParameters xsi:type="metamodel:Parameter" type="INTEGER_ARRAY" value="32" name="p1" description=""/>
+    <hasDependencies xsi:type="metamodel:PackageDependency" package="//@hasPackages.4"/>
+    <hasDocumentation xsi:type="metamodel:Documentation"/>
+    <hasNodes xsi:type="metamodel:Node" name="node1" namespace="">
+      <hasSubscribers xsi:type="metamodel:Subscriber" name="sub1" topicPath="topic/path/1" smsg="//@hasPackages.0/@hasTopicMessages.0"/>
+      <hasParameters xsi:type="metamodel:Parameter" value="32" name="p1" description="" type="INTEGER_ARRAY"/>
     </hasNodes>
   </hasPackages>
   <hasPackages xsi:type="metamodel:Package" name="pack2">
-    <hasNodes xsi:type="metamodel:Node" name="node2"/>
+    <hasNodes xsi:type="metamodel:Node" name="node2" namespace="name/space2">
+      <hasPublishers xsi:type="metamodel:Publisher" name="pub1" topicPath="topic/path/1" publishRate="10.0" pmsg="//@hasPackages.0/@hasTopicMessages.0"/>
+    </hasNodes>
+    <hasDocumentation xsi:type="metamodel:Documentation"/>
   </hasPackages>
 </metamodel:ROSSystem>

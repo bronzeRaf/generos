@@ -29,6 +29,10 @@ struct has_bounded_size<interfaces::srv::Addtwo_Request>
 
 }  // namespace rosidl_generator_traits
 
+// Include directives for member types
+// Member 'h'
+#include "std_msgs/msg/header__traits.hpp"
+
 namespace rosidl_generator_traits
 {
 
@@ -40,11 +44,11 @@ inline const char * data_type<interfaces::srv::Addtwo_Response>()
 
 template<>
 struct has_fixed_size<interfaces::srv::Addtwo_Response>
-  : std::integral_constant<bool, true> {};
+  : std::integral_constant<bool, has_fixed_size<std_msgs::msg::Header>::value> {};
 
 template<>
 struct has_bounded_size<interfaces::srv::Addtwo_Response>
-  : std::integral_constant<bool, true> {};
+  : std::integral_constant<bool, has_bounded_size<std_msgs::msg::Header>::value> {};
 
 }  // namespace rosidl_generator_traits
 

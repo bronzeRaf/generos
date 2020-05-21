@@ -27,14 +27,14 @@ namespace rosidl_typesupport_introspection_cpp
 
 static const ::rosidl_typesupport_introspection_cpp::MessageMember Addtwo_Request_message_member_array[2] = {
   {
-    "a",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT64,  // type
+    "x",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT32,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(interfaces::srv::Addtwo_Request, a),  // bytes offset in struct
+    offsetof(interfaces::srv::Addtwo_Request, x),  // bytes offset in struct
     nullptr,  // default value
     nullptr,  // size() function pointer
     nullptr,  // get_const(index) function pointer
@@ -42,14 +42,14 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember Addtwo_Reques
     NULL  // resize(index) function pointer
   },
   {
-    "b",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT64,  // type
+    "y",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT32,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(interfaces::srv::Addtwo_Request, b),  // bytes offset in struct
+    offsetof(interfaces::srv::Addtwo_Request, y),  // bytes offset in struct
     nullptr,  // default value
     nullptr,  // size() function pointer
     nullptr,  // get_const(index) function pointer
@@ -143,16 +143,46 @@ namespace srv
 namespace rosidl_typesupport_introspection_cpp
 {
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember Addtwo_Response_message_member_array[1] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember Addtwo_Response_message_member_array[3] = {
   {
-    "c",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT32,  // type
+    "b",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_BOOLEAN,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(interfaces::srv::Addtwo_Response, c),  // bytes offset in struct
+    offsetof(interfaces::srv::Addtwo_Response, b),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
+    "h",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_MESSAGE,  // type
+    0,  // upper bound of string
+    ::rosidl_typesupport_introspection_cpp::get_message_type_support_handle<std_msgs::msg::Header>(),  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces::srv::Addtwo_Response, h),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
+    "z",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT64,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces::srv::Addtwo_Response, z),  // bytes offset in struct
     nullptr,  // default value
     nullptr,  // size() function pointer
     nullptr,  // get_const(index) function pointer
@@ -164,7 +194,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember Addtwo_Respon
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers Addtwo_Response_message_members = {
   "interfaces::srv",  // message namespace
   "Addtwo_Response",  // message name
-  1,  // number of fields
+  3,  // number of fields
   sizeof(interfaces::srv::Addtwo_Response),
   Addtwo_Response_message_member_array  // message members
 };

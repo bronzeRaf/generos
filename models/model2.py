@@ -1,7 +1,7 @@
 from pyecore.resources import ResourceSet, URI, global_registry
 from pyecore.resources.json import JsonResource
 from pyecore.ecore import EClass, EAttribute, EObject
-import pyecore.ecore as Ecore  # We get a reference to the Ecore metamodle implem.
+import pyecore.ecore as Ecore  
 from pyecoregen.ecore import EcoreGenerator 
 import pyecore.behavior as behavior
 from pyecore.utils import DynamicEPackage

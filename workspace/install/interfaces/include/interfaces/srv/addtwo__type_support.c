@@ -18,14 +18,14 @@ extern "C"
 
 static rosidl_typesupport_introspection_c__MessageMember Addtwo_Request__rosidl_typesupport_introspection_c__Addtwo_Request_message_member_array[2] = {
   {
-    "a",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_INT64,  // type
+    "x",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_INT32,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(interfaces__srv__Addtwo_Request, a),  // bytes offset in struct
+    offsetof(interfaces__srv__Addtwo_Request, x),  // bytes offset in struct
     NULL,  // default value
     NULL,  // size() function pointer
     NULL,  // get_const(index) function pointer
@@ -33,14 +33,14 @@ static rosidl_typesupport_introspection_c__MessageMember Addtwo_Request__rosidl_
     NULL  // resize(index) function pointer
   },
   {
-    "b",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_INT64,  // type
+    "y",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_INT32,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(interfaces__srv__Addtwo_Request, b),  // bytes offset in struct
+    offsetof(interfaces__srv__Addtwo_Request, y),  // bytes offset in struct
     NULL,  // default value
     NULL,  // size() function pointer
     NULL,  // get_const(index) function pointer
@@ -94,21 +94,57 @@ ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspecti
 // #include "interfaces/srv/addtwo__struct.h"
 
 
+// Include directives for member types
+// Member `h`
+#include "std_msgs/msg/header.h"
+// Member `h`
+#include "std_msgs/msg/header__rosidl_typesupport_introspection_c.h"
+
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-static rosidl_typesupport_introspection_c__MessageMember Addtwo_Response__rosidl_typesupport_introspection_c__Addtwo_Response_message_member_array[1] = {
+static rosidl_typesupport_introspection_c__MessageMember Addtwo_Response__rosidl_typesupport_introspection_c__Addtwo_Response_message_member_array[3] = {
   {
-    "c",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_INT32,  // type
+    "b",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_BOOLEAN,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(interfaces__srv__Addtwo_Response, c),  // bytes offset in struct
+    offsetof(interfaces__srv__Addtwo_Response, b),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
+    "h",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_MESSAGE,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message (initialized later)
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces__srv__Addtwo_Response, h),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
+    "z",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_INT64,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces__srv__Addtwo_Response, z),  // bytes offset in struct
     NULL,  // default value
     NULL,  // size() function pointer
     NULL,  // get_const(index) function pointer
@@ -120,7 +156,7 @@ static rosidl_typesupport_introspection_c__MessageMember Addtwo_Response__rosidl
 static const rosidl_typesupport_introspection_c__MessageMembers Addtwo_Response__rosidl_typesupport_introspection_c__Addtwo_Response_message_members = {
   "interfaces__srv",  // message namespace
   "Addtwo_Response",  // message name
-  1,  // number of fields
+  3,  // number of fields
   sizeof(interfaces__srv__Addtwo_Response),
   Addtwo_Response__rosidl_typesupport_introspection_c__Addtwo_Response_message_member_array  // message members
 };
@@ -136,6 +172,8 @@ static rosidl_message_type_support_t Addtwo_Response__rosidl_typesupport_introsp
 ROSIDL_TYPESUPPORT_INTROSPECTION_C_EXPORT_interfaces
 const rosidl_message_type_support_t *
 ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, interfaces, srv, Addtwo_Response)() {
+  Addtwo_Response__rosidl_typesupport_introspection_c__Addtwo_Response_message_member_array[1].members_ =
+    ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, std_msgs, msg, Header)();
   if (!Addtwo_Response__rosidl_typesupport_introspection_c__Addtwo_Response_message_type_support_handle.typesupport_identifier) {
     Addtwo_Response__rosidl_typesupport_introspection_c__Addtwo_Response_message_type_support_handle.typesupport_identifier =
       rosidl_typesupport_introspection_c__identifier;

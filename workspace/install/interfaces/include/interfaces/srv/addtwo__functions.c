@@ -14,8 +14,8 @@ interfaces__srv__Addtwo_Request__init(interfaces__srv__Addtwo_Request * msg)
   if (!msg) {
     return false;
   }
-  // a
-  // b
+  // x
+  // y
   return true;
 }
 
@@ -25,8 +25,8 @@ interfaces__srv__Addtwo_Request__fini(interfaces__srv__Addtwo_Request * msg)
   if (!msg) {
     return;
   }
-  // a
-  // b
+  // x
+  // y
 }
 
 interfaces__srv__Addtwo_Request *
@@ -139,13 +139,23 @@ interfaces__srv__Addtwo_Request__Sequence__destroy(interfaces__srv__Addtwo_Reque
 }
 
 
+// Include directives for member types
+// Member `h`
+#include "std_msgs/msg/header__functions.h"
+
 bool
 interfaces__srv__Addtwo_Response__init(interfaces__srv__Addtwo_Response * msg)
 {
   if (!msg) {
     return false;
   }
-  // c
+  // b
+  // h
+  if (!std_msgs__msg__Header__init(&msg->h)) {
+    interfaces__srv__Addtwo_Response__fini(msg);
+    return false;
+  }
+  // z
   return true;
 }
 
@@ -155,7 +165,10 @@ interfaces__srv__Addtwo_Response__fini(interfaces__srv__Addtwo_Response * msg)
   if (!msg) {
     return;
   }
-  // c
+  // b
+  // h
+  std_msgs__msg__Header__fini(&msg->h);
+  // z
 }
 
 interfaces__srv__Addtwo_Response *

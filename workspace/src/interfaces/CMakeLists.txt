@@ -22,10 +22,8 @@ find_package(builtin_interfaces REQUIRED)
 find_package(std_msgs REQUIRED)
 
 rosidl_generate_interfaces(${PROJECT_NAME}
-  "msg/ValueInt.msg"
-  "msg/ValueString.msg"
+  "msg/M1.msg"
   "srv/Addtwo.srv"
-  "srv/SrFloatFloatString.srv"
   "action/Increase.action"
   DEPENDENCIES builtin_interfaces std_msgs )
 # uncomment the following section in order to fill in

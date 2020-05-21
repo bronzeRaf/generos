@@ -22,8 +22,7 @@ setup(
     tests_require = ['pytest'],
     entry_points = {
         'console_scripts': [
-		'node3_exec = pack2.node3_node:main',
-		'node3_Client2 = pack2.node3_node:run_Client2',
+		'node2_exec = pack2.node2_node:main',
         ],
     },
 )

@@ -40,7 +40,7 @@ root = resource.contents[0]
 rset.metamodel_registry[root.nsURI] = root
 
 # We obtain the model from an XMI
-model_root = rset.get_resource(URI('models/test2.xmi')).contents[0]
+model_root = rset.get_resource(URI('models/generos.xmi')).contents[0]
 
 # Create the workspace directory tree
 os.system('mkdir workspace')
@@ -919,62 +919,62 @@ for package in model_root.hasPackages:
 
 # Generate graph 
 # ___________________________________________	
-# Go to the workspace
-os.chdir('..')
-G = nx.DiGraph()
-node_nodes = []
-node_services = []
-node_topics = []
-edge_labels = {}
-node_labels = {}
-# Nodes
-for n in model_root.graph.nodes:
-	# Node nodes
-	G.add_node(n.name)
-	node_labels[n.name] = n.name
-	node_nodes.append(n.name)
-# Services	
-for n in model_root.graph.hasServiceLinks:
-	# Service nodes
-	G.add_node(n.name)
-	node_labels[n.name] = n.name
-	node_services.append(n.name)
-	# Service edges
-	G.add_edge(n.server._container.name, n.name)
-	edge_labels[n.server._container.name, n.name] = n.server.name
-	for c in n.client:
-		G.add_edge(n.name, c._container.name)
-		edge_labels[n.name, c._container.name] = c.name
-# Topics
-for n in model_root.graph.hasTopics:
-	# Topic nodes
-	G.add_node(n.topicPath)
-	node_labels[n.topicPath] = n.topicPath
-	node_topics.append(n.topicPath)
-	# Topic edges
-	G.add_edge(n.publisher._container.name, n.topicPath)
-	edge_labels[n.publisher._container.name, n.topicPath] = n.publisher.name
-	for c in n.subscriber:
-		G.add_edge(n.topicPath, c._container.name)
-		edge_labels[n.topicPath, c._container.name] = c.name
+# ~ # Go to the workspace
+# ~ os.chdir('..')
+# ~ G = nx.DiGraph()
+# ~ node_nodes = []
+# ~ node_services = []
+# ~ node_topics = []
+# ~ edge_labels = {}
+# ~ node_labels = {}
+# ~ # Nodes
+# ~ for n in model_root.graph.nodes:
+	# ~ # Node nodes
+	# ~ G.add_node(n.name)
+	# ~ node_labels[n.name] = n.name
+	# ~ node_nodes.append(n.name)
+# ~ # Services	
+# ~ for n in model_root.graph.hasServiceLinks:
+	# ~ # Service nodes
+	# ~ G.add_node(n.name)
+	# ~ node_labels[n.name] = n.name
+	# ~ node_services.append(n.name)
+	# ~ # Service edges
+	# ~ G.add_edge(n.server._container.name, n.name)
+	# ~ edge_labels[n.server._container.name, n.name] = n.server.name
+	# ~ for c in n.client:
+		# ~ G.add_edge(n.name, c._container.name)
+		# ~ edge_labels[n.name, c._container.name] = c.name
+# ~ # Topics
+# ~ for n in model_root.graph.hasTopics:
+	# ~ # Topic nodes
+	# ~ G.add_node(n.topicPath)
+	# ~ node_labels[n.topicPath] = n.topicPath
+	# ~ node_topics.append(n.topicPath)
+	# ~ # Topic edges
+	# ~ G.add_edge(n.publisher._container.name, n.topicPath)
+	# ~ edge_labels[n.publisher._container.name, n.topicPath] = n.publisher.name
+	# ~ for c in n.subscriber:
+		# ~ G.add_edge(n.topicPath, c._container.name)
+		# ~ edge_labels[n.topicPath, c._container.name] = c.name
 	
-# Make plot
-plt.subplots(1, figsize=(16,16))
-# Obtain position
-pos = nx.shell_layout(G)
-# Plot Nodes
-nx.draw_networkx_nodes(G,pos=pos,nodelist=node_nodes, node_size=2300, node_color='skyblue', label='Nodes', with_labels = True)
-# Plot Services
-nx.draw_networkx_nodes(G,pos=pos,nodelist=node_services, node_size=2300, node_color='pink', label='Services', with_labels = True)
-# Plot Topics
-nx.draw_networkx_nodes(G,pos=pos,nodelist=node_topics, node_size=2300, node_color='lightgreen', label='Topics', with_labels = True)
-# Plot Labels on Nodes
-nx.draw_networkx_labels(G,pos=pos, labels = node_labels, font_size = 8)
-# Plot Edges
-nx.draw_networkx_edges(G, pos, width=3)
-# Plot Labels on Edges
-nx.draw_networkx_edge_labels(G, pos=pos, edge_labels=edge_labels, font_size=8)
-# Plot Legend
-plt.legend(loc = 'best', scatterpoints=1, labelspacing=4.5, handletextpad = 3, borderpad = 3)
-# Save figure as image
-plt.savefig("System Graph.png") 
+# ~ # Make plot
+# ~ plt.subplots(1, figsize=(16,16))
+# ~ # Obtain position
+# ~ pos = nx.shell_layout(G)
+# ~ # Plot Nodes
+# ~ nx.draw_networkx_nodes(G,pos=pos,nodelist=node_nodes, node_size=2300, node_color='skyblue', label='Nodes', with_labels = True)
+# ~ # Plot Services
+# ~ nx.draw_networkx_nodes(G,pos=pos,nodelist=node_services, node_size=2300, node_color='pink', label='Services', with_labels = True)
+# ~ # Plot Topics
+# ~ nx.draw_networkx_nodes(G,pos=pos,nodelist=node_topics, node_size=2300, node_color='lightgreen', label='Topics', with_labels = True)
+# ~ # Plot Labels on Nodes
+# ~ nx.draw_networkx_labels(G,pos=pos, labels = node_labels, font_size = 8)
+# ~ # Plot Edges
+# ~ nx.draw_networkx_edges(G, pos, width=3)
+# ~ # Plot Labels on Edges
+# ~ nx.draw_networkx_edge_labels(G, pos=pos, edge_labels=edge_labels, font_size=8)
+# ~ # Plot Legend
+# ~ plt.legend(loc = 'best', scatterpoints=1, labelspacing=4.5, handletextpad = 3, borderpad = 3)
+# ~ # Save figure as image
+# ~ plt.savefig("System Graph.png") 

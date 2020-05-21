@@ -2,15 +2,23 @@
   Generos DSL grammar.
 */
 
-GenerosModel:		
-	packages*=Package
+GenerosModel:
+	commands *= Command
+	/*packages*=Package
 	nodes*=Node
 	parameters*=Parameter
 	publishers*=Publisher
-	subscribers*=Subscriber
+	
 	clients*=Client
 	servers*=Server
 	dependencies*=Dependency
+	messages*=Message
+	subscribers*=Subscriber
+*/
+;
+
+Command:
+	Package | Node | Parameter | Publisher | Subscriber | Client | Server | Dependency | Message | ServiceMessage | ActionInterface //| QoSProfile
 ;
 
 Package:
@@ -25,13 +33,13 @@ Package:
 Node:
     'node' name=ID '{'
 		('namespace' '=' namespace=STRING)?
-		('hasParameter' '=' hasParameters *= [Parameter])?
-		('hasPublisher' '=' hasPublishers *= [Publisher])?
-		('hasSubscriber' '=' hasSubscribers *= [Subscriber])?
-		('hasServer' '=' hasServers *= [Server])?
-		('hasClient' '=' hasClients *= [Client])?
-		('hasActionServer' '=' hasActionServers *= [ActionServer])?
-		('hasActionClient' '=' hasActionClients *= [ActionClient])?
+		('hasParameter' '=' hasParameters *= [Parameter][eolterm])?
+		('hasPublisher' '=' hasPublishers *= [Publisher][eolterm])?
+		('hasSubscriber' '=' hasSubscribers *= [Subscriber][eolterm])?
+		('hasServer' '=' hasServers *= [Server][eolterm])?
+		('hasClient' '=' hasClients *= [Client][eolterm])?
+		('hasActionServer' '=' hasActionServers *= [ActionServer][eolterm])?
+		('hasActionClient' '=' hasActionClients *= [ActionClient][eolterm])?
     '}'
 ;
 
@@ -47,12 +55,14 @@ Publisher:
     'publisher' name=ID '{'
 		'topicPath' '=' topicPath=STRING
 		'publishRate' '=' publishRate=FLOAT
+		'message' '=' message=[Message]
     '}'
 ;
 
 Subscriber:
     'subscriber' name=ID '{'
 		'topicPath' '=' topicPath=STRING
+		'message' '=' message=[Message]
     '}'
 ;
 
@@ -88,6 +98,91 @@ Dependency:
     '}'
 ;
 
+Message:
+   CustomMessage | RosMessage
+;
+
+RosMessage:
+    'message' name=ID 'package' '=' package=STRING
+;
+
+CustomMessage:
+    'message' name=ID '{'
+		('description' '=' description=STRING)?
+		hasObjects *= Object
+    '}'
+;
+ServiceMessage:
+   CustomServiceMessage | RosServiceMessage
+;
+
+RosServiceMessage:
+    'service' name=ID 'package' '=' package=STRING
+;
+
+CustomServiceMessage:
+    'service' name=ID '{'
+		'request' ':' request = Request
+		'response' ':' response = Response
+		
+		('description' '=' description=STRING)?
+		
+    '}'
+;
+
+Request: 
+	hasObjects *= Object
+;
+Response: 
+	hasObjects *= Object
+;
+
+ActionInterface:
+   CustomActionInterface
+;
+
+CustomActionInterface:
+    'action' name=ID '{'
+		'goal' ':' goal = Goal
+		'result' ':' result = Result
+		'feedback' ':' feedback = Feedback
+		
+		('description' '=' description=STRING)?
+		
+    '}'
+;
+
+Goal: 
+	hasObjects *= Object
+;
+Result: 
+	hasObjects *= Object
+;
+Feedback: 
+	hasObjects *= Object
+;
+
+Object:
+	(Primitive | ROSData)
+;
+
+
+Primitive:
+	'prim' type=ID ','
+		name=ID
+		(',' 'description''=' description=STRING)? 
+		(',' 'constant''=' constant=BOOL)? 
+		(',' 'default''=' default=STRING)?
+;
+
+ROSData: 
+	'ros' type=ID ',' 
+	name=ID ',' 
+	package=ID 
+	(',' 'description''=' description=STRING)? 
+	(',' 'constant''=' constant=BOOL)? 
+	(',' 'default''=' default=STRING)?
+;
 
 // Special rule for comments. Comments start with //
 Comment:

@@ -47,8 +47,8 @@ struct Addtwo_Request_
     if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
       rosidl_generator_cpp::MessageInitialization::ZERO == _init)
     {
-      this->a = 0ll;
-      this->b = 0ll;
+      this->x = 0l;
+      this->y = 0l;
     }
   }
 
@@ -58,30 +58,30 @@ struct Addtwo_Request_
     if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
       rosidl_generator_cpp::MessageInitialization::ZERO == _init)
     {
-      this->a = 0ll;
-      this->b = 0ll;
+      this->x = 0l;
+      this->y = 0l;
     }
   }
 
   // field types and members
-  using _a_type =
-    int64_t;
-  _a_type a;
-  using _b_type =
-    int64_t;
-  _b_type b;
+  using _x_type =
+    int32_t;
+  _x_type x;
+  using _y_type =
+    int32_t;
+  _y_type y;
 
   // setters for named parameter idiom
-  Type & set__a(
-    const int64_t & _arg)
+  Type & set__x(
+    const int32_t & _arg)
   {
-    this->a = _arg;
+    this->x = _arg;
     return *this;
   }
-  Type & set__b(
-    const int64_t & _arg)
+  Type & set__y(
+    const int32_t & _arg)
   {
-    this->b = _arg;
+    this->y = _arg;
     return *this;
   }
 
@@ -127,10 +127,10 @@ struct Addtwo_Request_
   // comparison operators
   bool operator==(const Addtwo_Request_ & other) const
   {
-    if (this->a != other.a) {
+    if (this->x != other.x) {
       return false;
     }
-    if (this->b != other.b) {
+    if (this->y != other.y) {
       return false;
     }
     return true;
@@ -162,6 +162,10 @@ using Addtwo_Request =
   #endif
 #endif
 
+// Include directives for member types
+// Member 'h'
+#include "std_msgs/msg/header__struct.hpp"
+
 #ifndef _WIN32
 # define DEPRECATED__interfaces__srv__Addtwo_Response __attribute__((deprecated))
 #else
@@ -181,34 +185,55 @@ struct Addtwo_Response_
   using Type = Addtwo_Response_<ContainerAllocator>;
 
   explicit Addtwo_Response_(rosidl_generator_cpp::MessageInitialization _init = rosidl_generator_cpp::MessageInitialization::ALL)
+  : h(_init)
   {
     if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
       rosidl_generator_cpp::MessageInitialization::ZERO == _init)
     {
-      this->c = 0l;
+      this->b = false;
+      this->z = 0ll;
     }
   }
 
   explicit Addtwo_Response_(const ContainerAllocator & _alloc, rosidl_generator_cpp::MessageInitialization _init = rosidl_generator_cpp::MessageInitialization::ALL)
+  : h(_alloc, _init)
   {
-    (void)_alloc;
     if (rosidl_generator_cpp::MessageInitialization::ALL == _init ||
       rosidl_generator_cpp::MessageInitialization::ZERO == _init)
     {
-      this->c = 0l;
+      this->b = false;
+      this->z = 0ll;
     }
   }
 
   // field types and members
-  using _c_type =
-    int32_t;
-  _c_type c;
+  using _b_type =
+    bool;
+  _b_type b;
+  using _h_type =
+    std_msgs::msg::Header_<ContainerAllocator>;
+  _h_type h;
+  using _z_type =
+    int64_t;
+  _z_type z;
 
   // setters for named parameter idiom
-  Type & set__c(
-    const int32_t & _arg)
+  Type & set__b(
+    const bool & _arg)
   {
-    this->c = _arg;
+    this->b = _arg;
+    return *this;
+  }
+  Type & set__h(
+    const std_msgs::msg::Header_<ContainerAllocator> & _arg)
+  {
+    this->h = _arg;
+    return *this;
+  }
+  Type & set__z(
+    const int64_t & _arg)
+  {
+    this->z = _arg;
     return *this;
   }
 
@@ -254,7 +279,13 @@ struct Addtwo_Response_
   // comparison operators
   bool operator==(const Addtwo_Response_ & other) const
   {
-    if (this->c != other.c) {
+    if (this->b != other.b) {
+      return false;
+    }
+    if (this->h != other.h) {
+      return false;
+    }
+    if (this->z != other.z) {
       return false;
     }
     return true;
