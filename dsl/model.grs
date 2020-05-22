@@ -74,5 +74,11 @@ action Increase{
 		prim int64, z, description = "The counter"
 }
 
+qosprofile q1{
+	history = "KEEP_ALL"
+	reliability = "RELIABLE"
+}
+
+presetqos SENSOR_DATA
 message Header package = "std_msgs"
 service SetBool package = "std_srvs"

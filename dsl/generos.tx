@@ -18,7 +18,7 @@ GenerosModel:
 ;
 
 Command:
-	Package | Node | Parameter | Publisher | Subscriber | Client | Server | Dependency | Message | ServiceMessage | ActionInterface //| QoSProfile
+	Package | Node | Parameter | Publisher | Subscriber | Client | Server | Dependency | Message | ServiceMessage | ActionInterface | QoSProfile
 ;
 
 Package:
@@ -182,6 +182,31 @@ ROSData:
 	(',' 'description''=' description=STRING)? 
 	(',' 'constant''=' constant=BOOL)? 
 	(',' 'default''=' default=STRING)?
+;
+
+QoSProfile:
+	CustomQosProfile | RosQosProfile
+;
+
+CustomQosProfile: 
+	'qosprofile' name=ID '{'
+		('history' '=' history=STRING)?
+		('depth' '=' depth=STRING)?
+		('reliability' '=' reliability=STRING)?
+		('durability' '=' durability=STRING)?
+		('livelines' '=' livelines=STRING)?
+		('deadlineSec' '=' deadlineSec=INT)?
+		('deadlineNSec' '=' deadlineNSec=INT)?
+		('lifespanSec' '=' lifespanSec=INT)?
+		('lifespanNSec' '=' lifespanNSec=INT)?
+		('liveliness_lease_durationSec' '=' liveliness_lease_durationSec=INT)?
+		('liveliness_lease_durationNSec' '=' liveliness_lease_durationNSec=INT)?
+		('avoid_ros_namespace_conventions' '=' avoid_ros_namespace_conventions=BOOL)?
+	'}'
+;
+
+RosQosProfile:
+	'presetqos' name=ID
 ;
 
 // Special rule for comments. Comments start with //

@@ -124,10 +124,8 @@ class RosSystem(object):
 					package_bag[p.package] = metamodel.Package(name = p.package, rosVersion = 0, packagePath = "", builtin = True)
 					self.rosystem.hasPackages.extend([package_bag[p.package]])
 				package_bag[p.package].hasServiceMessages.extend([services_bag[p.name]])
-			
 			# Custom Action Interface
 			elif p.__class__.__name__ == "CustomActionInterface":
-				print("hi")
 				# Custom Action Interfaces
 				actions_bag[p.name] = metamodel.CustomActionInterface(name=p.name, description = p.description)
 				package_bag['interfaces'].hasActionInterfaces.extend([actions_bag[p.name]])
