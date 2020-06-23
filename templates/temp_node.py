@@ -236,16 +236,7 @@ class {{node.name}}_class(Node):
 		# TODO: Add functionality here
 		
 		
-		{% if p.type == "ValueString" %}
-		msg.x = 'Hello World: %d' % self.i
-		{% endif %}
-		
-		{% if p.type == "ValueInt" %}
-		msg.x = self.i
-		self.i += 1
-		self.get_logger().info('Publishing: "%s"' % msg.x)
-		{% endif %}
-		
+		# Then publish the msg with the following code
 		self.publisher_{{p.name}}.publish(msg)
 		
 	#_____
@@ -278,8 +269,8 @@ class {{node.name}}_class(Node):
 		
 		# TODO: Add functionality here
 		
-		
-		self.get_logger().info('I heard: '+str(msg.x))
+		# You can see incoming info uncommenting the following line and filling the attributes "msg" object
+		# ~ self.get_logger().info('I heard: '+str(msg.<put your attributres>))
 	#_____
 	{%endfor%}
 	
@@ -311,9 +302,13 @@ class {{node.name}}_class(Node):
 		
 		# TODO: Add functionality here
 		
+		# You can store the result uncommenting the following line and filling the attributes of the "response" object 
+		# ~ response.<put your attributres> = <put your values> 
 		
-		response.c = request.a + request.b
-		self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
+		# You can see incoming info uncommenting the following line and filling the attributes "request" object
+		# ~ self.get_logger().info('Incoming request\nvalue 1: '+ str(request.<put your attributres>)+' value 2: '+str(request.<put your attributres>))
+		
+		# Finally forward the response
 		return response
 	#_____
 	{%endfor%}
@@ -396,7 +391,7 @@ class {{node.name}}_class(Node):
 		
 		# TODO: Add functionality here
 		
-		
+		# Finally forward the response
 		return result
 	
 	# This is the goal callback of the action server {{s.name}}.
