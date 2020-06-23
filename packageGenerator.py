@@ -342,10 +342,10 @@ for package in model_root.hasPackages:
 	# Build the package data to pass to the Template
 	pack_data = {}
 	pack_data['packageName'] = package.name
-	pack_data['maintainer'] = 'raf'
-	pack_data['email'] = 'rnm1816@gmail.com'
-	pack_data['description'] = 'The description is ....'
-	pack_data['license'] = 'The license is ...'
+	pack_data['maintainer'] = package.maintainer
+	pack_data['email'] = package.email
+	pack_data['description'] = package.description
+	pack_data['license'] = package.license
 	
 	# Build the package dependencies data to pass to the Template
 	# Registered Dependencies
@@ -856,7 +856,7 @@ for package in model_root.hasPackages:
 						types.append(r.datatype.type)
 			else:
 				cli['package'] = c.actioninterface.package
-				#TODO append the Ros client parameters
+				#TODO append the Ros action parameters
 			
 			cli['goal'] = cgoalObj
 			cli['result'] = cresultObj
@@ -919,62 +919,77 @@ for package in model_root.hasPackages:
 
 # Generate graph 
 # ___________________________________________	
-# ~ # Go to the workspace
-# ~ os.chdir('..')
-# ~ G = nx.DiGraph()
-# ~ node_nodes = []
-# ~ node_services = []
-# ~ node_topics = []
-# ~ edge_labels = {}
-# ~ node_labels = {}
-# ~ # Nodes
-# ~ for n in model_root.graph.nodes:
-	# ~ # Node nodes
-	# ~ G.add_node(n.name)
-	# ~ node_labels[n.name] = n.name
-	# ~ node_nodes.append(n.name)
-# ~ # Services	
-# ~ for n in model_root.graph.hasServiceLinks:
-	# ~ # Service nodes
-	# ~ G.add_node(n.name)
-	# ~ node_labels[n.name] = n.name
-	# ~ node_services.append(n.name)
-	# ~ # Service edges
-	# ~ G.add_edge(n.server._container.name, n.name)
-	# ~ edge_labels[n.server._container.name, n.name] = n.server.name
-	# ~ for c in n.client:
-		# ~ G.add_edge(n.name, c._container.name)
-		# ~ edge_labels[n.name, c._container.name] = c.name
-# ~ # Topics
-# ~ for n in model_root.graph.hasTopics:
-	# ~ # Topic nodes
-	# ~ G.add_node(n.topicPath)
-	# ~ node_labels[n.topicPath] = n.topicPath
-	# ~ node_topics.append(n.topicPath)
-	# ~ # Topic edges
-	# ~ G.add_edge(n.publisher._container.name, n.topicPath)
-	# ~ edge_labels[n.publisher._container.name, n.topicPath] = n.publisher.name
-	# ~ for c in n.subscriber:
-		# ~ G.add_edge(n.topicPath, c._container.name)
-		# ~ edge_labels[n.topicPath, c._container.name] = c.name
+# Go to the workspace
+os.chdir('..')
+G = nx.DiGraph()
+node_nodes = []
+node_services = []
+node_actions = []
+node_topics = []
+edge_labels = {}
+node_labels = {}
+# Nodes
+for n in model_root.graph.nodes:
+	# Node nodes
+	G.add_node(n.name)
+	node_labels[n.name] = n.name
+	node_nodes.append(n.name)
+# Services	
+for n in model_root.graph.hasServiceLinks:
+	# Service nodes
+	G.add_node(n.name)
+	node_labels[n.name] = n.name
+	node_services.append(n.name)
+	# Service edges
+	G.add_edge(n.server._container.name, n.name)
+	edge_labels[n.server._container.name, n.name] = n.server.name
+	for c in n.client:
+		G.add_edge(n.name, c._container.name)
+		edge_labels[n.name, c._container.name] = c.name
+# Actions	
+for n in model_root.graph.hasActionLinks:
+	# Action nodes
+	G.add_node(n.name)
+	node_labels[n.name] = n.name
+	node_actions.append(n.name)
+	# Action edges
+	G.add_edge(n.actionserver._container.name, n.name)
+	edge_labels[n.actionserver._container.name, n.name] = n.actionserver.name
+	for c in n.actionclient:
+		G.add_edge(n.name, c._container.name)
+		edge_labels[n.name, c._container.name] = c.name
+# Topics
+for n in model_root.graph.hasTopics:
+	# Topic nodes
+	G.add_node(n.topicPath)
+	node_labels[n.topicPath] = n.topicPath
+	node_topics.append(n.topicPath)
+	# Topic edges
+	G.add_edge(n.publisher._container.name, n.topicPath)
+	edge_labels[n.publisher._container.name, n.topicPath] = n.publisher.name
+	for c in n.subscriber:
+		G.add_edge(n.topicPath, c._container.name)
+		edge_labels[n.topicPath, c._container.name] = c.name
 	
-# ~ # Make plot
-# ~ plt.subplots(1, figsize=(16,16))
-# ~ # Obtain position
-# ~ pos = nx.shell_layout(G)
-# ~ # Plot Nodes
-# ~ nx.draw_networkx_nodes(G,pos=pos,nodelist=node_nodes, node_size=2300, node_color='skyblue', label='Nodes', with_labels = True)
-# ~ # Plot Services
-# ~ nx.draw_networkx_nodes(G,pos=pos,nodelist=node_services, node_size=2300, node_color='pink', label='Services', with_labels = True)
-# ~ # Plot Topics
-# ~ nx.draw_networkx_nodes(G,pos=pos,nodelist=node_topics, node_size=2300, node_color='lightgreen', label='Topics', with_labels = True)
-# ~ # Plot Labels on Nodes
-# ~ nx.draw_networkx_labels(G,pos=pos, labels = node_labels, font_size = 8)
-# ~ # Plot Edges
-# ~ nx.draw_networkx_edges(G, pos, width=3)
-# ~ # Plot Labels on Edges
-# ~ nx.draw_networkx_edge_labels(G, pos=pos, edge_labels=edge_labels, font_size=8)
-# ~ # Plot Legend
-# ~ plt.legend(loc = 'best', scatterpoints=1, labelspacing=4.5, handletextpad = 3, borderpad = 3)
-# ~ # Save figure as image
-# ~ plt.savefig("System Graph.png") 
+# Make plot
+plt.subplots(1, figsize=(16,16))
+# Obtain position
+pos = nx.shell_layout(G)
+# Plot Nodes
+nx.draw_networkx_nodes(G,pos=pos,nodelist=node_nodes, node_size=2300, node_color='skyblue', label='Nodes', with_labels = True, alpha = 0.5)
+# Plot Services
+nx.draw_networkx_nodes(G,pos=pos,nodelist=node_services, node_size=2300, node_color='pink', label='Services', with_labels = True, alpha = 0.5)
+# Plot Actions
+nx.draw_networkx_nodes(G,pos=pos,nodelist=node_actions, node_size=2300, node_color='red', label='Actions', with_labels = True, alpha = 0.5)
+# Plot Topics
+nx.draw_networkx_nodes(G,pos=pos,nodelist=node_topics, node_size=2300, node_color='lightgreen', label='Topics', with_labels = True, alpha = 0.5)
+# Plot Labels on Nodes
+nx.draw_networkx_labels(G,pos=pos, labels = node_labels, font_size = 8, alpha = 0.8)
+# Plot Edges
+nx.draw_networkx_edges(G, pos, width=1, arrows = True)
+# Plot Labels on Edges
+nx.draw_networkx_edge_labels(G, pos=pos, edge_labels=edge_labels, font_size=8, margin = 180)
+# Plot Legend
+plt.legend(loc = 'best', scatterpoints=1, labelspacing=4.5, handletextpad = 3, borderpad = 3)
+# Save figure as image
+plt.savefig("System Graph.png") 

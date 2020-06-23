@@ -25,6 +25,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/M1.msg"
   "srv/Addtwo.srv"
   "action/Increase.action"
+  "action/Dec.action"
   DEPENDENCIES builtin_interfaces std_msgs )
 # uncomment the following section in order to fill in
 # further dependencies manually.

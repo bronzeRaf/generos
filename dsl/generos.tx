@@ -18,15 +18,18 @@ GenerosModel:
 ;
 
 Command:
-	Package | Node | Parameter | Publisher | Subscriber | Client | Server | Dependency | Message | ServiceMessage | ActionInterface | QoSProfile
+	Package | Node | Parameter | Publisher | Subscriber | Client | Server | ActionServer | ActionClient | Dependency | Message | ServiceMessage | ActionInterface | QoSProfile
 ;
 
 Package:
     'package' name=ID '{'
 		'path' '=' packagePath=STRING
+		'license' '=' license = STRING
+		'maintainer' '=' maintainer = STRING
+		'email' '=' email = STRING
 		('builtin' '=' builtin=BOOL)?
 		('hasNode' '=' hasNodes *= [Node][eolterm])?
-		('hasDependency' '=' hasDependencies *= [Dependency])?
+		('hasDependency' '=' hasDependencies *= [Dependency][eolterm])?		
     '}'
 ;
 
@@ -56,6 +59,7 @@ Publisher:
 		'topicPath' '=' topicPath=STRING
 		'publishRate' '=' publishRate=FLOAT
 		'message' '=' message=[Message]
+		('qos' '=' qos=[QoSProfile])?
     '}'
 ;
 
@@ -63,32 +67,37 @@ Subscriber:
     'subscriber' name=ID '{'
 		'topicPath' '=' topicPath=STRING
 		'message' '=' message=[Message]
+		('qos' '=' qos=[QoSProfile])?
     '}'
 ;
 
 Server:
     'server' name=ID '{'
-		'servicePath' '=' topicPath=STRING
-		'serviceName' '=' topicPath=STRING
+		'servicePath' '=' servicePath=STRING
+		'serviceName' '=' serviceName=STRING
+		'service' '=' service=[ServiceMessage]
+		('qos' '=' qos=[QoSProfile])?
     '}'
 ;
 
 Client:
     'client' name=ID '{'
-		'servicePath' '=' topicPath=STRING
-		'serviceName' '=' topicPath=STRING
+		'servicePath' '=' servicePath=STRING
+		'serviceName' '=' serviceName=STRING
+		'service' '=' service=[ServiceMessage]
+		('qos' '=' qos=[QoSProfile])?
     '}'
 ;
 
 ActionServer:
     'actionServer' name=ID '{'
-		
+		'action' '=' actioninterface=[ActionInterface]
     '}'
 ;
 
 ActionClient:
     'actionClient' name=ID '{'
-		
+		'action' '=' actioninterface=[ActionInterface]
     '}'
 ;
 
@@ -191,7 +200,7 @@ QoSProfile:
 CustomQosProfile: 
 	'qosprofile' name=ID '{'
 		('history' '=' history=STRING)?
-		('depth' '=' depth=STRING)?
+		('depth' '=' depth=INT)?
 		('reliability' '=' reliability=STRING)?
 		('durability' '=' durability=STRING)?
 		('livelines' '=' livelines=STRING)?

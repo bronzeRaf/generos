@@ -15,14 +15,15 @@ setup(
     ],
     install_requires = ['setuptools'],
     zip_safe = True,
-    maintainer = 'raf',
+    maintainer = 'bronzeRaf',
     maintainer_email = 'rnm1816@gmail.com',
-    description = 'The description is ....',
-    license = 'The license is ...',
+    description = 'None',
+    license = 'The license is MIT',
     tests_require = ['pytest'],
     entry_points = {
         'console_scripts': [
 		'node2_exec = pack2.node2_node:main',
+		'node2_c1 = pack2.node2_node:run_c1',
         ],
     },
 )

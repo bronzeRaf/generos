@@ -239,16 +239,19 @@ class Package(EObject, metaclass=MetaEClass):
     name = EAttribute(eType=EString, derived=False, changeable=True)
     rosVersion = EAttribute(eType=ROSVersion, derived=False, changeable=True, upper=-1)
     packagePath = EAttribute(eType=EString, derived=False, changeable=True)
+    license = EAttribute(eType=EString, derived=False, changeable=True)
+    maintainer = EAttribute(eType=EString, derived=False, changeable=True)
+    email = EAttribute(eType=EString, derived=False, changeable=True)
     builtin = EAttribute(eType=EBoolean, derived=False, changeable=True, default_value=False)
+    description = EAttribute(eType=EString, derived=False, changeable=True)
     hasDependencies = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasNodes = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasDocumentation = EReference(ordered=True, unique=True, containment=True)
-    hasRosQosProfiles = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasTopicMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasServiceMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasActionInterfaces = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, hasDependencies=None, hasNodes=None, hasDocumentation=None, name=None, rosVersion=None, packagePath=None, hasRosQosProfiles=None, hasTopicMessages=None, hasServiceMessages=None, builtin=None, hasActionInterfaces=None, **kwargs):
+    def __init__(self, *, hasDependencies=None, hasNodes=None, hasDocumentation=None, name=None, rosVersion=None, packagePath=None, hasTopicMessages=None, hasServiceMessages=None, hasActionInterfaces=None, license=None, maintainer=None, email=None, builtin=None, description=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -263,8 +266,20 @@ class Package(EObject, metaclass=MetaEClass):
         if packagePath is not None:
             self.packagePath = packagePath
 
+        if license is not None:
+            self.license = license
+
+        if maintainer is not None:
+            self.maintainer = maintainer
+
+        if email is not None:
+            self.email = email
+
         if builtin is not None:
             self.builtin = builtin
+
+        if description is not None:
+            self.description = description
 
         if hasDependencies:
             self.hasDependencies.extend(hasDependencies)
@@ -274,9 +289,6 @@ class Package(EObject, metaclass=MetaEClass):
 
         if hasDocumentation is not None:
             self.hasDocumentation = hasDocumentation
-
-        if hasRosQosProfiles:
-            self.hasRosQosProfiles.extend(hasRosQosProfiles)
 
         if hasTopicMessages:
             self.hasTopicMessages.extend(hasTopicMessages)
@@ -312,8 +324,9 @@ class Graph(EObject, metaclass=MetaEClass):
     hasTopics = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasServiceLinks = EReference(ordered=True, unique=True, containment=True, upper=-1)
     nodes = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    hasActionLinks = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, hasTopics=None, hasServiceLinks=None, nodes=None, **kwargs):
+    def __init__(self, *, hasTopics=None, hasServiceLinks=None, nodes=None, hasActionLinks=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -327,6 +340,9 @@ class Graph(EObject, metaclass=MetaEClass):
 
         if nodes:
             self.nodes.extend(nodes)
+
+        if hasActionLinks:
+            self.hasActionLinks.extend(hasActionLinks)
 
 
 class Topic(EObject, metaclass=MetaEClass):
@@ -407,9 +423,9 @@ class ROSSystem(EObject, metaclass=MetaEClass):
     topology = EReference(ordered=True, unique=True, containment=True)
     hasPackages = EReference(ordered=True, unique=True, containment=True, upper=-1)
     graph = EReference(ordered=True, unique=True, containment=True)
-    hasCustomQosProfiles = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    hasQosProfiles = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, topology=None, hasPackages=None, graph=None, name=None, hasCustomQosProfiles=None, **kwargs):
+    def __init__(self, *, topology=None, hasPackages=None, graph=None, name=None, hasQosProfiles=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -427,8 +443,8 @@ class ROSSystem(EObject, metaclass=MetaEClass):
         if graph is not None:
             self.graph = graph
 
-        if hasCustomQosProfiles:
-            self.hasCustomQosProfiles.extend(hasCustomQosProfiles)
+        if hasQosProfiles:
+            self.hasQosProfiles.extend(hasQosProfiles)
 
 
 class Topology(EObject, metaclass=MetaEClass):
@@ -728,6 +744,28 @@ class QosProfile(EObject, metaclass=MetaEClass):
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
         super().__init__()
+
+
+class ActionLink(EObject, metaclass=MetaEClass):
+
+    name = EAttribute(eType=EString, derived=False, changeable=True)
+    actionserver = EReference(ordered=True, unique=True, containment=False)
+    actionclient = EReference(ordered=True, unique=True, containment=False, upper=-1)
+
+    def __init__(self, *, name=None, actionserver=None, actionclient=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if name is not None:
+            self.name = name
+
+        if actionserver is not None:
+            self.actionserver = actionserver
+
+        if actionclient:
+            self.actionclient.extend(actionclient)
 
 
 class CustomService(ServiceMessage):

@@ -1,12 +1,18 @@
 package pack1 {
 	path = "path/to/pack1"
+	license = "The license is MIT"
+	maintainer = "bronzeRaf"
+	email = "rnm1816@gmail.com"
 	builtin = False
-	hasNode = node1
+	hasNode = node1 node3
 	hasDependency = dep1
 }
 
 package pack2 {
 	path = "path/to/pack2"
+	license = "The license is MIT"
+	maintainer = "bronzeRaf"
+	email = "rnm1816@gmail.com"
 	builtin = False
 	hasNode = node2
 	
@@ -14,20 +20,34 @@ package pack2 {
 subscriber sub1{
 	topicPath = "topic/path/1"
 	message = M1
+	
 }
+
 publisher pub1{
 	topicPath = "topic/path/1"
 	publishRate = 10
 	message = M1
+	
 }
 
 node node1 {
 		hasParameter = p1
 		hasSubscriber = sub1
+		hasServer = s1 s2
+		hasActionServer = as1
+		hasActionClient = as2
 }
 node node2 {
 		namespace = "name/space2"
 		hasPublisher = pub1
+		hasClient = c1
+		hasActionServer = as2
+		hasActionClient = as1
+}
+node node3 {
+		namespace = "name/space3"
+		hasSubscriber = sub1
+		hasClient = c1
 }
 
 parameter p1{
@@ -38,6 +58,22 @@ parameter p1{
 server s1{
 	servicePath = "path"
 	serviceName = "service1"
+	service = Addtwo
+	qos = q1
+}
+
+
+server s2{
+	servicePath = "path2"
+	serviceName = "service2"
+	service = SetBool
+	qos = q1
+}
+client c1{
+	servicePath = "path"
+	serviceName = "service1"
+	service = Addtwo
+	qos = q1
 }
 dependency dep1{
 	package = pack2
@@ -72,6 +108,29 @@ action Increase{
 	feedback:
 		ros Header, h, std_msgs
 		prim int64, z, description = "The counter"
+}
+
+action Dec{
+	goal:
+		prim int64, x1, description = "number 1", default = "0"
+		prim float64, x2, description = "number 2", default = "0"
+	result:	
+		prim float64, y, description = "the result"
+	feedback:
+		ros Header, h, std_msgs
+		prim float64, yt, description = "The current result"
+}
+actionServer as1{
+	action = Increase
+}
+actionClient as1{
+	action = Increase
+}
+actionServer as2{
+	action = Dec
+}
+actionClient as2{
+	action = Dec
 }
 
 qosprofile q1{

@@ -1,6 +1,0 @@
-msg/M1.idl
-msg/M1.msg
-srv/Addtwo.idl
-srv/Addtwo.srv
-srv/Addtwo_Request.msg
-srv/Addtwo_Response.msg

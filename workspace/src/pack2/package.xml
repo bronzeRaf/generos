@@ -3,9 +3,9 @@
 <package format="3">
   <name>pack2</name>
   <version>0.0.0</version>
-  <description>The description is ....</description>
-  <maintainer email="rnm1816@gmail.com">raf</maintainer>
-  <license>The license is ...</license>
+  <description>None</description>
+  <maintainer email="rnm1816@gmail.com">bronzeRaf</maintainer>
+  <license>The license is MIT</license>
 
   <buildtool_depend>ament_python</buildtool_depend>
 
