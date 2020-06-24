@@ -15,7 +15,8 @@ getEClassifier = partial(Ecore.getEClassifier, searchspace=eClassifiers)
 DataTypes = EEnum('DataTypes', literals=['NOT_SET', 'BOOL', 'INTEGER', 'DOUBLE', 'STRING',
                                          'BYTE_ARRAY', 'BOOL_ARRAY', 'INTEGER_ARRAY', 'DOUBLE_ARRAY', 'STRING_ARRAY'])
 
-ROSVersion = EEnum('ROSVersion', literals=['Eloquent'])
+ROSVersion = EEnum('ROSVersion', literals=['Ardent Apalone', 'Bouncy Bolson',
+                                           'Crystal Clemmys', 'Dashing Diademata', 'Eloquent Elusor', 'Foxy Fitzroy'])
 
 AritectureTypes = EEnum('AritectureTypes', literals=['x86', 'x64'])
 

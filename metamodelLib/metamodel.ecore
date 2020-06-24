@@ -203,7 +203,12 @@
         eType="#//ActionInterface"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ROSVersion">
-    <eLiterals name="Eloquent"/>
+    <eLiterals name="Ardent Apalone"/>
+    <eLiterals name="Bouncy Bolson" value="1"/>
+    <eLiterals name="Crystal Clemmys" value="2"/>
+    <eLiterals name="Dashing Diademata" value="3"/>
+    <eLiterals name="Eloquent Elusor" value="4"/>
+    <eLiterals name="Foxy Fitzroy" value="5"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="AritectureTypes">
     <eLiterals name="x86"/>
