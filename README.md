@@ -1,6 +1,9 @@
 # Generos
 A Domain Specific Language to generate easilly ROS2 packages.
 
+## dsl:
+This folder contains all the related to the dsl languange programms. The "generos.tx" implements the grammar of the dsl containing all the rules the language should fullfil written in [TextX](https://textx.github.io/textX/stable/). The "model.grs" is an example model created in Generos DSL and models a specific ROS System with some packages, nodes etc. The "run_generos_model.py" is the interpreter that obtains the "model.grs" parses it, validates it and creates the "generos.xmi" file form the "models" directory to pass it through the Generos ROS2 package generator mechanism.
+
 ## metamodelLib:
 This folder contains python module called "metamodel" implementing the metamodel of the [ROS2](https://index.ros.org/doc/ros2/Tutorials/) world. The module contains all the EClasses and the behavior, to build powerfull models. The folder contains also the ecore implementation of the metamodel in the file "metamodel.ecore". Anyone can import the python module or the ecore impementation of the metamodel to build models almost the same way. Finally, the file named "metamodelGenerator.py" reeds the ecore implementation of the "metamodel.ecore" and generates the python module "metamodel", using [pyecoregen](https://github.com/pyecore/pyecoregen). The "metamodel.jpg" is the image of the metamodel diagram from the Eclipse Modeling Framework. You can see the diagram below.
 
@@ -43,7 +46,7 @@ This folder contains all the [jinja2](https://buildmedia.readthedocs.org/media/p
 
 ______________________________________________________________________________
 ## workspace:
-This folder is generated from the ROS2 package generator mechanism of Generos. It contains the "src" folder with the package "interfaces" and all the created by the user packages. The package "interfaces" is a Cpp package, implementing all the custom action, srv and msg that the user created. The rest of the packages, are those the user created, generated in Python. In the packages there is one enrty point per node, an executable called "{Node's name}_exec" to the function called "main" inside the nodes. For every Client into a node, there is another entry point named "{Node's name}_{Client's name}" to the function called "{Client's name}".
+This folder is generated from the ROS2 package generator mechanism of Generos. It contains the "src" folder with the package "interfaces" and all the created by the user packages. The package "interfaces" is a Cpp package, implementing all the custom action, srv and msg that the user created. The rest of the packages, are those the user created, generated in Python. In the packages there is one enrty point per node, an executable called "{Node's name}_exec" to the function called "main" inside the nodes. For every Client into a node, there is another entry point named "{Node's name}_{Client's name}" to the function called "{Client's name}". In addition, the "System Graph.png" image contains a representation of the generated system. It represents all the Nodes, the Topics (Publishers and Subscribers), the Services (Clients and Servers) and the Actions (Action Clients and Action Server) that the system contains independent of their packages. It is a comynication diagramm that demonstrates all the flow of the information inside the ROS system. It is created from [NetworkX](https://networkx.github.io/) and [Matplotlib](https://matplotlib.org/).
 
 To run the executables After generating the code from the model go to the workspace root (folder named "workspace") in terminal and run the comands:
 ```
@@ -66,4 +69,16 @@ This file is the ROS2 package generator mechanism of Generos. It is able to reed
 
 ______________________________________________________________________________
 ## Installing Generos:
-In order to install and to run Generos with its full capabilities you have install Python 3, Pyecore, Pyecoregen, Jinja2, Ros2 and TextX. All this software is free and available in the links above. After installing this software you can download the latest Generos [here](https://github.com/bronzeRaf/generos/archive/master.zip).
+In order to install and to run Generos with its full capabilities you have to install some software that Generos uses. A Linux distribution is required to use Generos but Ubuntu 18.04 is recommended. 
+Install:
+- [Python 3](https://www.python.org/downloads/)
+- [Pyecore] (https://pyecore.readthedocs.io/en/latest/user/install.html)
+- [Pyecoregen](https://pypi.org/project/pyecoregen/)
+- [Jinja2](https://pypi.org/project/Jinja2/)
+- [TextX](https://textx.github.io/textX/stable/#installation)
+- [NetworkX](https://networkx.github.io/documentation/stable/install.html)
+- [Matplotlib](https://matplotlib.org/users/installing.html)
+- [Weasyprint](https://weasyprint.readthedocs.io/en/latest/install.html)
+- [Ros2] (https://index.ros.org/doc/ros2/Installation/Crystal/Linux-Install-Binary/)
+
+All this software is free and available in the links above. After installing this software you can download the latest Generos [here](https://github.com/bronzeRaf/generos/archive/master.zip).
