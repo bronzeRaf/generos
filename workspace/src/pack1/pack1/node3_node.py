@@ -97,8 +97,8 @@ class node3_class(Node):
 		
 		# TODO: Add functionality here
 		
-		
-		self.get_logger().info('I heard: '+str(msg.x))
+		# You can see incoming info uncommenting the following line and filling the attributes "msg" object
+		# ~ self.get_logger().info('I heard: '+str(msg.<put your attributres>))
 	#_____
 	
 	# Servers

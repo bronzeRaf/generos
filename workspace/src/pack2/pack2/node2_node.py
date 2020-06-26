@@ -110,8 +110,7 @@ class node2_class(Node):
 		# TODO: Add functionality here
 		
 		
-		
-		
+		# Then publish the msg with the following code
 		self.publisher_pub1.publish(msg)
 		
 	#_____
@@ -187,7 +186,7 @@ class node2_class(Node):
 		
 		# TODO: Add functionality here
 		
-		
+		# Finally forward the response
 		return result
 	
 	# This is the goal callback of the action server as2.

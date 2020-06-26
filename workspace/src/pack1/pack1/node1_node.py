@@ -133,8 +133,8 @@ class node1_class(Node):
 		
 		# TODO: Add functionality here
 		
-		
-		self.get_logger().info('I heard: '+str(msg.x))
+		# You can see incoming info uncommenting the following line and filling the attributes "msg" object
+		# ~ self.get_logger().info('I heard: '+str(msg.<put your attributres>))
 	#_____
 	
 	# Servers
@@ -158,9 +158,13 @@ class node1_class(Node):
 		
 		# TODO: Add functionality here
 		
+		# You can store the result uncommenting the following line and filling the attributes of the "response" object 
+		# ~ response.<put your attributres> = <put your values> 
 		
-		response.c = request.a + request.b
-		self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
+		# You can see incoming info uncommenting the following line and filling the attributes "request" object
+		# ~ self.get_logger().info('Incoming request\nvalue 1: '+ str(request.<put your attributres>)+' value 2: '+str(request.<put your attributres>))
+		
+		# Finally forward the response
 		return response
 	#_____
 	# This is the callback of the server s2. 
@@ -177,9 +181,13 @@ class node1_class(Node):
 		
 		# TODO: Add functionality here
 		
+		# You can store the result uncommenting the following line and filling the attributes of the "response" object 
+		# ~ response.<put your attributres> = <put your values> 
 		
-		response.c = request.a + request.b
-		self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
+		# You can see incoming info uncommenting the following line and filling the attributes "request" object
+		# ~ self.get_logger().info('Incoming request\nvalue 1: '+ str(request.<put your attributres>)+' value 2: '+str(request.<put your attributres>))
+		
+		# Finally forward the response
 		return response
 	#_____
 		
@@ -219,7 +227,7 @@ class node1_class(Node):
 		
 		# TODO: Add functionality here
 		
-		
+		# Finally forward the response
 		return result
 	
 	# This is the goal callback of the action server as1.
