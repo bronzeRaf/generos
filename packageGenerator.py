@@ -24,7 +24,7 @@ import os
 import sys
 from jinja2 import Environment, FileSystemLoader
 import networkx as nx
-# ~ import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt 
 sys.path.append('metamodelLib')
 import metamodel
 
