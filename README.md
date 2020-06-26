@@ -72,7 +72,7 @@ ______________________________________________________________________________
 In order to install and to run Generos with its full capabilities you have to install some software that Generos uses. A Linux distribution is required to use Generos but Ubuntu 18.04 is recommended. 
 Install:
 - [Python 3](https://www.python.org/downloads/)
-- [Pyecore] (https://pyecore.readthedocs.io/en/latest/user/install.html)
+- [Pyecore](https://pyecore.readthedocs.io/en/latest/user/install.html)
 - [Pyecoregen](https://pypi.org/project/pyecoregen/)
 - [Jinja2](https://pypi.org/project/Jinja2/)
 - [TextX](https://textx.github.io/textX/stable/#installation)
