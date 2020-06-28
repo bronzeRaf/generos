@@ -49,20 +49,197 @@ Unzip Generos and you are done!
 
 
 ## Running Generos:
-To run Generos you will need a GRS file, with the model representing the system you would like to generate. To learn how to write GRS take a look [here](#).
+To run Generos you will need a GRS file, with the model representing the system you would like to generate. To learn how to write GRS files take a look [here](#writing-grs-files).
 
-After saving the GRS file that models your awesome ROS2 System run:
+After saving the GRS file that represents your awesome ROS2 System run:
 
 ```
 $ sudo bash path-to-generos-installation/generos.bash path-to-GRS/model.grs
 
 ```
-replacing:
+Replacing:
 - "path-to-generos-installation" with the path to the installation folder of generos
 - "path-to-GRS/model.grs" with the path to the GRS file
 
-Generos works with both absolute and relative paths. Enjoy Package Generating!
+Generos works with both absolute and relative paths. 
 
+That's it, Enjoy Package Generating!
+
+______________________________________________________________________________
+
+## Writing GRS files:
+GRS files are models that represent ROS2 Systems. It is actually a DSL to describe what Generos you would like to generate for you. 
+
+A GRS program consist of many Commands. A command could be:  
+Package | Node | Parameter | Publisher | Subscriber | Client | Server | ActionServer | ActionClient | Dependency | Message | ServiceMessage | ActionInterface | QoSProfile
+
+Commands could be placed in any order. Every Command consinst of some special Components, based on its type.
+Below you can see the components per Command. In these examples, in the comments you can see the datatype of any Component, if this component is optional or reqiured and if it is single component or not. For example a ROS2 package could have many nodes, but only one maintainer. Multiple components are separated by spaces. Bold letters mean that you need to replace them with your code. The order of the Components inside a Command is critical and could not be changed.
+
+# Comments
+In GRS comments start with // and takes all the rest of the line.
+
+For example
+```
+This is code // This is comment
+//This is another comment
+```
+
+# Packages
+To create a Package you can write:
+
+```
+package **pack1** {
+	path = "**packagePath**"	//string, required, single
+	license = "**license**"		//string, required, single
+	maintainer = "**maintainer**"	//string, required, single
+	email = "**email**"		//string, required, single
+	builtin = **True**		//bool, optional, single 
+	hasNode = **n1** **n2**		//node, optional, many
+	hasDependency = **dep1**	//dependency, optional, many
+}
+```
+
+# Nodes
+To create a Node you can write:
+
+```
+node **n1** {
+	namespace = "**namespace**"	//string, optional, single
+	hasParameter = **pr1**		//parameter, optional, many
+	hasPublisher = **pub1**		//publisher, optional, many
+	hasSubscriber = **sub1**	//subscriber, optional, many
+	hasServer = **sr1**		//server, optional, many
+	hasClient = **c1**		//client, optional, many
+	hasActionServer = **asr1**	//actionServer, optional, many
+	hasActionClient = **ac1**	//actionClient, optional, many
+}
+```
+
+# Parameter
+To create a Parameter you can write:
+
+```
+parameter **pr1** {
+	type = **type**			//string, required, single
+	value = "**value**"		//string, required, single
+	description = "**description**"	//string, optional, single
+}
+```
+
+# Publisher
+To create a Publisher you can write:
+
+```
+publisher **pub1** {
+	topicPath = "**path**"		//string, required, single
+	publishRate = **2.45**		//float, required, single
+	message = **m1**		//message, required, single
+	qos = **qos1**			//qosprofile or presetqos, optional, single
+}
+```
+
+# Subscriber
+To create a Subscriber you can write:
+
+```
+subscriber **sub1** {
+	topicPath = "**path**"		//string, required, single
+	message = **Header**		//message, required, single
+	qos = **SENSOR_DATA**		//qosprofile or presetqos, optional, single
+}
+```
+
+# Client
+To create a Client you can write:
+
+```
+client **c1** {
+	servicePath = "**path**"	//string, required, single
+	serviceName = "**name**"	//string, required, single
+	service = **srv1**		//service, required, single
+	qos = **qos1**			//qosprofile or presetqos, optional, single
+}
+```
+
+# Server
+To create a Server you can write:
+
+```
+server **sr1** {
+	servicePath = "**path**"	//string, required, single
+	serviceName = "**name**"	//string, required, single
+	service = **srv1**		//service, required, single
+	qos = **qos1**			//qosprofile or presetqos, optional, single
+}
+```
+
+# Action Server
+To create an Action Server you can write:
+
+```
+actionServer **asr1** {
+	action = **action1**		//action, required, single
+}
+```
+
+# Action Client
+To create an Action Client you can write:
+
+```
+actionClient **ac1** {
+	action = **action1**		//action, required, single
+}
+```
+
+# Dependency
+To create a Dependency you can write:
+
+```
+dependency **dep1** {
+	package = **pack2**		//package, required, single
+}
+```
+
+# Message
+To create a Message you can write:
+
+```
+message mes1 {
+	
+}
+
+message **Header** package = "**std_msgs**"	//just give the name of a ROS Msg
+```
+
+# Service
+To create a Service you can write:
+
+```
+service p1 {
+	
+}
+```
+
+# Action
+To create an Action you can write:
+
+```
+service p1 {
+	
+}
+```
+
+# QoS Profile
+A QoS Profile is either a Custom QoS Profile and a ROS Preset QoS Profile. So you can follow one of the following:
+
+```
+qosprofile qos1 {
+	
+}
+
+presetqos **SENSOR_DATA**	//just give the name of a QoS preset profile
+```
 ______________________________________________________________________________
 
 ## Understanding Generos:
@@ -135,4 +312,5 @@ $ ros2 run {package_name} {executable_name}
 This file is the ROS2 package generator mechanism of Generos. It is able to reed the "metamodel" python module or the "metamodel.ecore" and any xmi model of the system, it validates the model from the metamodel, and it generates the ROS2 packages inside the workspace directory using jinja2. It should be called once, for a single metamodel and a single xmi model. It is able to generate multiple packages, with multiple containments.
 
 ______________________________________________________________________________
+
 
