@@ -21,11 +21,11 @@ pip3 install pyecoregen
 pip3 install -U Jinja2
 
 # TextX install
-pip3 install pyecore
+pip3 install textX
 
 # Matplotlib install
-python -m pip install -U pip
-python -m pip install -U matplotlib
+#~ python -m pip3 install -U pip
+python -m pip3 install -U matplotlib
 
 # NetworkX install
 pip3 install networkx
