@@ -82,3 +82,10 @@ Install:
 - [Ros2](https://index.ros.org/doc/ros2/Installation/Crystal/Linux-Install-Binary/)
 
 All this software is free and available in the links above. After installing this software you can download the latest Generos [here](https://github.com/bronzeRaf/generos/archive/master.zip).
+
+You can also use install Generos though its installation file using:
+
+```
+$ wget https://raw.githubusercontent.com/bronzeRaf/generos/master/install.bash
+$ sudo bash setup.bash
+```
