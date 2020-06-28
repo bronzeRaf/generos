@@ -76,7 +76,7 @@ Package | Node | Parameter | Publisher | Subscriber | Client | Server | ActionSe
 Commands could be placed in any order. Every Command consinst of some special Components, based on its type.
 Below you can see the components per Command. In these examples, in the comments you can see the datatype of any Component, if this component is optional or reqiured and if it is single component or not. For example a ROS2 package could have many nodes, but only one maintainer. Multiple components are separated by spaces. Bold letters mean that you need to replace them with your code. The order of the Components inside a Command is critical and could not be changed.
 
-# Comments
+### Comments
 In GRS comments start with // and takes all the rest of the line.
 
 For example
@@ -85,7 +85,7 @@ This is code // This is comment
 //This is another comment
 ```
 
-# Packages
+### Packages
 To create a Package you can write:
 
 ```
@@ -100,7 +100,7 @@ package **pack1** {
 }
 ```
 
-# Nodes
+### Nodes
 To create a Node you can write:
 
 ```
@@ -116,7 +116,7 @@ node **n1** {
 }
 ```
 
-# Parameter
+### Parameter
 To create a Parameter you can write:
 
 ```
@@ -127,7 +127,7 @@ parameter **pr1** {
 }
 ```
 
-# Publisher
+### Publisher
 To create a Publisher you can write:
 
 ```
@@ -139,7 +139,7 @@ publisher **pub1** {
 }
 ```
 
-# Subscriber
+### Subscriber
 To create a Subscriber you can write:
 
 ```
@@ -150,7 +150,7 @@ subscriber **sub1** {
 }
 ```
 
-# Client
+### Client
 To create a Client you can write:
 
 ```
@@ -162,7 +162,7 @@ client **c1** {
 }
 ```
 
-# Server
+### Server
 To create a Server you can write:
 
 ```
@@ -174,7 +174,7 @@ server **sr1** {
 }
 ```
 
-# Action Server
+### Action Server
 To create an Action Server you can write:
 
 ```
@@ -183,7 +183,7 @@ actionServer **asr1** {
 }
 ```
 
-# Action Client
+### Action Client
 To create an Action Client you can write:
 
 ```
@@ -192,7 +192,7 @@ actionClient **ac1** {
 }
 ```
 
-# Dependency
+### Dependency
 To create a Dependency you can write:
 
 ```
@@ -201,7 +201,7 @@ dependency **dep1** {
 }
 ```
 
-# Message
+### Message
 To create a Message you can write:
 
 ```
@@ -212,7 +212,7 @@ message mes1 {
 message **Header** package = "**std_msgs**"	//just give the name of a ROS Msg
 ```
 
-# Service
+### Service
 To create a Service you can write:
 
 ```
@@ -221,7 +221,7 @@ service p1 {
 }
 ```
 
-# Action
+### Action
 To create an Action you can write:
 
 ```
@@ -230,7 +230,7 @@ service p1 {
 }
 ```
 
-# QoS Profile
+### QoS Profile
 A QoS Profile is either a Custom QoS Profile and a ROS Preset QoS Profile. So you can follow one of the following:
 
 ```
