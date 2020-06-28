@@ -35,5 +35,5 @@ pip3 install weasyprint
 
 # Download and extract Generos
 sudo wget https://github.com/bronzeRaf/generos/archive/master.zip
-sudo chmod 777 -R master.zip
 unzip master.zip
+sudo chmod 777 -R generos-master
