@@ -34,5 +34,5 @@ pip3 install networkx
 pip3 install weasyprint
 
 # Download and extract Generos
-wget https://github.com/bronzeRaf/generos/archive/master.zip
+sudo wget https://github.com/bronzeRaf/generos/archive/master.zip
 unzip master.zip
