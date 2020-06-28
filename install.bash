@@ -25,7 +25,7 @@ pip3 install textX
 
 # Matplotlib install
 #~ python -m pip3 install -U pip
-python -m pip3 install -U matplotlib
+pip3 install -U matplotlib
 
 # NetworkX install
 pip3 install networkx
