@@ -24,7 +24,6 @@ pip3 install -U Jinja2
 pip3 install textX
 
 # Matplotlib install
-#~ python -m pip3 install -U pip
 pip3 install -U matplotlib
 
 # NetworkX install

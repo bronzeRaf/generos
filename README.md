@@ -25,11 +25,12 @@ $ sudo bash install.bash
 ```
 
 You are done!
-REMEBER! You will also need to install a ROS2 in your system to test your generated package, but you still can generate them...
-You can Find ROS2 [here](https://index.ros.org/doc/ros2/Installation/Crystal/Linux-Install-Binary/).
+
+REMEMBER! You will also need to install a ROS2 in your system to test your generated package, but you still can generate them...
+You can find ROS2 [here](https://index.ros.org/doc/ros2/Installation/Crystal/Linux-Install-Binary/).
 
 
-### Automatic Install
+### Manual Install
 If you want to manually install Generos make sure that you know what you are doing
 A Linux distribution is required to use Generos but Ubuntu 18.04 is recommended.
 Install:
