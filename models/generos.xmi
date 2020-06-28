@@ -1,12 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <metamodel:ROSSystem xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel="http://www.example.org/metamodel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="My_dsl_ROS_system" xmi:version="2.0">
-  <graph xsi:type="metamodel:Graph" nodes="//@hasPackages.3/@hasNodes.0 //@hasPackages.3/@hasNodes.1 //@hasPackages.4/@hasNodes.0">
-    <hasTopics xsi:type="metamodel:Topic" topicPath="topic/path/1" publisher="//@hasPackages.4/@hasNodes.0/@hasPublishers.0" subscriber="//@hasPackages.3/@hasNodes.0/@hasSubscribers.0 //@hasPackages.3/@hasNodes.1/@hasSubscribers.0"/>
-    <hasActionLinks xsi:type="metamodel:ActionLink" name="as1" actionclient="//@hasPackages.4/@hasNodes.0/@hasActionClients.0" actionserver="//@hasPackages.3/@hasNodes.0/@hasActionServers.0"/>
-    <hasActionLinks xsi:type="metamodel:ActionLink" name="as2" actionclient="//@hasPackages.3/@hasNodes.0/@hasActionClients.0" actionserver="//@hasPackages.4/@hasNodes.0/@hasActionServers.0"/>
-    <hasServiceLinks xsi:type="metamodel:ServiceLink" client="//@hasPackages.3/@hasNodes.1/@hasClients.0 //@hasPackages.4/@hasNodes.0/@hasClients.0" server="//@hasPackages.3/@hasNodes.0/@hasServers.0" name="service1"/>
-    <hasServiceLinks xsi:type="metamodel:ServiceLink" server="//@hasPackages.3/@hasNodes.0/@hasServers.1" name="service2"/>
-  </graph>
   <hasQosProfiles xsi:type="metamodel:CustomQosProfile" reliability="RELIABLE" history="KEEP_ALL"/>
   <hasPackages xsi:type="metamodel:Package" packagePath="" name="interfaces">
     <hasTopicMessages xsi:type="metamodel:CustomMessage" description="" name="M1">
@@ -75,7 +68,7 @@
         </hasObjectProperties>
       </hasResult>
     </hasActionInterfaces>
-    <hasServiceMessages xsi:type="metamodel:CustomService" name="Addtwo" description="">
+    <hasServiceMessages xsi:type="metamodel:CustomService" description="" name="Addtwo">
       <hasResponse xsi:type="metamodel:Response">
         <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="b" description="descripssstion333..." default="">
           <datatype xsi:type="metamodel:Bool" type="bool"/>
@@ -97,35 +90,42 @@
       </hasRequest>
     </hasServiceMessages>
   </hasPackages>
-  <hasPackages xsi:type="metamodel:Package" builtin="true" name="std_msgs" packagePath="">
-    <hasTopicMessages xsi:type="metamodel:RosMessage" name="Header" package="std_msgs"/>
+  <hasPackages xsi:type="metamodel:Package" builtin="true" packagePath="" name="std_msgs">
+    <hasTopicMessages xsi:type="metamodel:RosMessage" package="std_msgs" name="Header"/>
   </hasPackages>
-  <hasPackages xsi:type="metamodel:Package" builtin="true" name="std_srvs" packagePath="">
-    <hasServiceMessages xsi:type="metamodel:RosService" name="SetBool" package="std_srvs"/>
+  <hasPackages xsi:type="metamodel:Package" builtin="true" packagePath="" name="std_srvs">
+    <hasServiceMessages xsi:type="metamodel:RosService" package="std_srvs" name="SetBool"/>
   </hasPackages>
   <hasPackages xsi:type="metamodel:Package" maintainer="bronzeRaf" name="pack1" license="The license is MIT" email="rnm1816@gmail.com">
+    <hasDependencies xsi:type="metamodel:PackageDependency" package="//@hasPackages.4"/>
+    <hasDocumentation xsi:type="metamodel:Documentation"/>
     <hasNodes xsi:type="metamodel:Node" namespace="" name="node1">
-      <hasActionServers xsi:type="metamodel:ActionServer" actioninterface="//@hasPackages.0/@hasActionInterfaces.0" name="as1"/>
-      <hasSubscribers xsi:type="metamodel:Subscriber" smsg="//@hasPackages.0/@hasTopicMessages.0" name="sub1" topicPath="topic/path/1"/>
-      <hasParameters xsi:type="metamodel:Parameter" value="32" name="p1" description="" type="INTEGER_ARRAY"/>
+      <hasSubscribers xsi:type="metamodel:Subscriber" name="sub1" smsg="//@hasPackages.0/@hasTopicMessages.0" topicPath="topic/path/1"/>
+      <hasParameters xsi:type="metamodel:Parameter" name="p1" type="INTEGER_ARRAY" value="32" description=""/>
       <hasActionClients xsi:type="metamodel:ActionClient" name="as2" actioninterface="//@hasPackages.0/@hasActionInterfaces.1"/>
       <hasServers xsi:type="metamodel:Server" serviceName="service1" qosprofile="//@hasQosProfiles.0" name="s1" servicePath="path" servicemessage="//@hasPackages.0/@hasServiceMessages.0"/>
       <hasServers xsi:type="metamodel:Server" serviceName="service2" qosprofile="//@hasQosProfiles.0" name="s2" servicePath="path2" servicemessage="//@hasPackages.2/@hasServiceMessages.0"/>
+      <hasActionServers xsi:type="metamodel:ActionServer" name="as1" actioninterface="//@hasPackages.0/@hasActionInterfaces.0"/>
     </hasNodes>
     <hasNodes xsi:type="metamodel:Node" name="node3" namespace="name/space3">
-      <hasClients xsi:type="metamodel:Client" serviceName="service1" qosprofile="//@hasQosProfiles.0" name="c1" servicePath="path" servicemessage="//@hasPackages.0/@hasServiceMessages.0"/>
-      <hasSubscribers xsi:type="metamodel:Subscriber" smsg="//@hasPackages.0/@hasTopicMessages.0" name="sub1" topicPath="topic/path/1"/>
+      <hasSubscribers xsi:type="metamodel:Subscriber" name="sub1" smsg="//@hasPackages.0/@hasTopicMessages.0" topicPath="topic/path/1"/>
+      <hasClients xsi:type="metamodel:Client" servicePath="path" servicemessage="//@hasPackages.0/@hasServiceMessages.0" serviceName="service1" name="c1" qosprofile="//@hasQosProfiles.0"/>
     </hasNodes>
-    <hasDependencies xsi:type="metamodel:PackageDependency" package="//@hasPackages.4"/>
-    <hasDocumentation xsi:type="metamodel:Documentation"/>
   </hasPackages>
   <hasPackages xsi:type="metamodel:Package" maintainer="bronzeRaf" name="pack2" license="The license is MIT" email="rnm1816@gmail.com">
-    <hasNodes xsi:type="metamodel:Node" namespace="name/space2" name="node2">
-      <hasActionServers xsi:type="metamodel:ActionServer" actioninterface="//@hasPackages.0/@hasActionInterfaces.1" name="as2"/>
-      <hasClients xsi:type="metamodel:Client" serviceName="service1" qosprofile="//@hasQosProfiles.0" name="c1" servicePath="path" servicemessage="//@hasPackages.0/@hasServiceMessages.0"/>
-      <hasActionClients xsi:type="metamodel:ActionClient" name="as1" actioninterface="//@hasPackages.0/@hasActionInterfaces.0"/>
-      <hasPublishers xsi:type="metamodel:Publisher" pmsg="//@hasPackages.0/@hasTopicMessages.0" topicPath="topic/path/1" publishRate="10.0" name="pub1"/>
-    </hasNodes>
     <hasDocumentation xsi:type="metamodel:Documentation"/>
+    <hasNodes xsi:type="metamodel:Node" namespace="name/space2" name="node2">
+      <hasClients xsi:type="metamodel:Client" servicePath="path" servicemessage="//@hasPackages.0/@hasServiceMessages.0" serviceName="service1" name="c1" qosprofile="//@hasQosProfiles.0"/>
+      <hasActionClients xsi:type="metamodel:ActionClient" name="as1" actioninterface="//@hasPackages.0/@hasActionInterfaces.0"/>
+      <hasPublishers xsi:type="metamodel:Publisher" name="pub1" pmsg="//@hasPackages.0/@hasTopicMessages.0" topicPath="topic/path/1" publishRate="10.0"/>
+      <hasActionServers xsi:type="metamodel:ActionServer" name="as2" actioninterface="//@hasPackages.0/@hasActionInterfaces.1"/>
+    </hasNodes>
   </hasPackages>
+  <graph xsi:type="metamodel:Graph" nodes="//@hasPackages.3/@hasNodes.0 //@hasPackages.3/@hasNodes.1 //@hasPackages.4/@hasNodes.0">
+    <hasServiceLinks xsi:type="metamodel:ServiceLink" server="//@hasPackages.3/@hasNodes.0/@hasServers.0" client="//@hasPackages.3/@hasNodes.1/@hasClients.0 //@hasPackages.4/@hasNodes.0/@hasClients.0" name="service1"/>
+    <hasServiceLinks xsi:type="metamodel:ServiceLink" server="//@hasPackages.3/@hasNodes.0/@hasServers.1" name="service2"/>
+    <hasActionLinks xsi:type="metamodel:ActionLink" actionserver="//@hasPackages.3/@hasNodes.0/@hasActionServers.0" actionclient="//@hasPackages.4/@hasNodes.0/@hasActionClients.0" name="as1"/>
+    <hasActionLinks xsi:type="metamodel:ActionLink" actionserver="//@hasPackages.4/@hasNodes.0/@hasActionServers.0" actionclient="//@hasPackages.3/@hasNodes.0/@hasActionClients.0" name="as2"/>
+    <hasTopics xsi:type="metamodel:Topic" publisher="//@hasPackages.4/@hasNodes.0/@hasPublishers.0" subscriber="//@hasPackages.3/@hasNodes.0/@hasSubscribers.0 //@hasPackages.3/@hasNodes.1/@hasSubscribers.0" topicPath="topic/path/1"/>
+  </graph>
 </metamodel:ROSSystem>

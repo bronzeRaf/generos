@@ -87,5 +87,5 @@ You can also use install Generos though its installation file using:
 
 ```
 $ wget https://raw.githubusercontent.com/bronzeRaf/generos/master/install.bash
-$ sudo bash setup.bash
+$ sudo bash install.bash
 ```
