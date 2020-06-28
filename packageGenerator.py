@@ -25,22 +25,37 @@ import sys
 from jinja2 import Environment, FileSystemLoader
 import networkx as nx
 import matplotlib.pyplot as plt 
-sys.path.append('metamodelLib')
+sys.path.append(os.path.join(os.path.dirname(__file__),'metamodelLib'))
 import metamodel
 
-
+# Count arguments
+if len(sys.argv) < 2 or  len(sys.argv) > 3:
+    print ('Please give at least an XMI file name (model) and optionaly an Ecore file name (metamodel)')
+    sys.exit(0)
+# Obtain model filename
+model_filename = os.path.relpath(sys.argv[1], str(os.path.dirname(__file__)))
+# Obtain metamodel filename
+if len(sys.argv) == 3:
+	metamodel_filename = os.path.relpath(sys.argv[2], str(os.path.dirname(__file__)))
+	
+else:
+	metamodel_filename = 'metamodelLib/metamodel.ecore'
+# Go to working directory
+if str(os.path.dirname(__file__)) != '':
+	os.chdir(str(os.path.dirname(__file__)))
+		
 # Create rset and load Metamodel
 global_registry[Ecore.nsURI] = Ecore  
 rset = ResourceSet()
 # If you work with python package metamodel uncomment following line
 # ~ rset.metamodel_registry[metamodel.nsURI] = metamodel
 # if you with .ecore file metamodel ncomment following 3 lines
-resource = rset.get_resource(URI('metamodelLib/metamodel.ecore'))
+resource = rset.get_resource(URI(metamodel_filename))
 root = resource.contents[0]
 rset.metamodel_registry[root.nsURI] = root
 
 # We obtain the model from an XMI
-model_root = rset.get_resource(URI('models/generos.xmi')).contents[0]
+model_root = rset.get_resource(URI(model_filename)).contents[0]
 
 # Create the workspace directory tree
 os.system('mkdir workspace')

@@ -49,7 +49,19 @@ Unzip Generos and you are done!
 
 
 ## Running Generos:
-Instructions Comming soon...
+To run Generos you will need a GRS file, with the model representing the system you would like to generate. To learn how to write GRS take a look [here](#).
+
+After saving the GRS file that models your awesome ROS2 System run:
+
+```
+$ sudo bash path-to-generos-installation/generos.bash path-to-GRS/model.grs
+
+```
+replacing:
+- "path-to-generos-installation" with the path to the installation folder of generos
+- "path-to-GRS/model.grs" with the path to the GRS file
+
+Generos works with both absolute and relative paths. Enjoy Package Generating!
 
 ______________________________________________________________________________
 

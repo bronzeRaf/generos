@@ -6,7 +6,8 @@ from pyecoregen.ecore import EcoreGenerator
 import pyecore.behavior as behavior
 from pyecore.utils import DynamicEPackage
 import sys
-sys.path.append('../metamodelLib')
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '../metamodelLib'))
 import metamodel
 from textx import metamodel_from_file
 from textx.export import metamodel_export, model_export
@@ -367,15 +368,32 @@ class RosSystem(object):
 		
 		
 def main(debug=False):
+	# Go to working directory
+	if str(os.path.dirname(__file__)) != '':
+		os.chdir(str(os.path.dirname(__file__)))
+	# Count arguments
+	if len(sys.argv) < 2 or  len(sys.argv) > 3:
+		print ('Please give at least an GRS file name (input model) and optionaly an XMI file name (output model)')
+		sys.exit(0)
+	# Obtain GRS model filename
+	grs_filename = os.path.relpath(sys.argv[1], str(os.path.dirname(__file__)))
+	# Obtain XMI model filename
+	if len(sys.argv) == 3:
+		xmi_filename = sys.argv[2]
+	else:
+		xmi_filename = '../models/generos.xmi'	
+	# Load Grammar and Model
 	dsl_metamodel = metamodel_from_file('generos.tx', debug=False)
-	model = dsl_metamodel.model_from_file('model.grs')
+	model = dsl_metamodel.model_from_file(grs_filename)
+	# Fire up the generation
 	system = RosSystem()
 	system.interpret(model)
 	#create rset
 	global_registry[Ecore.nsURI] = Ecore  
 	rset = ResourceSet()
 	rset.metamodel_registry[metamodel.nsURI] = metamodel
-	model_res = rset.create_resource(URI('../models/generos.xmi'))
+	model_res = rset.create_resource(URI(xmi_filename))
+	# Save
 	model_res.append(system.rosystem)
 	model_res.save()
 
