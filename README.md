@@ -215,11 +215,11 @@ message **mes1** {
 message **Header** package = "**std_msgs**"	//just give the name of a ROS Msg
 ```
 
-A Custom Message consist of Primitive datatypes and/or ROS datatypes. 
+A Custom Message consist of several Primitive datatypes and/or ROS datatypes. 
 - Primitive Dataypes follow the formula:
-	- prim type, name, description (optional, string), constant (optional bool), default (optional string)
+	- ```prim type, name, description (optional, string), constant (optional bool), default (optional string)```
 - ROS Data Types follow the formula:
-	- ros type, name, package
+	- ```ros type, name, package```
 
 A Ros Message consist of a type and a package.
 
@@ -263,7 +263,18 @@ A QoS Profile is either a Custom QoS Profile or a ROS Preset QoS Profile. So you
 
 ```
 qosprofile **qos1** {
-	
+	history = "**KEEP_LAST**"			//string, optional, single
+	depth = **10**					//int, optional, single
+	reliability = "**RELIABLE**"			//string, optional, single
+	durability = "**VOLATILE**"			//string, optional, single
+	livelines = "**AUTOMATIC**"			//string, optional, single
+	deadlineSec = "**2**"				//int, optional, single
+	deadlineNSec = "**3**"				//int, optional, single
+	lifespanSec = "**4**"				//int, optional, single
+	lifespanNSec = "**5**"				//int, optional, single
+	liveliness_lease_durationSec = "**6**"		//int, optional, single
+	liveliness_lease_durationNSec = "**7**"		//int, optional, single
+	avoid_ros_namespace_conventions = **False**	//bool, optional, single
 }
 
 presetqos **SENSOR_DATA**	//just give the name of a QoS preset profile
