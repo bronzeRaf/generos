@@ -44,7 +44,7 @@ Install:
 - [Weasyprint](https://weasyprint.readthedocs.io/en/latest/install.html "Install Weasyprint")
 - [Ros2](https://index.ros.org/doc/ros2/Installation/Crystal/Linux-Install-Binary/ "Install ROS2")
 
-All this software is free and available in the links above. After installing this software you can download the latest Generos [here](https://github.com/bronzeRaf/generos/archive/master.zip).
+All this software is free and available in the links above. After installing this software you can download the latest Generos [here](https://github.com/bronzeRaf/generos/archive/master.zip "Download the latest Generos").
 Unzip Generos and you are done!
 
 
