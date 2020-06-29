@@ -68,13 +68,13 @@ That's it, Enjoy Package Generating!
 ______________________________________________________________________________
 
 ## Writing GRS files:
-GRS files are models that represent ROS2 Systems. It is actually a DSL to describe what Generos you would like to generate for you. 
+GRS files are models that represent ROS2 Systems. GRS is actually a DSL to describe what Generos you would like to generate for you. 
 
 A GRS program consist of many Commands. A command could be:  
 Package | Node | Parameter | Publisher | Subscriber | Client | Server | ActionServer | ActionClient | Dependency | Message | ServiceMessage | ActionInterface | QoSProfile
 
 Commands could be placed in any order. Every Command consinst of some special Components, based on its type.
-Below you can see the components per Command. In these examples, in the comments you can see the datatype of any Component, if this component is optional or reqiured and if it is single component or not. For example a ROS2 package could have many nodes, but only one maintainer. Multiple components are separated by spaces. Anything between double asterisks ``(**anything**)`` means that you need to replace them with your code. The order of the Components inside a Command is critical and could not be changed.
+Below you can see the accepted Components per Command. In these examples, in the comments you can see the datatype of any Component, if this component is optional or reqiured and if it is a single or a multiple Component. For example a ROS2 package could have many nodes, but only one maintainer. Multiple components are separated by spaces and could be one or more. Anything between double asterisks ``(**anything**)`` means that you need to replace them with your code without the asterisks. The order of the Components inside a Command is critical and could not be changed.
 
 ### Comments
 In GRS comments start with // and takes all the rest of the line.
@@ -86,7 +86,7 @@ This is code // This is comment
 ```
 
 ### Packages
-To create a Package you can write:
+To create a [Package](https://index.ros.org/doc/ros2/Tutorials/Creating-Your-First-ROS2-Package/) you can write:
 
 ```
 package **pack1** {
@@ -101,7 +101,7 @@ package **pack1** {
 ```
 
 ### Nodes
-To create a Node you can write:
+To create a [Node](https://index.ros.org/doc/ros2/Tutorials/Understanding-ROS2-Nodes/) you can write:
 
 ```
 node **n1** {
@@ -117,7 +117,7 @@ node **n1** {
 ```
 
 ### Parameter
-To create a Parameter you can write:
+To create a [Parameter](https://index.ros.org/doc/ros2/Tutorials/Parameters/Understanding-ROS2-Parameters/) you can write:
 
 ```
 parameter **pr1** {
@@ -128,7 +128,7 @@ parameter **pr1** {
 ```
 
 ### Publisher
-To create a Publisher you can write:
+To create a [Publisher](https://index.ros.org/doc/ros2/Tutorials/Topics/Understanding-ROS2-Topics/) you can write:
 
 ```
 publisher **pub1** {
@@ -140,7 +140,7 @@ publisher **pub1** {
 ```
 
 ### Subscriber
-To create a Subscriber you can write:
+To create a [Subscriber](https://index.ros.org/doc/ros2/Tutorials/Topics/Understanding-ROS2-Topics/) you can write:
 
 ```
 subscriber **sub1** {
@@ -151,7 +151,7 @@ subscriber **sub1** {
 ```
 
 ### Client
-To create a Client you can write:
+To create a [Client](https://index.ros.org/doc/ros2/Tutorials/Services/Understanding-ROS2-Services/) you can write:
 
 ```
 client **c1** {
@@ -163,7 +163,7 @@ client **c1** {
 ```
 
 ### Server
-To create a Server you can write:
+To create a [Server](https://index.ros.org/doc/ros2/Tutorials/Services/Understanding-ROS2-Services/) you can write:
 
 ```
 server **sr1** {
@@ -175,7 +175,7 @@ server **sr1** {
 ```
 
 ### Action Server
-To create an Action Server you can write:
+To create an [Action Server](https://index.ros.org/doc/ros2/Tutorials/Understanding-ROS2-Actions/) you can write:
 
 ```
 actionServer **asr1** {
@@ -184,7 +184,7 @@ actionServer **asr1** {
 ```
 
 ### Action Client
-To create an Action Client you can write:
+To create an [Action Client](https://index.ros.org/doc/ros2/Tutorials/Understanding-ROS2-Actions/) you can write:
 
 ```
 actionClient **ac1** {
@@ -202,7 +202,7 @@ dependency **dep1** {
 ```
 
 ### Message
-A Message is either a Custom Msg or a ROS Msg. So you can follow one of the following examples:
+A Message is either a [Custom Msg](https://index.ros.org/doc/ros2/Tutorials/Custom-ROS2-Interfaces/) or a [ROS Msg](https://index.ros.org/packages/page/1/time/). So you can follow one of the following examples:
 
 ```
 message **mes1** {
@@ -212,19 +212,19 @@ message **mes1** {
 	prim **string**, **s**, description = "**another description...**" default = "**Value**"
 }
 
-message **Header** package = "**std_msgs**"	//just give the name of a ROS Msg
+message **Header** package = "**std_msgs**"	//just give the name of a ROS Msg and its package
 ```
 
 A Custom Message consist of several Primitive datatypes and/or ROS datatypes. 
 - Primitive Dataypes follow the formula:
-	- ```prim type, name, description (optional, string), constant (optional bool), default (optional string)```
+	- ```prim type, name, description (string, optional), constant (bool, optional), default (string, optional)```
 - ROS Data Types follow the formula:
-	- ```ros type, name, package```
+	- ```ros type, name, package (string, required)```
 
 A Ros Message consist of a type and a package.
 
 ### Service
-A Service is either a Custom Srv or a ROS Srv. So you can follow one of the following examples:
+A Service is either a [Custom Srv](https://index.ros.org/doc/ros2/Tutorials/Custom-ROS2-Interfaces/) or a [ROS Srv](https://index.ros.org/packages/page/1/time/). So you can follow one of the following examples:
 
 ```
 service **srv1** {
@@ -235,7 +235,7 @@ service **srv1** {
 		prim **string**, **s**, description = "**another description...**" default = "**Value**"
 }
 
-service **SetBool** package = "**std_srvs**"	//just give the name of a ROS Srv
+service **SetBool** package = "**std_srvs**"	//just give the name of a ROS Srv and its package
 
 ```
 
@@ -244,7 +244,7 @@ A Custom Service consist of a Request and a Response. Both of them follow the fo
 The ROS Services also follow the formula of the ROS Messages.
 
 ### Action
-To create an Action you can write:
+To create an [Action](https://index.ros.org/doc/ros2/Tutorials/Understanding-ROS2-Actions/) you can write:
 
 ```
 service **action1** {
@@ -259,7 +259,7 @@ service **action1** {
 An Action consist of a Goal, a Result and a Feedback. All of them follow the formula of the Custom Messages.
 
 ### QoS Profile
-A QoS Profile is either a Custom QoS Profile or a ROS Preset QoS Profile. So you can follow one of the following examples:
+A QoS Profile is either a [Custom QoS Profile](https://index.ros.org/doc/ros2/Tutorials/Ros2bag/Overriding-QoS-Policies-For-Recording-And-Playback/) or a [ROS Preset QoS Profile](https://index.ros.org/doc/ros2/Concepts/About-Quality-of-Service-Settings/). So you can follow one of the following examples:
 
 ```
 qosprofile **qos1** {
