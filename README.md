@@ -27,29 +27,29 @@ $ sudo bash install.bash
 You are done!
 
 REMEMBER! You will also need to install a ROS2 in your system to test your generated package, but you still can generate them...
-You can find ROS2 [here](https://index.ros.org/doc/ros2/Installation/Crystal/Linux-Install-Binary/ "Install ROS2"){:target="_blank"}.
+You can find ROS2 [here](https://index.ros.org/doc/ros2/Installation/Crystal/Linux-Install-Binary/ "Install ROS2").
 
 
 ### Manual Install
 If you want to manually install Generos make sure that you know what you are doing
 A Linux distribution is required to use Generos but Ubuntu 18.04 is recommended.
 Install:
-- [Python 3](https://www.python.org/downloads/)
-- [Pyecore](https://pyecore.readthedocs.io/en/latest/user/install.html)
-- [Pyecoregen](https://pypi.org/project/pyecoregen/)
-- [Jinja2](https://pypi.org/project/Jinja2/)
-- [TextX](https://textx.github.io/textX/stable/#installation)
-- [NetworkX](https://networkx.github.io/documentation/stable/install.html)
-- [Matplotlib](https://matplotlib.org/users/installing.html)
-- [Weasyprint](https://weasyprint.readthedocs.io/en/latest/install.html)
-- [Ros2](https://index.ros.org/doc/ros2/Installation/Crystal/Linux-Install-Binary/)
+- [Python 3](https://www.python.org/downloads/ "Install Python 3")
+- [Pyecore](https://pyecore.readthedocs.io/en/latest/user/install.html "Install Pyecore")
+- [Pyecoregen](https://pypi.org/project/pyecoregen/ "Install Pyecoregen")
+- [Jinja2](https://pypi.org/project/Jinja2/ "Install Jinja2")
+- [TextX](https://textx.github.io/textX/stable/#installation "Install TextX")
+- [NetworkX](https://networkx.github.io/documentation/stable/install.html "Install NetworkX")
+- [Matplotlib](https://matplotlib.org/users/installing.html "Install Matplotlib")
+- [Weasyprint](https://weasyprint.readthedocs.io/en/latest/install.html "Install Weasyprint")
+- [Ros2](https://index.ros.org/doc/ros2/Installation/Crystal/Linux-Install-Binary/ "Install ROS2")
 
 All this software is free and available in the links above. After installing this software you can download the latest Generos [here](https://github.com/bronzeRaf/generos/archive/master.zip).
 Unzip Generos and you are done!
 
 
 ## Running Generos:
-To run Generos you will need a GRS file, with the model representing the system you would like to generate. To learn how to write GRS files take a look [here](#writing-grs-files).
+To run Generos you will need a GRS file, with the model representing the system you would like to generate. To learn how to write GRS files take a look [here](#writing-grs-files "GRS Files").
 
 After saving the GRS file that represents your awesome ROS2 System run:
 
@@ -86,7 +86,7 @@ This is code // This is comment
 ```
 
 ### Packages
-To create a [Package](https://index.ros.org/doc/ros2/Tutorials/Creating-Your-First-ROS2-Package/) you can write:
+To create a [Package](https://index.ros.org/doc/ros2/Tutorials/Creating-Your-First-ROS2-Package/ "ROS2 Packages") you can write:
 
 ```
 package **pack1** {
@@ -101,7 +101,7 @@ package **pack1** {
 ```
 
 ### Nodes
-To create a [Node](https://index.ros.org/doc/ros2/Tutorials/Understanding-ROS2-Nodes/) you can write:
+To create a [Node](https://index.ros.org/doc/ros2/Tutorials/Understanding-ROS2-Nodes/ "ROS2 Nodes") you can write:
 
 ```
 node **n1** {
@@ -117,7 +117,7 @@ node **n1** {
 ```
 
 ### Parameter
-To create a [Parameter](https://index.ros.org/doc/ros2/Tutorials/Parameters/Understanding-ROS2-Parameters/) you can write:
+To create a [Parameter](https://index.ros.org/doc/ros2/Tutorials/Parameters/Understanding-ROS2-Parameters/ "ROS2 Parameters") you can write:
 
 ```
 parameter **pr1** {
@@ -128,7 +128,7 @@ parameter **pr1** {
 ```
 
 ### Publisher
-To create a [Publisher](https://index.ros.org/doc/ros2/Tutorials/Topics/Understanding-ROS2-Topics/) you can write:
+To create a [Publisher](https://index.ros.org/doc/ros2/Tutorials/Topics/Understanding-ROS2-Topics/ "ROS2 Topics") you can write:
 
 ```
 publisher **pub1** {
@@ -140,7 +140,7 @@ publisher **pub1** {
 ```
 
 ### Subscriber
-To create a [Subscriber](https://index.ros.org/doc/ros2/Tutorials/Topics/Understanding-ROS2-Topics/) you can write:
+To create a [Subscriber](https://index.ros.org/doc/ros2/Tutorials/Topics/Understanding-ROS2-Topics/ "ROS2 Topics") you can write:
 
 ```
 subscriber **sub1** {
@@ -151,7 +151,7 @@ subscriber **sub1** {
 ```
 
 ### Client
-To create a [Client](https://index.ros.org/doc/ros2/Tutorials/Services/Understanding-ROS2-Services/) you can write:
+To create a [Client](https://index.ros.org/doc/ros2/Tutorials/Services/Understanding-ROS2-Services/ "ROS2 Services") you can write:
 
 ```
 client **c1** {
@@ -163,7 +163,7 @@ client **c1** {
 ```
 
 ### Server
-To create a [Server](https://index.ros.org/doc/ros2/Tutorials/Services/Understanding-ROS2-Services/) you can write:
+To create a [Server](https://index.ros.org/doc/ros2/Tutorials/Services/Understanding-ROS2-Services/ "ROS2 Services") you can write:
 
 ```
 server **sr1** {
@@ -175,7 +175,7 @@ server **sr1** {
 ```
 
 ### Action Server
-To create an [Action Server](https://index.ros.org/doc/ros2/Tutorials/Understanding-ROS2-Actions/) you can write:
+To create an [Action Server](https://index.ros.org/doc/ros2/Tutorials/Understanding-ROS2-Actions/ "ROS2 Actions") you can write:
 
 ```
 actionServer **asr1** {
@@ -184,7 +184,7 @@ actionServer **asr1** {
 ```
 
 ### Action Client
-To create an [Action Client](https://index.ros.org/doc/ros2/Tutorials/Understanding-ROS2-Actions/) you can write:
+To create an [Action Client](https://index.ros.org/doc/ros2/Tutorials/Understanding-ROS2-Actions/ "ROS2 Actions") you can write:
 
 ```
 actionClient **ac1** {
@@ -202,7 +202,7 @@ dependency **dep1** {
 ```
 
 ### Message
-A Message is either a [Custom Msg](https://index.ros.org/doc/ros2/Tutorials/Custom-ROS2-Interfaces/) or a [ROS Msg](https://index.ros.org/packages/page/1/time/). So you can follow one of the following examples:
+A Message is either a [Custom Msg](https://index.ros.org/doc/ros2/Tutorials/Custom-ROS2-Interfaces/ "ROS2 Custom Interfaces") or a [ROS Msg](https://index.ros.org/packages/page/1/time/ "ROS2 Bultin Packages"). So you can follow one of the following examples:
 
 ```
 message **mes1** {
@@ -224,7 +224,7 @@ A Custom Message consist of several Primitive datatypes and/or ROS datatypes.
 A Ros Message consist of a type and a package.
 
 ### Service
-A Service is either a [Custom Srv](https://index.ros.org/doc/ros2/Tutorials/Custom-ROS2-Interfaces/) or a [ROS Srv](https://index.ros.org/packages/page/1/time/). So you can follow one of the following examples:
+A Service is either a [Custom Srv](https://index.ros.org/doc/ros2/Tutorials/Custom-ROS2-Interfaces/ "ROS2 Custom Interfaces") or a [ROS Srv](https://index.ros.org/packages/page/1/time/ "ROS2 Bultin Packages"). So you can follow one of the following examples:
 
 ```
 service **srv1** {
@@ -244,7 +244,7 @@ A Custom Service consist of a Request and a Response. Both of them follow the fo
 The ROS Services also follow the formula of the ROS Messages.
 
 ### Action
-To create an [Action](https://index.ros.org/doc/ros2/Tutorials/Understanding-ROS2-Actions/) you can write:
+To create an [Action](https://index.ros.org/doc/ros2/Tutorials/Understanding-ROS2-Actions/ "ROS2 Actions") you can write:
 
 ```
 service **action1** {
@@ -259,7 +259,7 @@ service **action1** {
 An Action consist of a Goal, a Result and a Feedback. All of them follow the formula of the Custom Messages.
 
 ### QoS Profile
-A QoS Profile is either a [Custom QoS Profile](https://index.ros.org/doc/ros2/Tutorials/Ros2bag/Overriding-QoS-Policies-For-Recording-And-Playback/) or a [ROS Preset QoS Profile](https://index.ros.org/doc/ros2/Concepts/About-Quality-of-Service-Settings/). So you can follow one of the following examples:
+A QoS Profile is either a [Custom QoS Profile](https://index.ros.org/doc/ros2/Tutorials/Ros2bag/Overriding-QoS-Policies-For-Recording-And-Playback/ "ROS2 QoS Overriding") or a [ROS Preset QoS Profile](https://index.ros.org/doc/ros2/Concepts/About-Quality-of-Service-Settings/ "ROS2 About Qos"). So you can follow one of the following examples:
 
 ```
 qosprofile **qos1** {
@@ -285,21 +285,21 @@ ______________________________________________________________________________
 Lets take a further look inside Generos to understand how it works...
 
 ### dsl:
-This folder contains all the related to the dsl languange programms. The "generos.tx" implements the grammar of the dsl containing all the rules the language should fullfil written in [TextX](https://textx.github.io/textX/stable/). The "model.grs" is an example model created in Generos DSL and models a specific ROS System with some packages, nodes etc. The "run_generos_model.py" is the interpreter that obtains the "model.grs" parses it, validates it and creates the "generos.xmi" file form the "models" directory to pass it through the Generos ROS2 package generator mechanism.
+This folder contains all the related to the dsl languange programms. The "generos.tx" implements the grammar of the dsl containing all the rules the language should fullfil written in [TextX](https://textx.github.io/textX/stable/ "TextX"). The "model.grs" is an example model created in Generos DSL and models a specific ROS System with some packages, nodes etc. The "run_generos_model.py" is the interpreter that obtains the "model.grs" parses it, validates it and creates the "generos.xmi" file form the "models" directory to pass it through the Generos ROS2 package generator mechanism.
 
 
 ### metamodelLib:
-This folder contains python module called "metamodel" implementing the metamodel of the [ROS2](https://index.ros.org/doc/ros2/Tutorials/) world. The module contains all the EClasses and the behavior, to build powerfull models. The folder contains also the ecore implementation of the metamodel in the file "metamodel.ecore". Anyone can import the python module or the ecore impementation of the metamodel to build models almost the same way. Finally, the file named "metamodelGenerator.py" reeds the ecore implementation of the "metamodel.ecore" and generates the python module "metamodel", using [pyecoregen](https://github.com/pyecore/pyecoregen). The "metamodel.jpg" is the image of the metamodel diagram from the Eclipse Modeling Framework. You can see the diagram below.
+This folder contains python module called "metamodel" implementing the metamodel of the [ROS2](https://index.ros.org/doc/ros2/Tutorials/ "ROS2") world. The module contains all the EClasses and the behavior, to build powerfull models. The folder contains also the ecore implementation of the metamodel in the file "metamodel.ecore". Anyone can import the python module or the ecore impementation of the metamodel to build models almost the same way. Finally, the file named "metamodelGenerator.py" reeds the ecore implementation of the "metamodel.ecore" and generates the python module "metamodel", using [pyecoregen](https://github.com/pyecore/pyecoregen "Pyecoregen"). The "metamodel.jpg" is the image of the metamodel diagram from the Eclipse Modeling Framework. You can see the diagram below.
 
-![Metamodel](/metamodelLib/metamodel.jpg)
+![Metamodel](/metamodelLib/metamodel.jpg "Metamodel of the ROS2 world")
 
 
 ### models:
-This folder demenstrates some kind of models that could be generated into ROS2 package from the system. The "model.py" receives the ecore metamodel to validate and builds the "test.xmi" file using [pyecore](https://buildmedia.readthedocs.org/media/pdf/pyecore/latest/pyecore.pdf). The "model2.py" model receives the metamodel python module to validate and builds the "test2.xmi" file using [pyecore](https://buildmedia.readthedocs.org/media/pdf/pyecore/latest/pyecore.pdf). The "modelj.json" is an example of a json model. The "generos.xmi" is an xmi model generated by the Generos DSL. Any of the xmi or json file with this format (created or generated) could work as an input in the ROS2 package generator mechanism of Generos.
+This folder demenstrates some kind of models that could be generated into ROS2 package from the system. The "model.py" receives the ecore metamodel to validate and builds the "test.xmi" file using [pyecore](https://buildmedia.readthedocs.org/media/pdf/pyecore/latest/pyecore.pdf "Pyecore"). The "model2.py" model receives the metamodel python module to validate and builds the "test2.xmi" file using [pyecore](https://buildmedia.readthedocs.org/media/pdf/pyecore/latest/pyecore.pdf "Pyecore"). The "modelj.json" is an example of a json model. The "generos.xmi" is an xmi model generated by the Generos DSL. Any of the xmi or json file with this format (created or generated) could work as an input in the ROS2 package generator mechanism of Generos.
 
 
 ### templates:
-This folder contains all the [jinja2](https://buildmedia.readthedocs.org/media/pdf/jinja/latest/jinja.pdf) templates that the ROS2 package generator mechanism loads to build the ROS2 package. 
+This folder contains all the [jinja2](https://buildmedia.readthedocs.org/media/pdf/jinja/latest/jinja.pdf "Jinja2") templates that the ROS2 package generator mechanism loads to build the ROS2 package. 
 
 - The temp_CMakeLists.txt is a template of the CMakeLists.txt file, needed to build a ROS2 package called "interfaces" implementing all the interfaces (custom Srv, Msg and Actions) created by the user.
 
@@ -329,7 +329,7 @@ This folder contains all the [jinja2](https://buildmedia.readthedocs.org/media/p
 
 
 ### workspace:
-This folder is generated from the ROS2 package generator mechanism of Generos. It contains the "src" folder with the package "interfaces" and all the created by the user packages. The package "interfaces" is a Cpp package, implementing all the custom action, srv and msg that the user created. The rest of the packages, are those the user created, generated in Python. In the packages there is one enrty point per node, an executable called "{Node's name}_exec" to the function called "main" inside the nodes. For every Client into a node, there is another entry point named "{Node's name}_{Client's name}" to the function called "{Client's name}". In addition, the "System Graph.png" image contains a representation of the generated system. It represents all the Nodes, the Topics (Publishers and Subscribers), the Services (Clients and Servers) and the Actions (Action Clients and Action Server) that the system contains independent of their packages. It is a comynication diagramm that demonstrates all the flow of the information inside the ROS system. It is created from [NetworkX](https://networkx.github.io/) and [Matplotlib](https://matplotlib.org/).
+This folder is generated from the ROS2 package generator mechanism of Generos. It contains the "src" folder with the package "interfaces" and all the created by the user packages. The package "interfaces" is a Cpp package, implementing all the custom action, srv and msg that the user created. The rest of the packages, are those the user created, generated in Python. In the packages there is one enrty point per node, an executable called "{Node's name}_exec" to the function called "main" inside the nodes. For every Client into a node, there is another entry point named "{Node's name}_{Client's name}" to the function called "{Client's name}". In addition, the "System Graph.png" image contains a representation of the generated system. It represents all the Nodes, the Topics (Publishers and Subscribers), the Services (Clients and Servers) and the Actions (Action Clients and Action Server) that the system contains independent of their packages. It is a comynication diagramm that demonstrates all the flow of the information inside the ROS system. It is created from [NetworkX](https://networkx.github.io/ "NetworkX") and [Matplotlib](https://matplotlib.org/ "Matplotlib").
 
 To run the executables After generating the code from the model go to the workspace root (folder named "workspace") in terminal and run the comands:
 ```
