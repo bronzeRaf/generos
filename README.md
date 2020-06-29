@@ -74,7 +74,7 @@ A GRS program consist of many Commands. A command could be:
 Package | Node | Parameter | Publisher | Subscriber | Client | Server | ActionServer | ActionClient | Dependency | Message | ServiceMessage | ActionInterface | QoSProfile
 
 Commands could be placed in any order. Every Command consinst of some special Components, based on its type.
-Below you can see the components per Command. In these examples, in the comments you can see the datatype of any Component, if this component is optional or reqiured and if it is single component or not. For example a ROS2 package could have many nodes, but only one maintainer. Multiple components are separated by spaces. Anything between double ssterisks ``(**anything**)`` means that you need to replace them with your code. The order of the Components inside a Command is critical and could not be changed.
+Below you can see the components per Command. In these examples, in the comments you can see the datatype of any Component, if this component is optional or reqiured and if it is single component or not. For example a ROS2 package could have many nodes, but only one maintainer. Multiple components are separated by spaces. Anything between double asterisks ``(**anything**)`` means that you need to replace them with your code. The order of the Components inside a Command is critical and could not be changed.
 
 ### Comments
 In GRS comments start with // and takes all the rest of the line.
@@ -134,7 +134,7 @@ To create a Publisher you can write:
 publisher **pub1** {
 	topicPath = "**path**"		//string, required, single
 	publishRate = **2.45**		//float, required, single
-	message = **m1**		//message, required, single
+	message = **mes1**		//message, required, single
 	qos = **qos1**			//qosprofile or presetqos, optional, single
 }
 ```
@@ -169,7 +169,7 @@ To create a Server you can write:
 server **sr1** {
 	servicePath = "**path**"	//string, required, single
 	serviceName = "**name**"	//string, required, single
-	service = **srv1**		//service, required, single
+	service = **Set_Bool**		//service, required, single
 	qos = **qos1**			//qosprofile or presetqos, optional, single
 }
 ```
@@ -202,39 +202,67 @@ dependency **dep1** {
 ```
 
 ### Message
-To create a Message you can write:
+A Message is either a Custom Msg or a ROS Msg. So you can follow one of the following examples:
 
 ```
-message mes1 {
-	
+message **mes1** {
+	prim **int64**, **a**, description = "**description...**"
+	prim **bool**, **b**, description = "**description...**", constant = **True**, default = "**False**"
+	ros **Header**, **h**, **std_msgs**
+	prim **string**, **s**, description = "**another description...**" default = "**Value**"
 }
 
 message **Header** package = "**std_msgs**"	//just give the name of a ROS Msg
 ```
 
+A Custom Message consist of Primitive datatypes and/or ROS datatypes. 
+- Primitive Dataypes follow the formula:
+	- prim type, name, description (optional, string), constant (optional bool), default (optional string)
+- ROS Data Types follow the formula:
+	- ros type, name, package
+
+A Ros Message consist of a type and a package.
+
 ### Service
-To create a Service you can write:
+A Service is either a Custom Srv or a ROS Srv. So you can follow one of the following examples:
 
 ```
-service p1 {
-	
+service **srv1** {
+	request:
+		prim **int64**, **a**, description = "**description...**"
+		prim **bool**, **b**, description = "**description...**", constant = **True**, default = "**False**"
+	response:
+		prim **string**, **s**, description = "**another description...**" default = "**Value**"
 }
+
+service **SetBool** package = "**std_srvs**"	//just give the name of a ROS Srv
+
 ```
+
+A Custom Service consist of a Request and a Response. Both of them follow the formula of the Custom Messages.
+
+The ROS Services also follow the formula of the ROS Messages.
 
 ### Action
 To create an Action you can write:
 
 ```
-service p1 {
-	
+service **action1** {
+	goal:
+		prim **int64**, **a**, description = "**description...**"
+	result:
+		prim **string**, **s**, description = "**another description...**" default = "**Value**"
+	feedback:
+		prim **bool**, **b**, description = "**description...**", constant = **True**, default = "**False**"
 }
 ```
+An Action consist of a Goal, a Result and a Feedback. All of them follow the formula of the Custom Messages.
 
 ### QoS Profile
-A QoS Profile is either a Custom QoS Profile and a ROS Preset QoS Profile. So you can follow one of the following:
+A QoS Profile is either a Custom QoS Profile or a ROS Preset QoS Profile. So you can follow one of the following examples:
 
 ```
-qosprofile qos1 {
+qosprofile **qos1** {
 	
 }
 
