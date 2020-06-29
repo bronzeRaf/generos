@@ -27,7 +27,7 @@ $ sudo bash install.bash
 You are done!
 
 REMEMBER! You will also need to install a ROS2 in your system to test your generated package, but you still can generate them...
-You can find ROS2 [here](https://index.ros.org/doc/ros2/Installation/Crystal/Linux-Install-Binary/).
+You can find ROS2 [here](https://index.ros.org/doc/ros2/Installation/Crystal/Linux-Install-Binary/ "Install ROS2"){:target="_blank"}.
 
 
 ### Manual Install
