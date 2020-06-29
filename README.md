@@ -74,7 +74,7 @@ A GRS program consist of many Commands. A command could be:
 Package | Node | Parameter | Publisher | Subscriber | Client | Server | ActionServer | ActionClient | Dependency | Message | ServiceMessage | ActionInterface | QoSProfile
 
 Commands could be placed in any order. Every Command consinst of some special Components, based on its type.
-Below you can see the components per Command. In these examples, in the comments you can see the datatype of any Component, if this component is optional or reqiured and if it is single component or not. For example a ROS2 package could have many nodes, but only one maintainer. Multiple components are separated by spaces. Bold letters mean that you need to replace them with your code. The order of the Components inside a Command is critical and could not be changed.
+Below you can see the components per Command. In these examples, in the comments you can see the datatype of any Component, if this component is optional or reqiured and if it is single component or not. For example a ROS2 package could have many nodes, but only one maintainer. Multiple components are separated by spaces. Anything between double ssterisks ``(**anything**)`` means that you need to replace them with your code. The order of the Components inside a Command is critical and could not be changed.
 
 ### Comments
 In GRS comments start with // and takes all the rest of the line.
