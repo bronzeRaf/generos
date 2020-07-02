@@ -54,12 +54,15 @@ To run Generos you will need a GRS file, with the model representing the system 
 After saving the GRS file that represents your awesome ROS2 System run:
 
 ```
-$ sudo bash path-to-generos-installation/generos.bash path-to-GRS/model.grs
+$ sudo bash path-to-generos-installation/generos.bash path-to-GRS/model.grs path-to-output
 
 ```
 Replacing:
 - "path-to-generos-installation" with the path to the installation folder of generos
 - "path-to-GRS/model.grs" with the path to the GRS file
+- "path-to-output" with the path you would like to save the generated system
+
+Find your awesome ROS2 System in "path-to-output"/workspace
 
 Generos works with both absolute and relative paths. 
 
@@ -328,17 +331,17 @@ This folder contains all the [jinja2](https://buildmedia.readthedocs.org/media/p
 - The temp_pdf.css is a template of the css used in the pdf documentation of every package. It contains all the classes for an easy to read documentation.
 
 
-### workspace:
-This folder is generated from the ROS2 package generator mechanism of Generos. It contains the "src" folder with the package "interfaces" and all the created by the user packages. The package "interfaces" is a Cpp package, implementing all the custom action, srv and msg that the user created. The rest of the packages, are those the user created, generated in Python. In the packages there is one enrty point per node, an executable called "{Node's name}_exec" to the function called "main" inside the nodes. For every Client into a node, there is another entry point named "{Node's name}_{Client's name}" to the function called "{Client's name}". In addition, the "System Graph.png" image contains a representation of the generated system. It represents all the Nodes, the Topics (Publishers and Subscribers), the Services (Clients and Servers) and the Actions (Action Clients and Action Server) that the system contains independent of their packages. It is a comynication diagramm that demonstrates all the flow of the information inside the ROS system. It is created from [NetworkX](https://networkx.github.io/ "NetworkX") and [Matplotlib](https://matplotlib.org/ "Matplotlib").
+### example:
+This folder is generated from the ROS2 package generator mechanism of Generos. It contains the workspace and the "src" folders with the package "interfaces" and all the created by the user packages, as an example. The package "interfaces" is a Cpp package, implementing all the custom action, srv and msg that the user created. The rest of the packages, are those the a user created, generated in Python. In the packages there is one enrty point per node, an executable called "{Node's name}_exec" to the function called "main" inside the nodes. For every Client into a node, there is another entry point named "{Node's name}_{Client's name}" to the function called "{Client's name}". In addition, the "System Graph.png" image contains a representation of the generated system. It represents all the Nodes, the Topics (Publishers and Subscribers), the Services (Clients and Servers) and the Actions (Action Clients and Action Server) that the system contains independent of their packages. It is a comynication diagramm that demonstrates all the flow of the information inside the ROS system. It is created from [NetworkX](https://networkx.github.io/ "NetworkX") and [Matplotlib](https://matplotlib.org/ "Matplotlib").
 
-To run the executables After generating the code from the model go to the workspace root (folder named "workspace") in terminal and run the comands:
+To run the executables After generating the code from the model go to the workspace root (folder named "example/workspace") in terminal and run the comands:
 ```
 $ colcon build
 $ . install/setup.bash
 $ ros2 run {package_name} {executable_name}
 ```
 
-You can now open multiple terminals from the workspace root (folder named "workspace") and run executables simultaneously. You don't need to build the packages again, just to locate the ROS2. so run the commands:
+You can now open multiple terminals from the workspace root (folder named "example/workspace") and run executables simultaneously. You don't need to build the packages again, just to locate the ROS2. so run the commands:
 ```
 $ . install/setup.bash
 $ ros2 run {package_name} {executable_name}

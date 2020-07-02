@@ -105,8 +105,8 @@
       <hasActionServers xsi:type="metamodel:ActionServer" actioninterface="//@hasPackages.0/@hasActionInterfaces.0" name="as1"/>
     </hasNodes>
     <hasNodes xsi:type="metamodel:Node" name="node3" namespace="name/space3">
-      <hasClients xsi:type="metamodel:Client" name="c1" servicePath="path" servicemessage="//@hasPackages.0/@hasServiceMessages.0" serviceName="service1" qosprofile="//@hasQosProfiles.0"/>
       <hasSubscribers xsi:type="metamodel:Subscriber" topicPath="topic/path/1" name="sub1" smsg="//@hasPackages.0/@hasTopicMessages.0"/>
+      <hasClients xsi:type="metamodel:Client" name="c1" servicePath="path" servicemessage="//@hasPackages.0/@hasServiceMessages.0" serviceName="service1" qosprofile="//@hasQosProfiles.0"/>
     </hasNodes>
     <hasDependencies xsi:type="metamodel:PackageDependency" package="//@hasPackages.4"/>
     <hasDocumentation xsi:type="metamodel:Documentation"/>

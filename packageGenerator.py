@@ -28,21 +28,30 @@ import matplotlib.pyplot as plt
 sys.path.append(os.path.join(os.path.dirname(__file__),'metamodelLib'))
 import metamodel
 
+# Obtain Generos Install directory
+install_dir = str(os.path.dirname(__file__))
+
 # Count arguments
-if len(sys.argv) < 2 or  len(sys.argv) > 3:
+if len(sys.argv) < 2 or  len(sys.argv) > 4:
     print ('Please give at least an XMI file name (model) and optionaly an Ecore file name (metamodel)')
     sys.exit(0)
 # Obtain model filename
-model_filename = os.path.relpath(sys.argv[1], str(os.path.dirname(__file__)))
-# Obtain metamodel filename
+model_filename = os.path.relpath(sys.argv[1], install_dir)
+# Obtain output directory
 if len(sys.argv) == 3:
-	metamodel_filename = os.path.relpath(sys.argv[2], str(os.path.dirname(__file__)))
-	
-else:
+	destination = os.path.relpath(sys.argv[2], install_dir)
+	print(destination)
 	metamodel_filename = 'metamodelLib/metamodel.ecore'
+elif len(sys.argv) == 4:
+	destination = os.path.relpath(sys.argv[2], install_dir)
+	metamodel_filename = os.path.relpath(sys.argv[3], install_dir)
+else:
+	destination = 'workspace'
+	metamodel_filename = 'metamodelLib/metamodel.ecore'
+	
 # Go to working directory
-if str(os.path.dirname(__file__)) != '':
-	os.chdir(str(os.path.dirname(__file__)))
+if install_dir != '':
+	os.chdir(install_dir)
 		
 # Create rset and load Metamodel
 global_registry[Ecore.nsURI] = Ecore  
@@ -58,8 +67,8 @@ rset.metamodel_registry[root.nsURI] = root
 model_root = rset.get_resource(URI(model_filename)).contents[0]
 
 # Create the workspace directory tree
-os.system('mkdir workspace')
-os.chdir('workspace')
+os.system('mkdir '+destination)
+os.chdir(destination)
 os.system('mkdir src')
 os.chdir('src')
 os.system('mkdir interfaces')
@@ -1007,4 +1016,4 @@ nx.draw_networkx_edge_labels(G, pos=pos, edge_labels=edge_labels, font_size=8, m
 # Plot Legend
 plt.legend(loc = 'best', scatterpoints=1, labelspacing=4.5, handletextpad = 3, borderpad = 3)
 # Save figure as image
-plt.savefig("System Graph.png") 
+plt.savefig('System Graph.png') 
