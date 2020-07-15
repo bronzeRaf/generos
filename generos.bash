@@ -8,6 +8,7 @@ fi
 
 install=$(dirname $0)
 cd $install
+
 # Run the DSL
 python3 dsl/run_generos_model.py $1
 sudo chmod 777 -R models/generos.xmi

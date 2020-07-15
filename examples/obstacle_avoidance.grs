@@ -1,0 +1,76 @@
+// ROS 2 package
+package pack1{
+	path = "path/to/pack1"
+	license = "Apache License 2.0"
+	maintainer = "bronzeRaf"
+	email = "rnm1816@gmail.com"
+	hasNodes = sonar1, sonar2, cpu 
+}
+
+// Node CPU
+node cpu{
+	hasPublishers = toActuators
+	hasSubscribers = fromSonar1, fromSonar2
+}
+
+// Node Sonar1
+node sonar1{
+	hasPublishers = toCpu1
+}
+
+// Node Sonar2
+node sonar2{
+	hasPublishers = toCpu2
+}
+
+// Subscriber fromSonar1 (CPU receives data from sonar1)
+subscriber fromSonar1{
+	topicPath = "topic/path/s1"
+	message = Distance
+	qos = sonarsQoS
+}
+
+// Subscriber fromSonar2 (CPU receives data from sonar2)
+subscriber fromSonar2{
+	topicPath = "topic/path/s2"
+	message = Distance
+	qos = sonarsQoS
+}
+
+// Publisher toActuators (CPU sends data to actuators)
+publisher toActuators{
+	topicPath = "topic/path/act"
+	publishRate = 0.5
+	message = Twist
+}
+
+// Publisher toCpu1 (Sonar1 sends data to CPU)
+publisher toCpu1{
+	topicPath = "topic/path/s1"
+	publishRate = 0.5
+	message = Distance
+	qos = sonarsQoS
+}
+
+// Publisher toCpu2 (Sonar2 sends data to CPU)
+publisher toCpu2{
+	topicPath = "topic/path/s2"
+	publishRate = 0.5
+	message = Distance
+	qos = sonarsQoS
+}
+
+// Message Distance (Used for Sonar scans)
+message Distance{
+	description = "This is a Message to provide a timestamped range value from Sonar sensors"
+	rostype Header h, std_msgs, description = "Timestamp Header of the distance"
+	datatype float32 range, description = "range from obstacle in meters"
+}
+
+// Define the Twist message to use it
+message Twist package = "geometry_msgs"
+
+qosprofile sonarsQoS{
+	history = "KEEP_LAST"
+	depth = 15
+}

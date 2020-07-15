@@ -376,7 +376,7 @@ def main(debug=False):
 		print ('Please give at least an GRS file name (input model) and optionaly an XMI file name (output model)')
 		sys.exit(0)
 	# Obtain GRS model filename
-	grs_filename = os.path.relpath(sys.argv[1], str(os.path.dirname(__file__)))
+	grs_filename = os.path.relpath(sys.argv[1], str(os.getcwd()))
 	# Obtain XMI model filename
 	if len(sys.argv) == 3:
 		xmi_filename = sys.argv[2]

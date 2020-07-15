@@ -28,21 +28,21 @@ Package:
 		'maintainer' '=' maintainer = STRING
 		'email' '=' email = STRING
 		('builtin' '=' builtin=BOOL)?
-		('hasNode' '=' hasNodes *= [Node][eolterm])?
-		('hasDependency' '=' hasDependencies *= [Dependency][eolterm])?		
+		('hasNodes' '=' hasNodes *= [Node][','])?
+		('hasDependencies' '=' hasDependencies *= [Dependency][','])?
     '}'
 ;
 
 Node:
     'node' name=ID '{'
 		('namespace' '=' namespace=STRING)?
-		('hasParameter' '=' hasParameters *= [Parameter][eolterm])?
-		('hasPublisher' '=' hasPublishers *= [Publisher][eolterm])?
-		('hasSubscriber' '=' hasSubscribers *= [Subscriber][eolterm])?
-		('hasServer' '=' hasServers *= [Server][eolterm])?
-		('hasClient' '=' hasClients *= [Client][eolterm])?
-		('hasActionServer' '=' hasActionServers *= [ActionServer][eolterm])?
-		('hasActionClient' '=' hasActionClients *= [ActionClient][eolterm])?
+		('hasParameters' '=' hasParameters *= [Parameter][','])?
+		('hasPublishers' '=' hasPublishers *= [Publisher][','])?
+		('hasSubscribers' '=' hasSubscribers *= [Subscriber][','])?
+		('hasServers' '=' hasServers *= [Server][','])?
+		('hasClients' '=' hasClients *= [Client][','])?
+		('hasActionServers' '=' hasActionServers *= [ActionServer][','])?
+		('hasActionClients' '=' hasActionClients *= [ActionClient][','])?
     '}'
 ;
 
@@ -177,7 +177,7 @@ Object:
 
 
 Primitive:
-	'prim' type=ID ','
+	'datatype' type=ID
 		name=ID
 		(',' 'description''=' description=STRING)? 
 		(',' 'constant''=' constant=BOOL)? 
@@ -185,7 +185,7 @@ Primitive:
 ;
 
 ROSData: 
-	'ros' type=ID ',' 
+	'rostype' type=ID
 	name=ID ',' 
 	package=ID 
 	(',' 'description''=' description=STRING)? 

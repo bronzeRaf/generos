@@ -64,7 +64,7 @@ Replacing:
 
 Find your awesome ROS2 System in "path-to-output"/workspace
 
-Generos works with both absolute and relative paths. 
+!NOTICE! Generos run script works with absolute paths. 
 
 That's it, Enjoy Package Generating!
 

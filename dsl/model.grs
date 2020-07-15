@@ -4,8 +4,8 @@ package pack1 {
 	maintainer = "bronzeRaf"
 	email = "rnm1816@gmail.com"
 	builtin = False
-	hasNode = node1 node3
-	hasDependency = dep1
+	hasNodes = node1, node3
+	hasDependencies = dep1
 }
 
 package pack2 {
@@ -14,40 +14,40 @@ package pack2 {
 	maintainer = "bronzeRaf"
 	email = "rnm1816@gmail.com"
 	builtin = False
-	hasNode = node2
-	
+	hasNodes = node2
 }
+
 subscriber sub1{
 	topicPath = "topic/path/1"
 	message = M1
-	
 }
 
 publisher pub1{
 	topicPath = "topic/path/1"
 	publishRate = 10
 	message = M1
-	
 }
 
 node node1 {
-		hasParameter = p1
-		hasSubscriber = sub1
-		hasServer = s1 s2
-		hasActionServer = as1
-		hasActionClient = as2
+	hasParameters = p1
+	hasSubscribers = sub1
+	hasServers = s1, s2
+	hasActionServers = as1
+	hasActionClients = as2
 }
+
 node node2 {
-		namespace = "name/space2"
-		hasPublisher = pub1
-		hasClient = c1
-		hasActionServer = as2
-		hasActionClient = as1
+	namespace = "name/space2"
+	hasPublishers = pub1
+	hasClients = c1
+	hasActionServers = as2
+	hasActionClients = as1
 }
+
 node node3 {
-		namespace = "name/space3"
-		hasSubscriber = sub1
-		hasClient = c1
+	namespace = "name/space3"
+	hasSubscribers = sub1
+	hasClients = c2
 }
 
 parameter p1{
@@ -62,73 +62,84 @@ server s1{
 	qos = q1
 }
 
-
 server s2{
 	servicePath = "path2"
 	serviceName = "service2"
 	service = SetBool
 	qos = q1
 }
+
 client c1{
 	servicePath = "path"
 	serviceName = "service1"
 	service = Addtwo
 	qos = q1
 }
+
+client c2{
+	servicePath = "path2"
+	serviceName = "service2"
+	service = Addtwo
+	qos = q1
+}
+
 dependency dep1{
 	package = pack2
 }
 
-
 message M1{
-	prim int64, a, description = "description..."
-	prim bool, b, description = "description333...", default = "False"
-	prim bool, c, description = "descripssstion333..."
-	ros Header, h, std_msgs
-	prim string, s, description = "description444..."
-	prim float32, y, description = "description222..."
+	datatype int64 a, description = "description..."
+	datatype bool b, description = "description333...", default = "False"
+	datatype bool c, description = "descripssstion333..."
+	rostype Header h, std_msgs
+	datatype string s, description = "description444..."
+	datatype float32 y, description = "description222..."
 }
 
 service Addtwo{
 	request:
-		prim int32, x, description = "first number", default = "0"
-		prim int32, y, description = "second number", default = "0"
+		datatype int32 x, description = "first number", default = "0"
+		datatype int32 y, description = "second number", default = "0"
 	response:	
-		prim bool, b, description = "descripssstion333..."
-		ros Header, h, std_msgs
-		prim int64, z, description = "The sum of x+y"
+		datatype bool b, description = "descripssstion333..."
+		rostype Header h, std_msgs
+		datatype int64 z, description = "The sum of x+y"
 }
 
 action Increase{
 	goal:
-		prim int32, start, description = "start number", default = "0"
-		prim int32, stop, description = "stop number", default = "0"
+		datatype int32 start, description = "start number", default = "0"
+		datatype int32 stop, description = "stop number", default = "0"
 	result:	
-		prim bool, resus, description = "descripssstion333..."
+		datatype bool resus, description = "descripssstion333..."
 	feedback:
-		ros Header, h, std_msgs
-		prim int64, z, description = "The counter"
+		rostype Header h, std_msgs
+		datatype int64 z, description = "The counter"
 }
 
 action Dec{
 	goal:
-		prim int64, x1, description = "number 1", default = "0"
-		prim float64, x2, description = "number 2", default = "0"
+		datatype int64 x1, description = "number 1", default = "0"
+		datatype float64 x2, description = "number 2", default = "0"
 	result:	
-		prim float64, y, description = "the result"
+		datatype float64 y, description = "the result"
 	feedback:
-		ros Header, h, std_msgs
-		prim float64, yt, description = "The current result"
+		rostype Header h, std_msgs
+		datatype float64 yt, description = "The current result"
 }
+
 actionServer as1{
 	action = Increase
 }
+
 actionClient as1{
 	action = Increase
 }
+
 actionServer as2{
 	action = Dec
 }
+
 actionClient as2{
 	action = Dec
 }

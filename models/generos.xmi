@@ -1,131 +1,36 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <metamodel:ROSSystem xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel="http://www.example.org/metamodel" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="My_dsl_ROS_system" xmi:version="2.0">
-  <hasPackages xsi:type="metamodel:Package" packagePath="" name="interfaces">
-    <hasTopicMessages xsi:type="metamodel:CustomMessage" name="M1" description="">
-      <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="a" description="description..." default="">
-        <datatype xsi:type="metamodel:Int" type="int64"/>
-      </hasObjectProperties>
-      <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="b" description="description333..." default="False">
-        <datatype xsi:type="metamodel:Bool" type="bool"/>
-      </hasObjectProperties>
-      <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="c" description="descripssstion333..." default="">
-        <datatype xsi:type="metamodel:Bool" type="bool"/>
-      </hasObjectProperties>
-      <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="h" description="" default="">
+  <hasPackages xsi:type="metamodel:Package" name="interfaces" packagePath="">
+    <hasTopicMessages xsi:type="metamodel:CustomMessage" name="Distance" description="This is a Message to provide a timestamped range value from Sonar sensors">
+      <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="h" description="Timestamp Header of the distance" default="">
         <datatype xsi:type="metamodel:ROSData" type="Header" package="std_msgs"/>
       </hasObjectProperties>
-      <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="s" description="description444..." default="">
-        <datatype xsi:type="metamodel:String" type="string"/>
-      </hasObjectProperties>
-      <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="y" description="description222..." default="">
+      <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="range" description="range from obstacle in meters" default="">
         <datatype xsi:type="metamodel:Float"/>
       </hasObjectProperties>
     </hasTopicMessages>
-    <hasActionInterfaces xsi:type="metamodel:CustomActionInterface" name="Increase" description="">
-      <hasGoal xsi:type="metamodel:Goal">
-        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="start" description="start number" default="0">
-          <datatype xsi:type="metamodel:Int" type="int32"/>
-        </hasObjectProperties>
-        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="stop" description="stop number" default="0">
-          <datatype xsi:type="metamodel:Int" type="int32"/>
-        </hasObjectProperties>
-      </hasGoal>
-      <hasFeedback xsi:type="metamodel:Feedback">
-        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="h" description="" default="">
-          <datatype xsi:type="metamodel:ROSData" type="Header" package="std_msgs"/>
-        </hasObjectProperties>
-        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="z" description="The counter" default="">
-          <datatype xsi:type="metamodel:Int" type="int64"/>
-        </hasObjectProperties>
-      </hasFeedback>
-      <hasResult xsi:type="metamodel:Result">
-        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="resus" description="descripssstion333..." default="">
-          <datatype xsi:type="metamodel:Bool" type="bool"/>
-        </hasObjectProperties>
-      </hasResult>
-    </hasActionInterfaces>
-    <hasActionInterfaces xsi:type="metamodel:CustomActionInterface" name="Dec" description="">
-      <hasGoal xsi:type="metamodel:Goal">
-        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="x1" description="number 1" default="0">
-          <datatype xsi:type="metamodel:Int" type="int64"/>
-        </hasObjectProperties>
-        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="x2" description="number 2" default="0">
-          <datatype xsi:type="metamodel:Float" type="float64"/>
-        </hasObjectProperties>
-      </hasGoal>
-      <hasFeedback xsi:type="metamodel:Feedback">
-        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="h" description="" default="">
-          <datatype xsi:type="metamodel:ROSData" type="Header" package="std_msgs"/>
-        </hasObjectProperties>
-        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="yt" description="The current result" default="">
-          <datatype xsi:type="metamodel:Float" type="float64"/>
-        </hasObjectProperties>
-      </hasFeedback>
-      <hasResult xsi:type="metamodel:Result">
-        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="y" description="the result" default="">
-          <datatype xsi:type="metamodel:Float" type="float64"/>
-        </hasObjectProperties>
-      </hasResult>
-    </hasActionInterfaces>
-    <hasServiceMessages xsi:type="metamodel:CustomService" name="Addtwo" description="">
-      <hasResponse xsi:type="metamodel:Response">
-        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="b" description="descripssstion333..." default="">
-          <datatype xsi:type="metamodel:Bool" type="bool"/>
-        </hasObjectProperties>
-        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="h" description="" default="">
-          <datatype xsi:type="metamodel:ROSData" type="Header" package="std_msgs"/>
-        </hasObjectProperties>
-        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="z" description="The sum of x+y" default="">
-          <datatype xsi:type="metamodel:Int" type="int64"/>
-        </hasObjectProperties>
-      </hasResponse>
-      <hasRequest xsi:type="metamodel:Request">
-        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="x" description="first number" default="0">
-          <datatype xsi:type="metamodel:Int" type="int32"/>
-        </hasObjectProperties>
-        <hasObjectProperties xsi:type="metamodel:ObjectProperty" name="y" description="second number" default="0">
-          <datatype xsi:type="metamodel:Int" type="int32"/>
-        </hasObjectProperties>
-      </hasRequest>
-    </hasServiceMessages>
   </hasPackages>
-  <hasPackages xsi:type="metamodel:Package" name="std_msgs" packagePath="" builtin="true">
-    <hasTopicMessages xsi:type="metamodel:RosMessage" name="Header" package="std_msgs"/>
+  <hasPackages xsi:type="metamodel:Package" name="geometry_msgs" packagePath="" builtin="true">
+    <hasTopicMessages xsi:type="metamodel:RosMessage" name="Twist" package="geometry_msgs"/>
   </hasPackages>
-  <hasPackages xsi:type="metamodel:Package" name="std_srvs" packagePath="" builtin="true">
-    <hasServiceMessages xsi:type="metamodel:RosService" package="std_srvs" name="SetBool"/>
-  </hasPackages>
-  <hasPackages xsi:type="metamodel:Package" maintainer="bronzeRaf" name="pack1" license="The license is MIT" email="rnm1816@gmail.com">
-    <hasNodes xsi:type="metamodel:Node" name="node1" namespace="">
-      <hasSubscribers xsi:type="metamodel:Subscriber" topicPath="topic/path/1" name="sub1" smsg="//@hasPackages.0/@hasTopicMessages.0"/>
-      <hasParameters xsi:type="metamodel:Parameter" name="p1" description="" type="INTEGER_ARRAY" value="32"/>
-      <hasActionClients xsi:type="metamodel:ActionClient" name="as2" actioninterface="//@hasPackages.0/@hasActionInterfaces.1"/>
-      <hasServers xsi:type="metamodel:Server" serviceName="service1" qosprofile="//@hasQosProfiles.0" name="s1" servicePath="path" servicemessage="//@hasPackages.0/@hasServiceMessages.0"/>
-      <hasServers xsi:type="metamodel:Server" serviceName="service2" qosprofile="//@hasQosProfiles.0" name="s2" servicePath="path2" servicemessage="//@hasPackages.2/@hasServiceMessages.0"/>
-      <hasActionServers xsi:type="metamodel:ActionServer" actioninterface="//@hasPackages.0/@hasActionInterfaces.0" name="as1"/>
+  <hasPackages xsi:type="metamodel:Package" maintainer="bronzeRaf" name="pack1" license="Apache License 2.0" email="rnm1816@gmail.com">
+    <hasNodes xsi:type="metamodel:Node" name="sonar1" namespace="">
+      <hasPublishers xsi:type="metamodel:Publisher" name="toCpu1" topicPath="topic/path/s1" pmsg="//@hasPackages.0/@hasTopicMessages.0" publishRate="0.5" qosprofile="//@hasQosProfiles.0"/>
     </hasNodes>
-    <hasNodes xsi:type="metamodel:Node" name="node3" namespace="name/space3">
-      <hasSubscribers xsi:type="metamodel:Subscriber" topicPath="topic/path/1" name="sub1" smsg="//@hasPackages.0/@hasTopicMessages.0"/>
-      <hasClients xsi:type="metamodel:Client" name="c1" servicePath="path" servicemessage="//@hasPackages.0/@hasServiceMessages.0" serviceName="service1" qosprofile="//@hasQosProfiles.0"/>
+    <hasNodes xsi:type="metamodel:Node" name="sonar2" namespace="">
+      <hasPublishers xsi:type="metamodel:Publisher" name="toCpu2" topicPath="topic/path/s2" pmsg="//@hasPackages.0/@hasTopicMessages.0" publishRate="0.5" qosprofile="//@hasQosProfiles.0"/>
     </hasNodes>
-    <hasDependencies xsi:type="metamodel:PackageDependency" package="//@hasPackages.4"/>
-    <hasDocumentation xsi:type="metamodel:Documentation"/>
-  </hasPackages>
-  <hasPackages xsi:type="metamodel:Package" maintainer="bronzeRaf" name="pack2" license="The license is MIT" email="rnm1816@gmail.com">
-    <hasNodes xsi:type="metamodel:Node" name="node2" namespace="name/space2">
-      <hasClients xsi:type="metamodel:Client" name="c1" servicePath="path" servicemessage="//@hasPackages.0/@hasServiceMessages.0" serviceName="service1" qosprofile="//@hasQosProfiles.0"/>
-      <hasActionClients xsi:type="metamodel:ActionClient" name="as1" actioninterface="//@hasPackages.0/@hasActionInterfaces.0"/>
-      <hasPublishers xsi:type="metamodel:Publisher" name="pub1" topicPath="topic/path/1" publishRate="10.0" pmsg="//@hasPackages.0/@hasTopicMessages.0"/>
-      <hasActionServers xsi:type="metamodel:ActionServer" actioninterface="//@hasPackages.0/@hasActionInterfaces.1" name="as2"/>
+    <hasNodes xsi:type="metamodel:Node" name="cpu" namespace="">
+      <hasSubscribers xsi:type="metamodel:Subscriber" topicPath="topic/path/s1" name="fromSonar1" smsg="//@hasPackages.0/@hasTopicMessages.0" qosprofile="//@hasQosProfiles.0"/>
+      <hasSubscribers xsi:type="metamodel:Subscriber" topicPath="topic/path/s2" name="fromSonar2" smsg="//@hasPackages.0/@hasTopicMessages.0" qosprofile="//@hasQosProfiles.0"/>
+      <hasPublishers xsi:type="metamodel:Publisher" name="toActuators" topicPath="topic/path/act" publishRate="0.5" pmsg="//@hasPackages.1/@hasTopicMessages.0"/>
     </hasNodes>
     <hasDocumentation xsi:type="metamodel:Documentation"/>
   </hasPackages>
-  <graph xsi:type="metamodel:Graph" nodes="//@hasPackages.3/@hasNodes.0 //@hasPackages.3/@hasNodes.1 //@hasPackages.4/@hasNodes.0">
-    <hasTopics xsi:type="metamodel:Topic" topicPath="topic/path/1" subscriber="//@hasPackages.3/@hasNodes.0/@hasSubscribers.0 //@hasPackages.3/@hasNodes.1/@hasSubscribers.0" publisher="//@hasPackages.4/@hasNodes.0/@hasPublishers.0"/>
-    <hasActionLinks xsi:type="metamodel:ActionLink" actionserver="//@hasPackages.3/@hasNodes.0/@hasActionServers.0" actionclient="//@hasPackages.4/@hasNodes.0/@hasActionClients.0" name="as1"/>
-    <hasActionLinks xsi:type="metamodel:ActionLink" actionserver="//@hasPackages.4/@hasNodes.0/@hasActionServers.0" actionclient="//@hasPackages.3/@hasNodes.0/@hasActionClients.0" name="as2"/>
-    <hasServiceLinks xsi:type="metamodel:ServiceLink" client="//@hasPackages.3/@hasNodes.1/@hasClients.0 //@hasPackages.4/@hasNodes.0/@hasClients.0" server="//@hasPackages.3/@hasNodes.0/@hasServers.0" name="service1"/>
-    <hasServiceLinks xsi:type="metamodel:ServiceLink" server="//@hasPackages.3/@hasNodes.0/@hasServers.1" name="service2"/>
+  <graph xsi:type="metamodel:Graph" nodes="//@hasPackages.2/@hasNodes.0 //@hasPackages.2/@hasNodes.1 //@hasPackages.2/@hasNodes.2">
+    <hasTopics xsi:type="metamodel:Topic" topicPath="topic/path/s1" subscriber="//@hasPackages.2/@hasNodes.2/@hasSubscribers.0" publisher="//@hasPackages.2/@hasNodes.0/@hasPublishers.0"/>
+    <hasTopics xsi:type="metamodel:Topic" topicPath="topic/path/s2" subscriber="//@hasPackages.2/@hasNodes.2/@hasSubscribers.1" publisher="//@hasPackages.2/@hasNodes.1/@hasPublishers.0"/>
+    <hasTopics xsi:type="metamodel:Topic" topicPath="topic/path/act" publisher="//@hasPackages.2/@hasNodes.2/@hasPublishers.0"/>
   </graph>
-  <hasQosProfiles xsi:type="metamodel:CustomQosProfile" reliability="RELIABLE" history="KEEP_ALL"/>
+  <hasQosProfiles xsi:type="metamodel:CustomQosProfile" history="KEEP_LAST" depth="15"/>
 </metamodel:ROSSystem>

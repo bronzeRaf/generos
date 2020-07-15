@@ -998,7 +998,7 @@ for n in model_root.graph.hasTopics:
 # Make plot
 plt.subplots(1, figsize=(16,16))
 # Obtain position
-pos = nx.shell_layout(G)
+pos = nx.spiral_layout(G)
 # Plot Nodes
 nx.draw_networkx_nodes(G,pos=pos,nodelist=node_nodes, node_size=2300, node_color='skyblue', label='Nodes', with_labels = True, alpha = 0.5)
 # Plot Services
@@ -1010,7 +1010,7 @@ nx.draw_networkx_nodes(G,pos=pos,nodelist=node_topics, node_size=2300, node_colo
 # Plot Labels on Nodes
 nx.draw_networkx_labels(G,pos=pos, labels = node_labels, font_size = 8, alpha = 0.8)
 # Plot Edges
-nx.draw_networkx_edges(G, pos, width=1, arrows = True)
+nx.draw_networkx_edges(G, pos, width=1, arrows = True, min_source_margin = 30, min_target_margin = 30)
 # Plot Labels on Edges
 nx.draw_networkx_edge_labels(G, pos=pos, edge_labels=edge_labels, font_size=8, margin = 180)
 # Plot Legend
