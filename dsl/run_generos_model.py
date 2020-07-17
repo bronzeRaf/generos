@@ -242,7 +242,7 @@ class RosSystem(object):
 		#Create packages
 		for p in model.commands:
 			if p.__class__.__name__ == "Package":
-				package_bag[p.name] = metamodel.Package(name = p.name, builtin = p.builtin, license = p.license, maintainer = p.maintainer, email = p.email)
+				package_bag[p.name] = metamodel.Package(name = p.name, builtin = p.builtin, license = p.license, maintainer = p.maintainer, email = p.email, description = p.description, packagePath = p.packagePath)
 				self.rosystem.hasPackages.extend([package_bag[p.name]])
 				# Documentation implement
 				package_bag[p.name].hasDocumentation = metamodel.Documentation()
@@ -376,6 +376,7 @@ def main(debug=False):
 		print ('Please give at least an GRS file name (input model) and optionaly an XMI file name (output model)')
 		sys.exit(0)
 	# Obtain GRS model filename
+	# ~ grs_filename = os.path.relpath(sys.argv[1], str(os.getcwd()))
 	grs_filename = os.path.relpath(sys.argv[1], str(os.getcwd()))
 	# Obtain XMI model filename
 	if len(sys.argv) == 3:

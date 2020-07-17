@@ -23,10 +23,12 @@ Command:
 
 Package:
     'package' name=ID '{'
+		('description' '=' description=STRING)?
 		'path' '=' packagePath=STRING
 		'license' '=' license = STRING
 		'maintainer' '=' maintainer = STRING
 		'email' '=' email = STRING
+		'version' '=' version=STRING
 		('builtin' '=' builtin=BOOL)?
 		('hasNodes' '=' hasNodes *= [Node][','])?
 		('hasDependencies' '=' hasDependencies *= [Dependency][','])?

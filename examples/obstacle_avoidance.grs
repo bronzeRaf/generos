@@ -1,9 +1,11 @@
 // ROS 2 package
-package pack1{
+package obstacle_avoidance{
+	description = "This is a package that implements an obstacle avoidance algorithm for a robot of one CPU and two SONARS."
 	path = "path/to/pack1"
 	license = "Apache License 2.0"
 	maintainer = "bronzeRaf"
 	email = "rnm1816@gmail.com"
+	version = "Eloquent Elusor"
 	hasNodes = sonar1, sonar2, cpu 
 }
 

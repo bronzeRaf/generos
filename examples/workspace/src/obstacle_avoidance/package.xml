@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>pack1</name>
+  <name>obstacle_avoidance</name>
   <version>0.0.0</version>
-  <description>None</description>
+  <description>This is a package that implements an obstacle avoidance algorithm for a robot of one CPU and two SONARS.</description>
   <maintainer email="rnm1816@gmail.com">bronzeRaf</maintainer>
   <license>Apache License 2.0</license>
 

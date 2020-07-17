@@ -13,7 +13,7 @@
   <hasPackages xsi:type="metamodel:Package" name="geometry_msgs" packagePath="" builtin="true">
     <hasTopicMessages xsi:type="metamodel:RosMessage" name="Twist" package="geometry_msgs"/>
   </hasPackages>
-  <hasPackages xsi:type="metamodel:Package" maintainer="bronzeRaf" name="pack1" license="Apache License 2.0" email="rnm1816@gmail.com">
+  <hasPackages xsi:type="metamodel:Package" packagePath="path/to/pack1" maintainer="bronzeRaf" name="obstacle_avoidance" license="Apache License 2.0" email="rnm1816@gmail.com" description="This is a package that implements an obstacle avoidance algorithm for a robot of one CPU and two SONARS.">
     <hasNodes xsi:type="metamodel:Node" name="sonar1" namespace="">
       <hasPublishers xsi:type="metamodel:Publisher" name="toCpu1" topicPath="topic/path/s1" pmsg="//@hasPackages.0/@hasTopicMessages.0" publishRate="0.5" qosprofile="//@hasQosProfiles.0"/>
     </hasNodes>
