@@ -18,12 +18,12 @@ package pack2 {
 }
 
 subscriber sub1{
-	topicPath = "topic/path/1"
+	topicPath = "topic/path1"
 	message = M1
 }
 
 publisher pub1{
-	topicPath = "topic/path/1"
+	topicPath = "topic/path1"
 	publishRate = 10
 	message = M1
 }

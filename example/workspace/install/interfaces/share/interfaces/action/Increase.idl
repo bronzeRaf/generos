@@ -1,0 +1,38 @@
+// generated from rosidl_adapter/resource/action.idl.em
+// with input from interfaces/action/Increase.action
+// generated code does not contain a copyright notice
+
+#include "std_msgs/msg/Header.idl"
+
+module interfaces {
+  module action {
+    @verbatim (language="comment", text=
+      " Action Increase definition")
+    struct Increase_Goal {
+      @verbatim (language="comment", text=
+        " Action Goal" "\n"
+        " start -- start number")
+      int32 start;
+
+      @verbatim (language="comment", text=
+        " stop -- stop number")
+      int32 stop;
+    };
+    struct Increase_Result {
+      @verbatim (language="comment", text=
+        " Action Result" "\n"
+        " resus -- descripssstion333...")
+      boolean resus;
+    };
+    struct Increase_Feedback {
+      @verbatim (language="comment", text=
+        " Action Feedback" "\n"
+        " h --")
+      std_msgs::msg::Header h;
+
+      @verbatim (language="comment", text=
+        " z -- The counter")
+      int64 z;
+    };
+  };
+};
