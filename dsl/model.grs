@@ -1,18 +1,22 @@
 package pack1 {
+	description = " P1 desc"
 	path = "path/to/pack1"
 	license = "The license is MIT"
 	maintainer = "bronzeRaf"
 	email = "rnm1816@gmail.com"
+	version = "eloquent"
 	builtin = False
 	hasNodes = node1, node3
 	hasDependencies = dep1
 }
 
 package pack2 {
+	description = " P1 desc"
 	path = "path/to/pack2"
 	license = "The license is MIT"
 	maintainer = "bronzeRaf"
 	email = "rnm1816@gmail.com"
+	version = "eloquent"
 	builtin = False
 	hasNodes = node2
 }
@@ -152,3 +156,30 @@ qosprofile q1{
 presetqos SENSOR_DATA
 message Header package = "std_msgs"
 service SetBool package = "std_srvs"
+
+ros package slam{
+	description = "SLAM pre-existing package"
+	path = "path/to/SLAM"
+	license = "Apache 2.0"
+	maintainer = "etsardoulias"
+	email = "etsardoulias@ece.auth.gr"
+	version = "eloquent"
+	builtin = False
+	hasNodes = slamer
+}
+subscriber laser{
+	topicPath = "topic/path1"
+	message = M1
+}
+
+publisher map{
+	topicPath = "topic/map"
+	publishRate = 10
+	message = M1
+}
+
+node slamer {
+	hasPublishers = map
+	hasSubscribers = laser
+}
+

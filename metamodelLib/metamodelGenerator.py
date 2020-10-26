@@ -17,7 +17,7 @@ import os
 # We load the Ecore metamodel first
 global_registry[Ecore.nsURI] = Ecore  
 rset = ResourceSet()
-resource = rset.get_resource(URI('metamodel.ecore'))
+resource = rset.get_resource(URI('metageneros.ecore'))
 # ~ rset.resource_factory['json'] = lambda uri: JsonResource(uri)
 root = resource.contents[0]  # We get the root (an EPackage here)
 # Register the metamodel (in case we open an XMI model later)

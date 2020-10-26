@@ -26,7 +26,8 @@ from jinja2 import Environment, FileSystemLoader
 import networkx as nx
 import matplotlib.pyplot as plt 
 sys.path.append(os.path.join(os.path.dirname(__file__),'metamodelLib'))
-import metamodel
+# ~ import metamodel
+import metageneros
 
 # Obtain Generos Install directory
 install_dir = str(os.path.dirname(__file__))
@@ -47,7 +48,7 @@ elif len(sys.argv) == 4:
 	metamodel_filename = os.path.relpath(sys.argv[3], install_dir)
 else:
 	destination = 'workspace'
-	metamodel_filename = 'metamodelLib/metamodel.ecore'
+	metamodel_filename = 'metamodelLib/metageneros.ecore'
 	
 # Go to working directory
 if install_dir != '':
@@ -58,7 +59,7 @@ global_registry[Ecore.nsURI] = Ecore
 rset = ResourceSet()
 # If you work with python package metamodel uncomment following line
 # ~ rset.metamodel_registry[metamodel.nsURI] = metamodel
-# if you with .ecore file metamodel ncomment following 3 lines
+# if you with .ecore file metamodel uncomment following 3 lines
 resource = rset.get_resource(URI(metamodel_filename))
 root = resource.contents[0]
 rset.metamodel_registry[root.nsURI] = root
@@ -93,8 +94,7 @@ env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
 template = env.get_template('temp_msg.msg')
 allmsg = []
 # Build the msg data to pass to the Template
-for t in model_root.hasPackages[0].hasTopicMessages:
-	
+for t in model_root.hasSoftware.hasPackages[0].hasTopicMessages:
 	message_data = {}
 	message_data['name'] = t.name
 	message_data['description'] = t.description
@@ -113,13 +113,16 @@ for t in model_root.hasPackages[0].hasTopicMessages:
 		objects.append(obj)
 	message_data['objects'] = objects
 	allmsg.append(message_data)
-	# Fire up the rendering proccess
-	output = template.render(objects = objects, message_data = message_data)
 	
-	# Write the generated file
-	dest='interfaces/msg/'+t.name+'.msg'
-	with open(dest, 'w') as f:
-		f.write(output)
+	# Build msg only if it doesn't exist
+	if t._container.__class__.__name__=="CustomPackage":
+		# Fire up the rendering proccess
+		output = template.render(objects = objects, message_data = message_data)
+		
+		# Write the generated file
+		dest='interfaces/msg/'+t.name+'.msg'
+		with open(dest, 'w') as f:
+			f.write(output)
 
 # Generate Service Messages	
 # ___________________________________________
@@ -127,7 +130,7 @@ for t in model_root.hasPackages[0].hasTopicMessages:
 template = env.get_template('temp_srv.srv')
 # Build the srv data to pass to the Template
 allsrv = []
-for t in model_root.hasPackages[0].hasServiceMessages:
+for t in model_root.hasSoftware.hasPackages[0].hasServiceMessages:
 	service_data = {}
 	service_data['name'] = t.name
 	service_data['description'] = t.description
@@ -162,13 +165,15 @@ for t in model_root.hasPackages[0].hasServiceMessages:
 	service_data['responses'] = response
 	allsrv.append(service_data)
 	
-	# Fire up the rendering proccess
-	output = template.render(request = request, response = response, service_data = service_data)
-	
-	# Write the generated file
-	dest='interfaces/srv/'+t.name+'.srv'
-	with open(dest, 'w') as f:
-		f.write(output)
+	# Build srv only if it doesn't exist
+	if t._container.__class__.__name__=="CustomPackage":
+		# Fire up the rendering proccess
+		output = template.render(request = request, response = response, service_data = service_data)
+		
+		# Write the generated file
+		dest='interfaces/srv/'+t.name+'.srv'
+		with open(dest, 'w') as f:
+			f.write(output)
 	
 # Generate Action Messages	
 # ___________________________________________
@@ -176,7 +181,7 @@ for t in model_root.hasPackages[0].hasServiceMessages:
 template = env.get_template('temp_action.action')
 # Build the srv data to pass to the Template
 allactions = []
-for t in model_root.hasPackages[0].hasActionInterfaces:
+for t in model_root.hasSoftware.hasPackages[0].hasActionInterfaces:
 	action_data = {}
 	action_data['name'] = t.name
 	action_data['description'] = t.description
@@ -224,15 +229,17 @@ for t in model_root.hasPackages[0].hasActionInterfaces:
 			r['package'] = "no"
 		feedback.append(r)
 	action_data['feedback'] = feedback
-	
 	allactions.append(action_data)
-	# Fire up the rendering proccess
-	output = template.render(goal = goal, result = result, feedback = feedback, action_data = action_data)
 	
-	# Write the generated file
-	dest='interfaces/action/'+t.name+'.action'
-	with open(dest, 'w') as f:
-		f.write(output)
+	# Build action only if it doesn't exist
+	if t._container.__class__.__name__=="CustomPackage":
+		# Fire up the rendering proccess
+		output = template.render(goal = goal, result = result, feedback = feedback, action_data = action_data)
+		
+		# Write the generated file
+		dest='interfaces/action/'+t.name+'.action'
+		with open(dest, 'w') as f:
+			f.write(output)
 
 # Generate interface package CMkakeLists.txt
 # ___________________________________________
@@ -244,7 +251,7 @@ smessages = []
 amessages = []
 depend = []
 # Custom message interfaces
-for t in model_root.hasPackages[0].hasTopicMessages:
+for t in model_root.hasSoftware.hasPackages[0].hasTopicMessages:
 	tmessages.append(t.name)
 	for tt in t.hasObjectProperties:
 		# Find packages and add dependencies from ros datatypes
@@ -252,7 +259,7 @@ for t in model_root.hasPackages[0].hasTopicMessages:
 			if tt.datatype.package not in depend:
 				depend.append(tt.datatype.package)
 # Custom service interfaces
-for t in model_root.hasPackages[0].hasServiceMessages:
+for t in model_root.hasSoftware.hasPackages[0].hasServiceMessages:
 	smessages.append(t.name)
 	for tt in t.hasResponse.hasObjectProperties:
 		# Find packages and add dependencies from ros datatypes
@@ -265,7 +272,7 @@ for t in model_root.hasPackages[0].hasServiceMessages:
 			if tt.datatype.package not in depend:
 				depend.append(tt.datatype.package)
 # Custom action interfaces
-for t in model_root.hasPackages[0].hasActionInterfaces:
+for t in model_root.hasSoftware.hasPackages[0].hasActionInterfaces:
 	amessages.append(t.name)
 	for tt in t.hasGoal.hasObjectProperties:
 		# Find packages and add dependencies from ros datatypes
@@ -336,21 +343,23 @@ with open(dest, 'w') as f:
 	f.write(output)
 
 # Build the packages
-for package in model_root.hasPackages:
+for package in model_root.hasSoftware.hasPackages:
 	if package.name == "interfaces" or package.builtin == True:
 		continue
-		
 	# Now the working directory is workspace/src
 	# Create the package directory tree
 	os.system('mkdir '+package.name)
 	os.chdir(package.name)
-	os.system('mkdir '+package.name)
-	os.system('mkdir resource')
-	os.chdir(package.name)
-	os.system('touch __init__.py')
-	os.chdir('../resource')
-	os.system('touch '+package.name)
-	os.chdir('..')
+	# RosPackages should not be implemented
+	if package.__class__.__name__!="RosPackage":
+		# Now the working directory is workspace/src/package_name
+		os.system('mkdir '+package.name)
+		os.system('mkdir resource')
+		os.chdir(package.name)
+		os.system('touch __init__.py')
+		os.chdir('../resource')
+		os.system('touch '+package.name)
+		os.chdir('..')
 	# Now the working directory is workspace/src/package_name	
 	
 	# Load the templates
@@ -466,49 +475,55 @@ for package in model_root.hasPackages:
 		entry_data.append(n.name+'_exec = '+package.name+'.'+n.name+'_node:main'),
 		for c in n.hasClients:
 			entry_data.append(n.name+'_'+c.name+' = '+package.name+'.'+n.name+'_node:'+'run_'+c.name),
+	
+	# RosPackages should not be implemented
+	if package.__class__.__name__!="RosPackage":
+		# Fire up the rendering proccess
+		output = template.render(pack=pack_data, entry_points=entry_data)
 
-	# Fire up the rendering proccess
-	output = template.render(pack=pack_data, entry_points=entry_data)
+		# Write the generated file
+		dest='setup.py'
+		with open(dest, 'w') as f:
+			f.write(output)
 
-	# Write the generated file
-	dest='setup.py'
-	with open(dest, 'w') as f:
-		f.write(output)
-
-	# Give execution permissions to the generated python file
-	os.chmod(dest, 509)
+		# Give execution permissions to the generated python file
+		os.chmod(dest, 509)
 
 	# Generate package.xml 
 	# ___________________________________________
 	# Load the Template of the package.xml
 	template = env.get_template('temp_package.xml')
 	
-	# Fire up the rendering proccess
-	output = template.render(pack=pack_data, pack_depend=pack_depend)
-	
-	# Write the generated file
-	dest='package.xml'
-	with open(dest, 'w') as f:
-		f.write(output)
+	# RosPackages should not be implemented
+	if package.__class__.__name__!="RosPackage":
+		# Fire up the rendering proccess
+		output = template.render(pack=pack_data, pack_depend=pack_depend)
+		
+		# Write the generated file
+		dest='package.xml'
+		with open(dest, 'w') as f:
+			f.write(output)
 
-	# Give execution permissions to the generated python file
-	os.chmod(dest, 509)
+		# Give execution permissions to the generated python file
+		os.chmod(dest, 509)
 	
 	# Generate setup.cfg
 	# ___________________________________________
 	# Load the Template of the setup.cfg
 	template = env.get_template('temp_setup.cfg')
 	
-	# Fire up the rendering proccess
-	output = template.render(pack=pack_data)
-	
-	# Write the generated file
-	dest='setup.cfg'
-	with open(dest, 'w') as f:
-		f.write(output)
-	
-	# Give execution permissions to the generated python file
-	os.chmod(dest, 509)
+	# RosPackages should not be implemented
+	if package.__class__.__name__!="RosPackage":
+		# Fire up the rendering proccess
+		output = template.render(pack=pack_data)
+		
+		# Write the generated file
+		dest='setup.cfg'
+		with open(dest, 'w') as f:
+			f.write(output)
+		
+		# Give execution permissions to the generated python file
+		os.chmod(dest, 509)
 	
 	# Generate nodes
 	# ___________________________________________
@@ -888,25 +903,28 @@ for package in model_root.hasPackages:
 			action_clients.append(cli)
 		node_data['action_clients'] = action_clients
 		allnodes.append(node_data)
-		# Fire up the rendering proccess
-		output = template.render(pack = pack_data, node = node_data, publishers = publishers, 
-		subscribers = subscribers, objects = objects, smessages=smessages, tmessages=tmessages, 
-		servers = servers, clients=clients, params = params,extra_imports=extra_imports, 
-		action_clients = action_clients, action_servers = action_servers)
 		
-		# Write the generated file
-		dest=package.name+'/'+node.name+'_node.py'
-		with open(dest, 'w') as f:
-			f.write(output)
+		# RosPackages should not be implemented
+		if package.__class__.__name__!="RosPackage":
+			# Fire up the rendering proccess
+			output = template.render(pack = pack_data, node = node_data, publishers = publishers, 
+			subscribers = subscribers, objects = objects, smessages=smessages, tmessages=tmessages, 
+			servers = servers, clients=clients, params = params,extra_imports=extra_imports, 
+			action_clients = action_clients, action_servers = action_servers)
+			
+			# Write the generated file
+			dest=package.name+'/'+node.name+'_node.py'
+			with open(dest, 'w') as f:
+				f.write(output)
 
-		# Give execution permissions to the generated python file
-		os.chmod(dest, 509)
+			# Give execution permissions to the generated python file
+			os.chmod(dest, 509)
 	
 	# Generate documentation.html 
 	# ___________________________________________
 	# Load the Template of the documentation.html
 	template = env.get_template('temp_documentation.html')
-	
+		
 	# Fire up the rendering proccess
 	output = template.render(pack=pack_data, allmsg = allmsg, allnodes = allnodes)
 	os.system('mkdir documentation')
@@ -941,7 +959,7 @@ for package in model_root.hasPackages:
 	# Go to the workspace/src for the next package
 	os.chdir('..')
 
-# Generate graph 
+# Generate communication graph 
 # ___________________________________________	
 # Go to the workspace
 os.chdir('..')
@@ -953,13 +971,13 @@ node_topics = []
 edge_labels = {}
 node_labels = {}
 # Nodes
-for n in model_root.graph.nodes:
+for n in model_root.hasSystemGraph.graph.nodes:
 	# Node nodes
 	G.add_node(n.name)
 	node_labels[n.name] = n.name
 	node_nodes.append(n.name)
 # Services	
-for n in model_root.graph.hasServiceLinks:
+for n in model_root.hasSystemGraph.graph.hasServiceLinks:
 	# Service nodes
 	G.add_node(n.name)
 	node_labels[n.name] = n.name
@@ -971,7 +989,7 @@ for n in model_root.graph.hasServiceLinks:
 		G.add_edge(n.name, c._container.name)
 		edge_labels[n.name, c._container.name] = c.name
 # Actions	
-for n in model_root.graph.hasActionLinks:
+for n in model_root.hasSystemGraph.graph.hasActionLinks:
 	# Action nodes
 	G.add_node(n.name)
 	node_labels[n.name] = n.name
@@ -983,7 +1001,7 @@ for n in model_root.graph.hasActionLinks:
 		G.add_edge(n.name, c._container.name)
 		edge_labels[n.name, c._container.name] = c.name
 # Topics
-for n in model_root.graph.hasTopics:
+for n in model_root.hasSystemGraph.graph.hasTopics:
 	# Topic nodes
 	G.add_node(n.topicPath)
 	node_labels[n.topicPath] = n.topicPath
@@ -1016,4 +1034,34 @@ nx.draw_networkx_edge_labels(G, pos=pos, edge_labels=edge_labels, font_size=8, m
 # Plot Legend
 plt.legend(loc = 'best', scatterpoints=1, labelspacing=4.5, handletextpad = 3, borderpad = 3)
 # Save figure as image
-plt.savefig('System Graph.png') 
+plt.savefig('System Graph.png')
+
+
+
+# Generate package graph 
+# ___________________________________________	
+PG = nx.DiGraph()
+package_nodes = []
+edge_labels = {}
+node_labels = {}
+# Nodes
+for n in model_root.hasSystemGraph.packagegraph.package:
+	# Node nodes
+	PG.add_node(n.name)
+	node_labels[n.name] = n.name
+	package_nodes.append(n.name)
+
+# Make plot
+plt.subplots(1, figsize=(16,16))
+# Obtain position
+pos = nx.random_layout(PG)
+# Plot Packages
+nx.draw_networkx_nodes(PG,pos=pos,nodelist=package_nodes, node_size=30000, node_color='skyblue', node_shape='s', label='Packages', with_labels = True, alpha = 0.5)
+
+# Plot Labels on Packages
+nx.draw_networkx_labels(PG,pos=pos, labels = node_labels, font_size = 18, alpha = 0.8)
+
+# Plot Legend
+# ~ plt.legend(loc = 'best', scatterpoints=1, labelspacing=4.5, handletextpad = 3, borderpad = 3)
+# Save figure as image
+plt.savefig('Package Graph.png') 

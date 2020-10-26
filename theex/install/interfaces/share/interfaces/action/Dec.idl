@@ -1,0 +1,38 @@
+// generated from rosidl_adapter/resource/action.idl.em
+// with input from interfaces/action/Dec.action
+// generated code does not contain a copyright notice
+
+#include "std_msgs/msg/Header.idl"
+
+module interfaces {
+  module action {
+    @verbatim (language="comment", text=
+      " Action Dec definition")
+    struct Dec_Goal {
+      @verbatim (language="comment", text=
+        " Action Goal" "\n"
+        " x1 -- number 1")
+      int64 x1;
+
+      @verbatim (language="comment", text=
+        " x2 -- number 2")
+      double x2;
+    };
+    struct Dec_Result {
+      @verbatim (language="comment", text=
+        " Action Result" "\n"
+        " y -- the result")
+      double y;
+    };
+    struct Dec_Feedback {
+      @verbatim (language="comment", text=
+        " Action Feedback" "\n"
+        " h --")
+      std_msgs::msg::Header h;
+
+      @verbatim (language="comment", text=
+        " yt -- The current result")
+      double yt;
+    };
+  };
+};
