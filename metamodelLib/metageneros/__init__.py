@@ -1,13 +1,13 @@
 
 from .metageneros import getEClassifier, eClassifiers
 from .metageneros import name, nsURI, nsPrefix, eClass
-from .metageneros import ROSSystem, Package, Software, ROSVersion, CustomQosProfile, QosHistory, QosReliability, QosDurability, QosProfile, RosQosProfile, QosLiveliness, QosPresetProfiles, Graph, ActionLink, Topic, ServiceLink, SystemGraph, CustomPackage, RosPackage, PackageDependency, TopicMessage, RosMessage, ServiceMessage, RosService, ActionInterface, CustomActionInterface, Goal, Result, Feedback, CustomService, Request, Response, CustomMessage, ActionServer, ActionClient, Dependency, Documentation, DataTypes, Client, Node, Subscriber, Publisher, Server, Parameter, ObjectProperty, Datatype, Bool, String, Number, Int, Uint, Float, UIntType, IntType, FloatType, ROSData, Array, UintArray, FloatArray, IntArray, IntArrayType, UIntArrayType, FloatArrayType, PackageGraph, Deployment, Topology, Platform, LocalNetwork, Host, AritectureTypes, OSType, NetworkInterface
+from .metageneros import ROSSystem, Package, Software, LaunchFile, ROSVersion, CustomQosProfile, QosHistory, QosReliability, QosDurability, QosProfile, RosQosProfile, QosLiveliness, QosPresetProfiles, Graph, ActionLink, Topic, ServiceLink, SystemGraph, CustomPackage, RosPackage, PackageDependency, TopicMessage, RosMessage, ServiceMessage, RosService, ActionInterface, CustomActionInterface, Goal, Result, Feedback, CustomService, Request, Response, CustomMessage, ActionServer, ActionClient, Dependency, Documentation, DataTypes, Client, Node, Subscriber, Publisher, Server, Parameter, ObjectProperty, Datatype, Bool, String, Number, Int, Uint, Float, UIntType, IntType, FloatType, ROSData, Array, UintArray, FloatArray, IntArray, IntArrayType, UIntArrayType, FloatArrayType, PackageGraph, Deployment, Topology, Platform, LocalNetwork, Host, AritectureTypes, OSType, NetworkInterface
 
 
 from . import metageneros
 
-__all__ = ['ROSSystem', 'Package', 'Software', 'ROSVersion', 'CustomQosProfile', 'QosHistory', 'QosReliability', 'QosDurability', 'QosProfile', 'RosQosProfile', 'QosLiveliness', 'QosPresetProfiles', 'Graph', 'ActionLink', 'Topic', 'ServiceLink', 'SystemGraph', 'CustomPackage', 'RosPackage', 'PackageDependency', 'TopicMessage', 'RosMessage', 'ServiceMessage', 'RosService', 'ActionInterface', 'CustomActionInterface', 'Goal', 'Result', 'Feedback', 'CustomService', 'Request', 'Response', 'CustomMessage',
-           'ActionServer', 'ActionClient', 'Dependency', 'Documentation', 'DataTypes', 'Client', 'Node', 'Subscriber', 'Publisher', 'Server', 'Parameter', 'ObjectProperty', 'Datatype', 'Bool', 'String', 'Number', 'Int', 'Uint', 'Float', 'UIntType', 'IntType', 'FloatType', 'ROSData', 'Array', 'UintArray', 'FloatArray', 'IntArray', 'IntArrayType', 'UIntArrayType', 'FloatArrayType', 'PackageGraph', 'Deployment', 'Topology', 'Platform', 'LocalNetwork', 'Host', 'AritectureTypes', 'OSType', 'NetworkInterface']
+__all__ = ['ROSSystem', 'Package', 'Software', 'LaunchFile', 'ROSVersion', 'CustomQosProfile', 'QosHistory', 'QosReliability', 'QosDurability', 'QosProfile', 'RosQosProfile', 'QosLiveliness', 'QosPresetProfiles', 'Graph', 'ActionLink', 'Topic', 'ServiceLink', 'SystemGraph', 'CustomPackage', 'RosPackage', 'PackageDependency', 'TopicMessage', 'RosMessage', 'ServiceMessage', 'RosService', 'ActionInterface', 'CustomActionInterface', 'Goal', 'Result', 'Feedback', 'CustomService', 'Request', 'Response',
+           'CustomMessage', 'ActionServer', 'ActionClient', 'Dependency', 'Documentation', 'DataTypes', 'Client', 'Node', 'Subscriber', 'Publisher', 'Server', 'Parameter', 'ObjectProperty', 'Datatype', 'Bool', 'String', 'Number', 'Int', 'Uint', 'Float', 'UIntType', 'IntType', 'FloatType', 'ROSData', 'Array', 'UintArray', 'FloatArray', 'IntArray', 'IntArrayType', 'UIntArrayType', 'FloatArrayType', 'PackageGraph', 'Deployment', 'Topology', 'Platform', 'LocalNetwork', 'Host', 'AritectureTypes', 'OSType', 'NetworkInterface']
 
 eSubpackages = []
 eSuperPackage = None
@@ -23,8 +23,11 @@ Package.hasDocumentation.eType = Documentation
 Package.hasTopicMessages.eType = TopicMessage
 Package.hasServiceMessages.eType = ServiceMessage
 Package.hasActionInterfaces.eType = ActionInterface
+Package.hasLaunchFiles.eType = LaunchFile
 Software.hasPackages.eType = Package
 Software.hasQosProfiles.eType = QosProfile
+LaunchFile.nodes.eType = Node
+LaunchFile.host.eType = Host
 Graph.hasTopics.eType = Topic
 Graph.hasServiceLinks.eType = ServiceLink
 Graph.nodes.eType = Node

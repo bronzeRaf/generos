@@ -12,8 +12,8 @@ eClass = EPackage(name=name, nsURI=nsURI, nsPrefix=nsPrefix)
 
 eClassifiers = {}
 getEClassifier = partial(Ecore.getEClassifier, searchspace=eClassifiers)
-ROSVersion = EEnum('ROSVersion', literals=['Ardent Apalone', 'Bouncy Bolson',
-                                           'Crystal Clemmys', 'Dashing Diademata', 'Eloquent Elusor', 'Foxy Fitzroy'])
+ROSVersion = EEnum('ROSVersion', literals=['Ardent_Apalone', 'Bouncy_Bolson',
+                                           'Crystal_Clemmys', 'Dashing_Diademata', 'Eloquent_Elusor', 'Foxy_Fitzroy'])
 
 QosHistory = EEnum('QosHistory', literals=['SYSTEM_DEFAULT', 'KEEP_LAST', 'KEEP_ALL'])
 
@@ -90,8 +90,9 @@ class Package(EObject, metaclass=MetaEClass):
     hasTopicMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasServiceMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasActionInterfaces = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    hasLaunchFiles = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, hasDependencies=None, hasNodes=None, hasDocumentation=None, name=None, rosVersion=None, packagePath=None, hasTopicMessages=None, hasServiceMessages=None, hasActionInterfaces=None, license=None, maintainer=None, email=None, builtin=None, description=None, **kwargs):
+    def __init__(self, *, hasDependencies=None, hasNodes=None, hasDocumentation=None, name=None, rosVersion=None, packagePath=None, hasTopicMessages=None, hasServiceMessages=None, hasActionInterfaces=None, license=None, maintainer=None, email=None, builtin=None, description=None, hasLaunchFiles=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -139,6 +140,9 @@ class Package(EObject, metaclass=MetaEClass):
         if hasActionInterfaces:
             self.hasActionInterfaces.extend(hasActionInterfaces)
 
+        if hasLaunchFiles:
+            self.hasLaunchFiles.extend(hasLaunchFiles)
+
 
 class Software(EObject, metaclass=MetaEClass):
 
@@ -156,6 +160,32 @@ class Software(EObject, metaclass=MetaEClass):
 
         if hasQosProfiles:
             self.hasQosProfiles.extend(hasQosProfiles)
+
+
+class LaunchFile(EObject, metaclass=MetaEClass):
+
+    name = EAttribute(eType=EString, derived=False, changeable=True)
+    arguments = EAttribute(eType=EString, derived=False, changeable=True, upper=-1)
+    nodes = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    host = EReference(ordered=True, unique=True, containment=False)
+
+    def __init__(self, *, nodes=None, host=None, name=None, arguments=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if name is not None:
+            self.name = name
+
+        if arguments:
+            self.arguments.extend(arguments)
+
+        if nodes:
+            self.nodes.extend(nodes)
+
+        if host is not None:
+            self.host = host
 
 
 @abstract

@@ -18,7 +18,42 @@ GenerosModel:
 ;
 
 Command:
-	Package | Node | Parameter | Publisher | Subscriber | Client | Server | ActionServer | ActionClient | Dependency | Message | ServiceMessage | ActionInterface | QoSProfile
+	Package | Node | Parameter | Publisher | Subscriber | Client | Server | ActionServer | ActionClient | Dependency | Message | ServiceMessage | ActionInterface | QoSProfile | Host | LaunchFile | NetworkInterface | LocalNetwork
+;
+
+Host:
+	'host' name=ID '{'
+		'architecture' '=' architecture=STRING
+		'os' '=' OS=STRING
+		'hardDisk' '=' hardDisk = FLOAT
+		'memory' '=' memory = FLOAT
+		'rosVersion' '=' rosVersion = STRING
+		('hasNetworkInterfaces' '=' hasNetworkInterfaces*=[NetworkInterface][','])?
+    '}'
+;
+
+NetworkInterface:
+	'networkinterface' name=ID '{'
+		'gateway' '=' gateway=STRING
+		'subnetMask' '=' subnetMask=STRING
+		'ip' '=' ip = STRING
+    '}'
+;
+
+LocalNetwork:
+	'localnetwork' name=ID '{'
+		'gateway' '=' gateway=STRING
+		'subnetMask' '=' subnetMask=STRING
+		'ip' '=' ip = STRING
+    '}'
+;
+
+LaunchFile:
+	'launchfile' name=ID '{'
+		('arguments' '=' arguments*=STRING[','])?
+		('nodes' '=' nodes*=[Node][','])?
+		'host' '=' host=[Host]
+    '}'
 ;
 
 Package:

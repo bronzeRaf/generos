@@ -72,6 +72,7 @@ os.system('mkdir '+destination)
 os.chdir(destination)
 os.system('mkdir src')
 os.chdir('src')
+# Create interfaces package directory tree
 os.system('mkdir interfaces')
 os.chdir('interfaces')
 os.system('mkdir srv')
@@ -79,6 +80,15 @@ os.system('mkdir msg')
 os.system('mkdir action')
 os.system('mkdir documentation')
 # Now the working directory is workspace/src/interfaces
+os.chdir('..')
+# Create launchers package directory tree
+os.system('mkdir launchers')
+os.chdir('launchers')
+os.system('mkdir documentation')
+os.system('mkdir launchers')
+os.chdir('launchers')
+os.system('touch __init__.py')
+os.chdir('..')
 os.chdir('..')
 # Now the working directory is workspace/src
 
@@ -344,7 +354,7 @@ with open(dest, 'w') as f:
 
 # Build the packages
 for package in model_root.hasSoftware.hasPackages:
-	if package.name == "interfaces" or package.builtin == True:
+	if package.name == "interfaces" or package.name == "launchers" or package.builtin == True:
 		continue
 	# Now the working directory is workspace/src
 	# Create the package directory tree
@@ -959,6 +969,117 @@ for package in model_root.hasSoftware.hasPackages:
 	# Go to the workspace/src for the next package
 	os.chdir('..')
 
+# Generate the launch files package
+# Jinja2 Code
+# Generate Launcher package
+# ___________________________________________
+
+# Generate package.xml 
+# ___________________________________________
+# Go to launchers package directory
+os.chdir('launchers')
+# Load the templates
+file_loader = FileSystemLoader('../../../templates')
+env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
+
+# Load the Template of the package.xml
+template = env.get_template('temp_package.xml')
+# Build the package data to pass to the Template
+pack_data = {}
+pack_data['packageName'] = "launchers"
+pack_data['maintainer'] = "Generos"
+pack_data['email'] = "rnm1816@gmail.com"
+pack_data['description'] = "This is a package, generated from Generos to contain the Deployment configuration. This package contains all the Launch Files that the user created in the model."
+pack_data['license'] = "Inherited from Repository"
+
+# Build the package dependencies data to pass to the Template
+# Registered Dependencies
+pack_depend = []
+pack_depend.append("rclpy")
+pack_depend.append("interfaces")
+for p in model_root.hasSoftware.hasPackages:
+	if p.name == "launchers":
+		continue
+	pack_depend.append(p.name)
+
+# Fire up the rendering proccess
+output = template.render(pack=pack_data, pack_depend=pack_depend)
+
+# Write the generated file
+dest='package.xml'
+with open(dest, 'w') as f:
+	f.write(output)
+
+# Give execution permissions to the generated python file
+os.chmod(dest, 509)
+
+# Generate setup.cfg
+# ___________________________________________
+# Load the Template of the setup.cfg
+template = env.get_template('temp_setup.cfg')
+
+output = template.render(pack=pack_data)
+
+# Write the generated file
+dest='setup.cfg'
+with open(dest, 'w') as f:
+	f.write(output)
+
+# Give execution permissions to the generated python file
+os.chmod(dest, 509)
+
+# Generate Setup.py 
+# ___________________________________________
+# Load the Template of the setup.py
+template = env.get_template('temp_launchsetup.py')
+
+# Fire up the rendering proccess
+output = template.render(pack=pack_data)
+# Write the generated file
+dest='setup.py'
+with open(dest, 'w') as f:
+	f.write(output)
+
+# Give execution permissions to the generated python file
+os.chmod(dest, 509)
+
+# Generate each launch.py 
+# ___________________________________________
+
+for p in model_root.hasSoftware.hasPackages:
+	if p.name != "launchers":
+		continue
+	# For each launch file
+	for launch in p.hasLaunchFiles:
+		# Build the node data to pass to the Template
+		nodes_data = []
+		for node in launch.nodes:
+			node_data = {}
+			node_data['package'] = node._container.name
+			node_data['namespace'] = node.namespace
+			node_data['name'] = node.name
+			node_data['executable'] = node.name+"_exec"
+			node_data['version'] = launch.host.rosVersion.value
+			#TODO add arguments
+			nodes_data.append(node_data)
+		
+		# Load the Template of the setup.py
+		template = env.get_template('temp_launch.py')
+
+		# Fire up the rendering proccess
+		output = template.render(nodes=nodes_data)
+		# Write the generated file
+		dest='launchers/'+launch.name+'.launch.py'
+		with open(dest, 'w') as f:
+			f.write(output)
+
+		# Give execution permissions to the generated python file
+		os.chmod(dest, 509)
+
+
+# Go to the workspace/src
+os.chdir('..')
+	
 # Generate communication graph 
 # ___________________________________________	
 # Go to the workspace

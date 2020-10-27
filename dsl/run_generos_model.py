@@ -20,7 +20,10 @@ class RosSystem(object):
 		self.rosystem = metageneros.ROSSystem(name = "My_dsl_ROS_system")
 		self.rosystem.hasSoftware = metageneros.Software()
 		self.rosystem.hasSystemGraph = metageneros.SystemGraph()
-		self.rosystem.hasDeployment = metageneros.Deployment()
+		self.rosystem.hasDeployment = metageneros.Deployment(name="workspace")
+		self.rosystem.hasDeployment.topology = metageneros.Topology()
+		self.platform = metageneros.Platform(name="workspace_platform")
+		self.rosystem.hasDeployment.topology.hasPlatforms.extend([self.platform])
 	
 	def interpret(self, model):
 		# Initialize
@@ -31,6 +34,10 @@ class RosSystem(object):
 		topics_bag = {}
 		servicelinks_bag = {}
 		actionlinks_bag = {}
+		hosts_bag = {}
+		networkinterfaces_bag = {}
+		launchfiles_bag = {}
+		nodes_bag = {}
 		builtins = []
 		topics = []
 		servicelinks = []
@@ -43,7 +50,7 @@ class RosSystem(object):
 		self.rosystem.hasSystemGraph.graph = graph
 		packagegraph = metageneros.PackageGraph()
 		self.rosystem.hasSystemGraph.packagegraph = packagegraph
-		# Add Interfaces into the package
+		# Add Interfaces into the package graph
 		packagegraph.package.extend([package_bag['interfaces']])
 		# Create custom and ros interfaces
 		for p in model.commands:
@@ -237,14 +244,14 @@ class RosSystem(object):
 				if p.livelines=='':
 					p.livelines = "SYSTEM_DEFAULT"
 				# Create the profile
-				exec("qos_bag[p.name] = metageneros.CustomQosProfile(history=metageneros.QosHistory."+p.history+", depth="+str(p.depth)+", reliability=metageneros.QosReliability."+p.reliability+
-					", durability=metageneros.QosDurability."+p.durability+", liveliness=metageneros.QosLiveliness."+p.livelines+", deadlineSec="+str(p.deadlineSec)+", deadlineNSec = "+ 
-					str(p.deadlineNSec)+", lifespanSec="+str(p.lifespanSec)+", lifespanNSec ="+str(p.lifespanNSec)+", liveliness_lease_durationSec="+str(p.liveliness_lease_durationSec)+
-					", liveliness_lease_durationNSec="+str(p.liveliness_lease_durationNSec)+", avoid_ros_namespace_conventions="+str(p.avoid_ros_namespace_conventions)+")")
+				exec('qos_bag["'+str(p.name)+'"] = metageneros.CustomQosProfile(history=metageneros.QosHistory.'+p.history+', depth='+str(p.depth)+', reliability=metageneros.QosReliability.'+p.reliability+
+					', durability=metageneros.QosDurability.'+p.durability+', liveliness=metageneros.QosLiveliness.'+p.livelines+', deadlineSec='+str(p.deadlineSec)+', deadlineNSec = '+ 
+					str(p.deadlineNSec)+', lifespanSec='+str(p.lifespanSec)+', lifespanNSec ='+str(p.lifespanNSec)+', liveliness_lease_durationSec='+str(p.liveliness_lease_durationSec)+
+					', liveliness_lease_durationNSec='+str(p.liveliness_lease_durationNSec)+', avoid_ros_namespace_conventions='+str(p.avoid_ros_namespace_conventions)+')')
 				self.rosystem.hasSoftware.hasQosProfiles.extend([qos_bag[p.name]])
 			# Ros QoS Profile
 			elif o.__class__.__name__ == "RosQosProfile":
-				exec("qos_bag["+p.name+"] = metageneros.RosQosProfile(name = metageneros.QosPresetProfiles."+p.name+")")
+				exec('qos_bag["'+str(p.name)+'"] = metageneros.RosQosProfile(name = metageneros.QosPresetProfiles.'+p.name+')')
 				self.rosystem.hasSoftware.hasQosProfiles.extend([qos_bag[p.name]])
 						
 		#Create packages
@@ -264,6 +271,7 @@ class RosSystem(object):
 				node_bag = {}
 				for n in p.hasNodes:
 					node_bag[n.name] = metageneros.Node(name=n.name, namespace=n.namespace)
+					nodes_bag[n.name] = node_bag[n.name]
 					package_bag[p.name].hasNodes.extend([node_bag[n.name]])
 					graph.nodes.extend([node_bag[n.name]])
 					# Parameters implement
@@ -379,6 +387,46 @@ class RosSystem(object):
 					dependency_bag[dep.name] = metageneros.PackageDependency()
 					package_bag[p.name].hasDependencies.extend([dependency_bag[dep.name]])
 					dependency_bag[dep.name].package = package_bag[dep.package.name]
+					
+		# Build the Deployment part
+		# Build Hosts
+		for p in model.commands:
+			if p.__class__.__name__ == "Host":
+				# Hosts
+				exec('hosts_bag["'+p.name+'"] = metageneros.Host(name ="'+p.name+'", architecture = metageneros.AritectureTypes.'+p.architecture+', OS = metageneros.OSType.'+p.OS+', hardDisk = '+str(p.hardDisk)+', memory = '+str(p.memory)+', rosVersion = metageneros.ROSVersion.'+p.rosVersion+')')
+				self.platform.hasHost.extend([hosts_bag[p.name]])
+				# Build Network Interfaces
+				for n in p.hasNetworkInterfaces:
+					networkinterfaces_bag[n.name] = metageneros.NetworkInterface(name = n.name, gateway = n.gateway, subnetMask = n.subnetMask, ip = n.ip)
+					hosts_bag[p.name].hasNetworkInterfaces.extend([networkinterfaces_bag[n.name]])
+					
+		# Build Local Network
+		for p in model.commands:
+			if p.__class__.__name__ == "LocalNetwork":
+				# Local Network
+				self.rosystem.hasDeployment.topology.network = metageneros.LocalNetwork(name = p.name, gateway = p.gateway, subnetMask = p.subnetMask, ip = p.ip)
+		
+		# Create Launchers package
+		package_bag['launchers'] = metageneros.CustomPackage(name = "launchers", rosVersion = 0, packagePath = "")
+		self.rosystem.hasSoftware.hasPackages.extend([package_bag['launchers']])
+		# Add Launchers into the package graph
+		packagegraph.package.extend([package_bag['launchers']])
+		
+		# Build Launch files
+		for p in model.commands:
+			if p.__class__.__name__ == "LaunchFile":
+				# Launch file create
+				launchfiles_bag[p.name] = metageneros.LaunchFile(name = p.name)
+				# Attach to package
+				package_bag['launchers'].hasLaunchFiles.extend([launchfiles_bag[p.name]])
+				# refer to host
+				launchfiles_bag[p.name].host = hosts_bag[p.host.name]
+				# Add nodes to the file
+				for n in p.nodes:
+					launchfiles_bag[p.name].nodes.append(nodes_bag[n.name])
+		
+		
+		
 		
 		
 def main(debug=False):

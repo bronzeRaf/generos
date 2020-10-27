@@ -183,3 +183,18 @@ node slamer {
 	hasSubscribers = laser
 }
 
+host host1 {
+	architecture = "x64"
+	os = "Ubuntu_18"
+	hardDisk = 20480
+	memory = 4096
+	rosVersion = "Foxy_Fitzroy"
+}
+
+
+launchfile lo1{
+	nodes = node1, node2
+	host = host1
+}
+
+

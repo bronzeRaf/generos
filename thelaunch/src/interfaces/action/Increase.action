@@ -1,0 +1,26 @@
+# Action Increase definition
+
+# 
+
+# Action Goal
+
+# start -- start number
+int32 start 
+# stop -- stop number
+int32 stop 
+
+---
+
+# Action Result
+
+# resus -- descripssstion333...
+bool resus 
+
+---
+
+# Action Feedback
+
+# h -- 
+std_msgs/Header h 
+# z -- The counter
+int64 z 
