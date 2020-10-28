@@ -456,18 +456,24 @@ def main(debug=False):
 	# Scope Providers
 	dsl_metamodel.register_scope_providers({"*.*": scoping_providers.FQNImportURI(importAs=True)})
 	
+	
+	# Recursive function that loads the commands of the imported models to the main model
+	def resolve_imports(current_model):
+		# Load imported models
+		imports = get_children_of_type("Import", current_model)
+		for i in imports:
+			for m in i._tx_loaded_models:
+				# Recursively attach commands of more deep imports
+				m = resolve_imports(m)
+				# Attach commands of the submodels (imports) to the main model
+				current_model.commands.extend(m.commands)
+		return current_model
+	
+	
 	# Load Model
 	model = dsl_metamodel.model_from_file(grs_filename)
-	# Load imported models
-	imports = get_children_of_type("Import", model)
-	for i in imports:
-		for m in i._tx_loaded_models:
-			print('****************** _tx_loaded_model '+m._tx_filename)
-			print(dir(m))
-			# Attach commands of the submodels (imports) to the main model
-			model.commands.extend(m.commands)
-			
-		
+	resolve_imports(model)
+	
 	# Fire up the generation
 	system = RosSystem()
 	system.interpret(model)

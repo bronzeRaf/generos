@@ -1,12 +1,6 @@
 
-message M1{
-	datatype int64 a, description = "description..."
-	datatype bool b, description = "description333...", default = "False"
-	datatype bool c, description = "descripssstion333..."
-	rostype Header h, std_msgs
-	datatype string s, description = "description444..."
-	datatype float32 y, description = "description222..."
-}
+import model3.grs
+
 subscriber sub1{
 	topicPath = "topic/path1"
 	message = M1
@@ -74,6 +68,7 @@ client c2{
 }
 
 
+
 service Addtwo{
 	request:
 		datatype int32 x, description = "first number", default = "0"
@@ -122,6 +117,17 @@ actionClient ac2{
 	action = Dec
 }
 
+
+qosprofile q1{
+	history = "KEEP_ALL"
+	reliability = "RELIABLE"
+}
+
+presetqos SENSOR_DATA
+presetqos SENSOR_DATA
+message Header package = "std_msgs"
+service SetBool package = "std_srvs"
+
 subscriber laser{
 	topicPath = "topic/path1"
 	message = M1
@@ -137,14 +143,4 @@ node slamer {
 	hasPublishers = map
 	hasSubscribers = laser
 }
-
-qosprofile q1{
-	history = "KEEP_ALL"
-	reliability = "RELIABLE"
-}
-
-presetqos SENSOR_DATA
-presetqos SENSOR_DATA
-message Header package = "std_msgs"
-service SetBool package = "std_srvs"
 

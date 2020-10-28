@@ -1,3 +1,5 @@
+
+
 package pack1 {
 	description = " P1 desc"
 	path = "path/to/pack1"
@@ -37,7 +39,7 @@ node node1 {
 	hasSubscribers = sub1
 	hasServers = s1, s2
 	hasActionServers = as1
-	hasActionClients = as2
+	hasActionClients = ac2
 }
 
 node node2 {
@@ -45,7 +47,7 @@ node node2 {
 	hasPublishers = pub1
 	hasClients = c1
 	hasActionServers = as2
-	hasActionClients = as1
+	hasActionClients = ac1
 }
 
 node node3 {
@@ -91,14 +93,7 @@ dependency dep1{
 	package = pack2
 }
 
-message M1{
-	datatype int64 a, description = "description..."
-	datatype bool b, description = "description333...", default = "False"
-	datatype bool c, description = "descripssstion333..."
-	rostype Header h, std_msgs
-	datatype string s, description = "description444..."
-	datatype float32 y, description = "description222..."
-}
+
 
 service Addtwo{
 	request:
@@ -136,7 +131,7 @@ actionServer as1{
 	action = Increase
 }
 
-actionClient as1{
+actionClient ac1{
 	action = Increase
 }
 
@@ -144,7 +139,7 @@ actionServer as2{
 	action = Dec
 }
 
-actionClient as2{
+actionClient ac2{
 	action = Dec
 }
 
@@ -195,6 +190,14 @@ host host1 {
 launchfile lo1{
 	nodes = node1, node2
 	host = host1
+}
+message M1{
+	datatype int64 a, description = "description..."
+	datatype bool b, description = "description333...", default = "False"
+	datatype bool c, description = "descripssstion333..."
+	rostype Header h, std_msgs
+	datatype string s, description = "description444..."
+	datatype float32 y, description = "description222..."
 }
 
 

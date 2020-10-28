@@ -1,3 +1,4 @@
+
 message M1{
 	datatype int64 a, description = "description..."
 	datatype bool b, description = "description333...", default = "False"
