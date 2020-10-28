@@ -19,7 +19,7 @@ GenerosModel:
 ;
 
 Command:
-	Package | Node | Parameter | Publisher | Subscriber | Client | Server | ActionServer | ActionClient | Dependency | Message | ServiceMessage | ActionInterface | QoSProfile | Host | LaunchFile | NetworkInterface | LocalNetwork
+	Package | Node | Parameter | Publisher | Subscriber | Client | Server | ActionServer | ActionClient | Dependency | Message | ServiceMessage | ActionInterface | QoSProfile | Host | Deployment | NetworkInterface | LocalNetwork
 ;
 
 Import: 'import' importURI=FQNI ('as' name=ID)?;
@@ -55,8 +55,8 @@ LocalNetwork:
     '}'
 ;
 
-LaunchFile:
-	'launchfile' name=ID '{'
+Deployment:
+	'deployment' name=ID '{'
 		('arguments' '=' arguments*=STRING[','])?
 		('nodes' '=' nodes*=[Node|FQN][','])?
 		'host' '=' host=[Host|FQN]

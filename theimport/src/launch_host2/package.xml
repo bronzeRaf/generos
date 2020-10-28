@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>launchers</name>
+  <name>launch_host2</name>
   <version>0.0.0</version>
-  <description>This is a package, generated from Generos to contain the Deployment configuration. This package contains all the Launch Files that the user created in the model.</description>
+  <description>This is a package, generated from Generos to contain the Deployment configuration of a Host. This package contains all the Launch Files that the user created in the model.</description>
   <maintainer email="rnm1816@gmail.com">Generos</maintainer>
   <license>Inherited from Repository</license>
 
@@ -17,6 +17,8 @@
   <exec_depend>pack1</exec_depend>
   <exec_depend>pack2</exec_depend>
   <exec_depend>slam</exec_depend>
+  <exec_depend>launch_host1</exec_depend>
+  <exec_depend>launch_host2</exec_depend>
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>
   <test_depend>ament_pep257</test_depend>

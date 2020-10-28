@@ -4,12 +4,18 @@
   <eClassifiers xsi:type="ecore:EClass" name="ROSSystem">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         defaultValueLiteral="workspace"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="hasDeployment" lowerBound="1"
-        eType="#//Deployment" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasTopology" lowerBound="1"
+        eType="#//Topology" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasSoftware" lowerBound="1"
         eType="#//Software" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasSystemGraph" lowerBound="1"
         eType="#//SystemGraph" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Topology">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasPlatforms" upperBound="-1"
+        eType="#//Platform" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="network" eType="#//LocalNetwork"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Package" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasDependencies" upperBound="-1"
@@ -38,22 +44,14 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="builtin" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="hasLaunchFiles" upperBound="-1"
-        eType="#//LaunchFile" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasDeployments" upperBound="-1"
+        eType="#//Deployment" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Software">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasPackages" upperBound="-1"
         eType="#//Package" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasQosProfiles" upperBound="-1"
         eType="#//QosProfile" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="LaunchFile">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
-        eType="#//Node"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="host" lowerBound="1" eType="#//Host"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="arguments" upperBound="-1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ROSVersion">
     <eLiterals name="Ardent_Apalone"/>
@@ -393,17 +391,16 @@
         eType="#//Package"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Deployment">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="topology" lowerBound="1"
-        eType="#//Topology" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        defaultValueLiteral="workspace"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+        eType="#//Node"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="host" lowerBound="1" eType="#//Host"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="arguments" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Topology">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="hasPlatforms" upperBound="-1"
-        eType="#//Platform" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="network" eType="#//LocalNetwork"
-        containment="true"/>
-  </eClassifiers>
+
+
+
   <eClassifiers xsi:type="ecore:EClass" name="Platform">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasHost" upperBound="-1"
         eType="#//Host" containment="true"/>

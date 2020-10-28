@@ -50,11 +50,11 @@ OSType = EEnum('OSType', literals=['Ubuntu_14', 'Ubuntu_16', 'Ubuntu_18'])
 class ROSSystem(EObject, metaclass=MetaEClass):
 
     name = EAttribute(eType=EString, derived=False, changeable=True, default_value='workspace')
-    hasDeployment = EReference(ordered=True, unique=True, containment=True)
+    hasTopology = EReference(ordered=True, unique=True, containment=True)
     hasSoftware = EReference(ordered=True, unique=True, containment=True)
     hasSystemGraph = EReference(ordered=True, unique=True, containment=True)
 
-    def __init__(self, *, name=None, hasDeployment=None, hasSoftware=None, hasSystemGraph=None, **kwargs):
+    def __init__(self, *, name=None, hasTopology=None, hasSoftware=None, hasSystemGraph=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -63,14 +63,32 @@ class ROSSystem(EObject, metaclass=MetaEClass):
         if name is not None:
             self.name = name
 
-        if hasDeployment is not None:
-            self.hasDeployment = hasDeployment
+        if hasTopology is not None:
+            self.hasTopology = hasTopology
 
         if hasSoftware is not None:
             self.hasSoftware = hasSoftware
 
         if hasSystemGraph is not None:
             self.hasSystemGraph = hasSystemGraph
+
+
+class Topology(EObject, metaclass=MetaEClass):
+
+    hasPlatforms = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    network = EReference(ordered=True, unique=True, containment=True)
+
+    def __init__(self, *, hasPlatforms=None, network=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if hasPlatforms:
+            self.hasPlatforms.extend(hasPlatforms)
+
+        if network is not None:
+            self.network = network
 
 
 @abstract
@@ -90,9 +108,9 @@ class Package(EObject, metaclass=MetaEClass):
     hasTopicMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasServiceMessages = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hasActionInterfaces = EReference(ordered=True, unique=True, containment=True, upper=-1)
-    hasLaunchFiles = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    hasDeployments = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, hasDependencies=None, hasNodes=None, hasDocumentation=None, name=None, rosVersion=None, packagePath=None, hasTopicMessages=None, hasServiceMessages=None, hasActionInterfaces=None, license=None, maintainer=None, email=None, builtin=None, description=None, hasLaunchFiles=None, **kwargs):
+    def __init__(self, *, hasDependencies=None, hasNodes=None, hasDocumentation=None, name=None, rosVersion=None, packagePath=None, hasTopicMessages=None, hasServiceMessages=None, hasActionInterfaces=None, license=None, maintainer=None, email=None, builtin=None, description=None, hasDeployments=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -140,8 +158,8 @@ class Package(EObject, metaclass=MetaEClass):
         if hasActionInterfaces:
             self.hasActionInterfaces.extend(hasActionInterfaces)
 
-        if hasLaunchFiles:
-            self.hasLaunchFiles.extend(hasLaunchFiles)
+        if hasDeployments:
+            self.hasDeployments.extend(hasDeployments)
 
 
 class Software(EObject, metaclass=MetaEClass):
@@ -160,32 +178,6 @@ class Software(EObject, metaclass=MetaEClass):
 
         if hasQosProfiles:
             self.hasQosProfiles.extend(hasQosProfiles)
-
-
-class LaunchFile(EObject, metaclass=MetaEClass):
-
-    name = EAttribute(eType=EString, derived=False, changeable=True)
-    arguments = EAttribute(eType=EString, derived=False, changeable=True, upper=-1)
-    nodes = EReference(ordered=True, unique=True, containment=False, upper=-1)
-    host = EReference(ordered=True, unique=True, containment=False)
-
-    def __init__(self, *, nodes=None, host=None, name=None, arguments=None, **kwargs):
-        if kwargs:
-            raise AttributeError('unexpected arguments: {}'.format(kwargs))
-
-        super().__init__()
-
-        if name is not None:
-            self.name = name
-
-        if arguments:
-            self.arguments.extend(arguments)
-
-        if nodes:
-            self.nodes.extend(nodes)
-
-        if host is not None:
-            self.host = host
 
 
 @abstract
@@ -722,10 +714,12 @@ class PackageGraph(EObject, metaclass=MetaEClass):
 
 class Deployment(EObject, metaclass=MetaEClass):
 
-    name = EAttribute(eType=EString, derived=False, changeable=True, default_value='workspace')
-    topology = EReference(ordered=True, unique=True, containment=True)
+    name = EAttribute(eType=EString, derived=False, changeable=True)
+    arguments = EAttribute(eType=EString, derived=False, changeable=True, upper=-1)
+    nodes = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    host = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, topology=None, name=None, **kwargs):
+    def __init__(self, *, nodes=None, host=None, name=None, arguments=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -734,26 +728,14 @@ class Deployment(EObject, metaclass=MetaEClass):
         if name is not None:
             self.name = name
 
-        if topology is not None:
-            self.topology = topology
+        if arguments:
+            self.arguments.extend(arguments)
 
+        if nodes:
+            self.nodes.extend(nodes)
 
-class Topology(EObject, metaclass=MetaEClass):
-
-    hasPlatforms = EReference(ordered=True, unique=True, containment=True, upper=-1)
-    network = EReference(ordered=True, unique=True, containment=True)
-
-    def __init__(self, *, hasPlatforms=None, network=None, **kwargs):
-        if kwargs:
-            raise AttributeError('unexpected arguments: {}'.format(kwargs))
-
-        super().__init__()
-
-        if hasPlatforms:
-            self.hasPlatforms.extend(hasPlatforms)
-
-        if network is not None:
-            self.network = network
+        if host is not None:
+            self.host = host
 
 
 class Platform(EObject, metaclass=MetaEClass):

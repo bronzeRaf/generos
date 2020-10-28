@@ -43,12 +43,27 @@ host host1 {
 	rosVersion = "Foxy_Fitzroy"
 }
 
+host host2 {
+	architecture = "x64"
+	os = "Ubuntu_18"
+	hardDisk = 20480
+	memory = 4096
+	rosVersion = "Foxy_Fitzroy"
+}
 
-launchfile lo1{
+deployment d1h1{
 	nodes = node1, node2
 	host = host1
 }
 
+deployment d2h1{
+	nodes = node1, node3
+	host = host1
+}
+deployment d1h2{
+	nodes = node1, node2
+	host = host2
+}
 dependency dep1{
 	package = pack2
 }

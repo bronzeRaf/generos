@@ -22,10 +22,9 @@ class RosSystem(object):
 		self.rosystem = metageneros.ROSSystem(name = "My_dsl_ROS_system")
 		self.rosystem.hasSoftware = metageneros.Software()
 		self.rosystem.hasSystemGraph = metageneros.SystemGraph()
-		self.rosystem.hasDeployment = metageneros.Deployment(name="workspace")
-		self.rosystem.hasDeployment.topology = metageneros.Topology()
+		self.rosystem.hasTopology = metageneros.Topology()
 		self.platform = metageneros.Platform(name="workspace_platform")
-		self.rosystem.hasDeployment.topology.hasPlatforms.extend([self.platform])
+		self.rosystem.hasTopology.hasPlatforms.extend([self.platform])
 	
 	def interpret(self, model):
 		# Initialize
@@ -38,7 +37,7 @@ class RosSystem(object):
 		actionlinks_bag = {}
 		hosts_bag = {}
 		networkinterfaces_bag = {}
-		launchfiles_bag = {}
+		deployments_bag = {}
 		nodes_bag = {}
 		builtins = []
 		topics = []
@@ -397,10 +396,17 @@ class RosSystem(object):
 				# Hosts
 				exec('hosts_bag["'+p.name+'"] = metageneros.Host(name ="'+p.name+'", architecture = metageneros.AritectureTypes.'+p.architecture+', OS = metageneros.OSType.'+p.OS+', hardDisk = '+str(p.hardDisk)+', memory = '+str(p.memory)+', rosVersion = metageneros.ROSVersion.'+p.rosVersion+')')
 				self.platform.hasHost.extend([hosts_bag[p.name]])
+				# Build the package for the Host
+				packName = 'launch_'+p.name
+				package_bag[packName] = metageneros.CustomPackage(name = packName, rosVersion = 0, packagePath = "")
+				self.rosystem.hasSoftware.hasPackages.extend([package_bag[packName]])
+				# Add Launchers into the package graph
+				packagegraph.package.extend([package_bag[packName]])
 				# Build Network Interfaces
 				for n in p.hasNetworkInterfaces:
 					networkinterfaces_bag[n.name] = metageneros.NetworkInterface(name = n.name, gateway = n.gateway, subnetMask = n.subnetMask, ip = n.ip)
 					hosts_bag[p.name].hasNetworkInterfaces.extend([networkinterfaces_bag[n.name]])
+				
 					
 		# Build Local Network
 		for p in model.commands:
@@ -409,23 +415,23 @@ class RosSystem(object):
 				self.rosystem.hasDeployment.topology.network = metageneros.LocalNetwork(name = p.name, gateway = p.gateway, subnetMask = p.subnetMask, ip = p.ip)
 		
 		# Create Launchers package
-		package_bag['launchers'] = metageneros.CustomPackage(name = "launchers", rosVersion = 0, packagePath = "")
-		self.rosystem.hasSoftware.hasPackages.extend([package_bag['launchers']])
-		# Add Launchers into the package graph
-		packagegraph.package.extend([package_bag['launchers']])
+		# ~ package_bag['launchers'] = metageneros.CustomPackage(name = "launchers", rosVersion = 0, packagePath = "")
+		# ~ self.rosystem.hasSoftware.hasPackages.extend([package_bag['launchers']])
+		# ~ # Add Launchers into the package graph
+		# ~ packagegraph.package.extend([package_bag['launchers']])
 		
-		# Build Launch files
+		# Build Deployments (Launch files)
 		for p in model.commands:
-			if p.__class__.__name__ == "LaunchFile":
-				# Launch file create
-				launchfiles_bag[p.name] = metageneros.LaunchFile(name = p.name)
+			if p.__class__.__name__ == "Deployment":
+				# Deployment file create
+				deployments_bag[p.name] = metageneros.Deployment(name = p.name)
 				# Attach to package
-				package_bag['launchers'].hasLaunchFiles.extend([launchfiles_bag[p.name]])
+				package_bag['launch_'+p.host.name].hasDeployments.extend([deployments_bag[p.name]])
 				# refer to host
-				launchfiles_bag[p.name].host = hosts_bag[p.host.name]
+				deployments_bag[p.name].host = hosts_bag[p.host.name]
 				# Add nodes to the file
 				for n in p.nodes:
-					launchfiles_bag[p.name].nodes.append(nodes_bag[n.name])
+					deployments_bag[p.name].nodes.append(nodes_bag[n.name])
 		
 		
 		
