@@ -12,6 +12,8 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../metamodelLib'))
 import metageneros
 from textx import metamodel_from_file
 from textx.export import metamodel_export, model_export
+import textx.scoping.providers as scoping_providers
+from textx import get_children, get_children_of_type
 
  
 class RosSystem(object):
@@ -250,7 +252,7 @@ class RosSystem(object):
 					', liveliness_lease_durationNSec='+str(p.liveliness_lease_durationNSec)+', avoid_ros_namespace_conventions='+str(p.avoid_ros_namespace_conventions)+')')
 				self.rosystem.hasSoftware.hasQosProfiles.extend([qos_bag[p.name]])
 			# Ros QoS Profile
-			elif o.__class__.__name__ == "RosQosProfile":
+			elif p.__class__.__name__ == "RosQosProfile":
 				exec('qos_bag["'+str(p.name)+'"] = metageneros.RosQosProfile(name = metageneros.QosPresetProfiles.'+p.name+')')
 				self.rosystem.hasSoftware.hasQosProfiles.extend([qos_bag[p.name]])
 						
@@ -357,10 +359,10 @@ class RosSystem(object):
 						# Create action link in graph
 						if aserver_bag[s.name].actioninterface.name not in actionlinks:
 							actionlinks.append(aserver_bag[s.name].actioninterface.name)
-							actionlinks_bag[aserver_bag[s.name].name] = metageneros.ActionLink(name = aserver_bag[s.name].name)
-							graph.hasActionLinks.extend([actionlinks_bag[aserver_bag[s.name].name]])
+							actionlinks_bag[aserver_bag[s.name].actioninterface.name] = metageneros.ActionLink(name = aserver_bag[s.name].actioninterface.name)
+							graph.hasActionLinks.extend([actionlinks_bag[aserver_bag[s.name].actioninterface.name]])
 						# Append action server to the graph
-						actionlinks_bag[aserver_bag[s.name].name].actionserver = aserver_bag[s.name]
+						actionlinks_bag[aserver_bag[s.name].actioninterface.name].actionserver = aserver_bag[s.name]
 						
 					# Action Client implement
 					aclient_bag = {}
@@ -371,10 +373,10 @@ class RosSystem(object):
 						# Create service link in graph
 						if aclient_bag[s.name].actioninterface.name not in actionlinks:
 							actionlinks.append(aclient_bag[s.name].actioninterface.name)
-							actionlinks_bag[aclient_bag[s.name].name] = metageneros.ActionLink(name = aclient_bag[s.name].name)
-							graph.hasActionLinks.extend([actionlinks_bag[aclient_bag[s.name].name]])
+							actionlinks_bag[aclient_bag[s.name].actioninterface.name] = metageneros.ActionLink(name = aclient_bag[s.name].actioninterface.name)
+							graph.hasActionLinks.extend([actionlinks_bag[aclient_bag[s.name].actioninterface.name]])
 						# Append action client to the graph
-						actionlinks_bag[aclient_bag[s.name].name].actionclient.extend([aclient_bag[s.name]])
+						actionlinks_bag[aclient_bag[s.name].actioninterface.name].actionclient.extend([aclient_bag[s.name]])
 							
 							
 						
@@ -445,9 +447,27 @@ def main(debug=False):
 		xmi_filename = sys.argv[2]
 	else:
 		xmi_filename = '../models/generos.xmi'	
-	# Load Grammar and Model
+	# Load Grammar
 	dsl_metamodel = metamodel_from_file('generos.tx', debug=False)
+	
+	# Convert importURI string (if needed)
+	def conv(i):
+		return i.replace(".", "/") + ".grs"
+	# Scope Providers
+	dsl_metamodel.register_scope_providers({"*.*": scoping_providers.FQNImportURI(importAs=True)})
+	
+	# Load Model
 	model = dsl_metamodel.model_from_file(grs_filename)
+	# Load imported models
+	imports = get_children_of_type("Import", model)
+	for i in imports:
+		for m in i._tx_loaded_models:
+			print('****************** _tx_loaded_model '+m._tx_filename)
+			print(dir(m))
+			# Attach commands of the submodels (imports) to the main model
+			model.commands.extend(m.commands)
+			
+		
 	# Fire up the generation
 	system = RosSystem()
 	system.interpret(model)

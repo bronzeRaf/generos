@@ -1,0 +1,8 @@
+message M1{
+	datatype int64 a, description = "description..."
+	datatype bool b, description = "description333...", default = "False"
+	datatype bool c, description = "descripssstion333..."
+	rostype Header h, std_msgs
+	datatype string s, description = "description444..."
+	datatype float32 y, description = "description222..."
+}

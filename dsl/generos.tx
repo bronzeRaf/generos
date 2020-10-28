@@ -3,6 +3,7 @@
 */
 
 GenerosModel:
+	imports*=Import
 	commands *= Command
 	/*packages*=Package
 	nodes*=Node
@@ -21,6 +22,12 @@ Command:
 	Package | Node | Parameter | Publisher | Subscriber | Client | Server | ActionServer | ActionClient | Dependency | Message | ServiceMessage | ActionInterface | QoSProfile | Host | LaunchFile | NetworkInterface | LocalNetwork
 ;
 
+Import: 'import' importURI=FQNI ('as' name=ID)?;
+
+
+FQN: ID+['.'];
+FQNI: ID+['.']('.*')?;
+
 Host:
 	'host' name=ID '{'
 		'architecture' '=' architecture=STRING
@@ -28,7 +35,7 @@ Host:
 		'hardDisk' '=' hardDisk = FLOAT
 		'memory' '=' memory = FLOAT
 		'rosVersion' '=' rosVersion = STRING
-		('hasNetworkInterfaces' '=' hasNetworkInterfaces*=[NetworkInterface][','])?
+		('hasNetworkInterfaces' '=' hasNetworkInterfaces*=[NetworkInterface|FQN][','])?
     '}'
 ;
 
@@ -51,8 +58,8 @@ LocalNetwork:
 LaunchFile:
 	'launchfile' name=ID '{'
 		('arguments' '=' arguments*=STRING[','])?
-		('nodes' '=' nodes*=[Node][','])?
-		'host' '=' host=[Host]
+		('nodes' '=' nodes*=[Node|FQN][','])?
+		'host' '=' host=[Host|FQN]
     '}'
 ;
 
@@ -69,8 +76,8 @@ CustomPackage:
 		'email' '=' email = STRING
 		'version' '=' version=STRING
 		('builtin' '=' builtin=BOOL)?
-		('hasNodes' '=' hasNodes *= [Node][','])?
-		('hasDependencies' '=' hasDependencies *= [Dependency][','])?
+		('hasNodes' '=' hasNodes *= [Node|FQN][','])?
+		('hasDependencies' '=' hasDependencies *= [Dependency|FQN][','])?
     '}'
 ;
 
@@ -83,21 +90,21 @@ RosPackage:
 		'email' '=' email = STRING
 		'version' '=' version=STRING
 		('builtin' '=' builtin=BOOL)?
-		('hasNodes' '=' hasNodes *= [Node][','])?
-		('hasDependencies' '=' hasDependencies *= [Dependency][','])?
+		('hasNodes' '=' hasNodes *= [Node|FQN][','])?
+		('hasDependencies' '=' hasDependencies *= [Dependency|FQN][','])?
     '}'
 ;
 
 Node:
     'node' name=ID '{'
 		('namespace' '=' namespace=STRING)?
-		('hasParameters' '=' hasParameters *= [Parameter][','])?
-		('hasPublishers' '=' hasPublishers *= [Publisher][','])?
-		('hasSubscribers' '=' hasSubscribers *= [Subscriber][','])?
-		('hasServers' '=' hasServers *= [Server][','])?
-		('hasClients' '=' hasClients *= [Client][','])?
-		('hasActionServers' '=' hasActionServers *= [ActionServer][','])?
-		('hasActionClients' '=' hasActionClients *= [ActionClient][','])?
+		('hasParameters' '=' hasParameters *= [Parameter|FQN][','])?
+		('hasPublishers' '=' hasPublishers *= [Publisher|FQN][','])?
+		('hasSubscribers' '=' hasSubscribers *= [Subscriber|FQN][','])?
+		('hasServers' '=' hasServers *= [Server|FQN][','])?
+		('hasClients' '=' hasClients *= [Client|FQN][','])?
+		('hasActionServers' '=' hasActionServers *= [ActionServer|FQN][','])?
+		('hasActionClients' '=' hasActionClients *= [ActionClient|FQN][','])?
     '}'
 ;
 
@@ -113,16 +120,16 @@ Publisher:
     'publisher' name=ID '{'
 		'topicPath' '=' topicPath=STRING
 		'publishRate' '=' publishRate=FLOAT
-		'message' '=' message=[Message]
-		('qos' '=' qos=[QoSProfile])?
+		'message' '=' message=[Message|FQN]
+		('qos' '=' qos=[QoSProfile|FQN])?
     '}'
 ;
 
 Subscriber:
     'subscriber' name=ID '{'
 		'topicPath' '=' topicPath=STRING
-		'message' '=' message=[Message]
-		('qos' '=' qos=[QoSProfile])?
+		'message' '=' message=[Message|FQN]
+		('qos' '=' qos=[QoSProfile|FQN])?
     '}'
 ;
 
@@ -130,8 +137,8 @@ Server:
     'server' name=ID '{'
 		'servicePath' '=' servicePath=STRING
 		'serviceName' '=' serviceName=STRING
-		'service' '=' service=[ServiceMessage]
-		('qos' '=' qos=[QoSProfile])?
+		'service' '=' service=[ServiceMessage|FQN]
+		('qos' '=' qos=[QoSProfile|FQN])?
     '}'
 ;
 
@@ -139,26 +146,26 @@ Client:
     'client' name=ID '{'
 		'servicePath' '=' servicePath=STRING
 		'serviceName' '=' serviceName=STRING
-		'service' '=' service=[ServiceMessage]
-		('qos' '=' qos=[QoSProfile])?
+		'service' '=' service=[ServiceMessage|FQN]
+		('qos' '=' qos=[QoSProfile|FQN])?
     '}'
 ;
 
 ActionServer:
     'actionServer' name=ID '{'
-		'action' '=' actioninterface=[ActionInterface]
+		'action' '=' actioninterface=[ActionInterface|FQN]
     '}'
 ;
 
 ActionClient:
     'actionClient' name=ID '{'
-		'action' '=' actioninterface=[ActionInterface]
+		'action' '=' actioninterface=[ActionInterface|FQN]
     '}'
 ;
 
 Dependency:
     'dependency' name=ID '{'
-		'package' '=' package=[Package]
+		'package' '=' package=[Package|FQN]
     '}'
 ;
 
