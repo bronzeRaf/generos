@@ -414,11 +414,6 @@ class RosSystem(object):
 				# Local Network
 				self.rosystem.hasDeployment.topology.network = metageneros.LocalNetwork(name = p.name, gateway = p.gateway, subnetMask = p.subnetMask, ip = p.ip)
 		
-		# Create Launchers package
-		# ~ package_bag['launchers'] = metageneros.CustomPackage(name = "launchers", rosVersion = 0, packagePath = "")
-		# ~ self.rosystem.hasSoftware.hasPackages.extend([package_bag['launchers']])
-		# ~ # Add Launchers into the package graph
-		# ~ packagegraph.package.extend([package_bag['launchers']])
 		
 		# Build Deployments (Launch files)
 		for p in model.commands:
@@ -432,9 +427,6 @@ class RosSystem(object):
 				# Add nodes to the file
 				for n in p.nodes:
 					deployments_bag[p.name].nodes.append(nodes_bag[n.name])
-		
-		
-		
 		
 		
 def main(debug=False):

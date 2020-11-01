@@ -1,23 +1,32 @@
+
 # Generos
-A Domain Specific Language to generate easilly ROS2 packages. Create complex ROS2 systems in minutes.
+A Domain Specific Language for easy and fast generation of ROS2 packages. Create complex ROS2 systems in minutes.
+
 Generos provides:
 - ROS2 systems with unlimited packages at once
-- Convenience on coding with a powerfull easy-to-learn DSL
+- Convenience on coding with a powerful easy-to-learn DSL
+- A component based approach for readable, reusable, maintainable and functional models
 - Instructions into the generated packages to make the functionality additions a piece of cake
 - High quality code and comments into the packages 
 - High quality documentation into the packages
 - Communication Graph in every system
+- Package Graph in every system
 - Automatically deals with all the dependencies
 - Automatically deals with all the imports
+- Automatically generates host packages and their launch files for an easy deployment
+- Supports system topology modeling
+- Supports modeling of pre-existing packages
+- Supports modeling of QoS profiles 
 - Supports all the ROS packages
-- Generates and documents Custom Messages, Services, Actions with zero efford
+- Generates and documents Custom Messages, Services, Actions with zero effort
+
 
 ______________________________________________________________________________
 
 ## Installing Generos:
 
 ### Automatic Install
-In order to install and to run Generos with its full capabilities you have to install some software that Generos uses. It is highly recomended to use the official bash installer of Generos to make sure all you libraries are set and up to date. Inside the folder you would like to install Generos run:
+In order to install and to run Generos with its full capabilities you have to install some software that Generos uses. It is highly recommended to use the official bash installer of Generos to make sure all your libraries are set and up to date. Inside the folder you would like to install Generos run:
 
 ```
 $ wget https://raw.githubusercontent.com/bronzeRaf/generos/master/install.bash
@@ -26,12 +35,12 @@ $ sudo bash install.bash
 
 You are done!
 
-REMEMBER! You will also need to install a ROS2 in your system to test your generated package, but you still can generate them...
+REMEMBER! You will also need to install a ROS2 in your system to test your generated packages, but you still can generate them...
 You can find ROS2 [here](https://index.ros.org/doc/ros2/Installation/Crystal/Linux-Install-Binary/ "Install ROS2").
 
 
 ### Manual Install
-If you want to manually install Generos make sure that you know what you are doing
+If you still want to manually install Generos make sure that you know what you are doing!
 A Linux distribution is required to use Generos but Ubuntu 18.04 is recommended.
 Install:
 - [Python 3](https://www.python.org/downloads/ "Install Python 3")
@@ -58,13 +67,13 @@ $ sudo bash path-to-generos-installation/generos.bash path-to-GRS/model.grs path
 
 ```
 Replacing:
-- "path-to-generos-installation" with the path to the installation folder of generos
-- "path-to-GRS/model.grs" with the path to the GRS file
+- "path-to-generos-installation" with the absolute path to the installation folder of Generos
+- "path-to-GRS/model.grs" with the absolute path to the GRS file
 - "path-to-output" with the path you would like to save the generated system
 
 Find your awesome ROS2 System in "path-to-output"/workspace
 
-!NOTICE! Generos run script works with absolute paths. 
+*NOTICE! Generos run script works with absolute paths. 
 
 That's it, Enjoy Package Generating!
 
@@ -73,14 +82,32 @@ ______________________________________________________________________________
 ## Writing GRS files:
 GRS files are models that represent ROS2 Systems. GRS is actually a DSL to describe what Generos you would like to generate for you. 
 
-A GRS program consist of many Commands. A command could be:  
-Package | Node | Parameter | Publisher | Subscriber | Client | Server | ActionServer | ActionClient | Dependency | Message | ServiceMessage | ActionInterface | QoSProfile
+First of all import old models into your model. Generos provides a python-like import system, on the top of your models. Multiple or Nested imports work perfectly. Just add one of the following lines:
 
-Commands could be placed in any order. Every Command consinst of some special Components, based on its type.
-Below you can see the accepted Components per Command. In these examples, in the comments you can see the datatype of any Component, if this component is optional or reqiured and if it is a single or a multiple Component. For example a ROS2 package could have many nodes, but only one maintainer. Multiple components are separated by spaces and could be one or more. Anything between double asterisks ``(**anything**)`` means that you need to replace them with your code without the asterisks. The order of the Components inside a Command is critical and could not be changed.
+```
+import path-to/old_model.grs
+import path-to/older_model.grs as older
+```
+
+Replacing:
+- "path-to" with the absolute or the relative path to the old model
+- "old_model.grs" with the name of the old model
+
+And use:
+- Any component of "old_model.grs" with its name
+- Any component of "older_model.grs" with "older.name", where name is the component's name
+
+A GRS model consists of *Commands*. A *Command* could be:  
+Package | Node | Parameter | Publisher | Subscriber | Client | Server | ActionServer | ActionClient | Dependency | Message | ServiceMessage | ActionInterface | QoSProfile | Host | Deployment | NetworkInterface | LocalNetwork
+
+*Commands* could be placed in any order. Every *Command* defines a *Component* with a unique name and every *Component* consists of some special *Attributes*, based on its type, inside an *Attribute Block* { }.
+
+Below you can see the accepted *Attributes* per *Component*. In these examples, in the comments you can see for any *Attribute*, its datatype, if it is optional or required and if it is single or multiple valued. For example a ROS2 package could have many nodes, but only one maintainer. Multiple values in *Attributes* are separated by commas (,) and could be unlimited. 
+
+Anything between double asterisks ``(**anything**)`` means that you need to replace it with your code and without the asterisks. The order of the *Attributes* inside a *Component* is critical and could not be changed. But the optional *Attributes* could always be skipped.
 
 ### Comments
-In GRS comments start with // and takes all the rest of the line.
+In GRS comments start with // and takes all the rest of the line. Comment can be placed anywhere, even inside *Attribute Blocks*.
 
 For example
 ```
@@ -93,15 +120,18 @@ To create a [Package](https://index.ros.org/doc/ros2/Tutorials/Creating-Your-Fir
 
 ```
 package **pack1** {
+	description = "**describe it**"	//string, required, single
 	path = "**packagePath**"	//string, required, single
 	license = "**license**"		//string, required, single
 	maintainer = "**maintainer**"	//string, required, single
 	email = "**email**"		//string, required, single
+	version = "**Foxy_Fitzroy**"	//string, required, single
 	builtin = **True**		//bool, optional, single 
-	hasNode = **n1** **n2**		//node, optional, many
-	hasDependency = **dep1**	//dependency, optional, many
+	hasNodes = **n1** **n2**	//node, optional, many
+	hasDependencies = **dep1**	//dependency, optional, many
 }
 ```
+*NOTICE! Declaring a package with the special identifier  "ros" as ``ros package **pack1**{...}`` will skip the package generation. Use this identifier for pre-existing ROS 2 packages to model, include, document and install them without regenerating them.
 
 ### Nodes
 To create a [Node](https://index.ros.org/doc/ros2/Tutorials/Understanding-ROS2-Nodes/ "ROS2 Nodes") you can write:
@@ -109,13 +139,13 @@ To create a [Node](https://index.ros.org/doc/ros2/Tutorials/Understanding-ROS2-N
 ```
 node **n1** {
 	namespace = "**namespace**"	//string, optional, single
-	hasParameter = **pr1**		//parameter, optional, many
-	hasPublisher = **pub1**		//publisher, optional, many
-	hasSubscriber = **sub1**	//subscriber, optional, many
-	hasServer = **sr1**		//server, optional, many
-	hasClient = **c1**		//client, optional, many
-	hasActionServer = **asr1**	//actionServer, optional, many
-	hasActionClient = **ac1**	//actionClient, optional, many
+	hasParameters = **pr1**		//parameter, optional, many
+	hasPublishers = **pub1**	//publisher, optional, many
+	hasSubscribers = **sub1**	//subscriber, optional, many
+	hasServers = **sr1**		//server, optional, many
+	hasClients = **c1**		//client, optional, many
+	hasActionServers = **asr1**	//actionServer, optional, many
+	hasActionClients = **ac1**	//actionClient, optional, many
 }
 ```
 
@@ -196,7 +226,7 @@ actionClient **ac1** {
 ```
 
 ### Dependency
-To create a Dependency you can write:
+To create a Dependency to a package you can write:
 
 ```
 dependency **dep1** {
@@ -209,10 +239,10 @@ A Message is either a [Custom Msg](https://index.ros.org/doc/ros2/Tutorials/Cust
 
 ```
 message **mes1** {
-	prim **int64**, **a**, description = "**description...**"
-	prim **bool**, **b**, description = "**description...**", constant = **True**, default = "**False**"
-	ros **Header**, **h**, **std_msgs**
-	prim **string**, **s**, description = "**another description...**" default = "**Value**"
+	datatype **int64**, **a**, description = "**description...**"
+	datatype **bool**, **b**, description = "**description...**", constant = **True**, default = "**False**"
+	rostype **Header**, **h**, **std_msgs**
+	datatype **string**, **s**, description = "**another description...**" default = "**Value**"
 }
 
 message **Header** package = "**std_msgs**"	//just give the name of a ROS Msg and its package
@@ -220,9 +250,9 @@ message **Header** package = "**std_msgs**"	//just give the name of a ROS Msg an
 
 A Custom Message consist of several Primitive datatypes and/or ROS datatypes. 
 - Primitive Dataypes follow the formula:
-	- ```prim type, name, description (string, optional), constant (bool, optional), default (string, optional)```
+	- ```datatype type, name, description (string, optional), constant (bool, optional), default (string, optional)```
 - ROS Data Types follow the formula:
-	- ```ros type, name, package (string, required)```
+	- ```rostype type, name, package (string, required)```
 
 A Ros Message consist of a type and a package.
 
@@ -232,10 +262,10 @@ A Service is either a [Custom Srv](https://index.ros.org/doc/ros2/Tutorials/Cust
 ```
 service **srv1** {
 	request:
-		prim **int64**, **a**, description = "**description...**"
-		prim **bool**, **b**, description = "**description...**", constant = **True**, default = "**False**"
+		datatype **int64**, **a**, description = "**description...**"
+		datatype **bool**, **b**, description = "**description...**", constant = **True**, default = "**False**"
 	response:
-		prim **string**, **s**, description = "**another description...**" default = "**Value**"
+		datatype **string**, **s**, description = "**another description...**" default = "**Value**"
 }
 
 service **SetBool** package = "**std_srvs**"	//just give the name of a ROS Srv and its package
@@ -252,11 +282,11 @@ To create an [Action](https://index.ros.org/doc/ros2/Tutorials/Understanding-ROS
 ```
 service **action1** {
 	goal:
-		prim **int64**, **a**, description = "**description...**"
+		datatype **int64**, **a**, description = "**description...**"
 	result:
-		prim **string**, **s**, description = "**another description...**" default = "**Value**"
+		datatype **string**, **s**, description = "**another description...**" default = "**Value**"
 	feedback:
-		prim **bool**, **b**, description = "**description...**", constant = **True**, default = "**False**"
+		datatype **bool**, **b**, description = "**description...**", constant = **True**, default = "**False**"
 }
 ```
 An Action consist of a Goal, a Result and a Feedback. All of them follow the formula of the Custom Messages.
@@ -282,23 +312,70 @@ qosprofile **qos1** {
 
 presetqos **SENSOR_DATA**	//just give the name of a QoS preset profile
 ```
+
+### Host
+To create a Host device in the system topology you can write:
+
+```
+host **h1** {
+	architecture = "**KEEP_LAST**"			//string, required, single
+	os = "**Ubuntu_18**"				//string, required, single
+	hardDisk = **2048.32**				//float, required, single
+	memory = **1024.68**				//float, required, single
+	rosVersion = "**Foxy_Fitzroy**"			//string, required, single
+	hasNetworkInterfaces = **netw1**		//networkinterface, optional, many
+}
+```
+
+### NetworkInterface
+To create a NetworkInterface in the system you can write:
+
+```
+networkinterface **netw1** {
+	gateway = "**192.168.1.254**"			//string, required, single
+	subnetMask = "**255.255 255.0**"		//string, required, single
+	ip = "**192.168.1.88**"				//string, required, single
+}
+```
+
+### LocalNetwork
+To create a LocalNetwork in the system you can write:
+
+```
+localnetwork **ln1** {
+	gateway = "**192.168.1.254**"			//string, required, single
+	subnetMask = "**255.255 255.0**"		//string, required, single
+	ip = "**192.168.1.88**"				//string, required, single
+}
+```
+
+### Deployment
+To create a Deployment configuration ([launch file](https://index.ros.org/doc/ros2/Tutorials/Launch-Files/Creating-Launch-Files/)) in a host package you can write:
+
+```
+deployment **dpl1** {
+	arguments = "**__log_level:=debug**"		//string, optional, many
+	nodes = **node1**				//node, optional, many
+	host = **h1**					//host, required, single
+}
+```
 ______________________________________________________________________________
 
 ## Understanding Generos:
 Lets take a further look inside Generos to understand how it works...
 
 ### dsl:
-This folder contains all the related to the dsl languange programms. The "generos.tx" implements the grammar of the dsl containing all the rules the language should fullfil written in [TextX](https://textx.github.io/textX/stable/ "TextX"). The "model.grs" is an example model created in Generos DSL and models a specific ROS System with some packages, nodes etc. The "run_generos_model.py" is the interpreter that obtains the "model.grs" parses it, validates it and creates the "generos.xmi" file form the "models" directory to pass it through the Generos ROS2 package generator mechanism.
+This folder contains all the related to the dsl language programs. The "generos.tx" implements the grammar of the dsl containing all the rules the language should fullfil written in [TextX](https://textx.github.io/textX/stable/ "TextX"). The "model.grs" is an example model created in Generos DSL and models a specific ROS System with some packages, nodes etc. The "run_generos_model.py" is the interpreter that obtains the "model.grs" parses it, validates it and creates the "generos.xmi" file form the "models" directory to pass it through the Generos ROS2 package generator mechanism.
 
 
 ### metamodelLib:
-This folder contains python module called "metamodel" implementing the metamodel of the [ROS2](https://index.ros.org/doc/ros2/Tutorials/ "ROS2") world. The module contains all the EClasses and the behavior, to build powerfull models. The folder contains also the ecore implementation of the metamodel in the file "metamodel.ecore". Anyone can import the python module or the ecore impementation of the metamodel to build models almost the same way. Finally, the file named "metamodelGenerator.py" reeds the ecore implementation of the "metamodel.ecore" and generates the python module "metamodel", using [pyecoregen](https://github.com/pyecore/pyecoregen "Pyecoregen"). The "metamodel.jpg" is the image of the metamodel diagram from the Eclipse Modeling Framework. You can see the diagram below.
+This folder contains python module called "metamodel" implementing the metamodel of the [ROS2](https://index.ros.org/doc/ros2/Tutorials/ "ROS2") world. The module contains all the EClasses and the behavior, to build powerfull models. The folder contains also the ecore implementation of the metamodel in the file "metamodel.ecore". Anyone can import the python module or the ecore implementation of the metamodel to build models almost the same way. Finally, the file named "metamodelGenerator.py" reeds the ecore implementation of the "metamodel.ecore" and generates the python module "metamodel", using [pyecoregen](https://github.com/pyecore/pyecoregen "Pyecoregen"). The "metamodel.jpg" is the image of the metamodel diagram from the Eclipse Modeling Framework. You can see the diagram below.
 
 ![Metamodel](/metamodelLib/metamodel.jpg "Metamodel of the ROS2 world")
 
 
 ### models:
-This folder demenstrates some kind of models that could be generated into ROS2 package from the system. The "model.py" receives the ecore metamodel to validate and builds the "test.xmi" file using [pyecore](https://buildmedia.readthedocs.org/media/pdf/pyecore/latest/pyecore.pdf "Pyecore"). The "model2.py" model receives the metamodel python module to validate and builds the "test2.xmi" file using [pyecore](https://buildmedia.readthedocs.org/media/pdf/pyecore/latest/pyecore.pdf "Pyecore"). The "modelj.json" is an example of a json model. The "generos.xmi" is an xmi model generated by the Generos DSL. Any of the xmi or json file with this format (created or generated) could work as an input in the ROS2 package generator mechanism of Generos.
+This folder demonstrates some kind of models that could be generated into ROS2 package from the system. The "model.py" receives the ecore metamodel to validate and builds the "test.xmi" file using [pyecore](https://buildmedia.readthedocs.org/media/pdf/pyecore/latest/pyecore.pdf "Pyecore"). The "model2.py" model receives the metamodel python module to validate and builds the "test2.xmi" file using [pyecore](https://buildmedia.readthedocs.org/media/pdf/pyecore/latest/pyecore.pdf "Pyecore"). The "modelj.json" is an example of a json model. The "generos.xmi" is an xmi model generated by the Generos DSL. Any of the xmi or json file with this format (created or generated) could work as an input in the ROS2 package generator mechanism of Generos.
 
 
 ### templates:
@@ -314,7 +391,7 @@ This folder contains all the [jinja2](https://buildmedia.readthedocs.org/media/p
 
 - The temp_action.action is a template of the custom action type, created by the user in the "interfaces" package.
 
-- The temp_node.py is a template of the node implementation. In every node all the callbacks, the Publishers, Subscribers, Services, Clients, Action Servers and Action Clients are working in the generated executable named "{Node's name}_exec". For every Client in the node, another executable is generated, named "{Node's name}_{Client's name}", so it can be called seperatelly. This extra executable run once, until the Server's response is obtained and exits.
+- The temp_node.py is a template of the node implementation. In every node all the callbacks, the Publishers, Subscribers, Services, Clients, Action Servers and Action Clients are working in the generated executable named "{Node's name}_exec". For every Client in the node, another executable is generated, named "{Node's name}_{Client's name}", so it can be called separately. This extra executable run once, until the Server's response is obtained and exits.
 
 - The temp_package.xml is a template of the package.xml file of the generated package. It contains the package and the maintainer information, as long as the dependencies.
 
@@ -332,9 +409,9 @@ This folder contains all the [jinja2](https://buildmedia.readthedocs.org/media/p
 
 
 ### example:
-This folder is generated from the ROS2 package generator mechanism of Generos. It contains the workspace and the "src" folders with the package "interfaces" and all the created by the user packages, as an example. The package "interfaces" is a Cpp package, implementing all the custom action, srv and msg that the user created. The rest of the packages, are those the a user created, generated in Python. In the packages there is one enrty point per node, an executable called "{Node's name}_exec" to the function called "main" inside the nodes. For every Client into a node, there is another entry point named "{Node's name}_{Client's name}" to the function called "{Client's name}". In addition, the "System Graph.png" image contains a representation of the generated system. It represents all the Nodes, the Topics (Publishers and Subscribers), the Services (Clients and Servers) and the Actions (Action Clients and Action Server) that the system contains independent of their packages. It is a comynication diagramm that demonstrates all the flow of the information inside the ROS system. It is created from [NetworkX](https://networkx.github.io/ "NetworkX") and [Matplotlib](https://matplotlib.org/ "Matplotlib").
+This folder is generated from the ROS2 package generator mechanism of Generos. It contains the workspace and the "src" folders with the package "interfaces" and all the created by the user packages, as an example. The package "interfaces" is a Cpp package, implementing all the custom action, srv and msg that the user created. The rest of the packages, are those the a user created, generated in Python. In the packages there is one entry point per node, an executable called "{Node's name}_exec" to the function called "main" inside the nodes. For every Client into a node, there is another entry point named "{Node's name}_{Client's name}" to the function called "{Client's name}". In addition, the "System Graph.png" image contains a representation of the generated system. It represents all the Nodes, the Topics (Publishers and Subscribers), the Services (Clients and Servers) and the Actions (Action Clients and Action Server) that the system contains independent of their packages. It is a communication diagram that demonstrates all the flow of the information inside the ROS system. It is created from [NetworkX](https://networkx.github.io/ "NetworkX") and [Matplotlib](https://matplotlib.org/ "Matplotlib").
 
-To run the executables After generating the code from the model go to the workspace root (folder named "example/workspace") in terminal and run the comands:
+To run the executables After generating the code from the model go to the workspace root (folder named "example/workspace") in terminal and run the commands:
 ```
 $ colcon build
 $ . install/setup.bash
