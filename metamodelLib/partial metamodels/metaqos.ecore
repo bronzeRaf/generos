@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="metaqos" nsURI="http://www.example.org/metamodel" nsPrefix="metamodel">
+  <eClassifiers xsi:type="ecore:EClass" name="CustomQosProfile" eSuperTypes="#//QosProfile">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="history" eType="#//QosHistory"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="depth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reliability" eType="#//QosReliability"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="durability" eType="#//QosDurability"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="liveliness" eType="#//QosLiveliness"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deadlineSec" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="deadlineNSec" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lifespanSec" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lifespanNSec" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="liveliness_lease_durationSec"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="liveliness_lease_durationNSec"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="avoid_ros_namespace_conventions"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="QosHistory">
+    <eLiterals name="SYSTEM_DEFAULT"/>
+    <eLiterals name="KEEP_LAST" value="1"/>
+    <eLiterals name="KEEP_ALL" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="QosReliability">
+    <eLiterals name="SYSTEM_DEFAULT"/>
+    <eLiterals name="RELIABLE" value="1"/>
+    <eLiterals name="BEST_EFFORT" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="QosDurability">
+    <eLiterals name="SYSTEM_DEFAULT"/>
+    <eLiterals name="TRANSIENT_LOCAL" value="1"/>
+    <eLiterals name="VOLATILE" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="QosProfile" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RosQosProfile" eSuperTypes="#//QosProfile">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="#//QosPresetProfiles"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="QosLiveliness">
+    <eLiterals name="SYSTEM_DEFAULT"/>
+    <eLiterals name="AUTOMATIC" value="1"/>
+    <eLiterals name="MANUAL_BY_NODE" value="2"/>
+    <eLiterals name="MANUAL_BY_TOPIC" value="3"/>
+    <eLiterals name="UKNOWN" value="4"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="QosPresetProfiles">
+    <eLiterals name="DEFAULT"/>
+    <eLiterals name="SYSTEM_DEFAULT" value="1"/>
+    <eLiterals name="SENSOR_DATA" value="2"/>
+    <eLiterals name="SERVICES_DEFAULT" value="3"/>
+    <eLiterals name="PARAMETERS" value="4"/>
+    <eLiterals name="PARAMETER_EVENTS" value="5"/>
+    <eLiterals name="ACTION_STATUS_DEFAULT" value="6"/>
+  </eClassifiers>
+</ecore:EPackage>

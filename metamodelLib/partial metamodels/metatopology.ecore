@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="metatopology" nsURI="http://www.example.org/metamodel" nsPrefix="metamodel">
+  <eClassifiers xsi:type="ecore:EClass" name="Topology">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasPlatforms" upperBound="-1"
+        eType="#//Platform" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="network" eType="#//LocalNetwork"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Platform">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasHost" upperBound="-1"
+        eType="#//Host" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LocalNetwork">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ip" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="subnetMask" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gateway" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Host">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="architecture" lowerBound="1"
+        eType="#//AritectureTypes"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="OS" lowerBound="1" eType="#//OSType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hardDisk" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="memory" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rosVersion" lowerBound="1"
+        eType="#//ROSVersion"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasNetworkInterfaces" upperBound="-1"
+        eType="#//NetworkInterface" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ROSVersion">
+    <eLiterals name="Ardent_Apalone"/>
+    <eLiterals name="Bouncy_Bolson" value="1"/>
+    <eLiterals name="Crystal_Clemmys" value="2"/>
+    <eLiterals name="Dashing_Diademata" value="3"/>
+    <eLiterals name="Eloquent_Elusor" value="4"/>
+    <eLiterals name="Foxy_Fitzroy" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="AritectureTypes">
+    <eLiterals name="x86"/>
+    <eLiterals name="x64" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="OSType">
+    <eLiterals name="Ubuntu_14"/>
+    <eLiterals name="Ubuntu_16" value="1"/>
+    <eLiterals name="Ubuntu_18" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NetworkInterface">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gateway" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="subnetMask" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ip" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Deployment">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="host" lowerBound="1" eType="#//Host"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="arguments" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>

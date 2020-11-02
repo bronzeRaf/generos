@@ -5,7 +5,7 @@ package obstacle_avoidance{
 	license = "Apache License 2.0"
 	maintainer = "bronzeRaf"
 	email = "rnm1816@gmail.com"
-	version = "Eloquent Elusor"
+	version = "Eloquent_Elusor"
 	hasNodes = sonar1, sonar2, cpu 
 }
 

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="metasoftware" nsURI="http://www.example.org/metamodel" nsPrefix="metamodel">
+  <eClassifiers xsi:type="ecore:EClass" name="Package" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rosVersion" lowerBound="1"
+        upperBound="-1" eType="#//ROSVersion"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="packagePath" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="license" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="maintainer" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="email" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="builtin" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Software">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasPackages" upperBound="-1"
+        eType="#//Package" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hasQosProfiles" upperBound="-1"
+        eType="#//QosProfile" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ROSVersion">
+    <eLiterals name="Ardent Apalone"/>
+    <eLiterals name="Bouncy Bolson" value="1"/>
+    <eLiterals name="Crystal Clemmys" value="2"/>
+    <eLiterals name="Dashing Diademata" value="3"/>
+    <eLiterals name="Eloquent Elusor" value="4"/>
+    <eLiterals name="Foxy Fitzroy" value="5"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="QosProfile" abstract="true"/>
+</ecore:EPackage>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="metaobject" nsURI="http://www.example.org/metamodel" nsPrefix="metamodel">
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectProperty">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="datatype" lowerBound="1"
+        eType="#//Datatype" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="constant" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="default" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Datatype" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Bool" eSuperTypes="#//Datatype">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="&quot;bool&quot;"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="String" eSuperTypes="#//Datatype">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="&quot;string&quot;"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Number" abstract="true" eSuperTypes="#//Datatype"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Int" eSuperTypes="#//Number">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//IntType"
+        defaultValueLiteral="IntType.int32"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Uint" eSuperTypes="#//Number">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//UIntType"
+        defaultValueLiteral="UIntType.uint32"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Float" eSuperTypes="#//Number">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//FloatType"
+        defaultValueLiteral="FloatType.float32"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="UIntType">
+    <eLiterals name="uint8"/>
+    <eLiterals name="uint16" value="1"/>
+    <eLiterals name="uint32" value="2"/>
+    <eLiterals name="uint64" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="IntType">
+    <eLiterals name="int8"/>
+    <eLiterals name="int16" value="1"/>
+    <eLiterals name="int32" value="2"/>
+    <eLiterals name="int64" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FloatType">
+    <eLiterals name="float32"/>
+    <eLiterals name="float64" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ROSData" eSuperTypes="#//Datatype">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="package" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Array" abstract="true" eSuperTypes="#//Datatype"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UintArray" eSuperTypes="#//Array">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//UIntArrayType"
+        defaultValueLiteral="UIntArrayType.uint32"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="FloatArray" eSuperTypes="#//Array">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//FloatArrayType"
+        defaultValueLiteral="FloatArrayType.float32"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntArray" eSuperTypes="#//Array">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//IntArrayType"
+        defaultValueLiteral="IntArrayType.int32"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="IntArrayType">
+    <eLiterals name="int8[]"/>
+    <eLiterals name="int16[]" value="1"/>
+    <eLiterals name="int32[]" value="2"/>
+    <eLiterals name="int64[]" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="UIntArrayType">
+    <eLiterals name="uint8[]"/>
+    <eLiterals name="uint16[]" value="1"/>
+    <eLiterals name="uint32[]" value="2"/>
+    <eLiterals name="uint64[]" value="3"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="FloatArrayType">
+    <eLiterals name="float32[]"/>
+    <eLiterals name="float64[]" value="1"/>
+  </eClassifiers>
+</ecore:EPackage>

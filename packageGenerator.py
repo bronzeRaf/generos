@@ -42,7 +42,7 @@ model_filename = os.path.relpath(sys.argv[1], install_dir)
 if len(sys.argv) == 3:
 	destination = os.path.relpath(sys.argv[2], install_dir)
 	print(destination)
-	metamodel_filename = 'metamodelLib/metamodel.ecore'
+	metamodel_filename = 'metamodelLib/metageneros.ecore'
 elif len(sys.argv) == 4:
 	destination = os.path.relpath(sys.argv[2], install_dir)
 	metamodel_filename = os.path.relpath(sys.argv[3], install_dir)
