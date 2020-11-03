@@ -1,0 +1,165 @@
+{# 
+#This is a jinja2 template of a ROS2 Launch Host package Documentation
+#
+# Written in 3/11/2020
+# Written by Rafael Brouzos
+#}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Doc {{pack.packageName}}</title>
+	<link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+<div class = "maincontainer">
+<!--
+		Description
+-->
+	<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<h1>Documentation of ROS2 package: {{pack.packageName}}</h1>
+	</div>
+	<div class="gradient1">
+		<div class="description">
+			<h3>Description:</h3> <p style: color: #36304a;>{{pack.description}}</p>
+		</div>
+	</div>
+<!--
+		Metadata
+-->
+	<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<h2>Package Metadata</h2>
+	</div>
+	<div class="gradient1">
+		<div class="metadata">
+			
+			<h3>Maintaner:</h3> <p style: color: #36304a;>{{pack.maintainer}} </br></br></p>
+			<h3>Email: </h3> <p style: color: #36304a;> {{pack.email}} </br></br></p>
+			<h3>License: </h3> <p style: color: #36304a;>{{pack.license}} </br></br></p>
+			
+		</div>
+	</div>
+
+<!--
+		Host Info
+-->
+	<div class="whiteTitle">
+		<p style="page-break-before: always" ></p>
+		<h2>Host {{host.name}} Info</h2>
+	</div>
+	<div class="gradient1">
+		<div class="containment">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Host spefication</caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Characteristic</th>
+											<th class="column2">Value</th>
+										</tr>
+									</thead>
+									<tbody>
+											
+											<tr>
+												<td class="column1">Architecture</td>
+												<td class="column2">{{host.architecture}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Operating System</td>
+												<td class="column2">{{host.os}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Hard Disk</td>
+												<td class="column2">{{host.hardDisk}}</td>
+											</tr>
+											<tr>
+												<td class="column1">Memory</td>
+												<td class="column2">{{host.memory}}</td>
+											</tr>
+											<tr>
+												<td class="column1">ROS2 version</td>
+												<td class="column2">{{host.rosVersion}}</td>
+											</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			</div>
+	</div>
+
+<!--
+		Network Interfaces
+-->
+
+{% for ni in networks %}
+			<div class="containment">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Network Interface {{ni.name}}</caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Gateway</th>
+											<th class="column2">IP</th>
+											<th class="column3">Subnet Mask</th>
+										</tr>
+									</thead>
+									<tbody>
+											<tr>
+												<td class="column1">{{ni.gateway}}</td>
+												<td class="column2">{{ni.ip}}</td>
+												<td class="column3">{{ni.subnetMask}}</td>
+											</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			</div>
+{%endfor%}
+
+<!--
+		Launch Files
+-->
+			<div class="containment">
+					<div class="container-table100">
+						<div class="wrap-table100">
+							<div class="table100">
+								<table>
+									<caption class = "tabletop">Launch Files</caption>
+									<thead>
+										<tr class="table100-head">
+											<th class="column1">Name</th>
+											<th class="column2">Nodes</th>
+											<th class="column3">Executables</th>
+											<th class="column4">Arguments</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for l in launchs %}
+											<tr>
+												<td class="column1">{{l.name}}</td>
+												<td class="column2">{{l.nodes}}</td>
+												<td class="column3">{{l.executables}}</td>
+												<td class="column4">{{l.args}}</td>
+											</tr>
+										{%endfor%}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+			</div>
+
+</div>
+<div class="clear"></div>
+
+</div>
+</body>
+</html>

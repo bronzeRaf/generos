@@ -940,7 +940,6 @@ for package in model_root.hasSoftware.hasPackages:
 
 	# Give execution permissions to the generated python file
 	os.chmod(dest, 509)
-	# Go to the workspace/src for the next package
 	
 	# Generate main.css 
 	# ___________________________________________
@@ -1011,7 +1010,7 @@ for package in model_root.hasSoftware.hasPackages:
 	pack_depend.append("rclpy")
 	pack_depend.append("interfaces")
 	for p in model_root.hasSoftware.hasPackages:
-		if p.name == "launchers":
+		if p.name.startswith('launch'):
 			continue
 		pack_depend.append(p.name)
 
@@ -1055,11 +1054,17 @@ for package in model_root.hasSoftware.hasPackages:
 
 	# Give execution permissions to the generated python file
 	os.chmod(dest, 509)
-
+	
+	launchers_data = []
+	host_data = {}
 	# Generate each launch.py 
 	for launch in package.hasDeployments:
 		# Build the node data to pass to the Template
-		nodes_data = []
+		nodes_data = []	
+		launch_data = {}
+		launch_data['name'] = launch.name
+		launch_data['nodes'] = ""
+		launch_data['executables'] = ""
 		for node in launch.nodes:
 			node_data = {}
 			node_data['package'] = node._container.name
@@ -1069,6 +1074,23 @@ for package in model_root.hasSoftware.hasPackages:
 			node_data['version'] = launch.host.rosVersion.value
 			#TODO add arguments
 			nodes_data.append(node_data)
+			launch_data['nodes'] = launch_data['nodes']+node.name+" | "
+			launch_data['executables'] = launch_data['executables']+node.name+"_exec"+" | "
+		launchers_data.append(launch_data)
+		# Build Host data
+		host_data['name'] = launch.host.name
+		host_data['architecture'] = launch.host.architecture
+		host_data['os'] = launch.host.OS
+		host_data['hardDisk'] = launch.host.hardDisk
+		host_data['memory'] = launch.host.memory
+		host_data['rosVersion'] = launch.host.rosVersion
+		# Build Network Interface data
+		nis_data = []
+		for ni in launch.host.hasNetworkInterfaces:
+			ni_data = {}
+			ni_data['gateway'] = ni.gateway
+			ni_data['ip'] = ni.ip
+			ni_data['subnetMask'] = ni.subnetMask
 		
 		# Load the Template of the setup.py
 		template = env.get_template('temp_launch.py')
@@ -1082,8 +1104,43 @@ for package in model_root.hasSoftware.hasPackages:
 
 		# Give execution permissions to the generated python file
 		os.chmod(dest, 509)
+	
+	# Generate documentation.html 
+	# ___________________________________________
+	# Load the Template of the documentation.html
+	template = env.get_template('temp_host_documentation.html')
+		
+	# Fire up the rendering proccess
+	output = template.render(pack=pack_data, host = host_data, networks = nis_data, launchs = launchers_data)
+	os.system('mkdir documentation')
+	
+	# Build the pdf of the Documentation
+	HTML(string=output).write_pdf("documentation/report.pdf", stylesheets=["../../../templates/temp_pdf.css"])
+	
+	# Write the generated file
+	dest='documentation/documentation.html'
+	with open(dest, 'w') as f:
+		f.write(output)
 
+	# Give execution permissions to the generated python file
+	os.chmod(dest, 509)
+	
+	# Generate main.css 
+	# ___________________________________________
+	# Load the Template of the main.css
+	template = env.get_template('temp_main.css')
+	
+	# Fire up the rendering proccess
+	output = template.render()
+	
+	# Write the generated file
+	dest='documentation/main.css'
+	with open(dest, 'w') as f:
+		f.write(output)
 
+	# Give execution permissions to the generated python file
+	os.chmod(dest, 509)
+	
 	# Go to the workspace/src
 	os.chdir('..')
 	
