@@ -324,6 +324,7 @@ host **h1** {
 	memory = **1024.68**				//float, required, single
 	rosVersion = "**Foxy_Fitzroy**"			//string, required, single
 	hasNetworkInterfaces = **netw1**		//networkinterface, optional, many
+	hasDependencies = **dep1**			//dependency, optional, many
 }
 ```
 
