@@ -6,7 +6,7 @@ package pack1 {
 	license = "The license is MIT"
 	maintainer = "bronzeRaf"
 	email = "rnm1816@gmail.com"
-	version = "eloquent"
+	version = "Eloquent_Elusor"
 	builtin = False
 	hasNodes = node1, node3
 	hasDependencies = dep1
@@ -18,7 +18,7 @@ package pack2 {
 	license = "The license is MIT"
 	maintainer = "bronzeRaf"
 	email = "rnm1816@gmail.com"
-	version = "eloquent"
+	version = "Eloquent_Elusor"
 	builtin = False
 	hasNodes = node2
 }
@@ -30,7 +30,7 @@ ros package slam{
 	license = "Apache 2.0"
 	maintainer = "etsardoulias"
 	email = "etsardoulias@ece.auth.gr"
-	version = "eloquent"
+	version = "Eloquent_Elusor"
 	builtin = False
 	hasNodes = slamer
 }
@@ -40,7 +40,8 @@ host host1 {
 	os = "Ubuntu_18"
 	hardDisk = 20480
 	memory = 4096
-	rosVersion = "Foxy_Fitzroy"
+	rosVersion = "Eloquent_Elusor"
+	hasDependencies = dep2
 }
 
 host host2 {
@@ -48,7 +49,7 @@ host host2 {
 	os = "Ubuntu_18"
 	hardDisk = 20480
 	memory = 4096
-	rosVersion = "Foxy_Fitzroy"
+	rosVersion = "Eloquent_Elusor"
 }
 
 deployment d1h1{
@@ -68,4 +69,6 @@ dependency dep1{
 	package = pack2
 }
 
-
+dependency dep2{
+	package = slam
+}

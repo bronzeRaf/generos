@@ -1009,10 +1009,11 @@ for package in model_root.hasSoftware.hasPackages:
 	pack_depend = []
 	pack_depend.append("rclpy")
 	pack_depend.append("interfaces")
-	for p in model_root.hasSoftware.hasPackages:
-		if p.name.startswith('launch'):
-			continue
-		pack_depend.append(p.name)
+	
+	
+	for d in package.hasDependencies:
+		if d.package.name not in pack_depend:
+			pack_depend.append(d.package.name)
 
 	# Fire up the rendering proccess
 	output = template.render(pack=pack_data, pack_depend=pack_depend)
@@ -1229,22 +1230,32 @@ PG = nx.DiGraph()
 package_nodes = []
 edge_labels = {}
 node_labels = {}
-# Nodes
+# Packages
 for n in model_root.hasSystemGraph.packagegraph.package:
-	# Node nodes
+	# Package nodes
 	PG.add_node(n.name)
 	node_labels[n.name] = n.name
 	package_nodes.append(n.name)
+	
+	
+# Edges
+for n in model_root.hasSystemGraph.packagegraph.package:
+	# Dependencies Edges
+	for d in n.hasDependencies:
+		PG.add_edge(n.name, d.package.name)
+		edge_labels[n.name, d.package.name] = "dep"
+		
 
 # Make plot
-plt.subplots(1, figsize=(16,16))
+plt.subplots(1, figsize=(20,20))
 # Obtain position
-pos = nx.random_layout(PG)
+pos = nx.circular_layout(PG)
 # Plot Packages
-nx.draw_networkx_nodes(PG,pos=pos,nodelist=package_nodes, node_size=30000, node_color='skyblue', node_shape='s', label='Packages', with_labels = True, alpha = 0.5)
-
+nx.draw_networkx_nodes(PG,pos=pos,nodelist=package_nodes, node_size=20000, node_color='skyblue', node_shape='s', label='Packages', with_labels = True, alpha = 0.5)
 # Plot Labels on Packages
 nx.draw_networkx_labels(PG,pos=pos, labels = node_labels, font_size = 18, alpha = 0.8)
+# Plot Edges
+nx.draw_networkx_edges(PG, pos=pos, width=1, arrows = True, min_source_margin = 30, min_target_margin = 30)
 
 # Plot Legend
 # ~ plt.legend(loc = 'best', scatterpoints=1, labelspacing=4.5, handletextpad = 3, borderpad = 3)

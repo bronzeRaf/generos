@@ -1,14 +1,25 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <metageneros:ROSSystem xmlns:xmi="http://www.omg.org/XMI" xmlns:metageneros="http://www.example.org/metageneros" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="My_dsl_ROS_system" xmi:version="2.0">
+  <hasSystemGraph xsi:type="metageneros:SystemGraph">
+    <packagegraph xsi:type="metageneros:PackageGraph" package="//@hasSoftware/@hasPackages.0 //@hasSoftware/@hasPackages.3 //@hasSoftware/@hasPackages.4 //@hasSoftware/@hasPackages.5 //@hasSoftware/@hasPackages.6 //@hasSoftware/@hasPackages.7"/>
+    <graph xsi:type="metageneros:Graph" nodes="//@hasSoftware/@hasPackages.3/@hasNodes.0 //@hasSoftware/@hasPackages.3/@hasNodes.1 //@hasSoftware/@hasPackages.4/@hasNodes.0 //@hasSoftware/@hasPackages.5/@hasNodes.0">
+      <hasActionLinks xsi:type="metageneros:ActionLink" name="Increase" actionserver="//@hasSoftware/@hasPackages.3/@hasNodes.0/@hasActionServers.0" actionclient="//@hasSoftware/@hasPackages.4/@hasNodes.0/@hasActionClients.0"/>
+      <hasActionLinks xsi:type="metageneros:ActionLink" name="Dec" actionserver="//@hasSoftware/@hasPackages.4/@hasNodes.0/@hasActionServers.0" actionclient="//@hasSoftware/@hasPackages.3/@hasNodes.0/@hasActionClients.0"/>
+      <hasTopics xsi:type="metageneros:Topic" topicPath="topic/path1" publisher="//@hasSoftware/@hasPackages.4/@hasNodes.0/@hasPublishers.0" subscriber="//@hasSoftware/@hasPackages.3/@hasNodes.0/@hasSubscribers.0 //@hasSoftware/@hasPackages.3/@hasNodes.1/@hasSubscribers.0 //@hasSoftware/@hasPackages.5/@hasNodes.0/@hasSubscribers.0"/>
+      <hasTopics xsi:type="metageneros:Topic" topicPath="topic/map" publisher="//@hasSoftware/@hasPackages.5/@hasNodes.0/@hasPublishers.0"/>
+      <hasServiceLinks xsi:type="metageneros:ServiceLink" server="//@hasSoftware/@hasPackages.3/@hasNodes.0/@hasServers.0" name="service1" client="//@hasSoftware/@hasPackages.4/@hasNodes.0/@hasClients.0"/>
+      <hasServiceLinks xsi:type="metageneros:ServiceLink" server="//@hasSoftware/@hasPackages.3/@hasNodes.0/@hasServers.1" name="service2" client="//@hasSoftware/@hasPackages.3/@hasNodes.1/@hasClients.0"/>
+    </graph>
+  </hasSystemGraph>
   <hasTopology xsi:type="metageneros:Topology">
     <hasPlatforms xsi:type="metageneros:Platform" name="workspace_platform">
-      <hasHost xsi:type="metageneros:Host" hardDisk="20480.0" rosVersion="Foxy_Fitzroy" OS="Ubuntu_18" memory="4096.0" name="host1" architecture="x64"/>
-      <hasHost xsi:type="metageneros:Host" hardDisk="20480.0" rosVersion="Foxy_Fitzroy" OS="Ubuntu_18" memory="4096.0" name="host2" architecture="x64"/>
+      <hasHost xsi:type="metageneros:Host" hardDisk="20480.0" rosVersion="Eloquent_Elusor" OS="Ubuntu_18" memory="4096.0" name="host1" architecture="x64"/>
+      <hasHost xsi:type="metageneros:Host" hardDisk="20480.0" rosVersion="Eloquent_Elusor" OS="Ubuntu_18" memory="4096.0" name="host2" architecture="x64"/>
     </hasPlatforms>
   </hasTopology>
   <hasSoftware xsi:type="metageneros:Software">
     <hasPackages xsi:type="metageneros:CustomPackage" packagePath="" name="interfaces">
-      <hasTopicMessages xsi:type="metageneros:CustomMessage" name="M1" description="">
+      <hasTopicMessages xsi:type="metageneros:CustomMessage" description="" name="M1">
         <hasObjectProperties xsi:type="metageneros:ObjectProperty" name="a" description="description..." default="">
           <datatype xsi:type="metageneros:Int" type="int64"/>
         </hasObjectProperties>
@@ -19,7 +30,7 @@
           <datatype xsi:type="metageneros:Bool" type="bool"/>
         </hasObjectProperties>
         <hasObjectProperties xsi:type="metageneros:ObjectProperty" name="h" description="" default="">
-          <datatype xsi:type="metageneros:ROSData" type="Header" package="std_msgs"/>
+          <datatype xsi:type="metageneros:ROSData" package="std_msgs" type="Header"/>
         </hasObjectProperties>
         <hasObjectProperties xsi:type="metageneros:ObjectProperty" name="s" description="description444..." default="">
           <datatype xsi:type="metageneros:String" type="string"/>
@@ -29,6 +40,14 @@
         </hasObjectProperties>
       </hasTopicMessages>
       <hasActionInterfaces xsi:type="metageneros:CustomActionInterface" description="" name="Increase">
+        <hasFeedback xsi:type="metageneros:Feedback">
+          <hasObjectProperties xsi:type="metageneros:ObjectProperty" name="h" description="" default="">
+            <datatype xsi:type="metageneros:ROSData" package="std_msgs" type="Header"/>
+          </hasObjectProperties>
+          <hasObjectProperties xsi:type="metageneros:ObjectProperty" name="z" description="The counter" default="">
+            <datatype xsi:type="metageneros:Int" type="int64"/>
+          </hasObjectProperties>
+        </hasFeedback>
         <hasResult xsi:type="metageneros:Result">
           <hasObjectProperties xsi:type="metageneros:ObjectProperty" name="resus" description="descripssstion333..." default="">
             <datatype xsi:type="metageneros:Bool" type="bool"/>
@@ -42,16 +61,16 @@
             <datatype xsi:type="metageneros:Int" type="int32"/>
           </hasObjectProperties>
         </hasGoal>
-        <hasFeedback xsi:type="metageneros:Feedback">
-          <hasObjectProperties xsi:type="metageneros:ObjectProperty" name="h" description="" default="">
-            <datatype xsi:type="metageneros:ROSData" type="Header" package="std_msgs"/>
-          </hasObjectProperties>
-          <hasObjectProperties xsi:type="metageneros:ObjectProperty" name="z" description="The counter" default="">
-            <datatype xsi:type="metageneros:Int" type="int64"/>
-          </hasObjectProperties>
-        </hasFeedback>
       </hasActionInterfaces>
       <hasActionInterfaces xsi:type="metageneros:CustomActionInterface" description="" name="Dec">
+        <hasFeedback xsi:type="metageneros:Feedback">
+          <hasObjectProperties xsi:type="metageneros:ObjectProperty" name="h" description="" default="">
+            <datatype xsi:type="metageneros:ROSData" package="std_msgs" type="Header"/>
+          </hasObjectProperties>
+          <hasObjectProperties xsi:type="metageneros:ObjectProperty" name="yt" description="The current result" default="">
+            <datatype xsi:type="metageneros:Float" type="float64"/>
+          </hasObjectProperties>
+        </hasFeedback>
         <hasResult xsi:type="metageneros:Result">
           <hasObjectProperties xsi:type="metageneros:ObjectProperty" name="y" description="the result" default="">
             <datatype xsi:type="metageneros:Float" type="float64"/>
@@ -65,16 +84,8 @@
             <datatype xsi:type="metageneros:Float" type="float64"/>
           </hasObjectProperties>
         </hasGoal>
-        <hasFeedback xsi:type="metageneros:Feedback">
-          <hasObjectProperties xsi:type="metageneros:ObjectProperty" name="h" description="" default="">
-            <datatype xsi:type="metageneros:ROSData" type="Header" package="std_msgs"/>
-          </hasObjectProperties>
-          <hasObjectProperties xsi:type="metageneros:ObjectProperty" name="yt" description="The current result" default="">
-            <datatype xsi:type="metageneros:Float" type="float64"/>
-          </hasObjectProperties>
-        </hasFeedback>
       </hasActionInterfaces>
-      <hasServiceMessages xsi:type="metageneros:CustomService" name="Addtwo" description="">
+      <hasServiceMessages xsi:type="metageneros:CustomService" description="" name="Addtwo">
         <hasRequest xsi:type="metageneros:Request">
           <hasObjectProperties xsi:type="metageneros:ObjectProperty" name="x" description="first number" default="0">
             <datatype xsi:type="metageneros:Int" type="int32"/>
@@ -88,7 +99,7 @@
             <datatype xsi:type="metageneros:Bool" type="bool"/>
           </hasObjectProperties>
           <hasObjectProperties xsi:type="metageneros:ObjectProperty" name="h" description="" default="">
-            <datatype xsi:type="metageneros:ROSData" type="Header" package="std_msgs"/>
+            <datatype xsi:type="metageneros:ROSData" package="std_msgs" type="Header"/>
           </hasObjectProperties>
           <hasObjectProperties xsi:type="metageneros:ObjectProperty" name="z" description="The sum of x+y" default="">
             <datatype xsi:type="metageneros:Int" type="int64"/>
@@ -96,64 +107,62 @@
         </hasResponse>
       </hasServiceMessages>
     </hasPackages>
-    <hasPackages xsi:type="metageneros:RosPackage" packagePath="" builtin="true" name="std_msgs">
-      <hasTopicMessages xsi:type="metageneros:RosMessage" name="Header" package="std_msgs"/>
+    <hasPackages xsi:type="metageneros:RosPackage" name="std_msgs" packagePath="" builtin="true">
+      <hasTopicMessages xsi:type="metageneros:RosMessage" package="std_msgs" name="Header"/>
     </hasPackages>
-    <hasPackages xsi:type="metageneros:RosPackage" packagePath="" builtin="true" name="std_srvs">
+    <hasPackages xsi:type="metageneros:RosPackage" name="std_srvs" packagePath="" builtin="true">
       <hasServiceMessages xsi:type="metageneros:RosService" name="SetBool" package="std_srvs"/>
     </hasPackages>
     <hasPackages xsi:type="metageneros:CustomPackage" packagePath="path/to/pack1" maintainer="bronzeRaf" license="The license is MIT" name="pack1" email="rnm1816@gmail.com" description=" P1 desc">
       <hasNodes xsi:type="metageneros:Node" name="node1" namespace="">
-        <hasActionClients xsi:type="metageneros:ActionClient" actioninterface="//@hasSoftware/@hasPackages.0/@hasActionInterfaces.1" name="ac2"/>
-        <hasServers xsi:type="metageneros:Server" name="s1" servicePath="path" servicemessage="//@hasSoftware/@hasPackages.0/@hasServiceMessages.0" serviceName="service1" qosprofile="//@hasSoftware/@hasQosProfiles.0"/>
-        <hasServers xsi:type="metageneros:Server" name="s2" servicePath="path2" servicemessage="//@hasSoftware/@hasPackages.2/@hasServiceMessages.0" serviceName="service2" qosprofile="//@hasSoftware/@hasQosProfiles.0"/>
+        <hasParameters xsi:type="metageneros:Parameter" description="" type="INTEGER_ARRAY" value="32" name="p1"/>
+        <hasActionClients xsi:type="metageneros:ActionClient" name="ac2" actioninterface="//@hasSoftware/@hasPackages.0/@hasActionInterfaces.1"/>
+        <hasServers xsi:type="metageneros:Server" qosprofile="//@hasSoftware/@hasQosProfiles.0" name="s1" servicePath="path" servicemessage="//@hasSoftware/@hasPackages.0/@hasServiceMessages.0" serviceName="service1"/>
+        <hasServers xsi:type="metageneros:Server" qosprofile="//@hasSoftware/@hasQosProfiles.0" name="s2" servicePath="path2" servicemessage="//@hasSoftware/@hasPackages.2/@hasServiceMessages.0" serviceName="service2"/>
         <hasActionServers xsi:type="metageneros:ActionServer" name="as1" actioninterface="//@hasSoftware/@hasPackages.0/@hasActionInterfaces.0"/>
-        <hasSubscribers xsi:type="metageneros:Subscriber" name="sub1" topicPath="topic/path1" smsg="//@hasSoftware/@hasPackages.0/@hasTopicMessages.0"/>
-        <hasParameters xsi:type="metageneros:Parameter" type="INTEGER_ARRAY" value="32" name="p1" description=""/>
+        <hasSubscribers xsi:type="metageneros:Subscriber" topicPath="topic/path1" smsg="//@hasSoftware/@hasPackages.0/@hasTopicMessages.0" name="sub1"/>
       </hasNodes>
-      <hasNodes xsi:type="metageneros:Node" name="node3" namespace="name/space3">
-        <hasClients xsi:type="metageneros:Client" name="c2" serviceName="service2" qosprofile="//@hasSoftware/@hasQosProfiles.0" servicePath="path2" servicemessage="//@hasSoftware/@hasPackages.0/@hasServiceMessages.0"/>
-        <hasSubscribers xsi:type="metageneros:Subscriber" name="sub1" topicPath="topic/path1" smsg="//@hasSoftware/@hasPackages.0/@hasTopicMessages.0"/>
+      <hasNodes xsi:type="metageneros:Node" namespace="name/space3" name="node3">
+        <hasSubscribers xsi:type="metageneros:Subscriber" topicPath="topic/path1" smsg="//@hasSoftware/@hasPackages.0/@hasTopicMessages.0" name="sub1"/>
+        <hasClients xsi:type="metageneros:Client" servicePath="path2" servicemessage="//@hasSoftware/@hasPackages.0/@hasServiceMessages.0" name="c2" serviceName="service2" qosprofile="//@hasSoftware/@hasQosProfiles.0"/>
       </hasNodes>
+      <hasDependencies xsi:type="metageneros:PackageDependency" package="//@hasSoftware/@hasPackages.0"/>
+      <hasDependencies xsi:type="metageneros:PackageDependency" package="//@hasSoftware/@hasPackages.2"/>
       <hasDependencies xsi:type="metageneros:PackageDependency" package="//@hasSoftware/@hasPackages.4"/>
       <hasDocumentation xsi:type="metageneros:Documentation"/>
     </hasPackages>
     <hasPackages xsi:type="metageneros:CustomPackage" packagePath="path/to/pack2" maintainer="bronzeRaf" license="The license is MIT" name="pack2" email="rnm1816@gmail.com" description=" P1 desc">
       <hasNodes xsi:type="metageneros:Node" name="node2" namespace="name/space2">
-        <hasActionClients xsi:type="metageneros:ActionClient" actioninterface="//@hasSoftware/@hasPackages.0/@hasActionInterfaces.0" name="ac1"/>
-        <hasPublishers xsi:type="metageneros:Publisher" name="pub1" topicPath="topic/path1" publishRate="10.0" pmsg="//@hasSoftware/@hasPackages.0/@hasTopicMessages.0"/>
+        <hasActionClients xsi:type="metageneros:ActionClient" name="ac1" actioninterface="//@hasSoftware/@hasPackages.0/@hasActionInterfaces.0"/>
+        <hasPublishers xsi:type="metageneros:Publisher" publishRate="10.0" pmsg="//@hasSoftware/@hasPackages.0/@hasTopicMessages.0" name="pub1" topicPath="topic/path1"/>
         <hasActionServers xsi:type="metageneros:ActionServer" name="as2" actioninterface="//@hasSoftware/@hasPackages.0/@hasActionInterfaces.1"/>
-        <hasClients xsi:type="metageneros:Client" name="c1" serviceName="service1" qosprofile="//@hasSoftware/@hasQosProfiles.0" servicePath="path" servicemessage="//@hasSoftware/@hasPackages.0/@hasServiceMessages.0"/>
+        <hasClients xsi:type="metageneros:Client" servicePath="path" servicemessage="//@hasSoftware/@hasPackages.0/@hasServiceMessages.0" name="c1" serviceName="service1" qosprofile="//@hasSoftware/@hasQosProfiles.0"/>
       </hasNodes>
+      <hasDependencies xsi:type="metageneros:PackageDependency" package="//@hasSoftware/@hasPackages.0"/>
       <hasDocumentation xsi:type="metageneros:Documentation"/>
     </hasPackages>
     <hasPackages xsi:type="metageneros:RosPackage" packagePath="path/to/SLAM" maintainer="etsardoulias" license="Apache 2.0" name="slam" email="etsardoulias@ece.auth.gr" description="SLAM pre-existing package">
-      <hasNodes xsi:type="metageneros:Node" name="slamer" namespace="">
-        <hasPublishers xsi:type="metageneros:Publisher" name="map" topicPath="topic/map" publishRate="10.0" pmsg="//@hasSoftware/@hasPackages.0/@hasTopicMessages.0"/>
-        <hasSubscribers xsi:type="metageneros:Subscriber" name="laser" topicPath="topic/path1" smsg="//@hasSoftware/@hasPackages.0/@hasTopicMessages.0"/>
+      <hasNodes xsi:type="metageneros:Node" namespace="" name="slamer">
+        <hasSubscribers xsi:type="metageneros:Subscriber" topicPath="topic/path1" smsg="//@hasSoftware/@hasPackages.0/@hasTopicMessages.0" name="laser"/>
+        <hasPublishers xsi:type="metageneros:Publisher" publishRate="10.0" pmsg="//@hasSoftware/@hasPackages.0/@hasTopicMessages.0" name="map" topicPath="topic/map"/>
       </hasNodes>
+      <hasDependencies xsi:type="metageneros:PackageDependency" package="//@hasSoftware/@hasPackages.0"/>
       <hasDocumentation xsi:type="metageneros:Documentation"/>
     </hasPackages>
-    <hasPackages xsi:type="metageneros:CustomPackage" packagePath="" name="launch_host1">
-      <hasDeployments xsi:type="metageneros:Deployment" nodes="//@hasSoftware/@hasPackages.3/@hasNodes.0 //@hasSoftware/@hasPackages.4/@hasNodes.0" host="//@hasTopology/@hasPlatforms.0/@hasHost.0" name="d1h1"/>
-      <hasDeployments xsi:type="metageneros:Deployment" nodes="//@hasSoftware/@hasPackages.3/@hasNodes.0 //@hasSoftware/@hasPackages.3/@hasNodes.1" host="//@hasTopology/@hasPlatforms.0/@hasHost.0" name="d2h1"/>
+    <hasPackages xsi:type="metageneros:CustomPackage" name="launch_host1" packagePath="">
+      <hasDeployments xsi:type="metageneros:Deployment" name="d1h1" nodes="//@hasSoftware/@hasPackages.3/@hasNodes.0 //@hasSoftware/@hasPackages.4/@hasNodes.0" host="//@hasTopology/@hasPlatforms.0/@hasHost.0"/>
+      <hasDeployments xsi:type="metageneros:Deployment" name="d2h1" nodes="//@hasSoftware/@hasPackages.3/@hasNodes.0 //@hasSoftware/@hasPackages.3/@hasNodes.1" host="//@hasTopology/@hasPlatforms.0/@hasHost.0"/>
+      <hasDependencies xsi:type="metageneros:PackageDependency" package="//@hasSoftware/@hasPackages.5"/>
+      <hasDependencies xsi:type="metageneros:PackageDependency" package="//@hasSoftware/@hasPackages.3"/>
+      <hasDependencies xsi:type="metageneros:PackageDependency" package="//@hasSoftware/@hasPackages.4"/>
     </hasPackages>
-    <hasPackages xsi:type="metageneros:CustomPackage" packagePath="" name="launch_host2">
-      <hasDeployments xsi:type="metageneros:Deployment" nodes="//@hasSoftware/@hasPackages.3/@hasNodes.0 //@hasSoftware/@hasPackages.4/@hasNodes.0" host="//@hasTopology/@hasPlatforms.0/@hasHost.1" name="d1h2"/>
+    <hasPackages xsi:type="metageneros:CustomPackage" name="launch_host2" packagePath="">
+      <hasDeployments xsi:type="metageneros:Deployment" name="d1h2" nodes="//@hasSoftware/@hasPackages.3/@hasNodes.0 //@hasSoftware/@hasPackages.4/@hasNodes.0" host="//@hasTopology/@hasPlatforms.0/@hasHost.1"/>
+      <hasDependencies xsi:type="metageneros:PackageDependency" package="//@hasSoftware/@hasPackages.3"/>
+      <hasDependencies xsi:type="metageneros:PackageDependency" package="//@hasSoftware/@hasPackages.4"/>
     </hasPackages>
     <hasQosProfiles xsi:type="metageneros:CustomQosProfile" history="KEEP_ALL" reliability="RELIABLE"/>
     <hasQosProfiles xsi:type="metageneros:RosQosProfile" name="SENSOR_DATA"/>
     <hasQosProfiles xsi:type="metageneros:RosQosProfile" name="SENSOR_DATA"/>
   </hasSoftware>
-  <hasSystemGraph xsi:type="metageneros:SystemGraph">
-    <packagegraph xsi:type="metageneros:PackageGraph" package="//@hasSoftware/@hasPackages.0 //@hasSoftware/@hasPackages.3 //@hasSoftware/@hasPackages.4 //@hasSoftware/@hasPackages.5 //@hasSoftware/@hasPackages.6 //@hasSoftware/@hasPackages.7"/>
-    <graph xsi:type="metageneros:Graph" nodes="//@hasSoftware/@hasPackages.3/@hasNodes.0 //@hasSoftware/@hasPackages.3/@hasNodes.1 //@hasSoftware/@hasPackages.4/@hasNodes.0 //@hasSoftware/@hasPackages.5/@hasNodes.0">
-      <hasServiceLinks xsi:type="metageneros:ServiceLink" name="service1" client="//@hasSoftware/@hasPackages.4/@hasNodes.0/@hasClients.0" server="//@hasSoftware/@hasPackages.3/@hasNodes.0/@hasServers.0"/>
-      <hasServiceLinks xsi:type="metageneros:ServiceLink" name="service2" client="//@hasSoftware/@hasPackages.3/@hasNodes.1/@hasClients.0" server="//@hasSoftware/@hasPackages.3/@hasNodes.0/@hasServers.1"/>
-      <hasActionLinks xsi:type="metageneros:ActionLink" actionserver="//@hasSoftware/@hasPackages.3/@hasNodes.0/@hasActionServers.0" actionclient="//@hasSoftware/@hasPackages.4/@hasNodes.0/@hasActionClients.0" name="Increase"/>
-      <hasActionLinks xsi:type="metageneros:ActionLink" actionserver="//@hasSoftware/@hasPackages.4/@hasNodes.0/@hasActionServers.0" actionclient="//@hasSoftware/@hasPackages.3/@hasNodes.0/@hasActionClients.0" name="Dec"/>
-      <hasTopics xsi:type="metageneros:Topic" publisher="//@hasSoftware/@hasPackages.4/@hasNodes.0/@hasPublishers.0" subscriber="//@hasSoftware/@hasPackages.3/@hasNodes.0/@hasSubscribers.0 //@hasSoftware/@hasPackages.3/@hasNodes.1/@hasSubscribers.0 //@hasSoftware/@hasPackages.5/@hasNodes.0/@hasSubscribers.0" topicPath="topic/path1"/>
-      <hasTopics xsi:type="metageneros:Topic" publisher="//@hasSoftware/@hasPackages.5/@hasNodes.0/@hasPublishers.0" topicPath="topic/map"/>
-    </graph>
-  </hasSystemGraph>
 </metageneros:ROSSystem>

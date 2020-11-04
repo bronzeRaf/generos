@@ -29,6 +29,7 @@ class RosSystem(object):
 	def interpret(self, model):
 		# Initialize
 		package_bag = {}
+		dependencies_bag = {}
 		messages_bag = {}
 		services_bag = {}
 		actions_bag = {}
@@ -286,6 +287,12 @@ class RosSystem(object):
 						subscriber_bag[s.name] = metageneros.Subscriber(name = s.name,  topicPath = s.topicPath)
 						node_bag[n.name].hasSubscribers.extend([subscriber_bag[s.name]])
 						subscriber_bag[s.name].smsg = messages_bag[s.message.name]
+						# Add dependencies
+						depname = p.name+ messages_bag[s.message.name]._container.name
+						if  depname not in dependencies_bag:
+							dependencies_bag[depname] = metageneros.PackageDependency()
+							package_bag[p.name].hasDependencies.extend([dependencies_bag[depname]])
+							dependencies_bag[depname].package = package_bag[messages_bag[s.message.name]._container.name]
 						# Create topic in graph
 						if subscriber_bag[s.name].topicPath not in topics:
 							topics.append(subscriber_bag[s.name].topicPath)
@@ -303,6 +310,12 @@ class RosSystem(object):
 						publisher_bag[s.name] = metageneros.Publisher(name = s.name,  topicPath = s.topicPath, publishRate = s.publishRate)
 						node_bag[n.name].hasPublishers.extend([publisher_bag[s.name]])
 						publisher_bag[s.name].pmsg = messages_bag[s.message.name]
+						# Add dependencies
+						depname = p.name+ messages_bag[s.message.name]._container.name
+						if  depname not in dependencies_bag:
+							dependencies_bag[depname] = metageneros.PackageDependency()
+							package_bag[p.name].hasDependencies.extend([dependencies_bag[depname]])
+							dependencies_bag[depname].package = package_bag[messages_bag[s.message.name]._container.name]
 						# Create topic in graph
 						if publisher_bag[s.name].topicPath not in topics:
 							topics.append(publisher_bag[s.name].topicPath)
@@ -320,6 +333,12 @@ class RosSystem(object):
 						server_bag[s.name] = metageneros.Server(name = s.name,  servicePath = s.servicePath, serviceName = s.serviceName)
 						node_bag[n.name].hasServers.extend([server_bag[s.name]])
 						server_bag[s.name].servicemessage = services_bag[s.service.name]
+						# Add dependencies
+						depname = p.name+ services_bag[s.service.name]._container.name
+						if  depname not in dependencies_bag:
+							dependencies_bag[depname] = metageneros.PackageDependency()
+							package_bag[p.name].hasDependencies.extend([dependencies_bag[depname]])
+							dependencies_bag[depname].package = package_bag[services_bag[s.service.name]._container.name]
 						# Create service link in graph
 						if server_bag[s.name].servicemessage.name not in servicelinks:
 							servicelinks.append(server_bag[s.name].servicemessage.name)
@@ -337,6 +356,12 @@ class RosSystem(object):
 						client_bag[s.name] = metageneros.Client(name = s.name,  servicePath = s.servicePath, serviceName = s.serviceName)
 						node_bag[n.name].hasClients.extend([client_bag[s.name]])
 						client_bag[s.name].servicemessage = services_bag[s.service.name]
+						# Add dependencies
+						depname = p.name+ services_bag[s.service.name]._container.name
+						if  depname not in dependencies_bag:
+							dependencies_bag[depname] = metageneros.PackageDependency()
+							package_bag[p.name].hasDependencies.extend([dependencies_bag[depname]])
+							dependencies_bag[depname].package = package_bag[services_bag[s.service.name]._container.name]
 						# Create service link in graph
 						if client_bag[s.name].servicemessage.name not in servicelinks:
 							servicelinks.append(client_bag[s.name].servicemessage.name)
@@ -355,6 +380,12 @@ class RosSystem(object):
 						aserver_bag[s.name] = metageneros.ActionServer(name = s.name)
 						node_bag[n.name].hasActionServers.extend([aserver_bag[s.name]])
 						aserver_bag[s.name].actioninterface = actions_bag[s.actioninterface.name]
+						# Add dependencies
+						depname = p.name+ actions_bag[s.actioninterface.name]._container.name
+						if  depname not in dependencies_bag:
+							dependencies_bag[depname] = metageneros.PackageDependency()
+							package_bag[p.name].hasDependencies.extend([dependencies_bag[depname]])
+							dependencies_bag[depname].package = package_bag[actions_bag[s.actioninterface.name]._container.name]
 						# Create action link in graph
 						if aserver_bag[s.name].actioninterface.name not in actionlinks:
 							actionlinks.append(aserver_bag[s.name].actioninterface.name)
@@ -369,6 +400,12 @@ class RosSystem(object):
 						aclient_bag[s.name] = metageneros.ActionClient(name = s.name)
 						node_bag[n.name].hasActionClients.extend([aclient_bag[s.name]])
 						aclient_bag[s.name].actioninterface = actions_bag[s.actioninterface.name]
+						# Add dependencies
+						depname = p.name+ actions_bag[s.actioninterface.name]._container.name
+						if  depname not in dependencies_bag:
+							dependencies_bag[depname] = metageneros.PackageDependency()
+							package_bag[p.name].hasDependencies.extend([dependencies_bag[depname]])
+							dependencies_bag[depname].package = package_bag[actions_bag[s.actioninterface.name]._container.name]
 						# Create service link in graph
 						if aclient_bag[s.name].actioninterface.name not in actionlinks:
 							actionlinks.append(aclient_bag[s.name].actioninterface.name)
@@ -400,6 +437,13 @@ class RosSystem(object):
 				packName = 'launch_'+p.name
 				package_bag[packName] = metageneros.CustomPackage(name = packName, rosVersion = 0, packagePath = "")
 				self.rosystem.hasSoftware.hasPackages.extend([package_bag[packName]])
+				# Add dependencies
+				for d in p.hasDependencies:
+					depname = packName+d.package.name
+					if  depname not in dependencies_bag:
+						dependencies_bag[depname] = metageneros.PackageDependency()
+						package_bag[packName].hasDependencies.extend([dependencies_bag[depname]])
+						dependencies_bag[depname].package = package_bag[d.package.name]
 				# Add Launchers into the package graph
 				packagegraph.package.extend([package_bag[packName]])
 				# Build Network Interfaces
@@ -427,6 +471,12 @@ class RosSystem(object):
 				# Add nodes to the file
 				for n in p.nodes:
 					deployments_bag[p.name].nodes.append(nodes_bag[n.name])
+					# Add dependencies
+					depname = 'launch_'+p.host.name+nodes_bag[n.name]._container.name
+					if  depname not in dependencies_bag:
+						dependencies_bag[depname] = metageneros.PackageDependency()
+						package_bag['launch_'+p.host.name].hasDependencies.extend([dependencies_bag[depname]])
+						dependencies_bag[depname].package = package_bag[nodes_bag[n.name]._container.name]
 		
 		
 def main(debug=False):

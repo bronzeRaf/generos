@@ -11,7 +11,10 @@ setup(
     packages = [package_name],
     data_files = [
         # Include all launch files
-        (os.path.join('share', package_name), glob('launch_host1/*.launch.py'))
+        (os.path.join('share', package_name), glob('launch_host1/*.launch.py')),
+        ('share/ament_index/resource_index/packages',
+            ['resource/' + package_name]),
+        ('share/' + package_name, ['package.xml'])
     ],
     install_requires = ['setuptools'],
     zip_safe = True,

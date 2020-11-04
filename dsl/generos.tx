@@ -36,6 +36,7 @@ Host:
 		'memory' '=' memory = FLOAT
 		'rosVersion' '=' rosVersion = STRING
 		('hasNetworkInterfaces' '=' hasNetworkInterfaces*=[NetworkInterface|FQN][','])?
+		('hasDependencies' '=' hasDependencies*=[Dependency|FQN][','])?
     '}'
 ;
 
