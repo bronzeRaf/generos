@@ -19,7 +19,7 @@ Generos provides:
 - Supports modeling of QoS profiles 
 - Supports all the ROS packages
 - Generates and documents Custom Messages, Services, Actions with zero effort
-
+- Automatically deployment configurations for Host devices
 
 ______________________________________________________________________________
 
