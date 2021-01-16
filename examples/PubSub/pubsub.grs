@@ -1,0 +1,38 @@
+host host1 {
+	architecture = "x64"
+	os = "Ubuntu_18"
+	hardDisk = 20480
+	memory = 4096
+	rosVersion = "Eloquent_Elusor"
+}
+deployment launch1{
+	nodes = node1, node2
+	host = host1
+}
+package pack1 {
+	description = " Package for a PubSub communication"
+	path = "path/to/pack1"
+	license = "MIT"
+	maintainer = "bronzeRaf"
+	email = "rnm1816@gmail.com"
+	version = "Eloquent_Elusor"
+	builtin = False
+	hasNodes = node1, node2
+}
+node node1 {
+	hasPublishers = pub1
+}
+node node2 {
+	hasSubscribers = sub1
+}
+publisher pub1{
+	topicPath = "topic/path1"
+	publishRate = 10
+	message = Header
+}
+subscriber sub1{
+	topicPath = "topic/path1"
+	message = Header
+}
+message Header package = "std_msgs"
+

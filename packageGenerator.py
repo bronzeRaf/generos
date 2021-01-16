@@ -94,6 +94,7 @@ env = Environment(loader=file_loader,trim_blocks=True, lstrip_blocks=True)
 # Load the Template of the msg
 template = env.get_template('temp_msg.msg')
 allmsg = []
+objects = []
 # Build the msg data to pass to the Template
 for t in model_root.hasSoftware.hasPackages[0].hasTopicMessages:
 	message_data = {}
