@@ -1,0 +1,39 @@
+host host1 {
+	architecture = "x64"
+	os = "Ubuntu_18"
+	hardDisk = 44410
+	memory = 4096
+	rosVersion = "Eloquent_Elusor"
+}
+deployment launch1{
+	nodes = node1, node2
+	host = host1
+}
+package pack1 {
+	description = " Package for a Server Client communication"
+	path = "path/to/pack1"
+	license = "MIT"
+	maintainer = "bronzeRaf"
+	email = "rnm1816@gmail.com"
+	version = "Eloquent_Elusor"
+	builtin = False
+	hasNodes = node1, node2
+}
+node node1 {
+	hasServers = serv1
+}
+node node2 {
+	hasClients = cli1
+}
+server serv1{
+	servicePath = "service/path1"
+	serviceName = "service1"
+	service = SetBool
+}
+client cli1{
+	servicePath = "service/path1"
+	serviceName = "service1"
+	service = SetBool
+}
+service SetBool package = "std_srvs"
+

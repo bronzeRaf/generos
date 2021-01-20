@@ -1,34 +1,34 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <metageneros:ROSSystem xmlns:xmi="http://www.omg.org/XMI" xmlns:metageneros="http://www.example.org/metageneros" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="My_dsl_ROS_system" xmi:version="2.0">
+  <hasTopology xsi:type="metageneros:Topology">
+    <hasPlatforms xsi:type="metageneros:Platform" name="workspace_platform">
+      <hasHost xsi:type="metageneros:Host" OS="Ubuntu_18" memory="4096.0" name="host1" architecture="x64" hardDisk="44410.0" rosVersion="Eloquent_Elusor"/>
+    </hasPlatforms>
+  </hasTopology>
   <hasSoftware xsi:type="metageneros:Software">
-    <hasPackages xsi:type="metageneros:CustomPackage" name="interfaces" packagePath=""/>
-    <hasPackages xsi:type="metageneros:RosPackage" name="std_msgs" builtin="true" packagePath="">
-      <hasTopicMessages xsi:type="metageneros:RosMessage" package="std_msgs" name="Header"/>
+    <hasPackages xsi:type="metageneros:CustomPackage" packagePath="" name="interfaces"/>
+    <hasPackages xsi:type="metageneros:RosPackage" builtin="true" packagePath="" name="std_srvs">
+      <hasServiceMessages xsi:type="metageneros:RosService" package="std_srvs" name="SetBool"/>
     </hasPackages>
-    <hasPackages xsi:type="metageneros:CustomPackage" name="pack1" license="MIT" email="rnm1816@gmail.com" description=" Package for a PubSub communication" packagePath="path/to/pack1" maintainer="bronzeRaf">
+    <hasPackages xsi:type="metageneros:CustomPackage" name="pack1" license="MIT" email="rnm1816@gmail.com" description=" Package for a Server Client communication" packagePath="path/to/pack1" maintainer="bronzeRaf">
       <hasDependencies xsi:type="metageneros:PackageDependency" package="//@hasSoftware/@hasPackages.1"/>
       <hasDocumentation xsi:type="metageneros:Documentation"/>
-      <hasNodes xsi:type="metageneros:Node" namespace="" name="node1">
-        <hasPublishers xsi:type="metageneros:Publisher" topicPath="topic/path1" publishRate="10.0" pmsg="//@hasSoftware/@hasPackages.1/@hasTopicMessages.0" name="pub1"/>
+      <hasNodes xsi:type="metageneros:Node" name="node1" namespace="">
+        <hasServers xsi:type="metageneros:Server" serviceName="service1" name="serv1" servicemessage="//@hasSoftware/@hasPackages.1/@hasServiceMessages.0" servicePath="service/path1"/>
       </hasNodes>
-      <hasNodes xsi:type="metageneros:Node" namespace="" name="node2">
-        <hasSubscribers xsi:type="metageneros:Subscriber" topicPath="topic/path1" smsg="//@hasSoftware/@hasPackages.1/@hasTopicMessages.0" name="sub1"/>
+      <hasNodes xsi:type="metageneros:Node" name="node2" namespace="">
+        <hasClients xsi:type="metageneros:Client" name="cli1" servicePath="service/path1" serviceName="service1" servicemessage="//@hasSoftware/@hasPackages.1/@hasServiceMessages.0"/>
       </hasNodes>
     </hasPackages>
-    <hasPackages xsi:type="metageneros:CustomPackage" name="launch_host1" packagePath="">
-      <hasDeployments xsi:type="metageneros:Deployment" name="launch1" nodes="//@hasSoftware/@hasPackages.2/@hasNodes.0 //@hasSoftware/@hasPackages.2/@hasNodes.1" host="//@hasTopology/@hasPlatforms.0/@hasHost.0"/>
+    <hasPackages xsi:type="metageneros:CustomPackage" packagePath="" name="launch_host1">
       <hasDependencies xsi:type="metageneros:PackageDependency" package="//@hasSoftware/@hasPackages.2"/>
+      <hasDeployments xsi:type="metageneros:Deployment" name="launch1" nodes="//@hasSoftware/@hasPackages.2/@hasNodes.0 //@hasSoftware/@hasPackages.2/@hasNodes.1" host="//@hasTopology/@hasPlatforms.0/@hasHost.0"/>
     </hasPackages>
   </hasSoftware>
   <hasSystemGraph xsi:type="metageneros:SystemGraph">
     <packagegraph xsi:type="metageneros:PackageGraph" package="//@hasSoftware/@hasPackages.0 //@hasSoftware/@hasPackages.2 //@hasSoftware/@hasPackages.3"/>
     <graph xsi:type="metageneros:Graph" nodes="//@hasSoftware/@hasPackages.2/@hasNodes.0 //@hasSoftware/@hasPackages.2/@hasNodes.1">
-      <hasTopics xsi:type="metageneros:Topic" topicPath="topic/path1" subscriber="//@hasSoftware/@hasPackages.2/@hasNodes.1/@hasSubscribers.0" publisher="//@hasSoftware/@hasPackages.2/@hasNodes.0/@hasPublishers.0"/>
+      <hasServiceLinks xsi:type="metageneros:ServiceLink" name="service1" server="//@hasSoftware/@hasPackages.2/@hasNodes.0/@hasServers.0" client="//@hasSoftware/@hasPackages.2/@hasNodes.1/@hasClients.0"/>
     </graph>
   </hasSystemGraph>
-  <hasTopology xsi:type="metageneros:Topology">
-    <hasPlatforms xsi:type="metageneros:Platform" name="workspace_platform">
-      <hasHost xsi:type="metageneros:Host" OS="Ubuntu_18" memory="4096.0" name="host1" architecture="x64" hardDisk="20480.0" rosVersion="Eloquent_Elusor"/>
-    </hasPlatforms>
-  </hasTopology>
 </metageneros:ROSSystem>
