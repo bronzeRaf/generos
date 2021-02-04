@@ -2,33 +2,54 @@
 <metageneros:ROSSystem xmlns:xmi="http://www.omg.org/XMI" xmlns:metageneros="http://www.example.org/metageneros" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="My_dsl_ROS_system" xmi:version="2.0">
   <hasTopology xsi:type="metageneros:Topology">
     <hasPlatforms xsi:type="metageneros:Platform" name="workspace_platform">
-      <hasHost xsi:type="metageneros:Host" OS="Ubuntu_18" memory="4096.0" name="host1" architecture="x64" hardDisk="44410.0" rosVersion="Eloquent_Elusor"/>
+      <hasHost xsi:type="metageneros:Host" OS="Ubuntu_18" memory="2048.0" name="robot" architecture="x64" hardDisk="20480.0" rosVersion="Eloquent_Elusor"/>
     </hasPlatforms>
   </hasTopology>
   <hasSoftware xsi:type="metageneros:Software">
-    <hasPackages xsi:type="metageneros:CustomPackage" packagePath="" name="interfaces"/>
-    <hasPackages xsi:type="metageneros:RosPackage" builtin="true" packagePath="" name="std_srvs">
-      <hasServiceMessages xsi:type="metageneros:RosService" package="std_srvs" name="SetBool"/>
+    <hasPackages xsi:type="metageneros:CustomPackage" packagePath="" name="interfaces">
+      <hasTopicMessages xsi:type="metageneros:CustomMessage" name="Velocities" description="This is a Message to provide a timestamped motion value for left and right motor">
+        <hasObjectProperties xsi:type="metageneros:ObjectProperty" name="h" description="Timestamp Header of the velocities" default="">
+          <datatype xsi:type="metageneros:ROSData" type="Header" package="std_msgs"/>
+        </hasObjectProperties>
+        <hasObjectProperties xsi:type="metageneros:ObjectProperty" name="left_rpm" description="velocity of the left motor" default="">
+          <datatype xsi:type="metageneros:Float"/>
+        </hasObjectProperties>
+        <hasObjectProperties xsi:type="metageneros:ObjectProperty" name="right_rpm" description="velocity of the right motor" default="">
+          <datatype xsi:type="metageneros:Float"/>
+        </hasObjectProperties>
+      </hasTopicMessages>
     </hasPackages>
-    <hasPackages xsi:type="metageneros:CustomPackage" name="pack1" license="MIT" email="rnm1816@gmail.com" description=" Package for a Server Client communication" packagePath="path/to/pack1" maintainer="bronzeRaf">
+    <hasPackages xsi:type="metageneros:RosPackage" builtin="true" packagePath="" name="sensor_msgs">
+      <hasTopicMessages xsi:type="metageneros:RosMessage" package="sensor_msgs" name="Range"/>
+    </hasPackages>
+    <hasPackages xsi:type="metageneros:CustomPackage" name="obstacle_avoidance" license="Apache License 2.0" email="rnm1816@gmail.com" description="This is an obstacle avoidance ROS 2 package." packagePath="path/to/pack1" maintainer="bronzeRaf">
       <hasDependencies xsi:type="metageneros:PackageDependency" package="//@hasSoftware/@hasPackages.1"/>
+      <hasDependencies xsi:type="metageneros:PackageDependency" package="//@hasSoftware/@hasPackages.0"/>
       <hasDocumentation xsi:type="metageneros:Documentation"/>
-      <hasNodes xsi:type="metageneros:Node" name="node1" namespace="">
-        <hasServers xsi:type="metageneros:Server" serviceName="service1" name="serv1" servicemessage="//@hasSoftware/@hasPackages.1/@hasServiceMessages.0" servicePath="service/path1"/>
+      <hasNodes xsi:type="metageneros:Node" name="sonar" namespace="">
+        <hasPublishers xsi:type="metageneros:Publisher" name="left_sonar_publisher" topicPath="sensors/range/left" publishRate="0.2" pmsg="//@hasSoftware/@hasPackages.1/@hasTopicMessages.0"/>
+        <hasPublishers xsi:type="metageneros:Publisher" name="right_sonar_publisher" topicPath="sensors/range/right" publishRate="0.2" pmsg="//@hasSoftware/@hasPackages.1/@hasTopicMessages.0"/>
       </hasNodes>
-      <hasNodes xsi:type="metageneros:Node" name="node2" namespace="">
-        <hasClients xsi:type="metageneros:Client" name="cli1" servicePath="service/path1" serviceName="service1" servicemessage="//@hasSoftware/@hasPackages.1/@hasServiceMessages.0"/>
+      <hasNodes xsi:type="metageneros:Node" name="motor" namespace="">
+        <hasSubscribers xsi:type="metageneros:Subscriber" smsg="//@hasSoftware/@hasPackages.0/@hasTopicMessages.0" name="motion_subscriber" topicPath="actuators/velocities"/>
+      </hasNodes>
+      <hasNodes xsi:type="metageneros:Node" name="controller" namespace="">
+        <hasSubscribers xsi:type="metageneros:Subscriber" smsg="//@hasSoftware/@hasPackages.1/@hasTopicMessages.0" name="left_sonar_subscriber" topicPath="sensors/range/left"/>
+        <hasSubscribers xsi:type="metageneros:Subscriber" smsg="//@hasSoftware/@hasPackages.1/@hasTopicMessages.0" name="right_sonar_subscriber" topicPath="sensors/range/right"/>
+        <hasPublishers xsi:type="metageneros:Publisher" name="motion_publisher" topicPath="actuators/velocities" publishRate="0.2" pmsg="//@hasSoftware/@hasPackages.0/@hasTopicMessages.0"/>
       </hasNodes>
     </hasPackages>
-    <hasPackages xsi:type="metageneros:CustomPackage" packagePath="" name="launch_host1">
+    <hasPackages xsi:type="metageneros:CustomPackage" packagePath="" name="launch_robot">
       <hasDependencies xsi:type="metageneros:PackageDependency" package="//@hasSoftware/@hasPackages.2"/>
-      <hasDeployments xsi:type="metageneros:Deployment" name="launch1" nodes="//@hasSoftware/@hasPackages.2/@hasNodes.0 //@hasSoftware/@hasPackages.2/@hasNodes.1" host="//@hasTopology/@hasPlatforms.0/@hasHost.0"/>
+      <hasDeployments xsi:type="metageneros:Deployment" name="launch_robot" nodes="//@hasSoftware/@hasPackages.2/@hasNodes.0 //@hasSoftware/@hasPackages.2/@hasNodes.1 //@hasSoftware/@hasPackages.2/@hasNodes.2" host="//@hasTopology/@hasPlatforms.0/@hasHost.0"/>
     </hasPackages>
   </hasSoftware>
   <hasSystemGraph xsi:type="metageneros:SystemGraph">
     <packagegraph xsi:type="metageneros:PackageGraph" package="//@hasSoftware/@hasPackages.0 //@hasSoftware/@hasPackages.2 //@hasSoftware/@hasPackages.3"/>
-    <graph xsi:type="metageneros:Graph" nodes="//@hasSoftware/@hasPackages.2/@hasNodes.0 //@hasSoftware/@hasPackages.2/@hasNodes.1">
-      <hasServiceLinks xsi:type="metageneros:ServiceLink" name="service1" server="//@hasSoftware/@hasPackages.2/@hasNodes.0/@hasServers.0" client="//@hasSoftware/@hasPackages.2/@hasNodes.1/@hasClients.0"/>
+    <graph xsi:type="metageneros:Graph" nodes="//@hasSoftware/@hasPackages.2/@hasNodes.0 //@hasSoftware/@hasPackages.2/@hasNodes.1 //@hasSoftware/@hasPackages.2/@hasNodes.2">
+      <hasTopics xsi:type="metageneros:Topic" subscriber="//@hasSoftware/@hasPackages.2/@hasNodes.2/@hasSubscribers.0" publisher="//@hasSoftware/@hasPackages.2/@hasNodes.0/@hasPublishers.0" topicPath="sensors/range/left"/>
+      <hasTopics xsi:type="metageneros:Topic" subscriber="//@hasSoftware/@hasPackages.2/@hasNodes.2/@hasSubscribers.1" publisher="//@hasSoftware/@hasPackages.2/@hasNodes.0/@hasPublishers.1" topicPath="sensors/range/right"/>
+      <hasTopics xsi:type="metageneros:Topic" subscriber="//@hasSoftware/@hasPackages.2/@hasNodes.1/@hasSubscribers.0" publisher="//@hasSoftware/@hasPackages.2/@hasNodes.2/@hasPublishers.0" topicPath="actuators/velocities"/>
     </graph>
   </hasSystemGraph>
 </metageneros:ROSSystem>
